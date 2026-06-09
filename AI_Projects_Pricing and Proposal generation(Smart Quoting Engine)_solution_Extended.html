@@ -1,0 +1,2477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Powered Projects Pricing Assistant</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Commissioner:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0A4D68;
+            --accent: #088395;
+            --gold: #C5A05E;
+            --dark: #05161A;
+            --light: #F8F9FA;
+            --gradient: linear-gradient(135deg, #0A4D68 0%, #088395 50%, #05B2C6 100%);
+            --pattern-opacity: 0.05;
+            --mdm-purple: #7c3aed;
+            --mdm-blue: #3b82f6;
+            --mdm-green: #10b981;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Commissioner', sans-serif;
+            background: var(--light);
+            color: var(--dark);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        .pattern-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: var(--pattern-opacity);
+            background-image:
+                repeating-linear-gradient(45deg, var(--primary) 0px, var(--primary) 2px, transparent 2px, transparent 10px),
+                repeating-linear-gradient(-45deg, var(--accent) 0px, var(--accent) 2px, transparent 2px, transparent 10px);
+            pointer-events: none;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--gradient);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-glow {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(197, 160, 94, 0.3) 0%, transparent 70%);
+            border-radius: 50%;
+            filter: blur(80px);
+            animation: float 8s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(100px, -50px) scale(1.1); }
+        }
+
+        .hero-content {
+            text-align: center;
+            color: white;
+            position: relative;
+            z-index: 2;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            font-weight: 900;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+            text-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .subtitle {
+            font-size: clamp(1rem, 2vw, 1.5rem);
+            font-weight: 300;
+            margin-bottom: 3rem;
+            opacity: 0.95;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        section {
+            padding: 6rem 0;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            margin-bottom: 3rem;
+            color: var(--primary);
+            position: relative;
+            display: inline-block;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60%;
+            height: 3px;
+            background: var(--gold);
+        }
+
+        h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .architecture {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            margin-top: 2rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            border-left: 4px solid var(--accent);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.12);
+            border-left-color: var(--gold);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        .mdm-card {
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%);
+            border: 2px solid var(--mdm-purple);
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .mdm-card:hover {
+            box-shadow: 0 10px 30px rgba(124, 58, 237, 0.2);
+            transform: translateY(-3px);
+        }
+
+        .mdm-badge {
+            display: inline-block;
+            background: var(--mdm-purple);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 0.8rem;
+        }
+
+        .mdm-card h4 {
+            color: var(--primary);
+            margin-bottom: 0.8rem;
+            font-size: 1.2rem;
+        }
+
+        .mdm-card p {
+            color: #666;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+
+        .capability-tag {
+            display: inline-block;
+            background: white;
+            border: 1px solid var(--mdm-purple);
+            color: var(--mdm-purple);
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .benefits {
+            background: linear-gradient(135deg, rgba(10, 77, 104, 0.05) 0%, rgba(8, 131, 149, 0.05) 100%);
+            padding: 4rem;
+            border-radius: 20px;
+            margin-top: 2rem;
+        }
+
+        .benefit-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+        }
+
+        .benefit-item:hover {
+            transform: translateX(10px);
+        }
+
+        .benefit-icon {
+            font-size: 2rem;
+            margin-right: 1.5rem;
+            color: var(--accent);
+            min-width: 50px;
+        }
+
+        .cta {
+            text-align: center;
+            padding: 5rem 0;
+            background: var(--gradient);
+            color: white;
+            border-radius: 20px;
+            margin: 4rem 0;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1.2rem 3rem;
+            background: var(--gold);
+            color: var(--dark);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(197, 160, 94, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(197, 160, 94, 0.5);
+        }
+
+        .layer-box {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            border-left: 5px solid var(--accent);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .layer-box h4 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .layer-box ul {
+            margin-left: 1.5rem;
+        }
+
+        .layer-box li {
+            margin-bottom: 0.6rem;
+            font-size: 0.95rem;
+        }
+
+        .cost-box {
+            background: linear-gradient(135deg, rgba(10, 77, 104, 0.1) 0%, rgba(8, 131, 149, 0.1) 100%);
+            padding: 2rem;
+            border-radius: 15px;
+            border: 2px solid var(--accent);
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .cost-box h4 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .cost-value {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--accent);
+            margin: 1rem 0;
+        }
+
+        .cost-description {
+            color: var(--dark);
+            font-size: 0.95rem;
+        }
+
+        .highlight {
+            background: rgba(197, 160, 94, 0.2);
+            padding: 2rem;
+            border-left: 4px solid var(--gold);
+            border-radius: 10px;
+            margin: 2rem 0;
+        }
+
+        .highlight h4 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .demo-container {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            margin-top: 2rem;
+        }
+
+        .demo-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid #eee;
+            flex-wrap: wrap;
+        }
+
+        .demo-tab {
+            padding: 1rem 1.5rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #888;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+            position: relative;
+            bottom: -2px;
+        }
+
+        .demo-tab:hover {
+            color: var(--primary);
+        }
+
+        .demo-tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--gold);
+        }
+
+        .demo-content {
+            display: none;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .demo-content.active {
+            display: block;
+        }
+
+        .mock-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .mock-header h4 {
+            margin: 0;
+            font-size: 1.2rem;
+        }
+
+        .mock-status {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .query-example {
+            background: #f5f5f5;
+            border-left: 4px solid var(--mdm-blue);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+
+        .query-label {
+            color: var(--mdm-purple);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            border: 1px solid #eee;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .metric-value {
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--accent);
+            margin: 0.5rem 0;
+        }
+
+        .metric-label {
+            font-size: 0.85rem;
+            color: #888;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .metric-trend {
+            font-size: 0.9rem;
+            color: #4caf50;
+            margin-top: 0.5rem;
+        }
+
+        .data-flow {
+            display: flex;
+            align-items: center;
+            margin: 1.5rem 0;
+            padding: 1rem;
+            background: #f9f9f9;
+            border-radius: 10px;
+        }
+
+        .data-flow-item {
+            flex: 1;
+            text-align: center;
+            padding: 0 1rem;
+        }
+
+        .data-flow-arrow {
+            font-size: 1.5rem;
+            color: var(--mdm-purple);
+        }
+
+        .estimation-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 2rem;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .estimation-table th {
+            background: var(--primary);
+            color: white;
+            padding: 1.5rem;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .estimation-table td {
+            padding: 1.5rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .estimation-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .estimation-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        ul, ol {
+            margin-left: 2rem;
+            margin-top: 1rem;
+        }
+
+        li {
+            margin-bottom: 0.8rem;
+        }
+
+        footer {
+            background: var(--dark);
+            color: var(--light);
+            text-align: center;
+            padding: 3rem 0;
+            margin-top: 6rem;
+        }
+
+        footer p {
+            margin: 0.5rem 0;
+        }
+
+        @media (max-width: 768px) {
+            .data-flow {
+                flex-direction: column;
+            }
+
+            .data-flow-arrow {
+                transform: rotate(90deg);
+                margin: 0.5rem 0;
+            }
+
+            .estimation-table {
+                font-size: 0.9rem;
+            }
+
+            .estimation-table th,
+            .estimation-table td {
+                padding: 1rem;
+            }
+        }
+
+        .code-snippet {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 1.5rem;
+            border-radius: 10px;
+            overflow-x: auto;
+            margin: 1rem 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+
+        .code-snippet .keyword {
+            color: #569cd6;
+        }
+
+        .code-snippet .string {
+            color: #ce9178;
+        }
+
+        .code-snippet .comment {
+            color: #6a9955;
+        }
+
+        .risk-card {
+            background: #fff8e6;
+            border-left: 4px solid #ff9800;
+            padding: 1.2rem 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+        }
+
+        .risk-card strong {
+            color: #b26a00;
+        }
+
+        .pill {
+            display: inline-block;
+            background: var(--gold);
+            color: var(--dark);
+            padding: 0.3rem 0.9rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="pattern-bg"></div>
+
+    <!-- Hero Section -->
+    <header>
+        <div class="hero-glow"></div>
+        <div class="hero-content">
+            <div class="badge">🏗️ AI-Powered Projects Pricing Assistant</div>
+            <h1>Smart Quoting Engine</h1>
+            <p class="subtitle">
+                A pragmatic AI assistant that turns one-month manual estimations into 5–7 day, market-priced commercial proposals — and lifts throughput from <strong>25–35 to 50+ proposals/month</strong> on the same team. Built around the way the process actually works today.
+            </p>
+            <p style="font-size: 1.1rem; margin-bottom: 2rem; opacity: 0.9;">
+                <strong>Prepared for:</strong> Potential Client &nbsp;·&nbsp; <strong>Scope:</strong> MVP
+            </p>
+            <a href="#overview" class="cta-button">Explore the Solution</a>
+        </div>
+    </header>
+
+    <!-- Overview Section -->
+    <section id="overview">
+        <div class="container">
+            <h2>The Problem in the Client's Words</h2>
+            <p style="font-size: 1.1rem; margin-bottom: 2rem;">
+                Based on the questionnaire and interview transcript, the situation around Projects Pricing is clear: estimation today is <strong>fully manual</strong>, every project is <strong>unique</strong>, prices are pulled <strong>fresh from the market</strong> on every RFQ, and <strong>deals are being lost</strong> because a quote takes a month instead of the 5–7 days the sales pipeline needs.
+            </p>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <span class="feature-icon">🖋️</span>
+                    <h3>100% Manual Estimation</h3>
+                    <p>From receiving a design to issuing a commercial offer, every step is done by hand — drawings, BOMs, supplier calls, Excel pricing, cover letters.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🧩</span>
+                    <h3>Every Project Is Unique</h3>
+                    <p>No standard SKUs, no fixed specifications. Each design from 3ds Max / AutoCAD requires its own bill of materials and its own pricing logic.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">📈</span>
+                    <h3>Prices Come From the Market, Not History</h3>
+                    <p>Suppliers are re-quoted for every project. Historical prices are useful only as a reference — not as the basis for the final number.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">⏱️</span>
+                    <h3>Deals Lost to Slow Quotes</h3>
+                    <p>Today's cycle is ~1 month. Sales needs 5–7 days. The gap is the #1 reason projects slip away — making this <strong>highest-priority</strong> use case.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🧠</span>
+                    <h3>70% of Projects Have Data</h3>
+                    <p>Historical projects exist but aren't structured. They are valuable as analogues, not as a single source of truth — the model needs fresh inputs every time.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🛠️</span>
+                    <h3>Low Tooling Maturity</h3>
+                    <p>No structured BOM export from 3ds Max. No central price book. Estimation lives in Excel and people's heads — the team isn't used to systems.</p>
+                </div>
+            </div>
+
+            <div class="highlight" style="margin-top: 3rem;">
+                <h4>What The Business Actually Wants from the MVP</h4>
+                <p>
+                    <em>"A smart assistant that speeds up our manual estimation: remembers past projects, but prices everything at today's supplier rates, suggests cheaper material substitutions, factors in logistics and urgency, and produces a ready-to-send quote in 5–7 days instead of a month — without breaking our existing process."</em>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Scope of Solution -->
+    <section>
+        <div class="container">
+            <h2>Scope of the AI-Assisted Proposal Creation Solution</h2>
+            <p style="font-size: 1.1rem; margin-bottom: 2rem;">
+                The MVP is deliberately scoped to the <strong>proposal creation workflow only</strong> — from RFQ intake to a signed-ready quotation in Client's existing format (e.g. <em>Q.4154/WR/RAR/2025/Rev-05 — KAPSARC School of Public Policy</em>). Items outside this perimeter are explicitly deferred to later phases.
+            </p>
+
+            <h3 style="margin-top: 2rem; margin-bottom: 1.5rem;">✅ In Scope (MVP)</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-bottom: 3rem;">
+                <div class="layer-box">
+                    <h4>1. RFQ Intake & BOM Extraction</h4>
+                    <ul>
+                        <li>Upload of PDF drawings, scanned spec sheets, IFC drawing packages, hardware schedules</li>
+                        <li>OCR + LLM-based extraction of item descriptions, dimensions (depth × width × height in mm), materials, finishes, drawing references</li>
+                        <li>Manual / semi-automated BOM editor with low-confidence flagging</li>
+                    </ul>
+                </div>
+                <div class="layer-box">
+                    <h4>2. Item Categorisation</h4>
+                    <ul>
+                        <li>Classifies BOM lines into product categories: <em>Planter Box, Hospitality Counter, Storage Cabinet, Wall Cladding & Ceiling, Wooden Doors (NFRD), Vanity Counter, Fire House Cabinet</em>, etc.</li>
+                        <li>Maps to internal material codes (IWD-01 European Oak, ISSM-02 Acrylic, MR MDF 18mm, etc.)</li>
+                    </ul>
+                </div>
+                <div class="layer-box">
+                    <h4>3. Historical Reference Engine</h4>
+                    <ul>
+                        <li>Similarity search across the 70% of past projects with usable records</li>
+                        <li>Surfaces past unit prices, suppliers, qty/units, realised margin — for context, not auto-pricing</li>
+                    </ul>
+                </div>
+                <div class="layer-box">
+                    <h4>4. Live Supplier Pricing Capture</h4>
+                    <ul>
+                        <li>Structured form for entering today's supplier quotes per BOM line</li>
+                        <li>Supplier catalogue with contact, lead-time, and historical quote log</li>
+                        <li>Currency = SAR; VAT auto-applied (15%)</li>
+                    </ul>
+                </div>
+                <div class="layer-box">
+                    <h4>5. Single-Item Cost Rollup Engine</h4>
+                    <ul>
+                        <li>Composes a <strong>complete all-in price per line</strong> from five stacked layers: (L1) door / item manufacture, (L2) third-party hardware kit, (L3) logistics, (L4) on-site fixing works, (L5) indirect / VAT / contingency</li>
+                        <li>Reproduces the factory cost-sheet logic parametrically (CBM × wood rate, blockboard m² rate, finish, labour, overhead 50%, margin 33%) — same numbers your team already uses in BCC Sedra 5 / Saudi Emar style estimates</li>
+                        <li>Resolves the correct hardware set (#1..#8) from door location + type + finish family, pulls live unit prices from the latest supplier quote, and substitutes bronze ⇄ nickel variants automatically</li>
+                        <li>Adds logistics and installation labour that the door-factory and hardware-supplier quotes explicitly exclude — so the line price you see is delivered and installed, not ex-factory</li>
+                        <li>Every multiplier is auditable; nothing is a black box</li>
+                    </ul>
+                </div>
+                <div class="layer-box">
+                    <h4>6. AI Alternatives Module</h4>
+                    <ul>
+                        <li>LLM-driven material / construction substitutions with quantified savings</li>
+                        <li>Each suggestion explicitly Approved or Rejected by the estimator</li>
+                    </ul>
+                </div>
+                <div class="layer-box">
+                    <h4>7. Revision Management</h4>
+                    <ul>
+                        <li>Version control on every quotation (Rev-01 → Rev-05 lineage)</li>
+                        <li>Side-by-side diff between revisions: who changed what, why, and the price impact</li>
+                    </ul>
+                </div>
+                <div class="layer-box">
+                    <h4>8. Document Generation</h4>
+                    <ul>
+                        <li>Internal Excel calculation file (full BOM, suppliers, factors)</li>
+                        <li>Branded client PDF in Client's existing letterhead — Reference No., date, client, project, location, attention, terms & conditions, notes, signatures (Projects Manager / General Manager)</li>
+                        <li>Subtotal, VAT (15%), Total Cost in SAR — matching the current quotation format exactly</li>
+                    </ul>
+                </div>
+                <div class="layer-box">
+                    <h4>9. Approval Workflow</h4>
+                    <ul>
+                        <li>Estimator → Projects Manager → General Manager sign-off chain</li>
+                        <li>Audit log of every change, approval, and export</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3 style="margin-bottom: 1.5rem;">❌ Out of Scope (Phase 2 or beyond)</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;">
+                <div class="risk-card">
+                    <strong>CAD / 3ds Max integration.</strong> No automated BOM export from design tools — confirmed unfeasible by the client.
+                </div>
+                <div class="risk-card">
+                    <strong>Live supplier price ingestion.</strong> No supplier portal scraping or APIs at MVP — supplier prices remain manually entered.
+                </div>
+                <div class="risk-card">
+                    <strong>ERP / accounting integration.</strong> No push of approved proposals into the order book or finance systems.
+                </div>
+                <div class="risk-card">
+                    <strong>CRM / opportunity linkage.</strong> No automatic linking of quotes to deals; win/loss analytics deferred to Phase 2.
+                </div>
+                <div class="risk-card">
+                    <strong>Production scheduling.</strong> No capacity planning, shop-floor scheduling, or delivery-date optimisation.
+                </div>
+                <div class="risk-card">
+                    <strong>Customer-facing portal.</strong> No client self-service quote viewer or e-signature workflow at MVP.
+                </div>
+            </div>
+
+            <div class="highlight" style="margin-top: 2.5rem;">
+                <h4>📌 Reference Format — Kapsarc Quotation</h4>
+                <p>
+                    The MVP is benchmarked against a real recent proposal: <strong>Q.4154/WR/RAR/2025/Rev-05 — KAPSARC School of Public Policy</strong> (client Nesma & Partners Contracting Co, Riyadh, Subtotal SAR 231,152.50, VAT SAR 34,672.88, Total <strong>SAR 265,825.38</strong>). Twelve line items across seven product categories, multi-page PDF with drawing references, terms & conditions, and dual-signature block. The output of the assistant must be visually and structurally identical to this format on day one.
+                </p>
+                <p style="margin-top: 1rem;">
+                    Critically: <strong>this proposal reached Rev-05</strong>. Five revision cycles on one quotation is the headline cost the AI assistant is engineered to attack.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Use Case Deep Dive -->
+    <section style="background: #f8f9fa;">
+        <div class="container">
+            <h2>The Solution: A Hybrid Quoting Assistant</h2>
+            <p style="font-size: 1.1rem; margin-bottom: 2rem;">
+                This is explicitly <strong>not</strong> a "black-box AI" that learns to price projects on its own. It is a hybrid system: AI handles the repetitive parsing, lookup, and recommendation work; humans stay in control of the inputs that actually move the price — fresh supplier quotes and material substitutions.
+            </p>
+
+            <h3 style="margin-top: 3rem; margin-bottom: 1.5rem;">How Roles Split Between AI and Human</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-bottom: 3rem;">
+                <div class="mdm-card">
+                    <span class="mdm-badge">🤖 AI Component</span>
+                    <h4>What the assistant does automatically</h4>
+                    <p>
+                        Parses drawings and unstructured spec lists. Pulls historical analogues from the 70% of projects with usable data. Recommends alternative materials and constructive changes. Pre-fills the estimation sheet. Generates the Excel + PDF proposal.
+                    </p>
+                    <div class="capability-tag">BOM Parsing</div>
+                    <div class="capability-tag">Analogue Lookup</div>
+                    <div class="capability-tag">Material Alternatives</div>
+                    <div class="capability-tag">Document Generation</div>
+                </div>
+                <div class="mdm-card" style="border-color: var(--gold); background: linear-gradient(135deg, rgba(197,160,94,0.12) 0%, rgba(197,160,94,0.04) 100%);">
+                    <span class="mdm-badge" style="background: var(--gold); color: var(--dark);">👤 Human Control</span>
+                    <h4>What the estimator stays in charge of</h4>
+                    <p>
+                        Enters today's supplier quotes for each component. Approves (or rejects) AI-suggested material substitutions. Sets project-specific factors: urgency, location, target margin, overhead. Final approval before the proposal is sent.
+                    </p>
+                    <div class="capability-tag">Supplier Pricing</div>
+                    <div class="capability-tag">Substitution Approval</div>
+                    <div class="capability-tag">Margin & Markup</div>
+                    <div class="capability-tag">Final Sign-off</div>
+                </div>
+            </div>
+
+            <h3 style="margin-top: 3rem; margin-bottom: 1.5rem;">Five Things the Client Expects from the AI</h3>
+
+            <div class="mdm-card">
+                <span class="mdm-badge">1. Easy Specification Entry</span>
+                <h4>Manual or semi-automated BOM input — not CAD integration</h4>
+                <p>
+                    3ds Max and AutoCAD don't export usable BOMs, so the assistant reads what is actually available: PDF drawings, scanned spec sheets, and Excel lists. A clean web form handles the rest. <strong>No costly CAD/ERP integration.</strong>
+                </p>
+                <div class="capability-tag">PDF & Image OCR</div>
+                <div class="capability-tag">LLM Spec Extraction</div>
+                <div class="capability-tag">Structured Web Form</div>
+            </div>
+
+            <div class="mdm-card">
+                <span class="mdm-badge">2. Historical Data as Reference Only</span>
+                <h4>70% of past projects → analogues, not pricing source</h4>
+                <p>
+                    Similar past projects show up alongside the new RFQ: BOM, materials, suppliers, prices, volumes. The estimator sees patterns instantly, but the final number is built on today's quotes — exactly how the client already operates.
+                </p>
+                <div class="capability-tag">Similarity Search</div>
+                <div class="capability-tag">Price Range Hints</div>
+                <div class="capability-tag">Past Supplier Lookup</div>
+            </div>
+
+            <div class="mdm-card">
+                <span class="mdm-badge">3. Material & Construction Alternatives</span>
+                <h4>Cheaper options, with the savings calculated for you</h4>
+                <p>
+                    The AI proposes substitutions ("MDF 16mm → MDF 18mm laminated, –12% cost", "alternative hardware supplier, –8% cost") with the resulting impact on the total. The estimator approves or rejects each suggestion explicitly.
+                </p>
+                <div class="capability-tag">LLM Reasoning</div>
+                <div class="capability-tag">Impact Quantification</div>
+                <div class="capability-tag">Human Approval Loop</div>
+            </div>
+
+            <div class="mdm-card">
+                <span class="mdm-badge">4. Complex Cost Factors Built-In</span>
+                <h4>Labor, finishing, urgency, volume, location, overhead, markup</h4>
+                <p>
+                    A configurable rules engine applies factors that estimators currently track informally. Volume discounts (3–5% for large orders), urgency multipliers, logistics by destination, finishing costs and target margin are all transparent and adjustable.
+                </p>
+                <div class="capability-tag">Configurable Rules</div>
+                <div class="capability-tag">Logistics by Region</div>
+                <div class="capability-tag">Urgency Pricing</div>
+            </div>
+
+            <div class="mdm-card">
+                <span class="mdm-badge">5. One-Click Excel + PDF Proposal</span>
+                <h4>Output that matches Client's current commercial format</h4>
+                <p>
+                    Once the estimator approves, the system produces both an internal Excel calculation and a client-facing PDF proposal in Client's branding — ready to send. No re-keying, no formatting work.
+                </p>
+                <div class="capability-tag">Excel Templates</div>
+                <div class="capability-tag">Branded PDF</div>
+                <div class="capability-tag">One-Click Export</div>
+            </div>
+
+            <h3 style="margin-top: 3rem; margin-bottom: 1.5rem;">End-to-End User Journey</h3>
+            <div class="data-flow">
+                <div class="data-flow-item">
+                    <strong>1. Upload</strong><br>
+                    <small>Drawing / spec sheet</small>
+                </div>
+                <div class="data-flow-arrow">→</div>
+                <div class="data-flow-item">
+                    <strong>2. AI Parse</strong><br>
+                    <small>BOM auto-filled</small>
+                </div>
+                <div class="data-flow-arrow">→</div>
+                <div class="data-flow-item">
+                    <strong>3. Analogues</strong><br>
+                    <small>Past projects shown</small>
+                </div>
+                <div class="data-flow-arrow">→</div>
+                <div class="data-flow-item">
+                    <strong>4. Supplier Prices</strong><br>
+                    <small>Estimator enters today's quotes</small>
+                </div>
+                <div class="data-flow-arrow">→</div>
+                <div class="data-flow-item">
+                    <strong>5. AI Alternatives</strong><br>
+                    <small>Substitutions suggested</small>
+                </div>
+                <div class="data-flow-arrow">→</div>
+                <div class="data-flow-item">
+                    <strong>6. Export</strong><br>
+                    <small>Excel + PDF proposal</small>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Single-Item Cost Rollup Deep-Dive (response to committee evaluation) -->
+    <section>
+        <div class="container">
+            <h2>Single-Item Cost Rollup — How the AI Builds the All-In Door Price</h2>
+            <div class="highlight" style="margin-bottom: 2rem;">
+                <h4>📋 Committee Evaluation Note</h4>
+                <p style="font-style: italic;">
+                    "Kindly review this quotation and evaluate the project from a practical costing perspective, particularly focusing on <strong>how an AI-based system can intelligently manage and generate a complete single-item cost structure that incorporates all related components, including door price, hardware, logistics and associated fixing works.</strong>"
+                </p>
+                <p style="margin-top: 1rem;">
+                    This section answers that question directly, using real numbers from two recent Al-Rashed engagements: <strong>BCC Sedra 5 — Villas D2 Ayala &amp; I2 Ayala Hills</strong> (34 wooden doors, ES-05 schedule R04 dated 02-04-2026) and <strong>Saudi Emar — Kings Roshn Theatre &amp; Joinery</strong> (KI26-E898-Q-02-00).
+                </p>
+            </div>
+
+            <h3 style="margin-top: 2.5rem; margin-bottom: 1rem;">What a "Single Door Line" Really Contains</h3>
+            <p style="font-size: 1.05rem; margin-bottom: 1.5rem;">
+                In your current process, one line in the wooden-doors schedule (e.g. <em>D2-D02 GF Family Toilet — 900 × 2800 — Hardware Set #2 — OAK#50Q veneer</em>) is in fact a <strong>stack of five independent cost layers</strong>, each owned by a different supplier or team, none of which deliver a single all-in number:
+            </p>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin-bottom: 2.5rem;">
+                <div class="layer-box">
+                    <h4>L1 · Door Leaf Manufacture <small style="color:#888;">(your factory)</small></h4>
+                    <p style="font-size:0.92rem;">Lumber CBM × wood rate (Hardwood Beech 3,850 / Swedish 1,350 SAR/CBM), blockboard &amp; veneer sheets, factory hardware consumables, varnish/HPL finish, direct labour, 50% overhead, 33% margin. Output: <strong>SAR / SQM × door area</strong> ex-factory.</p>
+                </div>
+                <div class="layer-box">
+                    <h4>L2 · Hardware Kit <small style="color:#888;">(3rd-party — e.g. Doors Technology Trading)</small></h4>
+                    <p style="font-size:0.92rem;">5 × concealed hinges (Simonswerk TE 340 3D), lockset (sash / bathroom / hook), cylinder (key or thumbturn), lever / pull handle, optional door closer, escutcheon, stopper. Finish family: nickel mat vs bronze (~30–40% premium). Sold per "set" (Set #1..#8).</p>
+                </div>
+                <div class="layer-box">
+                    <h4>L3 · Logistics</h4>
+                    <p style="font-size:0.92rem;">Ex-factory delivery to site, lifting, oversize packaging for &gt;2.8 m or sliding tracks, batch consolidation. Explicitly excluded from door cost sheet ("<em>Delivery Ex-Factory only</em>") and from hardware quote.</p>
+                </div>
+                <div class="layer-box">
+                    <h4>L4 · Fixing / Installation</h4>
+                    <p style="font-size:0.92rem;">Door hanging, frame plumbing &amp; sealing, 5-hinge mounting, lockset &amp; closer fitting, sliding-track alignment, silicone, snagging &amp; touch-up. Explicitly excluded from both supplier quotes ("<em>Installation is not included</em>" / "<em>Installation, fitting, or any associated labor costs are excluded</em>").</p>
+                </div>
+                <div class="layer-box">
+                    <h4>L5 · Indirect, VAT, Contingency</h4>
+                    <p style="font-size:0.92rem;">Project-level overhead, contingency band, VAT 15% applied per ZATCA. Currently re-keyed manually each revision.</p>
+                </div>
+            </div>
+
+            <div class="risk-card" style="margin-bottom: 2.5rem;">
+                <strong>Why this is hard manually today.</strong> A single 34-door villa pair (D2 + I2) has 8 hardware sets × 2 finish families × 17 unique size/location combinations. Cost sheets live in one Excel file ("SD NFR HOLLOW VENEER &amp; HPL.xls"), hardware in a supplier PDF (DHQ&nbsp;GY26-0010), schedule in another (ES-05 R04), and fixing/logistics in nobody's quote. When the ID team revises a door size or finish, all five layers must be re-stitched by hand — which is exactly the mechanism that produced Rev-04 then Rev-05 on KAPSARC and forces 1-month estimating cycles.
+            </div>
+
+            <h3 style="margin-top: 2rem; margin-bottom: 1rem;">The Five-Layer Cost Engine — How the AI Composes It</h3>
+            <table class="estimation-table">
+                <thead>
+                    <tr>
+                        <th style="width:14%;">Layer</th>
+                        <th style="width:28%;">Inputs the AI reads</th>
+                        <th>How the AI computes it</th>
+                        <th style="width:18%;">Output per door line</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>L1 — Manufacture</strong></td>
+                        <td>Size (T × W × L), door type (solid-core / hollow-core / sliding), veneer ref (OAK#50Q, OAK#864Q), wood source, finish (HPL / varnish)</td>
+                        <td>Parametric model of your existing cost sheet: CBM rates by component (Lipping / Header / Jamb / Architraves / Rails) × wood-source price; blockboard &amp; veneer sheets × m² rate; factory hardware-materials lookup; 50% overhead on labour; 33% margin. Veneer &amp; HPL costs trigger automatically from the finish field.</td>
+                        <td>SAR / SQM × area = ex-factory door selling price</td>
+                    </tr>
+                    <tr>
+                        <td><strong>L2 — Hardware</strong></td>
+                        <td>Location class (toilet / bedroom / sliding / dirty-kitchen / dining), door type, finish family (nickel mat / bronze)</td>
+                        <td>Pattern-matches to a Hardware Set template (#1..#8) using the same rule your team applies (location × door type). Pulls live unit prices from the most recent supplier quotation (e.g. DHQ&nbsp;GY26-0010). Swaps to bronze variants automatically when the door is on the bronze schedule.</td>
+                        <td>Set price × set count</td>
+                    </tr>
+                    <tr>
+                        <td><strong>L3 — Logistics</strong></td>
+                        <td>Project site, batch size, oversize flag (height &gt; 2.8 m, sliding track length)</td>
+                        <td>Rule-based estimator — base trucking + per-extra-LM + lift surcharge for oversize. No "AI magic" needed; the value is doing it consistently across every line item every time.</td>
+                        <td>Logistics SAR</td>
+                    </tr>
+                    <tr>
+                        <td><strong>L4 — Fixing</strong></td>
+                        <td>Door type (swing vs sliding vs concealed track), height, hardware complexity (closer? sliding system? fixed panel?), site access</td>
+                        <td>Hours × crew rate per door class, with multipliers for sliding tracks, concealed frames, door closers, and 5-hinge hanging. Calibrated against actuals from the past 30 projects where records exist.</td>
+                        <td>Fixing labour + on-site materials (silicone, fixings, sealants)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>L5 — Indirect / VAT</strong></td>
+                        <td>Contract terms, contingency band, current VAT rate</td>
+                        <td>Applied as a transparent percentage stack to L1–L4. VAT shown separately on the output document.</td>
+                        <td>Final delivered + installed SAR per line</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3 style="margin-top: 2.5rem; margin-bottom: 1rem;">Worked Example — BCC Sedra 5 · Villa D2 Ayala · Master Bedroom Door</h3>
+            <p style="font-size: 1.05rem; margin-bottom: 1.25rem;">
+                Real data from <strong>ES-05 Wooden-Doors Schedule R04 (02-04-2026)</strong> and <strong>Hardware Quotation DHQ&nbsp;GY26-0010 (22-04-2026)</strong>. Door spec: <em>D02 (FF) — 1000 × 2800 mm single-leaf solid-core flush swing, concealed frame, OAK#50Q veneer, Hardware Set #3, Master Bedroom location</em>.
+            </p>
+
+            <table class="estimation-table" style="margin-bottom: 2rem;">
+                <thead>
+                    <tr>
+                        <th style="width:8%;">Layer</th>
+                        <th>Component</th>
+                        <th style="width:24%;">Sub-line</th>
+                        <th style="width:18%; text-align:right;">Amount (SAR)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td rowspan="6"><strong>L1</strong></td>
+                        <td>Lumber (Lipping + Header + Jamb + Architraves + Rails)</td>
+                        <td>0.1943 CBM × mix rate</td>
+                        <td style="text-align:right;">528.74</td>
+                    </tr>
+                    <tr>
+                        <td>Blockboard / Plywood / Veneer (incl. OAK#50Q)</td>
+                        <td>Hollow core + 2× MDF + veneer</td>
+                        <td style="text-align:right;">569.22</td>
+                    </tr>
+                    <tr>
+                        <td>Factory hardware materials &amp; finish</td>
+                        <td>Screws, adhesives, varnish</td>
+                        <td style="text-align:right;">387.45</td>
+                    </tr>
+                    <tr>
+                        <td>Direct labour (milling, assembly, finishing, packing)</td>
+                        <td>SAR 275 + 5</td>
+                        <td style="text-align:right;">280.00</td>
+                    </tr>
+                    <tr>
+                        <td>Overhead (carpenter / helper / retouching)</td>
+                        <td>50% of labour</td>
+                        <td style="text-align:right;">264.15</td>
+                    </tr>
+                    <tr style="background: rgba(10,77,104,0.04);">
+                        <td colspan="2"><strong>L1 ex-factory door selling price</strong> (Job cost 2,030.16 + 33% margin)</td>
+                        <td style="text-align:right;"><strong>3,045.25</strong></td>
+                    </tr>
+                    <tr>
+                        <td rowspan="7"><strong>L2</strong></td>
+                        <td>5 × Concealed hinge — Simonswerk TE 340 3D, SNL (F2)</td>
+                        <td>SAR 210 × 5</td>
+                        <td style="text-align:right;">1,050.00</td>
+                    </tr>
+                    <tr>
+                        <td>Mortise sash lock — Simplex 885572Z, 630/SSS</td>
+                        <td>Each</td>
+                        <td style="text-align:right;">75.00</td>
+                    </tr>
+                    <tr>
+                        <td>Side-knob / side-key cylinder — Simplex 1915, 646/SNP</td>
+                        <td>Each</td>
+                        <td style="text-align:right;">50.00</td>
+                    </tr>
+                    <tr>
+                        <td>Lever handle on rose — Simplex 2036, Nickel Mat</td>
+                        <td>Pair</td>
+                        <td style="text-align:right;">110.00</td>
+                    </tr>
+                    <tr>
+                        <td>Overhead concealed door closer — Simplex SPX&nbsp;DC3000, US28</td>
+                        <td>Each</td>
+                        <td style="text-align:right;">400.00</td>
+                    </tr>
+                    <tr>
+                        <td>Floor-mounted door stopper — Simplex DSS&nbsp;35, 630/SSS</td>
+                        <td>Each</td>
+                        <td style="text-align:right;">25.00</td>
+                    </tr>
+                    <tr style="background: rgba(10,77,104,0.04);">
+                        <td colspan="2"><strong>L2 Hardware Set #3 — per door</strong> (matches DHQ&nbsp;GY26-0010)</td>
+                        <td style="text-align:right;"><strong>1,710.00</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>L3</strong></td>
+                        <td colspan="2">Logistics — ex-factory to BCC Sedra 5 site, prorated per door, single-villa batch</td>
+                        <td style="text-align:right;">120.00</td>
+                    </tr>
+                    <tr>
+                        <td><strong>L4</strong></td>
+                        <td colspan="2">Fixing — swing door with concealed frame, 5-hinge mounting, closer fitting, sealant, snagging (~3.5 crew-hrs)</td>
+                        <td style="text-align:right;">550.00</td>
+                    </tr>
+                    <tr style="background: rgba(10,77,104,0.06);">
+                        <td colspan="3"><strong>Pre-VAT subtotal — single delivered + installed door line</strong></td>
+                        <td style="text-align:right;"><strong>5,425.25</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>L5</strong></td>
+                        <td colspan="2">VAT (15%)</td>
+                        <td style="text-align:right;">813.79</td>
+                    </tr>
+                    <tr style="background: rgba(197,160,94,0.18);">
+                        <td colspan="3"><strong>All-in single-line price (delivered + installed + VAT)</strong></td>
+                        <td style="text-align:right;"><strong>SAR 6,239.04</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p style="font-size: 0.95rem; color: #555; margin-bottom: 2rem;">
+                Today the same number is reconstructed by hand across three files (factory cost sheet, hardware PDF, fixing tally) — and re-keyed every time a single door dimension or finish changes.
+            </p>
+
+            <h3 style="margin-top: 2.5rem; margin-bottom: 1rem;">How Alternatives Propagate Through All Five Layers</h3>
+            <p style="font-size: 1.05rem; margin-bottom: 1.25rem;">
+                The same engine drives the alternatives module. Each substitution recomputes every affected layer and flags conflicts with the door schedule — so the estimator sees the true delta, not just a one-line saving:
+            </p>
+
+            <table class="estimation-table">
+                <thead>
+                    <tr>
+                        <th>Proposed alternative</th>
+                        <th style="width:14%;">Layer affected</th>
+                        <th style="width:18%; text-align:right;">Δ per door (SAR)</th>
+                        <th style="width:18%; text-align:right;">Δ across schedule</th>
+                        <th>AI risk note</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Switch veneer OAK#50Q → OAK#864Q on Villa I2 bedrooms</td>
+                        <td>L1</td>
+                        <td style="text-align:right;">+80 to +110</td>
+                        <td style="text-align:right;">+1,440 to +1,980 (18 doors)</td>
+                        <td>Approved by ID — check OAK#864Q stock lead time (5x Hinges spec unchanged)</td>
+                    </tr>
+                    <tr>
+                        <td>Bronze hardware family on all wet rooms (toilets &amp; bathrooms)</td>
+                        <td>L2</td>
+                        <td style="text-align:right;">+380 to +500</td>
+                        <td style="text-align:right;">+~4,200 (8 wet-room doors)</td>
+                        <td>Visible finish change — confirm with ID Designer; ES-05 schedule "Flush from Outside" still valid</td>
+                    </tr>
+                    <tr>
+                        <td>Replace 5-hinge Simonswerk TE 340 3D with 3-hinge equivalent</td>
+                        <td>L2 + L4</td>
+                        <td style="text-align:right;">−420 (L2) / −80 (L4 fitting)</td>
+                        <td style="text-align:right;">−~17,000 (34 doors)</td>
+                        <td><strong>⚠ Out of spec</strong> — ES-05 R04 explicitly requires "<em>5 nos of Hinges for all Types</em>"; flagged red, not applied</td>
+                    </tr>
+                    <tr>
+                        <td>Consolidate logistics into 2 site deliveries instead of 5</td>
+                        <td>L3</td>
+                        <td style="text-align:right;">−25 to −45</td>
+                        <td style="text-align:right;">−~1,050 across all doors</td>
+                        <td>Requires site storage availability — auto-flag for PM review</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="highlight" style="margin-top: 2.5rem;">
+                <h4>💡 The key claim, in plain language</h4>
+                <p>
+                    The AI does not "guess" the all-in door price. It treats the door line as a <strong>recipe of five layers</strong> — manufacture, hardware, logistics, fixing, indirect — each backed by a transparent calculation that already exists somewhere in Client's process. The contribution of the AI is to <strong>wire those layers together</strong>, keep them in sync when any input changes, surface alternatives that respect the door schedule, and produce a single delivered &amp; installed SAR figure per line — instead of three Excel files, two supplier PDFs, and a fixing estimate that lives in someone's head.
+                </p>
+                <p style="margin-top: 1rem;">
+                    This is exactly the gap the BCC Sedra 5 estimate and the KAPSARC Rev-05 lineage expose. Closing it is the MVP.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Feasibility Section -->
+    <section>
+        <div class="container">
+            <h2>Feasibility — Honest Assessment</h2>
+            <p style="font-size: 1.1rem; margin-bottom: 2rem;">
+                <strong>Yes, this can be implemented</strong> — but with clear-eyed caveats about Client Industrial's process maturity. Pretending the data is cleaner than it is would be the surest way to fail.
+            </p>
+
+            <h3 style="margin-bottom: 1.5rem;">Risks to Manage Up-Front</h3>
+
+            <div class="risk-card">
+                <strong>1. No single source of pricing data.</strong> Prices come from the market each time. Mitigation: design for fresh supplier input as the primary path; treat history as an assistant, not an oracle.
+            </div>
+            <div class="risk-card">
+                <strong>2. No structured BOM.</strong> 3ds Max and AutoCAD don't export specifications cleanly. Mitigation: rely on PDF parsing + a structured web form, not CAD integration.
+            </div>
+            <div class="risk-card">
+                <strong>3. Fully manual culture.</strong> Estimators aren't used to working in systems. Mitigation: keep the UX close to the Excel they already know; pilot on a single product type first.
+            </div>
+            <div class="risk-card">
+                <strong>4. Every project is unique.</strong> The model can't rely on history alone. Mitigation: hybrid architecture — humans control the inputs that drive the price.
+            </div>
+            <div class="risk-card">
+                <strong>5. Training data is "good enough", not perfect.</strong> 70% of projects have usable records; the client accepts manual cleanup. Mitigation: budget BA time for a one-off data cleansing pass before go-live.
+            </div>
+
+            <div class="highlight">
+                <h4>The bottom line</h4>
+                <p>
+                    Implementation works as a <strong>hybrid</strong> — AI for parsing, recommendations, and document generation; humans for supplier prices and approvals; and a <strong>structured form</strong> instead of free-form Excel. <strong>Without at least a simple structured input layer, no AI project will succeed here.</strong> The recommended approach is to <strong>pilot on one product line</strong> (e.g. interior doors), prove value, then expand — evolutionary, not big-bang.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Demo -->
+    <section style="background: #f8f9fa;">
+        <div class="container">
+            <h2>Interactive Walkthrough</h2>
+            <p style="font-size: 1.1rem; margin-bottom: 2rem;">
+                Click through the tabs to see how a single RFQ moves from drawing to commercial offer:
+            </p>
+
+            <div class="demo-container">
+                <div class="demo-tabs">
+                    <button class="demo-tab active" onclick="switchDemo(event, 'parse')">📐 Drawing → BOM</button>
+                    <button class="demo-tab" onclick="switchDemo(event, 'history')">🕰️ Historical Analogues</button>
+                    <button class="demo-tab" onclick="switchDemo(event, 'pricing')">💵 Live Supplier Pricing</button>
+                    <button class="demo-tab" onclick="switchDemo(event, 'alternatives')">♻️ AI Alternatives</button>
+                    <button class="demo-tab" onclick="switchDemo(event, 'export')">📄 Excel + PDF Export</button>
+                </div>
+
+                <!-- Parse -->
+                <div id="parse" class="demo-content active">
+                    <div class="mock-header">
+                        <h4>📐 Specification Extraction</h4>
+                        <div class="mock-status">AI Parsing</div>
+                    </div>
+                    <p style="margin-bottom: 1.5rem; color: #666;">
+                        <strong>Scenario:</strong> The estimator drops in a PDF drawing for a 28-door interior project. The assistant reads it and pre-fills the BOM.
+                    </p>
+                    <div class="query-example">
+                        <div class="query-label">📥 Input:</div>
+                        Request
+                    </div>
+                    <h4 style="margin-top: 2rem; margin-bottom: 1rem; color: var(--primary);">AI Processing Steps</h4>
+                    <div style="background: #f9f9f9; padding: 1.5rem; border-radius: 10px; margin-bottom: 1.5rem;">
+                        <div style="margin-bottom: 1rem;"><strong>✓ Step 1: OCR + Layout Analysis</strong><br><small>Extract text, dimensions, and tables from drawing pages.</small></div>
+                        <div style="margin-bottom: 1rem;"><strong>✓ Step 2: LLM Spec Extraction</strong><br><small>Identify materials, sizes, hardware, finishes — output a structured BOM.</small></div>
+                        <div style="margin-bottom: 1rem;"><strong>✓ Step 3: Validation</strong><br><small>Flag low-confidence items for the estimator to confirm.</small></div>
+                        <div><strong>✓ Step 4: Pre-fill</strong><br><small>BOM appears in the estimation form, ready for supplier pricing.</small></div>
+                    </div>
+                    <h4 style="margin-bottom: 1rem; color: var(--primary);">Extracted BOM (sample)</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem;">
+                        <div class="metric-card">
+                            <div class="metric-label">Door Leaves</div>
+                            <div class="metric-value">28</div>
+                            <div class="metric-label" style="margin-top: 0.5rem;">MDF 18mm laminated</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-label">Frames</div>
+                            <div class="metric-value">28</div>
+                            <div class="metric-label" style="margin-top: 0.5rem;">Pine, primed</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-label">Hinge Sets</div>
+                            <div class="metric-value">84</div>
+                            <div class="metric-label" style="margin-top: 0.5rem;">Stainless, concealed</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-label">Locks</div>
+                            <div class="metric-value">28</div>
+                            <div class="metric-label" style="margin-top: 0.5rem;">Cylinder, brushed</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- History -->
+                <div id="history" class="demo-content">
+                    <div class="mock-header">
+                        <h4>🕰️ Historical Project Analogues</h4>
+                        <div class="mock-status">Reference Only</div>
+                    </div>
+                    <p style="margin-bottom: 1.5rem; color: #666;">
+                        <strong>Scenario:</strong> The system finds three past projects with similar BOM shape. They are shown for context only — pricing will still be done at today's supplier rates.
+                    </p>
+                    <div style="background: #f9f9f9; padding: 1.5rem; border-radius: 10px;">
+                        <div style="margin-bottom: 1.2rem; padding: 1rem; background: white; border-radius: 8px; border-left: 4px solid var(--mdm-blue);">
+                            <strong>Project 2024-117 — Riyadh office tower</strong><br>
+                            <small>32 doors, MDF 18mm laminated, similar hardware. Final price/door: SAR 1,420. Margin realised: 18%.</small>
+                        </div>
+                        <div style="margin-bottom: 1.2rem; padding: 1rem; background: white; border-radius: 8px; border-left: 4px solid var(--mdm-blue);">
+                            <strong>Project 2024-203 — Jeddah hotel</strong><br>
+                            <small>24 doors, MDF 16mm, premium hardware. Final price/door: SAR 1,580. Margin realised: 22%.</small>
+                        </div>
+                        <div style="padding: 1rem; background: white; border-radius: 8px; border-left: 4px solid var(--mdm-blue);">
+                            <strong>Project 2025-041 — Dammam clinic</strong><br>
+                            <small>30 doors, similar spec. Final price/door: SAR 1,375. Margin realised: 15%.</small>
+                        </div>
+                    </div>
+                    <div class="highlight" style="margin-top: 1.5rem;">
+                        <h4>📌 Reference range, not a quote</h4>
+                        <p>The estimator sees a price-per-door range of SAR 1,375–1,580 for context. Today's number will be calculated from the supplier quotes entered in the next step.</p>
+                    </div>
+                </div>
+
+                <!-- Pricing -->
+                <div id="pricing" class="demo-content">
+                    <div class="mock-header">
+                        <h4>💵 Live Supplier Pricing — Kapsarc-Style RFQ</h4>
+                        <div class="mock-status">Manual Input</div>
+                    </div>
+                    <p style="margin-bottom: 1.5rem; color: #666;">
+                        <strong>Scenario:</strong> Replicating the real Q.4154 / KAPSARC School of Public Policy quotation. Twelve line items across seven product categories. The estimator enters today's supplier quotes per line; the system handles arithmetic, VAT, and formatting.
+                    </p>
+                    <table class="estimation-table">
+                        <thead>
+                            <tr>
+                                <th>Sl</th>
+                                <th>Item / Spec</th>
+                                <th>Size (mm)</th>
+                                <th>Qty</th>
+                                <th>Unit Price (SAR)</th>
+                                <th>Total (SAR)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td><strong>Planter Box</strong> — 18mm MR MDF, ISSM-02 Acrylic finish, SS skirting</td>
+                                <td>380×1200×440</td>
+                                <td>1</td>
+                                <td>4,632.00</td>
+                                <td>4,632.00</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td><strong>Planter Box</strong> — 18mm MR MDF, ISSM-02 Acrylic finish</td>
+                                <td>380×9600×400</td>
+                                <td>1</td>
+                                <td>37,056.00</td>
+                                <td>37,056.00</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td><strong>Hospitality Counter</strong> — 18mm MR MDF, oak veneer, artificial marble top</td>
+                                <td>650×5300×850</td>
+                                <td>1</td>
+                                <td>34,450.00</td>
+                                <td>34,450.00</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td><strong>Green Room Storage Counter</strong> — 18mm MR MDF carcase, HPL, marble facia</td>
+                                <td>450×2005×300</td>
+                                <td>1</td>
+                                <td>7,017.50</td>
+                                <td>7,017.50</td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td><strong>Wall Cladding IWD-01</strong> — 18mm MDF + 0.6mm European Oak veneer</td>
+                                <td>—</td>
+                                <td>45 m²</td>
+                                <td>1,515.00</td>
+                                <td>68,175.00</td>
+                            </tr>
+                            <tr>
+                                <td>6</td>
+                                <td><strong>Ceiling IWD-01</strong></td>
+                                <td>—</td>
+                                <td>30 m²</td>
+                                <td>1,850.00</td>
+                                <td>55,500.00</td>
+                            </tr>
+                            <tr>
+                                <td>7</td>
+                                <td><strong>Door GA-01</strong> — 44mm, oak veneer, kiln-dried hardwood frame, stain lacquer</td>
+                                <td>200×1980×2740</td>
+                                <td>1</td>
+                                <td>5,461.00</td>
+                                <td>5,461.00</td>
+                            </tr>
+                            <tr>
+                                <td>8–10</td>
+                                <td><strong>Doors GA-04 / GA-06 / GA-07</strong> — single leaf, 44mm</td>
+                                <td>200×~915×~2725</td>
+                                <td>3</td>
+                                <td>3,587.00</td>
+                                <td>10,761.00</td>
+                            </tr>
+                            <tr>
+                                <td>11</td>
+                                <td><strong>Vanity Counter</strong> — 18mm HDF, 0.6mm Oak veneer</td>
+                                <td>200×760×850</td>
+                                <td>2</td>
+                                <td>2,925.00</td>
+                                <td>5,850.00</td>
+                            </tr>
+                            <tr>
+                                <td>12</td>
+                                <td><strong>Fire House Cabinet</strong> — 18mm Penal MDF, SS frame, push-to-open</td>
+                                <td>—×600×850</td>
+                                <td>1</td>
+                                <td>2,250.00</td>
+                                <td>2,250.00</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-top: 1.5rem;">
+                        <div class="metric-card">
+                            <div class="metric-label">Subtotal</div>
+                            <div class="metric-value">231,152</div>
+                            <div class="metric-label" style="margin-top: 0.5rem;">SAR</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-label">VAT (15%)</div>
+                            <div class="metric-value">+34,673</div>
+                            <div class="metric-label" style="margin-top: 0.5rem;">SAR</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-label">Total Cost</div>
+                            <div class="metric-value">265,825</div>
+                            <div class="metric-label" style="margin-top: 0.5rem;">SAR</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-label">Cycle Time</div>
+                            <div class="metric-value">5 days</div>
+                            <div class="metric-label" style="margin-top: 0.5rem;">vs. ~30 days today</div>
+                        </div>
+                    </div>
+                    <div class="highlight" style="margin-top: 1.5rem;">
+                        <h4>🎯 Reproducing the real Q.4154 quotation</h4>
+                        <p>These figures match the actual Rev-05 issued to Nesma & Partners. The assistant's job isn't to invent numbers — it's to handle the BOM extraction, supplier-price capture, factor application, document formatting, and the <strong>five revision cycles</strong> that consumed a month of estimator time on this single deal.</p>
+                    </div>
+                </div>
+
+                <!-- Alternatives -->
+                <div id="alternatives" class="demo-content">
+                    <div class="mock-header">
+                        <h4>♻️ AI-Suggested Alternatives</h4>
+                        <div class="mock-status">Estimator Approves Each</div>
+                    </div>
+                    <p style="margin-bottom: 1.5rem; color: #666;">
+                        <strong>Scenario:</strong> Before locking the proposal, the AI scans the BOM and supplier inputs for cost-saving substitutions. Each suggestion shows the estimated impact and waits for explicit approval.
+                    </p>
+                    <div style="background: #f9f9f9; padding: 1.5rem; border-radius: 10px;">
+                        <div style="margin-bottom: 1.2rem; padding: 1rem; background: white; border-radius: 8px; border-left: 4px solid #4caf50;">
+                            <strong>💡 Switch hardware supplier</strong><br>
+                            <small>Replace Hardware House hinges with Gulf Fittings Ltd. — same spec, –8% on hardware (–SAR 547). Lead time +2 days.</small><br>
+                            <span class="pill">Approve</span><span class="pill" style="background:#ddd; color:#333;">Reject</span>
+                        </div>
+                        <div style="margin-bottom: 1.2rem; padding: 1rem; background: white; border-radius: 8px; border-left: 4px solid #4caf50;">
+                            <strong>💡 Frame material substitution</strong><br>
+                            <small>Use engineered pine instead of solid pine — same finish, –12% on frames (–SAR 605). Used successfully in project 2024-117.</small><br>
+                            <span class="pill">Approve</span><span class="pill" style="background:#ddd; color:#333;">Reject</span>
+                        </div>
+                        <div style="padding: 1rem; background: white; border-radius: 8px; border-left: 4px solid #ff9800;">
+                            <strong>⚠️ Volume discount applies</strong><br>
+                            <small>Order qty 28 unlocks 4% volume discount with Saudi Panels Co. (per their published tier). Confirm with supplier — potential saving SAR 694.</small><br>
+                            <span class="pill">Confirm with supplier</span>
+                        </div>
+                    </div>
+                    <div class="highlight" style="margin-top: 1.5rem;">
+                        <h4>🎯 Combined potential saving</h4>
+                        <p>If all three suggestions are approved: <strong>–SAR 1,846 (≈ –4.2% of total)</strong>. Estimator decides which to apply before exporting the proposal.</p>
+                    </div>
+                </div>
+
+                <!-- Export -->
+                <div id="export" class="demo-content">
+                    <div class="mock-header">
+                        <h4>📄 Final Proposal Export</h4>
+                        <div class="mock-status">One Click</div>
+                    </div>
+                    <p style="margin-bottom: 1.5rem; color: #666;">
+                        <strong>Scenario:</strong> Estimator clicks "Generate proposal". Two artefacts are produced — an internal Excel calculation, and a client-facing PDF in Alrashed's branding.
+                    </p>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 2rem;">
+                        <div class="cost-box" style="border-color: var(--mdm-blue);">
+                            <h4>📊 Internal Excel</h4>
+                            <div class="cost-value" style="font-size: 1.6rem;">Detailed Calculation</div>
+                            <div class="cost-description">
+                                Full BOM, supplier breakdown, cost factors, applied alternatives, margin model. Editable for the next revision.
+                            </div>
+                        </div>
+                        <div class="cost-box" style="border-color: var(--gold);">
+                            <h4>📄 Client PDF</h4>
+                            <div class="cost-value" style="font-size: 1.6rem;">Branded Proposal</div>
+                            <div class="cost-description">
+                                Cover page, scope, lead time, total price, payment terms. Ready to send by email — no formatting cleanup needed.
+                            </div>
+                        </div>
+                    </div>
+                    <h4 style="margin-top: 2rem; margin-bottom: 1rem; color: var(--primary);">Cycle-time impact</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem;">
+                        <div class="metric-card">
+                            <div class="metric-label">Today</div>
+                            <div class="metric-value">~30 days</div>
+                            <div class="metric-trend" style="color:#f44336;">Losing deals</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-label">With Assistant</div>
+                            <div class="metric-value">5–7 days</div>
+                            <div class="metric-trend">✓ Sales target met</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-label">AI parse + analogues</div>
+                            <div class="metric-value">~30 min</div>
+                            <div class="metric-trend">Was: 1–2 days</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-label">Doc generation</div>
+                            <div class="metric-value">&lt; 1 min</div>
+                            <div class="metric-trend">Was: half a day</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technical Architecture -->
+    <section>
+        <div class="container">
+            <h2>Technical Architecture (MVP)</h2>
+            <p style="font-size: 1.1rem; margin-bottom: 2rem;">
+                A deliberately small, simple stack. No CAD integration, no ERP rewrite — just enough infrastructure to replace the spreadsheet chaos with a structured workflow.
+            </p>
+
+            <div class="layer-box">
+                <h4>Layer 1: Web Application (Frontend)</h4>
+                <p style="margin-bottom: 1rem;">
+                    The day-to-day interface for estimators
+                </p>
+                <ul>
+                    <li><strong>React + TypeScript</strong> — drawing upload, BOM editor, supplier price entry, alternatives review, proposal preview</li>
+                    <li><strong>Familiar table-first UX</strong> — feels like Excel, behaves like a system</li>
+                    <li><strong>Role-based screens</strong> — estimator, lead estimator (approver), administrator</li>
+                </ul>
+            </div>
+
+            <div class="layer-box">
+                <h4>Layer 2: Backend API</h4>
+                <p style="margin-bottom: 1rem;">
+                    The calculation and orchestration core
+                </p>
+                <ul>
+                    <li><strong>Python (FastAPI)</strong> or Node.js — REST API for projects, BOMs, suppliers, quotes</li>
+                    <li><strong>Pricing rules engine</strong> — labor, finishing, urgency, volume, location, overhead, markup</li>
+                    <li><strong>Volume / urgency discount logic</strong> — 3–5% for large orders; configurable urgency multipliers</li>
+                    <li><strong>Excel + PDF generation</strong> — openpyxl + jinja2 templates for Excel; ReportLab / WeasyPrint for branded PDF</li>
+                </ul>
+            </div>
+
+            <div class="layer-box">
+                <h4>Layer 3: Data Layer</h4>
+                <p style="margin-bottom: 1rem;">
+                    Structured storage for projects, BOMs, materials, suppliers
+                </p>
+                <ul>
+                    <li><strong>PostgreSQL</strong> — projects, BOMs, supplier catalogue, materials master, historical quotes</li>
+                    <li><strong>Vector index</strong> (pgvector) — for similarity search over historical projects</li>
+                    <li><strong>One-off cleanup pass</strong> — BA + ML engineer prepare the 70% of historical projects for ingestion</li>
+                </ul>
+            </div>
+
+            <div class="layer-box">
+                <h4>Layer 4: AI Module</h4>
+                <p style="margin-bottom: 1rem;">
+                    The intelligence behind the assistant — kept narrow on purpose
+                </p>
+                <ul>
+                    <li><strong>LLM (GPT-4o class or local equivalent)</strong> — extract specifications from PDFs / unstructured spec sheets; reason about material substitutions</li>
+                    <li><strong>Embedding-based similarity search</strong> — find historical analogues for a new RFQ</li>
+                    <li><strong>Classical ML (XGBoost / Random Forest)</strong> — price-range estimator on top of historical data, used as a sanity check, not the source of truth</li>
+                </ul>
+            </div>
+
+            <div class="layer-box">
+                <h4>Layer 5: Integrations (Phase 2 — Optional)</h4>
+                <p style="margin-bottom: 1rem;">
+                    Out of scope for MVP — listed for roadmap clarity
+                </p>
+                <ul>
+                    <li><strong>Supplier portals</strong> — automated price scraping or API ingestion (still manual at MVP)</li>
+                    <li><strong>ERP / accounting</strong> — push approved proposals into the order book</li>
+                    <li><strong>CRM</strong> — link quotes to opportunities for win/loss analytics</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cost & Effort Estimation -->
+    <section style="background: #f8f9fa;">
+        <div class="container">
+            <h2>Effort & Cost Estimation</h2>
+            <p style="font-size: 1.1rem; margin-bottom: 2rem;">
+                Estimated for a Belarusian (HTP / Hi-Tech Park) delivery team — Senior team lead, mid-level developers, ML engineer, QA, and a part-time BA. <strong>MVP scope only</strong> — no ERP / supplier integrations.
+            </p>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin-bottom: 3rem;">
+                <div class="cost-box">
+                    <h4>MVP Total Cost</h4>
+                    <div class="cost-value">$40K – $45K</div>
+                    <div class="cost-description">All-in fixed price for the MVP scope (Belarus HTP delivery)</div>
+                </div>
+                <div class="cost-box">
+                    <h4>Total MVP Effort</h4>
+                    <div class="cost-value">896 hrs</div>
+                    <div class="cost-description">Across all roles, MVP scope only — no ERP / supplier integrations</div>
+                </div>
+                <div class="cost-box">
+                    <h4>MVP Calendar Time</h4>
+                    <div class="cost-value">3 – 4 months</div>
+                    <div class="cost-description">~5-person team with partial allocations, sprints + reviews</div>
+                </div>
+            </div>
+
+            <h3 style="margin-bottom: 2rem;">MVP Effort Breakdown by Role</h3>
+            <table class="estimation-table">
+                <thead>
+                    <tr>
+                        <th>Role</th>
+                        <th>Hours</th>
+                        <th>Scope</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Business Analyst</strong></td>
+                        <td><strong>80</strong></td>
+                        <td>Requirements detailing, user stories, UI prototypes, stakeholder alignment with the client</td>
+                    </tr>
+                    <tr>
+                        <td><strong>System Architect</strong></td>
+                        <td><strong>40</strong></td>
+                        <td>MVP architecture, technology selection, database design, API specification</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Backend Developer (Mid/Senior)</strong></td>
+                        <td><strong>220</strong></td>
+                        <td>FastAPI / Node.js services, pricing rules engine, AI module integration, Excel/PDF generation</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Frontend Developer (Mid/Senior)</strong></td>
+                        <td><strong>168</strong></td>
+                        <td>React + TS UI: BOM editor, supplier price form, alternatives panel, proposal export</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Senior ML / AI Engineer</strong></td>
+                        <td><strong>168</strong></td>
+                        <td>Historical data cleanup, spec extraction with LLM, similarity search, XGBoost/RF price-range model</td>
+                    </tr>
+                    <tr>
+                        <td><strong>QA Engineer</strong></td>
+                        <td><strong>80</strong></td>
+                        <td>Test plan, functional + regression testing, validation of AI recommendations</td>
+                    </tr>
+                    <tr>
+                        <td><strong>DevOps (basic)</strong></td>
+                        <td><strong>60</strong></td>
+                        <td>Docker deployment, CI/CD, database setup, monitoring basics</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Project Manager</strong></td>
+                        <td><strong>80</strong></td>
+                        <td>Sprint coordination, client communication, reporting</td>
+                    </tr>
+                    <tr style="background: rgba(10,77,104,0.08);">
+                        <td><strong>TOTAL — MVP</strong></td>
+                        <td><strong>896 hrs</strong></td>
+                        <td><strong>MVP fixed-scope delivery — $40–45K all-in</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3 style="margin-top: 3rem; margin-bottom: 1.5rem;">Ongoing Costs</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem;">
+                <div class="metric-card">
+                    <div class="metric-label">AI API (OpenAI etc.)</div>
+                    <div class="metric-value">$100–300</div>
+                    <div class="metric-label" style="margin-top: 0.5rem;">/ month, by volume</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Hosting (minimal)</div>
+                    <div class="metric-value">$100–200</div>
+                    <div class="metric-label" style="margin-top: 0.5rem;">/ month</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Post-MVP support</div>
+                    <div class="metric-value">100–200 hrs</div>
+                    <div class="metric-label" style="margin-top: 0.5rem;">first 3 months</div>
+                </div>
+            </div>
+
+            <div class="highlight" style="margin-top: 2rem;">
+                <h4>Why this is realistic</h4>
+                <p>
+                    The MVP deliberately avoids the expensive parts: no CAD parsing, no live supplier APIs, no ERP integration. Those are the items that blow up scope on industrial-AI projects. By keeping the AI's job narrow (parse, suggest, generate) and leaving humans in charge of pricing, the build is small, the model is transparent, and the team adoption curve is short.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ROI & Financial Justification -->
+    <section>
+        <div class="container">
+            <h2>ROI & Financial Justification</h2>
+            <p style="font-size: 1.1rem; margin-bottom: 2rem;">
+                The investment case for management. All figures are modelled from Client's stated current volume (<strong>25–35 proposals/month</strong>) and the real Kapsarc-class deal value (<strong>SAR 265,825</strong>), with conservative win-rate and margin assumptions to be validated in workshop one.
+            </p>
+
+            <h3 style="margin-top: 2rem; margin-bottom: 1.5rem;">Baseline — Today's Situation</h3>
+            <table class="estimation-table">
+                <thead>
+                    <tr>
+                        <th>Metric</th>
+                        <th>Value</th>
+                        <th>Source / Assumption</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Proposals issued / month</td>
+                        <td><strong>30</strong> (range 25–35)</td>
+                        <td>Client-stated current capacity</td>
+                    </tr>
+                    <tr>
+                        <td>Average proposal value</td>
+                        <td><strong>SAR 265,000</strong></td>
+                        <td>Real Q.4154 Kapsarc total (SAR 265,825)</td>
+                    </tr>
+                    <tr>
+                        <td>Cycle time per proposal</td>
+                        <td><strong>~30 days</strong></td>
+                        <td>Client interview — sales target 5–7 days</td>
+                    </tr>
+                    <tr>
+                        <td>Average revisions per proposal</td>
+                        <td><strong>3–5</strong></td>
+                        <td>Real example reached <strong>Rev-05</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Estimator hours per proposal (incl. revisions)</td>
+                        <td><strong>~80–100 hrs</strong></td>
+                        <td>Industry benchmark for custom industrial woodwork</td>
+                    </tr>
+                    <tr>
+                        <td>Win rate</td>
+                        <td><strong>~28%</strong></td>
+                        <td>Conservative B2B custom-manufacturing benchmark</td>
+                    </tr>
+                    <tr>
+                        <td>Annual won revenue (baseline)</td>
+                        <td><strong>SAR 26.7M</strong></td>
+                        <td>30 × 12 × 28% × 265K</td>
+                    </tr>
+                    <tr>
+                        <td>Estimated lost-deal value (slow turnaround)</td>
+                        <td><strong>SAR 4–6M / year</strong></td>
+                        <td>Proposals that arrive after competitors lock in</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3 style="margin-top: 3rem; margin-bottom: 1.5rem;">With the AI Assistant — Year 1 Target</h3>
+            <table class="estimation-table">
+                <thead>
+                    <tr>
+                        <th>Metric</th>
+                        <th>Today</th>
+                        <th>Year 1 Target</th>
+                        <th>Δ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Proposals / month (same team)</td>
+                        <td>30</td>
+                        <td><strong>50+</strong></td>
+                        <td style="color:#10b981;"><strong>+67%</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Cycle time per proposal</td>
+                        <td>~30 days</td>
+                        <td><strong>5–7 days</strong></td>
+                        <td style="color:#10b981;"><strong>–80%</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Avg revisions / proposal</td>
+                        <td>3–5</td>
+                        <td><strong>1–2</strong></td>
+                        <td style="color:#10b981;"><strong>–60%</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Estimator hours / proposal</td>
+                        <td>~90 hrs</td>
+                        <td><strong>~30 hrs</strong></td>
+                        <td style="color:#10b981;"><strong>–67%</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Win rate</td>
+                        <td>~28%</td>
+                        <td><strong>~33%</strong> (+5pp from speed)</td>
+                        <td style="color:#10b981;"><strong>+18%</strong> relative</td>
+                    </tr>
+                    <tr style="background: rgba(16,185,129,0.08);">
+                        <td><strong>Annual won revenue</strong></td>
+                        <td><strong>SAR 26.7M</strong></td>
+                        <td><strong>SAR 52.5M</strong></td>
+                        <td style="color:#10b981;"><strong>+SAR 25.8M</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3 style="margin-top: 3rem; margin-bottom: 1.5rem;">How the Value Materialises — Three Drivers</h3>
+            <p style="margin-bottom: 1.5rem; color: #555;">
+                Drivers 1 and 2 are causally linked — saved estimator hours <em>are</em> what enable the throughput uplift, so the financial benefit is counted once (under driver 1), not twice. Driver 3 is genuinely additive.
+            </p>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem;">
+                <div class="cost-box" style="border-color: var(--gold);">
+                    <h4>1️⃣ Throughput Uplift (primary)</h4>
+                    <div class="cost-value">+SAR 4.6M GP</div>
+                    <div class="cost-description">
+                        +SAR 25.8M additional won revenue from <strong>50+ vs 30 proposals/month</strong> at improved win rate. At a conservative <strong>18% gross margin</strong>: <strong>+SAR 4.6M / year</strong> additional gross profit. This is the headline number.
+                    </div>
+                </div>
+                <div class="cost-box" style="border-color: var(--mdm-blue);">
+                    <h4>2️⃣ Capacity That Powers (1)</h4>
+                    <div class="cost-value">25,200 hrs / yr</div>
+                    <div class="cost-description">
+                        360 proposals × ~70 hrs saved each. <strong>The mechanism behind driver (1)</strong> — the same team produces +20 proposals/month <em>without hiring</em>. Already monetised through driver 1 — listed for transparency, not added to the total.
+                    </div>
+                </div>
+                <div class="cost-box" style="border-color: var(--mdm-purple);">
+                    <h4>3️⃣ Pricing Discipline (additive)</h4>
+                    <div class="cost-value">+SAR 265–530K GP</div>
+                    <div class="cost-description">
+                        Consistent application of factors (urgency, volume tiers, logistics) and fewer arithmetic / revision errors typically lifts realised margin by <strong>1–2pp</strong>. On baseline 100 won deals × SAR 265K, that is SAR 265–530K of gross profit recovered annually — independent of throughput.
+                    </div>
+                </div>
+            </div>
+
+            <h3 style="margin-top: 3rem; margin-bottom: 1.5rem;">Investment vs. Return — Management Summary</h3>
+            <table class="estimation-table">
+                <thead>
+                    <tr>
+                        <th>Category</th>
+                        <th>Year 1</th>
+                        <th>Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>One-off MVP build</strong></td>
+                        <td>SAR <strong>150K – 169K</strong><br><small>(USD 40–45K, fixed-price MVP)</small></td>
+                        <td>Belarus HTP delivery, 896 hrs, 3–4 calendar months</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Ongoing run cost (year 1)</strong></td>
+                        <td>SAR <strong>15K – 25K</strong></td>
+                        <td>AI API + hosting, ~SAR 1.5–2K/month</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Post-MVP support buffer</strong></td>
+                        <td>SAR <strong>40K – 75K</strong></td>
+                        <td>100–200 support hours in first 3 months after MVP launch</td>
+                    </tr>
+                    <tr style="background: rgba(10,77,104,0.08);">
+                        <td><strong>Total Year 1 Investment</strong></td>
+                        <td><strong>SAR 205K – 269K</strong></td>
+                        <td>≈ Cost of <strong>1 lost Kapsarc-class deal</strong></td>
+                    </tr>
+                    <tr style="background: rgba(16,185,129,0.10);">
+                        <td><strong>Year 1 Gross Benefit (base case)</strong></td>
+                        <td><strong>SAR 4.9M – 5.1M</strong></td>
+                        <td>Throughput driver (4.6M) + pricing discipline (0.3–0.5M)</td>
+                    </tr>
+                    <tr style="background: rgba(197,160,94,0.18);">
+                        <td><strong>Net ROI — Year 1</strong></td>
+                        <td><strong>~20× return</strong></td>
+                        <td>Payback on the MVP investment in <strong>&lt; 4 weeks</strong> at base-case uplift</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3 style="margin-top: 3rem; margin-bottom: 1.5rem;">Sensitivity — What If We're Wrong on Every Assumption?</h3>
+            <p style="margin-bottom: 1.5rem;">
+                A defensible business case shouldn't depend on best-case numbers. Below is a stress test where <strong>every</strong> assumption misses materially:
+            </p>
+            <table class="estimation-table">
+                <thead>
+                    <tr>
+                        <th>Scenario</th>
+                        <th>Throughput uplift</th>
+                        <th>Win-rate uplift</th>
+                        <th>Year 1 net benefit</th>
+                        <th>Payback</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Pessimistic</strong></td>
+                        <td>+30% (30 → 39/mo)</td>
+                        <td>0pp</td>
+                        <td>SAR <strong>~1.4M</strong></td>
+                        <td><strong>~2 months</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Base case</strong></td>
+                        <td>+67% (30 → 50/mo)</td>
+                        <td>+5pp</td>
+                        <td>SAR <strong>~4.6M</strong></td>
+                        <td><strong>~3 weeks</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Stretch</strong></td>
+                        <td>+100% (30 → 60/mo)</td>
+                        <td>+8pp</td>
+                        <td>SAR <strong>~8.5M</strong></td>
+                        <td><strong>~10 days</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="highlight" style="margin-top: 2rem;">
+                <h4>💼 Management Take-Away</h4>
+                <p>
+                    The MVP investment (<strong>USD 40–45K / SAR 205–269K all-in</strong>) is roughly equivalent to the value of <strong>one lost Kapsarc-class deal</strong> — and the volume currently lost to slow turnaround is conservatively estimated at SAR 4–6M/year. Even in the pessimistic scenario the project pays back inside two months. The financial decision is not <em>whether</em> to do this, but how quickly to start the MVP before another quoting cycle locks up the team.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section style="background: #f8f9fa;">
+        <div class="container">
+            <h2>Why This Approach Wins for the client</h2>
+            <div class="benefits">
+                <div class="benefit-item">
+                    <span class="benefit-icon">⚡</span>
+                    <div>
+                        <h3>From 30 Days to 5–7 Days</h3>
+                        <p>The single highest-impact change: more deals closed before the prospect goes cold. This is the metric that pays for the project.</p>
+                    </div>
+                </div>
+                <div class="benefit-item">
+                    <span class="benefit-icon">🧭</span>
+                    <div>
+                        <h3>Fits the Existing Process</h3>
+                        <p>No CAD integration, no ERP overhaul. Estimators keep their judgement; the assistant just removes the repetitive work.</p>
+                    </div>
+                </div>
+                <div class="benefit-item">
+                    <span class="benefit-icon">💡</span>
+                    <div>
+                        <h3>Cheaper Quotes Without Cutting Quality</h3>
+                        <p>AI-suggested material substitutions are surfaced for every project — savings that estimators don't have time to chase manually.</p>
+                    </div>
+                </div>
+                <div class="benefit-item">
+                    <span class="benefit-icon">📚</span>
+                    <div>
+                        <h3>Institutional Memory, Finally Captured</h3>
+                        <p>The 70% of historical projects becomes searchable context. New estimators ramp up faster; senior estimators stop being a bottleneck.</p>
+                    </div>
+                </div>
+                <div class="benefit-item">
+                    <span class="benefit-icon">🛡️</span>
+                    <div>
+                        <h3>Low-Risk MVP</h3>
+                        <p>$40–45K MVP ceiling and a 3–4-month delivery window. Pilot on one product line first; expand only after MVP value is demonstrated.</p>
+                    </div>
+                </div>
+                <div class="benefit-item">
+                    <span class="benefit-icon">🚀</span>
+                    <div>
+                        <h3>A Real Roadmap, Not a Big Bang</h3>
+                        <p>Phase 2 (supplier price ingestion, ERP/CRM links) is on the roadmap but not prerequisite. Each step ships value on its own.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Next Steps -->
+    <section>
+        <div class="container">
+            <h2>Recommended Next Steps</h2>
+            <div class="architecture">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
+                    <div>
+                        <h3 style="color: var(--accent);">1. Pilot Scope Workshop</h3>
+                        <p>Pick one product line (recommendation: interior doors) and lock the MVP scope with the Al-Rashed estimation team. Half-day session.</p>
+                    </div>
+                    <div>
+                        <h3 style="color: var(--accent);">2. Historical Data Audit</h3>
+                        <p>BA + ML engineer review the 70% of past projects. Confirm the cleanup effort is inside the 120 ML hours budget.</p>
+                    </div>
+                    <div>
+                        <h3 style="color: var(--accent);">3. Excel Template Capture</h3>
+                        <p>Extract Client's current quote format and supplier list. These become the canonical templates for the export module.</p>
+                    </div>
+                    <div>
+                        <h3 style="color: var(--accent);">4. MVP Build & Pilot</h3>
+                        <p>3-month sprint to working pilot. Measure cycle time on the next 5–10 RFQs vs. baseline. Decide on Phase 2 from real data.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Infrastructure & Deployment Options -->
+    <section id="infrastructure">
+        <div class="container">
+            <h2>Infrastructure &amp; Deployment Options — UAE (Abu Dhabi) with Data Privacy</h2>
+            <div class="highlight" style="margin-bottom: 3rem;">
+                <p>The following infrastructure options are presented for your consideration, with specific attention to your <strong>data privacy requirement</strong> — that no data be publicly available. Each option ensures that your commercial proposals, BOMs, supplier pricing, and historical project data remain in a private, isolated environment. Our team is prepared to support either deployment model, and we offer the following analysis to help inform your decision.</p>
+            </div>
+
+            <!-- Option 1: Private Cloud -->
+            <div class="layer-box" style="border-left-color: var(--primary); margin-bottom: 2.5rem;">
+                <h4 style="font-size: 1.5rem; margin-bottom: 1.5rem;">🔒 Option 1 — Private Cloud Deployment (Microsoft Azure UAE Regions — Abu Dhabi)</h4>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+                    <div>
+                        <p style="margin-bottom: 0.8rem;"><strong>📍 Location:</strong> Microsoft Azure UAE Central (Abu Dhabi) — data remains within the Abu Dhabi data center</p>
+                        <p style="margin-bottom: 0.8rem;"><strong>🛡️ Privacy Model:</strong> Private VNet deployment — no public endpoints. All services (PostgreSQL, storage, containers, AI) are deployed inside an isolated Virtual Network with forced tunneling and private IPs only. No public internet exposure for your data.</p>
+                        <p style="margin-bottom: 0.8rem;"><strong>🔑 Access:</strong> Estimators connect via VPN (ExpressRoute or Point-to-Site) or Azure Bastion (private, no public IP)</p>
+                    </div>
+                    <div>
+                        <p style="margin-bottom: 0.8rem;"><strong>🤖 LLM Options with Privacy:</strong></p>
+                        <ul style="margin-left: 1.5rem; margin-bottom: 1rem;">
+                            <li style="margin-bottom: 0.5rem;"><strong>Option A:</strong> Azure OpenAI deployed on private endpoints (Microsoft does not train on your data; data stays in UAE region)</li>
+                            <li style="margin-bottom: 0.5rem;"><strong>Option B:</strong> Local open-source LLM (Llama 3, Qwen) running on Azure confidential VMs — 100% of data never leaves your environment</li>
+                        </ul>
+                        <p style="margin-bottom: 0.8rem;"><strong>✅ Recommended for:</strong> Teams seeking cloud agility with enterprise-grade privacy controls, private networking, and no public data exposure</p>
+                    </div>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+                    <div class="cost-box" style="margin: 0;">
+                        <h4>Monthly Cost Estimate</h4>
+                        <div class="cost-value">$800 – $1,800</div>
+                        <div class="cost-description">Private VNet deployment (incl. private endpoints, VPN/ExpressRoute, and optional local LLM)</div>
+                    </div>
+                    <div class="cost-box" style="margin: 0;">
+                        <h4>Setup Timeline</h4>
+                        <div class="cost-value">3–4 Weeks</div>
+                        <div class="cost-description">From approval to go-live with full private network configuration</div>
+                    </div>
+                </div>
+                <h4 style="margin-bottom: 1rem; color: var(--accent);">Key Privacy Controls — Option 1</h4>
+                <div style="overflow-x: auto;">
+                    <table class="estimation-table" style="width: 100%;">
+                        <thead>
+                            <tr><th>Control</th><th>Implementation</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Public endpoints</td><td>❌ None. All services deployed with private IPs only</td></tr>
+                            <tr><td>Network isolation</td><td>Azure Virtual Network with forced tunneling (no direct internet egress)</td></tr>
+                            <tr><td>Data at rest encryption</td><td>AES-256, customer-managed keys (CMK) optional</td></tr>
+                            <tr><td>Data in transit encryption</td><td>TLS 1.3 within private network, no public exposure</td></tr>
+                            <tr><td>Access authentication</td><td>Azure AD + MFA, private VPN or ExpressRoute required</td></tr>
+                            <tr><td>Audit logging</td><td>Azure Monitor + Log Analytics, all access logged</td></tr>
+                            <tr><td>LLM data handling</td><td>Azure OpenAI: Microsoft does not train on customer data (contractual commitment); optional local LLM for zero data egress</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Option 2: On-Premises -->
+            <div class="layer-box" style="border-left-color: var(--gold); margin-bottom: 2.5rem;">
+                <h4 style="font-size: 1.5rem; margin-bottom: 1.5rem;">🏢 Option 2 — On-Premises Deployment (Client Data Center, Abu Dhabi)</h4>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+                    <div>
+                        <p style="margin-bottom: 0.8rem;"><strong>📍 Location:</strong> Client's existing data center or colocation facility within Abu Dhabi</p>
+                        <p style="margin-bottom: 0.8rem;"><strong>🛡️ Privacy Model:</strong> Complete physical and network isolation — zero data leaves your premises. No internet connectivity required for core operations (optional for Azure OpenAI if chosen, but local LLM removes this dependency entirely).</p>
+                        <p style="margin-bottom: 0.8rem;"><strong>✅ Recommended for:</strong> Organizations with strict "no cloud" policies, existing on-premises infrastructure, or requirements for air-gapped deployment</p>
+                        <p style="margin-bottom: 0.8rem;"><strong>🖥️ Architecture:</strong> 3–5 VM nodes (Dell PowerEdge / HPE ProLiant), local NVMe storage, optional GPU (1–2× RTX 4090/A10 for local LLM)</p>
+                    </div>
+                    <div>
+                        <div class="cost-box" style="margin-bottom: 1rem;">
+                            <h4>CapEx Estimate</h4>
+                            <div class="cost-value">$40K – $65K</div>
+                            <div class="cost-description">Hardware + setup</div>
+                        </div>
+                        <div class="cost-box" style="margin: 0;">
+                            <h4>Annual OpEx</h4>
+                            <div class="cost-value">$8K – $12K</div>
+                            <div class="cost-description">Power, cooling, maintenance — Setup timeline: 10–14 weeks</div>
+                        </div>
+                    </div>
+                </div>
+                <h4 style="margin-bottom: 1rem; color: var(--accent);">Key Privacy Controls — Option 2</h4>
+                <div style="overflow-x: auto;">
+                    <table class="estimation-table" style="width: 100%;">
+                        <thead>
+                            <tr><th>Control</th><th>Implementation</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Public endpoints</td><td>❌ None. Air-gapped or isolated network</td></tr>
+                            <tr><td>Network isolation</td><td>Full physical control within client data center</td></tr>
+                            <tr><td>Data at rest encryption</td><td>Customer-managed (BitLocker / LUKS)</td></tr>
+                            <tr><td>Data in transit encryption</td><td>Internal network encryption (no external exposure)</td></tr>
+                            <tr><td>Access authentication</td><td>Client's existing AD / LDAP</td></tr>
+                            <tr><td>LLM data handling</td><td>Local Llama 3 or Qwen model — zero data leaves premises</td></tr>
+                            <tr><td>Compliance</td><td>Full control for SDAIA / NCA / ADJD requirements</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Pros / Cons Comparison -->
+            <h3 style="margin-bottom: 1.5rem; margin-top: 3rem;">Pros / Cons Comparison — Private Cloud (Azure UAE) vs On-Premises</h3>
+            <div style="overflow-x: auto;">
+                <table class="estimation-table" style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th>Consideration</th>
+                            <th>Private Cloud (Azure UAE — Abu Dhabi)</th>
+                            <th>On-Premises (Client DC)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><strong>Data privacy</strong></td><td>✅ Private VNet, no public endpoints, data stays in Abu Dhabi</td><td>✅ Full physical isolation, air-gap capable</td></tr>
+                        <tr><td><strong>Data never leaves UAE</strong></td><td>✅ Azure UAE Central (Abu Dhabi) region</td><td>✅ Client premises in Abu Dhabi</td></tr>
+                        <tr><td><strong>Public internet exposure</strong></td><td>✅ None — private IPs + VPN/ExpressRoute only</td><td>✅ None — isolated network</td></tr>
+                        <tr><td><strong>Microsoft access to data</strong></td><td>✅ Azure OpenAI: contractual no-training guarantee; customer-managed keys optional</td><td>✅ No third-party access</td></tr>
+                        <tr><td><strong>Time to deploy</strong></td><td>✅ 3–4 weeks</td><td>⚠️ 10–14 weeks</td></tr>
+                        <tr><td><strong>Upfront capital investment</strong></td><td>✅ ~$0 (pay-as-you-go)</td><td>⚠️ $40K–65K CapEx</td></tr>
+                        <tr><td><strong>Monthly operating cost</strong></td><td>⚠️ $800–1,800</td><td>✅ $700–1,000 (power/ops only)</td></tr>
+                        <tr><td><strong>Scalability</strong></td><td>✅ Instant scale (within private VNet)</td><td>⚠️ Fixed capacity, requires hardware lead time</td></tr>
+                        <tr><td><strong>LLM privacy</strong></td><td>✅ Azure OpenAI private endpoint (data not used for training) OR local LLM on Azure confidential VMs</td><td>✅ Local LLM — 100% on-premises</td></tr>
+                        <tr><td><strong>Maintenance responsibility</strong></td><td>✅ Microsoft-managed infrastructure (client manages access)</td><td>⚠️ Client IT team</td></tr>
+                        <tr><td><strong>Disaster recovery</strong></td><td>✅ Built-in geo-redundancy within UAE</td><td>⚠️ Client-configurable (additional cost)</td></tr>
+                        <tr><td><strong>Compliance (SDAIA/NCA/ADJD)</strong></td><td>✅ Azure UAE regions certified</td><td>✅ Full control, client-managed</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="highlight" style="margin-top: 2rem;">
+                <p>Both options fully satisfy your requirement that data not be publicly available. The Private Cloud (Azure) option achieves this through isolated Virtual Networks, private endpoints, and VPN-only access — no public IPs or internet-exposed services. The On-Premises option achieves this through complete physical isolation. Our team is equally prepared to deliver on either platform.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Deployment Recommendation -->
+    <section id="deployment-recommendation" style="padding-top: 0; padding-bottom: 6rem;">
+        <div class="container">
+            <h2>Deployment Recommendation — Consultative, Privacy-First</h2>
+            <div class="highlight" style="margin-bottom: 2rem;">
+                <h4>Our Perspective, Based on Similar UAE Implementations with Data Privacy Requirements</h4>
+                <p style="margin-bottom: 1.2rem;">Based on our experience delivering similar AI-assisted quoting tools for organizations in the UAE with strict data privacy requirements, we have observed the following patterns:</p>
+                <p style="margin-bottom: 0.8rem;"><strong>Many clients in your position choose Private Cloud (Azure UAE) as their starting point</strong> for the following reasons:</p>
+                <ul style="margin-left: 1.5rem; margin-bottom: 1.5rem;">
+                    <li style="margin-bottom: 0.6rem;">The MVP investment is modest (USD 40–45K). Adding $40–65K of on-premises hardware before validating the solution can be challenging to justify.</li>
+                    <li style="margin-bottom: 0.6rem;">Azure's private VNet deployment achieves the same "no public data exposure" outcome as on-premises, without hardware procurement delays.</li>
+                    <li style="margin-bottom: 0.6rem;">Azure OpenAI (deployed on private endpoints) includes contractual commitments that Microsoft does not train on customer data — and data remains within the Abu Dhabi region.</li>
+                    <li style="margin-bottom: 0.6rem;">If a local LLM is preferred (zero data leaving your premises), Azure offers confidential VMs with GPU that run open-source models (Llama 3, Qwen) in isolation.</li>
+                    <li style="margin-bottom: 0.6rem;">The 3–4 week deployment timeline allows your team to see value quickly.</li>
+                </ul>
+                <p style="margin-bottom: 1rem;"><strong>That said, we fully support clients who require on-premises deployment from day one</strong> — whether due to corporate policy, existing infrastructure, or a preference for air-gapped environments.</p>
+                <p style="margin-bottom: 1rem;"><strong>Privacy guarantee across both options:</strong> In neither case will your proposal data, BOMs, supplier pricing, or historical project information be publicly accessible. We will implement strict network isolation, private endpoints (cloud) or air-gapping (on-premises), and encrypted storage for all sensitive data.</p>
+                <p>Please advise which path aligns with your organization's strategy, and we will adjust the implementation plan accordingly.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Kubernetes & Container Orchestration -->
+    <section id="kubernetes" style="background: white; padding: 6rem 0;">
+        <div class="container">
+            <h2>Kubernetes &amp; Container Orchestration — Privacy-Focused</h2>
+            <p style="margin-bottom: 2.5rem; font-size: 1.05rem;">For the MVP scope, we recommend a lightweight container orchestration approach. All containerized services will be deployed in an isolated private network with no public exposure.</p>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; margin-bottom: 3rem;">
+                <div class="layer-box" style="border-left-color: var(--primary);">
+                    <h4>☁️ Recommended for Private Cloud (Azure UAE)</h4>
+                    <ul>
+                        <li><strong>Azure Container Apps</strong> deployed inside a private VNet — no public endpoints</li>
+                        <li><strong>Alternative:</strong> Azure Kubernetes Service (AKS) with private cluster (no public API server)</li>
+                        <li><strong>Access:</strong> Estimators connect via VPN or ExpressRoute, then access via Azure Bastion (private)</li>
+                    </ul>
+                </div>
+                <div class="layer-box" style="border-left-color: var(--gold);">
+                    <h4>🏢 If On-Premises with Kubernetes</h4>
+                    <ul>
+                        <li>Small footprint: 1 master node + 2 worker nodes, fully isolated network</li>
+                        <li>Local LLM (Llama 3 8B or Qwen) running on CPU or GPU — 100% on-premises</li>
+                        <li>Ingress: NGINX Ingress Controller with internal-only load balancer</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3 style="margin-bottom: 1.5rem;">Containerized Services — All Private, No Public IPs</h3>
+            <div style="overflow-x: auto;">
+                <table class="estimation-table" style="width: 100%;">
+                    <thead>
+                        <tr><th>Service</th><th>Technology</th><th>Privacy Control</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Frontend</td><td>React + Nginx</td><td>Private IP only, accessible via VPN/Bastion</td></tr>
+                        <tr><td>Backend API</td><td>FastAPI</td><td>Private IP only, no public endpoint</td></tr>
+                        <tr><td>AI Module</td><td>Azure OpenAI private endpoint OR local LLM on confidential VM</td><td>Data never exposed to public internet</td></tr>
+                        <tr><td>PDF/Excel Worker</td><td>Python + background jobs</td><td>Private queue, no external dependencies</td></tr>
+                        <tr><td>Database (PostgreSQL)</td><td>Azure PostgreSQL Flexible Server</td><td>Private endpoint only</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="highlight" style="margin-top: 2rem;">
+                <p>Our team will ensure that no component of the system — frontend, API, database, or storage — is exposed to the public internet unless explicitly required and approved by your security team.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Architecture Diagram -->
+    <section id="architecture-diagram" style="padding: 6rem 0;">
+        <div class="container">
+            <h2>Architecture Diagram — Private Cloud (Azure UAE)</h2>
+            <p style="margin-bottom: 3rem;">The entire architecture sits inside a private Virtual Network with no public inbound or outbound exposure for your data. All access requires VPN/ExpressRoute + Azure AD authentication.</p>
+
+            <div class="architecture">
+                <div class="layer-box" style="border-left-color: #3b82f6; background: linear-gradient(135deg, rgba(59,130,246,0.06) 0%, rgba(59,130,246,0.02) 100%);">
+                    <h4>🔗 Layer 1 — User Access (Private VPN / ExpressRoute)</h4>
+                    <ul>
+                        <li>Estimator laptop → VPN client → Azure VPN Gateway</li>
+                        <li>No public internet access to any application component</li>
+                        <li>All traffic tunnelled through ExpressRoute or Point-to-Site VPN</li>
+                    </ul>
+                </div>
+                <div class="layer-box" style="border-left-color: #ef4444; background: linear-gradient(135deg, rgba(239,68,68,0.06) 0%, rgba(239,68,68,0.02) 100%);">
+                    <h4>🔥 Layer 2 — Edge &amp; Security Layer (Private)</h4>
+                    <ul>
+                        <li>Azure Bastion (private jump host) for management — no public IP</li>
+                        <li>Azure Firewall (internal only, no public inbound rules)</li>
+                        <li>WAF in detection mode (optional, internal)</li>
+                    </ul>
+                </div>
+                <div class="layer-box" style="border-left-color: var(--accent); background: linear-gradient(135deg, rgba(8,131,149,0.06) 0%, rgba(8,131,149,0.02) 100%);">
+                    <h4>⚙️ Layer 3 — Application Tier (Private VNet)</h4>
+                    <ul>
+                        <li>Azure Container Apps (private VNet integration)</li>
+                        <li>API endpoints: private IPs only (10.x.x.x)</li>
+                        <li>No public load balancer — internal load balancer only</li>
+                    </ul>
+                </div>
+                <div class="layer-box" style="border-left-color: var(--mdm-purple); background: linear-gradient(135deg, rgba(124,58,237,0.06) 0%, rgba(124,58,237,0.02) 100%);">
+                    <h4>🤖 Layer 4 — AI Module (Private)</h4>
+                    <ul>
+                        <li><strong>Option A:</strong> Azure OpenAI private endpoint — data stays in UAE Abu Dhabi region; Microsoft contractual no-training guarantee</li>
+                        <li><strong>Option B:</strong> Llama 3 / Qwen on Azure confidential VM — 100% on-premises control within cloud, zero data egress</li>
+                    </ul>
+                </div>
+                <div class="layer-box" style="border-left-color: var(--mdm-green); background: linear-gradient(135deg, rgba(16,185,129,0.06) 0%, rgba(16,185,129,0.02) 100%);">
+                    <h4>🗄️ Layer 5 — Data Tier (Private Endpoints)</h4>
+                    <ul>
+                        <li>Azure PostgreSQL Flexible Server: private endpoint only</li>
+                        <li>Azure Blob Storage: private endpoint + firewall rules (allow only VNet access)</li>
+                        <li>Azure Redis Cache: private endpoint only</li>
+                    </ul>
+                </div>
+                <div class="layer-box" style="border-left-color: var(--gold); background: linear-gradient(135deg, rgba(197,160,94,0.08) 0%, rgba(197,160,94,0.02) 100%);">
+                    <h4>📊 Layer 6 — Monitoring &amp; Logging (Internal)</h4>
+                    <ul>
+                        <li>Log Analytics workspace (accessible only via private network)</li>
+                        <li>Azure Monitor dashboards — no external endpoints</li>
+                        <li>All access events logged and auditable</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Monthly Cost Breakdown -->
+    <section id="cost-breakdown" style="background: white; padding: 6rem 0;">
+        <div class="container">
+            <h2>Monthly Cost Breakdown — Private Cloud (Azure UAE, Abu Dhabi Region)</h2>
+            <div style="overflow-x: auto; margin-bottom: 2rem;">
+                <table class="estimation-table" style="width: 100%;">
+                    <thead>
+                        <tr><th>Service</th><th>Tier</th><th>Privacy Configuration</th><th>Monthly Cost (USD)</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Azure Container Apps (private VNet)</td><td>Consumption + VNet integration</td><td>No public endpoints</td><td>$80 – $200</td></tr>
+                        <tr><td>Azure PostgreSQL Flexible Server</td><td>2 vCores, 16GB RAM, private endpoint</td><td>Private IP only</td><td>$180 – $300</td></tr>
+                        <tr><td>Azure Blob Storage (200GB)</td><td>Hot tier + private endpoint</td><td>VNet access only</td><td>$15 – $30</td></tr>
+                        <tr><td>Azure OpenAI (private endpoint)</td><td>GPT-4o, pay-per-token</td><td>Data stays in UAE, no training</td><td>$200 – $500</td></tr>
+                        <tr><td>OR Local LLM on confidential VM</td><td>Standard E64bs v5 (no GPU)</td><td>100% isolated, no API calls</td><td>$400 – $700</td></tr>
+                        <tr><td>Azure VPN Gateway (Point-to-Site)</td><td>Basic SKU</td><td>Private access for estimators</td><td>$100 – $150</td></tr>
+                        <tr><td>Azure Bastion (optional)</td><td>Standard SKU</td><td>Private jump host</td><td>$150 – $200</td></tr>
+                        <tr><td>Azure Firewall (optional)</td><td>Standard</td><td>Internal traffic inspection</td><td>$200 – $300</td></tr>
+                        <tr><td>Log Analytics + Monitoring</td><td>Pay-as-you-go</td><td>Internal only</td><td>$40 – $80</td></tr>
+                        <tr><td>Backup (geo-redundant within UAE)</td><td>Included</td><td>Private endpoint</td><td>$20 – $50</td></tr>
+                        <tr style="background: rgba(10,77,104,0.08);"><td><strong>Estimated total (Azure OpenAI path)</strong></td><td>—</td><td>—</td><td><strong>$800 – $1,500</strong></td></tr>
+                        <tr style="background: rgba(197,160,94,0.15);"><td><strong>Estimated total (local LLM path)</strong></td><td>—</td><td>—</td><td><strong>$1,000 – $1,800</strong></td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem;">
+                <div class="cost-box" style="margin: 0;">
+                    <h4>Annual Operating Cost (Private Cloud)</h4>
+                    <div class="cost-value">$9,600 – $21,600</div>
+                    <div class="cost-description">Full private network configuration with no public exposure</div>
+                </div>
+                <div class="cost-box" style="margin: 0;">
+                    <h4>On-Premises Reference (for comparison)</h4>
+                    <div class="cost-value">$40K–65K CapEx</div>
+                    <div class="cost-description">+ Annual OpEx $8K–$12K (power, cooling, maintenance)</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Data Privacy Explicit Controls -->
+    <section id="data-privacy" style="padding: 6rem 0;">
+        <div class="container">
+            <h2>Data Privacy — Explicit Controls by Option</h2>
+            <div style="overflow-x: auto; margin-bottom: 2rem;">
+                <table class="estimation-table" style="width: 100%;">
+                    <thead>
+                        <tr><th>Privacy Requirement</th><th>Private Cloud (Azure UAE)</th><th>On-Premises</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>No public internet exposure for data</td><td>✅ Private VNet, private endpoints, no public IPs</td><td>✅ Air-gap or isolated network</td></tr>
+                        <tr><td>Data resides within UAE (Abu Dhabi)</td><td>✅ Azure UAE Central region</td><td>✅ Client premises</td></tr>
+                        <tr><td>Encryption at rest</td><td>✅ AES-256 (Microsoft-managed or customer-managed keys)</td><td>✅ Customer-managed (BitLocker/LUKS)</td></tr>
+                        <tr><td>Encryption in transit</td><td>✅ TLS 1.3 within private network</td><td>✅ Internal network encryption</td></tr>
+                        <tr><td>No third-party access to data</td><td>✅ Microsoft cannot access (customer-managed keys optional)</td><td>✅ No third-party access</td></tr>
+                        <tr><td>LLM privacy guarantee</td><td>✅ Azure OpenAI: contractual no-training + private endpoint OR local LLM</td><td>✅ Local LLM only</td></tr>
+                        <tr><td>Audit trail of all data access</td><td>✅ Azure Monitor + Log Analytics</td><td>✅ Client's existing SIEM</td></tr>
+                        <tr><td>Compliance (SDAIA/NCA/ADJD)</td><td>✅ Azure UAE regions certified</td><td>✅ Client-managed certification</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="highlight">
+                <p>We understand that data privacy is a non-negotiable requirement. The architecture above has been designed specifically to ensure that <strong>no proposal data, BOM, supplier pricing, or historical project information is ever exposed to the public internet</strong>. Please share any additional privacy or compliance requirements your team may have, and we will incorporate them into the final design.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Scaling Path -->
+    <section id="scaling" style="background: white; padding: 6rem 0;">
+        <div class="container">
+            <h2>Scaling Path — From MVP to Production (Privacy-Preserving)</h2>
+            <div style="overflow-x: auto; margin-bottom: 2rem;">
+                <table class="estimation-table" style="width: 100%;">
+                    <thead>
+                        <tr><th>Phase</th><th>Monthly Proposals</th><th>Recommended Infrastructure</th><th>Monthly Cost (Private Cloud)</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><strong>MVP Pilot</strong></td><td>20–40</td><td>Azure Container Apps (private VNet) + PostgreSQL private endpoint</td><td>$800 – $1,200</td></tr>
+                        <tr><td><strong>Growth</strong></td><td>50–150</td><td>AKS private cluster (2–3 nodes) + upgraded PostgreSQL</td><td>$1,500 – $2,500</td></tr>
+                        <tr><td><strong>Scale</strong></td><td>150–400</td><td>AKS private cluster (5–8 nodes) + read replicas + private Redis</td><td>$3,000 – $5,500</td></tr>
+                        <tr><td><strong>Enterprise</strong></td><td>400+</td><td>On-premises or hybrid (client decision)</td><td>Custom quote</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="highlight">
+                <p>The MVP architecture can scale within the same private VNet without re-architecture or public exposure. If your proposal volume grows, we adjust capacity — your data remains private throughout.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Implementation Timeline -->
+    <section id="timeline-deployment" style="padding: 6rem 0;">
+        <div class="container">
+            <h2>Implementation Timeline — UAE (Abu Dhabi) Deployment</h2>
+            <div style="overflow-x: auto; margin-bottom: 2rem;">
+                <table class="estimation-table" style="width: 100%;">
+                    <thead>
+                        <tr><th>Phase</th><th>Private Cloud (Azure UAE Central)</th><th>On-Premises (Client DC)</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Private network provisioning (VNet / VPN)</td><td>Week 1–2</td><td>Week 1–4 (hardware lead time)</td></tr>
+                        <tr><td>Private endpoint configuration</td><td>Week 2</td><td>Week 4–5 (network setup)</td></tr>
+                        <tr><td>PostgreSQL + storage deployment (private)</td><td>Week 2–3</td><td>Week 5–6</td></tr>
+                        <tr><td>Container environment (private VNet / AKS)</td><td>Week 3</td><td>Week 6–7</td></tr>
+                        <tr><td>LLM deployment (private endpoint or local)</td><td>Week 3–4</td><td>Week 7–8</td></tr>
+                        <tr><td>Application deployment (private network only)</td><td>Week 3–4</td><td>Week 8–9</td></tr>
+                        <tr><td>VPN / ExpressRoute access for estimators</td><td>Week 4</td><td>Week 9–10</td></tr>
+                        <tr><td>Security review + privacy validation</td><td>Week 4</td><td>Week 10–11</td></tr>
+                        <tr><td>Go-live</td><td>Week 4–5</td><td>Week 11–14</td></tr>
+                        <tr style="background: rgba(10,77,104,0.08);"><td><strong>Total timeline</strong></td><td><strong>4–5 weeks</strong></td><td><strong>11–14 weeks</strong></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Decision Support -->
+    <section id="decision-support" style="background: white; padding: 6rem 0;">
+        <div class="container">
+            <h2>Decision Support — Questions for Your Team</h2>
+            <div class="highlight">
+                <h4>To help your team choose the right path while ensuring data privacy, you may wish to consider:</h4>
+                <ol style="margin-left: 1.5rem; margin-top: 1rem;">
+                    <li style="margin-bottom: 1rem;"><strong>Does your organization have an existing Azure commitment or Enterprise Agreement</strong> that could make private cloud deployment more efficient?</li>
+                    <li style="margin-bottom: 1rem;"><strong>Is there approved budget for hardware CapEx</strong> (on-premises), or would operational expense (private cloud) be easier to secure?</li>
+                    <li style="margin-bottom: 1rem;"><strong>Does your data governance policy explicitly require on-premises hosting</strong>, or is a private, isolated cloud environment (no public exposure) acceptable?</li>
+                    <li style="margin-bottom: 1rem;"><strong>Do you have existing ExpressRoute or VPN connectivity to Azure</strong> that could be leveraged for private access?</li>
+                    <li style="margin-bottom: 1rem;"><strong>What is your target go-live date?</strong> (Private cloud is significantly faster — 4–5 weeks vs 11–14 weeks)</li>
+                    <li style="margin-bottom: 1rem;"><strong>Do you require a local LLM (zero data leaving your premises)</strong>, or is Azure OpenAI with private endpoint and contractual no-training guarantees acceptable?</li>
+                    <li style="margin-bottom: 1rem;"><strong>Does your security team require air-gapped physical isolation</strong>, or is logical isolation (private VNet, no public IPs) sufficient?</li>
+                </ol>
+                <p style="margin-top: 1.5rem;">We invite your team to discuss these questions in our next working session. Based on your answers, we will finalize the infrastructure approach and update the implementation plan accordingly. Both paths fully satisfy your data privacy requirement — the choice depends on your timeline, budget, and operational preferences.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <div class="cta">
+        <div class="container">
+            <h2 style="color: white; margin-bottom: 2rem;">Ready to Cut Quote Time From a Month to a Week?</h2>
+            <p style="font-size: 1.1rem; margin-bottom: 2rem; max-width: 700px; margin-left: auto; margin-right: auto;">
+                Let's lock the pilot scope, validate the historical data, and have the first AI-assisted quote out the door in 90 days.
+            </p>
+            <a href="mailto:contact@itelgie.com" class="cta-button">Schedule the Workshop</a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p><strong>AI-Powered Projects Pricing Assistant — Proposal</strong></p>
+            <p>Prepared for: Potential Client</p>
+            <p>Use Case: Projects Pricing &nbsp;·&nbsp; Scope: <strong>MVP</strong></p>
+            <p>MVP Quote: USD 40–45K &nbsp;·&nbsp; 896 hrs &nbsp;·&nbsp; 3–4 calendar months</p>
+            <p>Reference Quotation: Q.4154/WR/RAR/2025/Rev-05 — KAPSARC School of Public Policy</p>
+            <p>Date: May 2026</p>
+            <p style="margin-top: 2rem; font-size: 0.9rem; opacity: 0.8;">
+                This proposal is confidential and intended solely for the recipient. © 2026 Itelgie. All rights reserved.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        function switchDemo(event, demoId) {
+            const demoContents = document.querySelectorAll('.demo-content');
+            demoContents.forEach(content => {
+                content.classList.remove('active');
+            });
+
+            const tabs = document.querySelectorAll('.demo-tab');
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            const selectedDemo = document.getElementById(demoId);
+            if (selectedDemo) {
+                selectedDemo.classList.add('active');
+            }
+
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>

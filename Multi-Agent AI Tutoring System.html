@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Agent AI Tutoring System Architecture</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            text-align: center;
+            color: #2d3748;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #718096;
+            margin-bottom: 40px;
+            font-size: 1.1em;
+        }
+
+        .architecture {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        /* Student Interface Layer */
+        .layer {
+            position: relative;
+        }
+
+        .layer-title {
+            text-align: center;
+            font-weight: 600;
+            color: #4a5568;
+            margin-bottom: 20px;
+            font-size: 1.2em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .student-interface {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .interface-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px 50px;
+            border-radius: 15px;
+            font-weight: 600;
+            font-size: 1.2em;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* Coordinator Layer */
+        .coordinator {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .coordinator-box {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 30px 60px;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(245, 87, 108, 0.4);
+            text-align: center;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .coordinator-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 50px rgba(245, 87, 108, 0.6);
+        }
+
+        .coordinator-title {
+            font-size: 1.5em;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .coordinator-subtitle {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .coordinator-features {
+            margin-top: 15px;
+            font-size: 0.85em;
+            line-height: 1.6;
+        }
+
+        /* Agents Grid */
+        .agents-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .agent-card {
+            background: white;
+            border: 3px solid;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .agent-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: inherit;
+        }
+
+        .agent-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+
+        .agent-card.math {
+            border-color: #4299e1;
+        }
+
+        .agent-card.physics {
+            border-color: #48bb78;
+        }
+
+        .agent-card.language {
+            border-color: #ed8936;
+        }
+
+        .agent-card.chemistry {
+            border-color: #9f7aea;
+        }
+
+        .agent-card.history {
+            border-color: #f56565;
+        }
+
+        .agent-card.biology {
+            border-color: #38b2ac;
+        }
+
+        .agent-icon {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .agent-title {
+            font-size: 1.3em;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .agent-description {
+            font-size: 0.9em;
+            color: #4a5568;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .agent-features {
+            background: #f7fafc;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 0.85em;
+            color: #2d3748;
+        }
+
+        .agent-features ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .agent-features li {
+            padding: 4px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .agent-features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #48bb78;
+            font-weight: bold;
+        }
+
+        /* Support Agents */
+        .support-agents {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .support-card {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .support-card:hover {
+            transform: scale(1.05);
+        }
+
+        .support-icon {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .support-title {
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #2d3748;
+        }
+
+        .support-description {
+            font-size: 0.85em;
+            color: #4a5568;
+        }
+
+        /* Data Layer */
+        .data-layer {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .data-box {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .data-title {
+            font-size: 1.2em;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #2d3748;
+            text-align: center;
+        }
+
+        .data-items {
+            font-size: 0.9em;
+            color: #4a5568;
+        }
+
+        .data-items ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .data-items li {
+            padding: 6px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .data-items li::before {
+            content: '◆';
+            position: absolute;
+            left: 0;
+            color: #667eea;
+        }
+
+        /* Connection Lines */
+        .connections {
+            position: relative;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .connection-line {
+            width: 3px;
+            height: 100%;
+            background: linear-gradient(180deg, #667eea 0%, #f093fb 100%);
+            position: relative;
+        }
+
+        .connection-arrow {
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-top: 12px solid #f093fb;
+        }
+
+        /* Legend */
+        .legend {
+            margin-top: 40px;
+            padding: 25px;
+            background: #f7fafc;
+            border-radius: 12px;
+            border-left: 5px solid #667eea;
+        }
+
+        .legend-title {
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #2d3748;
+            font-size: 1.1em;
+        }
+
+        .legend-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9em;
+            color: #4a5568;
+        }
+
+        .legend-color {
+            width: 30px;
+            height: 30px;
+            border-radius: 6px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8em;
+            }
+            
+            .container {
+                padding: 20px;
+            }
+            
+            .agents-grid,
+            .support-agents,
+            .data-layer {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎓 Multi-Agent AI Tutoring System</h1>
+        <p class="subtitle">Intelligent Architecture for Personalized Education</p>
+
+        <div class="architecture">
+            <!-- Student Interface -->
+            <div class="layer">
+                <div class="layer-title">Student Interface Layer</div>
+                <div class="student-interface">
+                    <div class="interface-box">
+                        🎤 Voice Interface (STT/TTS)
+                    </div>
+                </div>
+                <div class="connections">
+                    <div class="connection-line">
+                        <div class="connection-arrow"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Coordinator -->
+            <div class="layer">
+                <div class="layer-title">Orchestration Layer</div>
+                <div class="coordinator">
+                    <div class="coordinator-box">
+                        <div class="coordinator-title">🎯 Main Coordinator Agent</div>
+                        <div class="coordinator-subtitle">Central Intelligence Hub</div>
+                        <div class="coordinator-features">
+                            • Request Analysis & Classification<br>
+                            • Agent Routing & Selection<br>
+                            • Multi-Agent Collaboration<br>
+                            • Response Synthesis<br>
+                            • Context Management
+                        </div>
+                    </div>
+                </div>
+                <div class="connections">
+                    <div class="connection-line">
+                        <div class="connection-arrow"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Subject Expert Agents -->
+            <div class="layer">
+                <div class="layer-title">Subject Expert Agents</div>
+                <div class="agents-grid">
+                    <div class="agent-card math">
+                        <div class="agent-icon">📐</div>
+                        <div class="agent-title">Mathematics Agent</div>
+                        <div class="agent-description">
+                            Expert in algebra, geometry, calculus, and problem-solving strategies
+                        </div>
+                        <div class="agent-features">
+                            <ul>
+                                <li>Step-by-step solutions</li>
+                                <li>Visual representations</li>
+                                <li>Pattern recognition</li>
+                                <li>Formula explanations</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="agent-card physics">
+                        <div class="agent-icon">⚛️</div>
+                        <div class="agent-title">Physics Agent</div>
+                        <div class="agent-description">
+                            Specializes in mechanics, electricity, optics, and real-world applications
+                        </div>
+                        <div class="agent-features">
+                            <ul>
+                                <li>Experiment simulations</li>
+                                <li>Real-life analogies</li>
+                                <li>Law explanations</li>
+                                <li>Problem solving</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="agent-card language">
+                        <div class="agent-icon">📚</div>
+                        <div class="agent-title">Language Agent</div>
+                        <div class="agent-description">
+                            Masters grammar, literature, writing, and communication skills
+                        </div>
+                        <div class="agent-features">
+                            <ul>
+                                <li>Grammar correction</li>
+                                <li>Writing guidance</li>
+                                <li>Literary analysis</li>
+                                <li>Vocabulary building</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="agent-card chemistry">
+                        <div class="agent-icon">🧪</div>
+                        <div class="agent-title">Chemistry Agent</div>
+                        <div class="agent-description">
+                            Expert in reactions, elements, compounds, and molecular structures
+                        </div>
+                        <div class="agent-features">
+                            <ul>
+                                <li>Reaction balancing</li>
+                                <li>Periodic table mastery</li>
+                                <li>Lab safety</li>
+                                <li>Molecular visualization</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="agent-card history">
+                        <div class="agent-icon">🏛️</div>
+                        <div class="agent-title">History Agent</div>
+                        <div class="agent-description">
+                            Specializes in historical events, timelines, and cultural context
+                        </div>
+                        <div class="agent-features">
+                            <ul>
+                                <li>Timeline creation</li>
+                                <li>Event correlation</li>
+                                <li>Context explanation</li>
+                                <li>Source analysis</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="agent-card biology">
+                        <div class="agent-icon">🧬</div>
+                        <div class="agent-title">Biology Agent</div>
+                        <div class="agent-description">
+                            Expert in life sciences, anatomy, ecosystems, and cellular biology
+                        </div>
+                        <div class="agent-features">
+                            <ul>
+                                <li>System diagrams</li>
+                                <li>Process explanation</li>
+                                <li>Evolution concepts</li>
+                                <li>Ecology connections</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="connections">
+                    <div class="connection-line">
+                        <div class="connection-arrow"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Support Agents -->
+            <div class="layer">
+                <div class="layer-title">Support & Auxiliary Agents</div>
+                <div class="support-agents">
+                    <div class="support-card">
+                        <div class="support-icon">💪</div>
+                        <div class="support-title">Motivational Agent</div>
+                        <div class="support-description">
+                            Provides encouragement and emotional support
+                        </div>
+                    </div>
+
+                    <div class="support-card">
+                        <div class="support-icon">🔍</div>
+                        <div class="support-title">Gap Detector Agent</div>
+                        <div class="support-description">
+                            Identifies knowledge gaps through conversation analysis
+                        </div>
+                    </div>
+
+                    <div class="support-card">
+                        <div class="support-icon">📅</div>
+                        <div class="support-title">Study Planner Agent</div>
+                        <div class="support-description">
+                            Creates personalized study schedules
+                        </div>
+                    </div>
+
+                    <div class="support-card">
+                        <div class="support-icon">📝</div>
+                        <div class="support-title">Exam Prep Agent</div>
+                        <div class="support-description">
+                            Specializes in test preparation strategies
+                        </div>
+                    </div>
+                </div>
+                <div class="connections">
+                    <div class="connection-line">
+                        <div class="connection-arrow"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Data Layer -->
+            <div class="layer">
+                <div class="layer-title">Data & Knowledge Layer</div>
+                <div class="data-layer">
+                    <div class="data-box">
+                        <div class="data-title">👤 Student Profile DB</div>
+                        <div class="data-items">
+                            <ul>
+                                <li>Learning style preferences</li>
+                                <li>Performance history</li>
+                                <li>Mastery levels per topic</li>
+                                <li>Active learning hours</li>
+                                <li>Preferred explanation methods</li>
+                                <li>Progress tracking</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="data-box">
+                        <div class="data-title">🗺️ Knowledge Graph</div>
+                        <div class="data-items">
+                            <ul>
+                                <li>Topic dependencies</li>
+                                <li>Subject interconnections</li>
+                                <li>Prerequisite mapping</li>
+                                <li>Difficulty levels</li>
+                                <li>Curriculum alignment</li>
+                                <li>Cross-subject links</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="data-box">
+                        <div class="data-title">📖 Subject Knowledge Bases</div>
+                        <div class="data-items">
+                            <ul>
+                                <li>Math formulas & theorems</li>
+                                <li>Physics laws & experiments</li>
+                                <li>Language rules & examples</li>
+                                <li>Historical facts & timelines</li>
+                                <li>Scientific concepts</li>
+                                <li>Practice problems library</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Legend -->
+        <div class="legend">
+            <div class="legend-title">🎨 System Architecture Legend</div>
+            <div class="legend-items">
+                <div class="legend-item">
+                    <div class="legend-color" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"></div>
+                    <span>Voice Interface Layer</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);"></div>
+                    <span>Main Coordinator</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: white; border: 3px solid #4299e1;"></div>
+                    <span>Subject Expert Agents</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);"></div>
+                    <span>Support Agents</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);"></div>
+                    <span>Data Storage Layer</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
