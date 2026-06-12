@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>SoftTeco Sovereign AI · Collection Center | On-Premise Voice AI for Banks & Agencies</title>
+<meta name="description" content="Fully on-premise voice AI for outbound debt collection. SIP Trunk integration, CRM sync, sovereign data — built for banks and agencies." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" />
+<style>
+:root{
+  --bg-white:#fff; --bg-offwhite:#f8fafc; --bg-soft:#f0f5f2;
+  --card-white:#fff; --border-light:#e6ede9; --border-med:#d0dbd4;
+  --text-dark:#0c1f18; --text-mid:#2c423a; --text-soft:#5a6e66;
+  --accent-green:#2c8c3e; --accent-bright:#3cb043; --accent-light:#e2f3e4;
+  --shadow-sm:0 2px 6px rgba(12,31,24,.04),0 1px 2px rgba(0,0,0,.02);
+  --shadow-md:0 8px 20px rgba(12,31,24,.06),0 2px 6px rgba(0,0,0,.02);
+  --font-sans:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --font-mono:'JetBrains Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+body{font-family:var(--font-sans);background:var(--bg-offwhite);color:var(--text-dark);line-height:1.5}
+.sticky-nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border-light);box-shadow:var(--shadow-sm)}
+.nav-container{max-width:1280px;margin:0 auto;padding:0 32px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px}
+.logo-area{display:flex;align-items:center;gap:12px;padding:14px 0}
+.logo-mark{width:36px;height:36px;background:var(--accent-green);border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;color:#fff;letter-spacing:.5px}
+.logo-text{font-weight:800;font-size:1.2rem;letter-spacing:-.02em;color:var(--text-dark)}
+.logo-text span{font-weight:500;color:var(--accent-green)}
+.nav-links{display:flex;gap:28px;flex-wrap:wrap}
+.nav-links a{text-decoration:none;font-size:.9rem;font-weight:500;color:var(--text-mid);transition:.2s;padding:4px 0;border-bottom:2px solid transparent}
+.nav-links a:hover{color:var(--accent-green);border-bottom-color:var(--accent-green)}
+.container{max-width:1280px;margin:0 auto;padding:0 32px}
+section{padding:72px 0 64px;border-bottom:1px solid var(--border-light)}
+section:last-of-type{border-bottom:none}
+.section-badge{display:inline-flex;align-items:center;gap:8px;background:var(--accent-light);padding:6px 16px;border-radius:40px;font-family:var(--font-mono);font-size:.7rem;letter-spacing:.04em;font-weight:600;color:var(--accent-green);margin-bottom:20px}
+h1{font-size:3.2rem;font-weight:800;letter-spacing:-.03em;line-height:1.15}
+h2{font-size:2.2rem;font-weight:700;letter-spacing:-.02em;margin-bottom:20px;color:var(--text-dark)}
+.lead{font-size:1.2rem;color:var(--text-mid);max-width:80%;margin-bottom:48px;line-height:1.4}
+.grid-3{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:28px}
+.grid-2{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:28px}
+.card{background:var(--card-white);border:1px solid var(--border-light);border-radius:24px;padding:28px 24px;box-shadow:var(--shadow-sm);transition:.2s ease;position:relative}
+.card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md);border-color:var(--border-med)}
+.card-num{font-family:var(--font-mono);font-size:.7rem;color:var(--accent-green);font-weight:600;margin-bottom:8px}
+.card-icon{font-size:1.8rem;margin-bottom:14px}
+.card h3{font-size:1.3rem;font-weight:700;margin-bottom:12px;color:var(--text-dark)}
+.card p{color:var(--text-soft);font-size:.95rem;line-height:1.55}
+.containerized-badge{position:absolute;top:16px;right:16px;font-family:var(--font-mono);font-size:.62rem;background:var(--bg-soft);color:var(--text-soft);padding:3px 8px;border-radius:20px;border:1px solid var(--border-light);text-transform:uppercase;letter-spacing:.05em}
+.arch-viz{background:var(--bg-white);border-radius:28px;border:1px solid var(--border-light);padding:32px 24px;margin:32px 0 20px;box-shadow:var(--shadow-sm)}
+.arch-flow{display:flex;flex-wrap:wrap;justify-content:center;align-items:stretch;gap:12px}
+.arch-node{flex:1;background:var(--bg-offwhite);border-radius:20px;padding:20px;text-align:center;border:1px solid var(--border-light);min-width:180px}
+.arch-node.primary{background:var(--accent-light);border-color:var(--accent-bright)}
+.arch-node strong{display:block;margin-bottom:6px;font-size:1rem}
+.arch-node .meta{font-size:.78rem;color:var(--text-soft);margin-top:4px}
+.arrow-symbol{font-size:28px;color:var(--accent-green);align-self:center;font-weight:300}
+.agent-stack{display:flex;flex-direction:column;gap:10px;margin-top:24px}
+.agent-item{background:#fff;border-radius:16px;padding:10px 16px;display:flex;align-items:center;gap:12px;border:1px solid var(--border-light);font-size:.9rem}
+.pill{background:var(--accent-light);padding:4px 12px;border-radius:40px;font-family:var(--font-mono);font-size:.7rem;font-weight:600;color:var(--accent-green)}
+.callout{margin-top:24px;font-size:.9rem;background:var(--bg-soft);padding:16px 20px;border-radius:16px;border-left:3px solid var(--accent-green)}
+.model-stack{margin-top:24px;background:var(--bg-offwhite);border:1px dashed var(--border-med);border-radius:16px;padding:18px 20px}
+.model-stack h4{font-size:.85rem;font-family:var(--font-mono);color:var(--accent-green);margin-bottom:12px;letter-spacing:.05em}
+.model-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;font-size:.85rem}
+.model-grid div{padding:8px 0;border-top:1px solid var(--border-light)}
+.model-grid div:first-child,.model-grid div:nth-child(2),.model-grid div:nth-child(3),.model-grid div:nth-child(4){border-top:none}
+.model-grid strong{color:var(--text-dark);font-family:var(--font-mono);font-size:.78rem}
+.workflow-scheme{background:var(--bg-white);border-radius:28px;padding:32px 24px;border:1px solid var(--border-light);margin-top:24px;overflow-x:auto}
+.steps{display:flex;gap:12px;flex-wrap:nowrap;justify-content:space-between;min-width:720px}
+.step{flex:1;text-align:center;background:var(--bg-offwhite);padding:24px 16px;border-radius:20px;min-width:140px}
+.step .step-num{width:40px;height:40px;background:var(--accent-green);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;margin:0 auto 14px}
+.step strong{display:block;margin-bottom:8px;font-size:1rem}
+.step span{color:var(--text-soft);font-size:.85rem}
+.step-arrow{font-size:24px;color:var(--accent-green);align-self:center}
+.endpoint-block{margin-top:14px;background:#0c1f18;color:#a8e0b0;border-radius:12px;padding:14px 16px;font-family:var(--font-mono);font-size:.78rem;line-height:1.7}
+.endpoint-block div{white-space:nowrap;overflow-x:auto}
+.endpoint-block .verb{color:#3cb043;font-weight:600}
+.compliance-badge{display:inline-flex;align-items:center;gap:8px;background:var(--accent-light);color:var(--accent-green);padding:8px 14px;border-radius:40px;font-size:.8rem;font-weight:600;margin-top:12px;font-family:var(--font-mono)}
+.comparison-table{overflow-x:auto;margin:24px 0}
+table{width:100%;border-collapse:collapse;background:#fff;border-radius:16px;overflow:hidden;box-shadow:var(--shadow-sm);min-width:600px}
+th{background:var(--bg-soft);padding:14px 18px;text-align:left;font-weight:600;font-size:.88rem;color:var(--text-dark)}
+td{padding:14px 18px;border-bottom:1px solid var(--border-light);font-size:.92rem;color:var(--text-mid)}
+tr:last-child td{border-bottom:none}
+tr.total td{font-weight:700;background:var(--bg-soft);color:var(--text-dark)}
+.savings{color:var(--accent-green);font-weight:700}
+.highlight-box{background:var(--accent-light);border-radius:20px;padding:24px;margin-top:24px;font-size:.95rem;line-height:1.7;color:var(--text-mid)}
+.highlight-box strong{color:var(--accent-green)}
+.spec-table th{width:38%}
+.spec-table td{font-family:var(--font-mono);font-size:.85rem}
+.spec-note{margin-top:20px;background:var(--bg-white);border:1px solid var(--border-light);border-radius:16px;padding:16px 20px;font-size:.85rem;color:var(--text-soft);font-family:var(--font-mono)}
+footer{background:var(--text-dark);color:#d9e3df;margin-top:60px;padding:48px 0 32px}
+footer a{color:var(--accent-bright);text-decoration:none}
+footer hr{border:none;border-top:1px solid #2e4b3e;margin:32px 0 24px}
+@media (max-width:800px){
+  .nav-container{flex-direction:column;padding:12px 20px;align-items:flex-start}
+  .nav-links{gap:16px}
+  .lead{max-width:100%;font-size:1.05rem}
+  h1{font-size:2.2rem}
+  h2{font-size:1.7rem}
+  section{padding:48px 0 40px}
+  .arrow-symbol,.step-arrow{transform:rotate(90deg)}
+}
+</style>
+</head>
+<body>
+
+<nav class="sticky-nav">
+  <div class="nav-container">
+    <div class="logo-area">
+      <div class="logo-mark">ST</div>
+      <div class="logo-text">SoftTeco<span>®</span> · Sovereign AI Collection</div>
+    </div>
+    <div class="nav-links">
+      <a href="#platform">Platform</a>
+      <a href="#architecture">Architecture</a>
+      <a href="#workflow">Workflow</a>
+      <a href="#integration">Integration</a>
+      <a href="#roi">ROI</a>
+      <a href="#infrastructure">Infrastructure</a>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+
+  <section style="padding-top:60px;border-bottom:none">
+    <div class="section-badge">✦ Sovereign AI · On-Premise</div>
+    <h1>AI-Driven Collection Center<br/>for Banks &amp; Agencies</h1>
+    <p class="lead" style="margin-top:20px">Fully on-premise voice AI that performs outbound collection calls via SIP Trunk, integrates with CRM/Task systems, and eliminates emotional volatility — all while keeping data sovereign.</p>
+  </section>
+
+  <section id="platform">
+    <div class="section-badge">▣ Delivered Platform</div>
+    <h2>Three-Container Sovereign Stack</h2>
+    <p class="lead">Modular, containerized, GPU-accelerated — deployed entirely within the customer perimeter.</p>
+    <div class="grid-3">
+      <div class="card">
+        <span class="containerized-badge">Containerized</span>
+        <div class="card-num">01</div>
+        <div class="card-icon">🎙️</div>
+        <h3>Voice Agent Core + MCP + SDK</h3>
+        <p>STT, LLM-based negotiation, TTS, turn-taking. Exposes MCP and SDK for client-safe integrations. Runs on local GPU.</p>
+      </div>
+      <div class="card">
+        <span class="containerized-badge">Containerized</span>
+        <div class="card-num">02</div>
+        <div class="card-icon">⚙️</div>
+        <h3>Admin &amp; Management Backend</h3>
+        <p>Prompt versioning, compliance rule sets, call disposition tracking, multi-agent monitoring.</p>
+      </div>
+      <div class="card">
+        <span class="containerized-badge">Containerized</span>
+        <div class="card-num">03</div>
+        <div class="card-icon">🔄</div>
+        <h3>Load Balancer &amp; Session Orchestrator</h3>
+        <p>Routes outbound SIP sessions, distributes calls across GPU agents, manages warm transfer to human queues.</p>
+      </div>
+    </div>
+    <div class="compliance-badge">✓ Configurable compliance rules · Full audit trail · PII masking</div>
+  </section>
+
+  <section id="architecture">
+    <div class="section-badge">▲ Deployment Architecture</div>
+    <h2>Hybrid GPU Topology &amp; On-Prem Connectivity</h2>
+    <p class="lead">A two-tier GPU layout separates shared reasoning from per-agent voice processing — enabling linear horizontal scaling.</p>
+    <div class="arch-viz">
+      <div class="arch-flow">
+        <div class="arch-node primary">
+          <strong>🧠 LLM Tier (Shared)</strong>
+          RTX PRO 6000 Blackwell
+          <div class="meta">96 GB VRAM · Negotiation logic</div>
+        </div>
+        <div class="arrow-symbol">→</div>
+        <div class="arch-node">
+          <strong>⚡ Voice Tier (Per-agent)</strong>
+          L40S (one per agent)
+          <div class="meta">STT · VAD · TTS</div>
+        </div>
+        <div class="arrow-symbol">→</div>
+        <div class="arch-node">
+          <strong>📞 Telephony Layer</strong>
+          SIP Trunk
+          <div class="meta">RFC 3261 · TLS / SRTP</div>
+        </div>
+      </div>
+
+      <div class="agent-stack">
+        <div class="agent-item"><span class="pill">Agent 1</span><span>Voice pipeline on dedicated L40S — handles one concurrent outbound call</span></div>
+        <div class="agent-item"><span class="pill">Agent N</span><span>Scales horizontally by adding L40S cards (one per concurrent agent)</span></div>
+        <div class="agent-item"><span class="pill">Integration</span><span>REST API / MCP bridge to CRM &amp; Task Management systems</span></div>
+      </div>
+
+      <div class="callout"><strong>🔐 Data sovereignty:</strong> All speech, transcripts, and PII remain on customer servers. No cloud egress. Encryption at rest and in transit.</div>
+
+      <div class="model-stack">
+        <h4>// AI MODEL STACK</h4>
+        <div class="model-grid">
+          <div><strong>STT</strong><br/>Whisper / Nova-2</div>
+          <div><strong>LLM</strong><br/>Llama 3 70B (quantized, on-prem)</div>
+          <div><strong>TTS</strong><br/>Piper / ElevenLabs (on-prem compatible)</div>
+          <div><strong>VAD</strong><br/>Silero</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="workflow">
+    <div class="section-badge">⚙ Work Principle</div>
+    <h2>From Outbound Call to Resolution</h2>
+    <p class="lead">A deterministic 4-step pipeline — each call is fully traceable from SIP trigger to CRM disposition.</p>
+    <div class="workflow-scheme">
+      <div class="steps">
+        <div class="step"><div class="step-num">1</div><strong>SIP Trigger</strong><span>CRM sends account + number → Load Balancer initiates outbound call via SIP Trunk</span></div>
+        <div class="step-arrow">→</div>
+        <div class="step"><div class="step-num">2</div><strong>AI Negotiation</strong><span>LLM greets, identifies debtor, offers payment plans, handles emotional responses</span></div>
+        <div class="step-arrow">→</div>
+        <div class="step"><div class="step-num">3</div><strong>Intent Detection</strong><span>Promise to pay, refusal, dispute, or request for human agent</span></div>
+        <div class="step-arrow">→</div>
+        <div class="step"><div class="step-num">4</div><strong>Action</strong><span>Update CRM/Task with disposition log; or warm transfer to human agent with context summary</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="integration">
+    <div class="section-badge">⇄ Enterprise Integration</div>
+    <h2>Seamless with existing infrastructure</h2>
+    <p class="lead">Built on open standards — drops into existing PBX / carrier setups and CRM platforms without re-architecture.</p>
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-icon">📞</div>
+        <h3>SIP Trunk Integration</h3>
+        <p style="margin-bottom:10px"><strong>Protocol:</strong> SIP (RFC 3261)<br/>
+        <strong>Codecs:</strong> G.711, G.722, Opus<br/>
+        <strong>Secure SIP:</strong> TLS / SRTP<br/>
+        <strong>DTMF:</strong> RFC 2833, SIP INFO</p>
+        <p style="font-size:.85rem;color:var(--text-soft);font-style:italic">Outbound initiation + warm transfer to human agent queue with context.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔄</div>
+        <h3>CRM &amp; Task Management API</h3>
+        <p>REST API + MCP (Model Context Protocol). Bi-directional: fetch account data → log promise to pay → create follow-up task.</p>
+        <div class="endpoint-block">
+          <div><span class="verb">POST</span> /v1/call/initiate</div>
+          <div><span class="verb">GET</span>  /v1/account/{id}</div>
+          <div><span class="verb">POST</span> /v1/disposition</div>
+          <div><span class="verb">POST</span> /v1/escalate</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="roi">
+    <div class="section-badge">▦ Financial Impact</div>
+    <h2>ROI &amp; Operational Benchmark</h2>
+    <p class="lead">Indicative annual OPEX comparison for a mid-sized collection operation (10–15 FTE baseline).</p>
+    <div class="comparison-table">
+      <table>
+        <thead><tr><th>Cost Center (Annual)</th><th>Manual Operation (10–15 FTE)</th><th>AI-Augmented Operation</th><th>Variance</th></tr></thead>
+        <tbody>
+          <tr><td>Personnel (Salaries + Commissions)</td><td>$450k – $650k</td><td>$250k – $350k</td><td class="savings">−40%</td></tr>
+          <tr><td>Recruitment &amp; Training</td><td>$30k – $50k</td><td>$5k – $10k</td><td class="savings">−80%</td></tr>
+          <tr><td>SIP / Telephony</td><td>$15k – $25k</td><td>$15k – $25k</td><td>Neutral</td></tr>
+          <tr><td>AI Software &amp; On-Prem Infra</td><td>$0</td><td>$60k – $100k</td><td>New cost</td></tr>
+          <tr class="total"><td>Total OPEX</td><td>$495k – $725k</td><td>$330k – $485k</td><td class="savings">~$165k – $240k savings</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="highlight-box">
+      <strong>📈 Recovery uplift:</strong> Right-Party-Contact (RPC) rate improves +15–25%, emotional escalation reduced to near zero, compliance consistency 100%.<br/>
+      <strong>⏱️ Implementation timeline:</strong> 6–12 weeks (depending on CRM complexity and local language requirements).<br/>
+      <strong>💹 ROI breakeven:</strong> 6–9 months.
+    </div>
+  </section>
+
+  <section id="infrastructure">
+    <div class="section-badge">▤ Infrastructure Profile</div>
+    <h2>Locally Hosted Hardware — 8–10 Parallel Agents</h2>
+    <p class="lead">Fixed specification calculated for 8–10 concurrent voice agents, fully on-premise.</p>
+    <div class="comparison-table">
+      <table class="spec-table">
+        <thead><tr><th>Component</th><th>Specification</th></tr></thead>
+        <tbody>
+          <tr><td><strong>GPU Configuration</strong></td><td>1 × RTX PRO 6000 Blackwell (LLM tier) + 8–10 × L40S (one per agent)</td></tr>
+          <tr><td><strong>Total VRAM</strong></td><td>96 GB (LLM) + 48 GB per L40S</td></tr>
+          <tr><td><strong>CPU</strong></td><td>Server-grade, 48+ cores (2 × AMD EPYC or Intel Xeon)</td></tr>
+          <tr><td><strong>System RAM</strong></td><td>256 GB minimum</td></tr>
+          <tr><td><strong>Compute Storage</strong></td><td>RAID 10 NVMe SSD (4 TB+ usable)</td></tr>
+          <tr><td><strong>Data Node</strong></td><td>Dedicated, isolated NVMe storage (separate from compute)</td></tr>
+          <tr><td><strong>Networking</strong></td><td>25 GbE (for SIP and internal traffic)</td></tr>
+          <tr><td><strong>Power</strong></td><td>Redundant PSU + UPS</td></tr>
+          <tr><td><strong>OS &amp; Runtime</strong></td><td>Linux (Ubuntu 22.04 / RHEL 9) + Docker + NVIDIA Container Toolkit</td></tr>
+          <tr><td><strong>Form Factor</strong></td><td>Single rack server (e.g., 4U) or two coordinated nodes</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="spec-note">// Turnkey reference: NVIDIA-certified servers from tier-1 OEMs are available with regional support and pre-validated GPU configurations.</div>
+  </section>
+
+</div>
+
+<footer>
+  <div class="container">
+    <div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:32px">
+      <div>
+        <div style="font-weight:800;font-size:1.4rem;margin-bottom:12px;color:#fff">SoftTeco®</div>
+        <div>ISO 27001 Certified · 500+ Experts · Est. 2008</div>
+        <div style="margin-top:16px"><a href="mailto:d.viazmin@softteco.com">d.viazmin@softteco.com</a> · <a href="https://softteco.com">softteco.com</a></div>
+      </div>
+      <div style="display:flex;gap:48px;flex-wrap:wrap">
+        <div><strong style="color:#fff">Offices</strong><br/>Poland (HQ)<br/>UAE · Lithuania<br/>USA · UK</div>
+        <div><strong style="color:#fff">Deployment</strong><br/>On-premise · Sovereign<br/>SIP Trunk ready</div>
+      </div>
+    </div>
+    <hr/>
+    <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:.75rem">
+      <span>© 2008–2026 SoftTeco Sovereign AI Collection Center — Confidential — for partner &amp; customer evaluation</span>
+      <span>Document ST-COL-03</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
