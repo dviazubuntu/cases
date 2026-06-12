@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SoftTeco — Solution Examples: AI in Healthcare & Fintech</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://api.fontshare.com/v2/css?f[]=clash-display@500,600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F6F6F7;            /* silver-white canvas */
+    --shell:rgba(19,19,22,.04);
+    --core:#FFFFFF;
+    --ink:#131316;
+    --muted:#6F6F78;
+    --hairline:rgba(19,19,22,.07);
+    --accent:#0E7268;        /* calm deep teal */
+    --accent-ink:#FFFFFF;
+    --ease:cubic-bezier(0.32,0.72,0,1);
+    --r-shell:2rem;
+    --r-core:calc(2rem - 0.4rem);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:"Geist",system-ui,sans-serif;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  /* film grain — fixed, pointer-events none */
+  body::after{
+    content:"";position:fixed;inset:0;z-index:60;pointer-events:none;opacity:.03;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .display{font-family:"Clash Display","Geist",sans-serif}
+  .mono{font-family:"Geist Mono",monospace}
+  .wrap{max-width:1380px;margin:0 auto;padding-left:clamp(1rem,4vw,4rem);padding-right:clamp(1rem,4vw,4rem)}
+
+  /* ================= FLUID ISLAND NAV ================= */
+  nav{
+    position:fixed;top:0;left:0;right:0;z-index:50;
+    display:flex;justify-content:center;
+    margin-top:1.5rem;pointer-events:none;
+  }
+  .nav-pill{
+    pointer-events:auto;
+    display:flex;align-items:center;gap:1.75rem;
+    background:rgba(255,255,255,.72);
+    backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+    border:1px solid rgba(19,19,22,.06);
+    box-shadow:0 18px 50px -24px rgba(19,19,22,.25), inset 0 1px 1px rgba(255,255,255,.8);
+    border-radius:9999px;
+    padding:.65rem .65rem .65rem 1.4rem;
+  }
+  .nav-logo{font-family:"Clash Display",sans-serif;font-weight:600;letter-spacing:.1em;font-size:.92rem}
+  .nav-logo b{color:var(--accent);font-weight:600}
+  .nav-links{display:flex;gap:1.4rem}
+  .nav-links a{
+    text-decoration:none;color:var(--muted);font-size:.84rem;font-weight:500;
+    transition:color .4s var(--ease);
+  }
+  .nav-links a:hover{color:var(--ink)}
+  .nav-cta{
+    display:flex;align-items:center;gap:.6rem;
+    background:var(--ink);color:#fff;text-decoration:none;
+    border-radius:9999px;padding:.5rem .55rem .5rem 1.1rem;
+    font-size:.82rem;font-weight:500;
+    transition:transform .5s var(--ease);
+  }
+  .nav-cta:active{transform:scale(.98)}
+  .nav-cta .orb{
+    width:1.7rem;height:1.7rem;border-radius:9999px;background:rgba(255,255,255,.14);
+    display:flex;align-items:center;justify-content:center;font-size:.8rem;
+    transition:transform .5s var(--ease);
+  }
+  .nav-cta:hover .orb{transform:translate(2px,-1px) scale(1.05)}
+  @media(max-width:760px){.nav-links{display:none}.nav-pill{gap:1rem}}
+
+  /* ================= EYEBROW PILL ================= */
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:.45rem;
+    border-radius:9999px;padding:.32rem .85rem;
+    font-family:"Geist Mono",monospace;font-size:10px;letter-spacing:.22em;
+    text-transform:uppercase;font-weight:500;color:var(--ink);
+    background:rgba(19,19,22,.045);
+    border:1px solid rgba(19,19,22,.06);
+    margin-bottom:1.6rem;
+  }
+  .eyebrow i{width:.42rem;height:.42rem;border-radius:50%;background:var(--accent);display:inline-block;font-style:normal}
+
+  /* ================= HERO (editorial split inside soft structuralism) ================= */
+  .hero{padding:clamp(8.5rem,16vw,12rem) 0 clamp(4rem,8vw,7rem)}
+  .hero-grid{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:clamp(2.5rem,5vw,5rem);align-items:end}
+  h1{
+    font-family:"Clash Display",sans-serif;font-weight:600;
+    font-size:clamp(2.5rem,6.4vw,5.2rem);
+    line-height:1.04;letter-spacing:-.02em;
+  }
+  h1 .accent{color:var(--accent)}
+  .hero-sub{color:var(--muted);font-size:1.05rem;max-width:46ch;margin-top:1.6rem}
+
+  /* double-bezel intro card */
+  .shell{
+    background:var(--shell);
+    border-radius:var(--r-shell);
+    padding:.4rem;
+    box-shadow:inset 0 1px 1px rgba(255,255,255,.6), 0 30px 70px -40px rgba(19,19,22,.28);
+    border:1px solid var(--hairline);
+  }
+  .core{
+    background:var(--core);
+    border-radius:var(--r-core);
+    box-shadow:inset 0 1px 1px rgba(255,255,255,.9), 0 1px 0 rgba(19,19,22,.03);
+    padding:clamp(1.4rem,2.4vw,2rem);
+    height:100%;
+  }
+  .hero-card .core{display:flex;flex-direction:column;gap:1.1rem}
+  .hero-card p{color:var(--muted);font-size:.92rem}
+  @media(max-width:900px){.hero-grid{grid-template-columns:1fr}}
+
+  /* ================= SECTIONS ================= */
+  section{padding:clamp(6rem,11vw,10rem) 0 0}
+  section:last-of-type{padding-bottom:clamp(6rem,11vw,10rem)}
+  .sec-head{max-width:880px;margin-bottom:clamp(2.6rem,5vw,4rem)}
+  h2{
+    font-family:"Clash Display",sans-serif;font-weight:600;
+    font-size:clamp(1.9rem,4vw,3.1rem);letter-spacing:-.015em;line-height:1.1;
+    margin-bottom:1.1rem;
+  }
+  .sec-head p{color:var(--muted);max-width:64ch}
+
+  /* ================= ASYMMETRICAL BENTO ================= */
+  .bento{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:1.1rem}
+  .b-7{grid-column:span 7}
+  .b-5{grid-column:span 5}
+  .b-12{grid-column:span 12}
+  .bento .shell{display:flex}
+  .bento .core{display:flex;flex-direction:column;width:100%}
+  .card-tag{
+    font-family:"Geist Mono",monospace;font-size:.64rem;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--accent);margin-bottom:1rem;font-weight:500;
+  }
+  h3{
+    font-family:"Clash Display",sans-serif;font-weight:500;
+    font-size:clamp(1.25rem,2vw,1.6rem);letter-spacing:-.01em;line-height:1.18;
+    margin-bottom:.8rem;
+  }
+  .bento p{color:var(--muted);font-size:.94rem;max-width:62ch}
+  .bento p + p{margin-top:.7rem}
+  .bento p strong{color:var(--ink);font-weight:600}
+  .chips{display:flex;flex-wrap:wrap;gap:.45rem;margin-top:auto;padding-top:1.4rem}
+  .chip{
+    font-family:"Geist Mono",monospace;font-size:.66rem;letter-spacing:.04em;color:var(--ink);
+    background:rgba(19,19,22,.045);border:1px solid rgba(19,19,22,.05);
+    border-radius:9999px;padding:.32rem .75rem;white-space:nowrap;
+  }
+
+  /* ================= SOLUTION SCHEMAS ================= */
+  .schema{
+    margin-top:1.5rem;border-top:1px solid var(--hairline);padding-top:1.4rem;
+    overflow-x:auto;-webkit-overflow-scrolling:touch;
+  }
+  .schema svg{display:block;width:100%;height:auto;min-width:560px}
+  .schema text{font-family:"Geist Mono",monospace;letter-spacing:.05em}
+  .schema .nt{font-size:11.5px;fill:var(--ink);font-weight:500}
+  .schema .sub{font-size:9.5px;fill:var(--muted)}
+  .schema .ta{fill:var(--accent)}
+  .schema .n{fill:rgba(19,19,22,.025);stroke:rgba(19,19,22,.16);stroke-width:1}
+  .schema .na{fill:rgba(14,114,104,.07);stroke:var(--accent);stroke-width:1.1}
+  .schema .nd{fill:none;stroke:rgba(19,19,22,.22);stroke-width:1;stroke-dasharray:4 4}
+  .schema .flow{stroke:rgba(19,19,22,.32);stroke-width:1.2;fill:none}
+  .schema .flow-a{stroke:var(--accent);stroke-width:1.3;fill:none}
+  .outcome{display:flex;align-items:baseline;gap:.8rem;margin-top:1.2rem}
+  .outcome b{
+    font-family:"Geist Mono",monospace;font-size:.6rem;letter-spacing:.2em;
+    color:var(--accent);font-weight:500;flex:none;
+  }
+  .outcome span{font-size:.9rem;color:var(--ink);font-weight:500;line-height:1.45}
+  @media(max-width:900px){
+    .bento{grid-template-columns:1fr;gap:1.25rem}
+    .b-7,.b-5,.b-12{grid-column:span 1}
+  }
+
+  /* ================= INFRA ================= */
+  .infra-note{display:flex;align-items:flex-start;gap:.7rem}
+  .infra-note .dot{
+    width:.55rem;height:.55rem;border-radius:50%;background:var(--accent);flex:none;margin-top:.55rem;
+    animation:breathe 2.6s var(--ease) infinite;
+  }
+  @keyframes breathe{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.8)}}
+
+  /* ================= ENGAGEMENT ================= */
+  .engage{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(2rem,4vw,4rem);align-items:start}
+  .steps .core{padding:0;overflow:hidden}
+  .step{
+    display:grid;grid-template-columns:8.5rem 1fr;gap:1.2rem;
+    padding:clamp(1.3rem,2.2vw,1.7rem) clamp(1.4rem,2.4vw,2rem);
+  }
+  .step + .step{border-top:1px solid var(--hairline)}
+  .step .mono{font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-weight:500;padding-top:.25rem}
+  .step h4{font-size:1rem;font-weight:600;margin-bottom:.3rem;letter-spacing:-.005em}
+  .step p{color:var(--muted);font-size:.9rem;max-width:50ch}
+  @media(max-width:900px){.engage{grid-template-columns:1fr}.step{grid-template-columns:6rem 1fr}}
+
+  /* button-in-button CTA */
+  .cta{
+    display:inline-flex;align-items:center;gap:.8rem;
+    background:var(--accent);color:var(--accent-ink);text-decoration:none;
+    border-radius:9999px;padding:.85rem .85rem .85rem 1.6rem;
+    font-weight:500;font-size:.95rem;margin-top:2rem;
+    box-shadow:0 22px 44px -22px rgba(14,114,104,.55), inset 0 1px 1px rgba(255,255,255,.25);
+    transition:transform .5s var(--ease), box-shadow .5s var(--ease);
+  }
+  .cta .orb{
+    width:2.1rem;height:2.1rem;border-radius:9999px;background:rgba(255,255,255,.16);
+    display:flex;align-items:center;justify-content:center;
+    transition:transform .5s var(--ease);
+  }
+  .cta:hover .orb{transform:translate(2px,-1px) scale(1.05)}
+  .cta:hover{box-shadow:0 26px 52px -22px rgba(14,114,104,.62), inset 0 1px 1px rgba(255,255,255,.25)}
+  .cta:active{transform:scale(.98)}
+  .cta svg{width:.85rem;height:.85rem;display:block}
+
+  footer{padding:0 0 2.6rem}
+  .foot{
+    display:flex;justify-content:space-between;flex-wrap:wrap;gap:.8rem;
+    border-top:1px solid var(--hairline);padding-top:1.6rem;
+    font-family:"Geist Mono",monospace;font-size:.7rem;letter-spacing:.06em;color:var(--muted);
+  }
+
+  /* ================= SCROLL CHOREOGRAPHY ================= */
+  .reveal{
+    opacity:0;transform:translateY(4rem);filter:blur(8px);
+    transition:opacity .9s var(--ease), transform .9s var(--ease), filter .9s var(--ease);
+    will-change:transform;
+  }
+  .reveal.in{opacity:1;transform:translateY(0);filter:blur(0)}
+  @media(prefers-reduced-motion:reduce){
+    .reveal{opacity:1;transform:none;filter:none;transition:none}
+    .infra-note .dot{animation:none}
+    html{scroll-behavior:auto}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-pill">
+    <span class="nav-logo">SOFTTECO<b>.</b></span>
+    <div class="nav-links">
+      <a href="#healthcare">Healthcare</a>
+      <a href="#fintech">Fintech</a>
+      <a href="#infrastructure">Infrastructure</a>
+    </div>
+    <a class="nav-cta" href="mailto:d.viazmin@softteco.com">Talk to us <span class="orb">↗</span></a>
+  </div>
+</nav>
+
+<main>
+
+  <!-- ================= HERO ================= -->
+  <div class="hero wrap">
+    <div class="hero-grid">
+      <div class="reveal">
+        <span class="eyebrow"><i></i>Solution Examples</span>
+        <h1>Applied AI for healthcare and fintech<span class="accent">.</span><br>Built. Deployed. Operated.</h1>
+        <p class="hero-sub">A selection of systems our team has shipped for clinics, payers, banks, and trading desks — from conversational voice agents to autonomous deal workflows, running on inference infrastructure we operate ourselves.</p>
+      </div>
+      <div class="shell hero-card reveal">
+        <div class="core">
+          <p>Every example below is real delivery work: production code, live integrations, and infrastructure under our operational responsibility — not concept decks.</p>
+          <p>Each system is shown with the problem it solves, the technical approach, and how oversight and data control are handled.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= HEALTHCARE ================= -->
+  <section id="healthcare">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="eyebrow"><i></i>Vertical 01</span>
+        <h2>Healthcare</h2>
+        <p>Our healthcare work concentrates on two pressure points: the administrative cost of revenue-cycle operations, and the staff time consumed by routine patient communication. Each system is built for regulated environments — auditable decisions, on-premise deployment options, and human review at the right checkpoints.</p>
+      </div>
+
+      <div class="bento">
+        <div class="shell b-7 reveal">
+          <div class="core">
+            <div class="card-tag">Revenue Cycle</div>
+            <h3>AI billing audit platform</h3>
+            <p>Automated review of medical claims before submission and after denial. The system reads claim lines, coding, and supporting documentation, flags inconsistencies against payer rules, and produces an <strong>explainable audit trail for every recommendation</strong>. A billing specialist confirms or overrides — the model never files on its own.</p>
+            <p>Architected region-agnostic: payer rulesets and code systems are pluggable, so the same core serves US clients today and other markets without a rewrite. Deployable in the cloud or fully on-premise, with no PHI leaving the client perimeter.</p>
+            <div class="schema">
+              <svg viewBox="0 0 660 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Billing audit flow">
+                <defs><marker id="arrA" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="rgba(19,19,22,.4)"/></marker></defs>
+                <rect class="n" x="14" y="78" width="118" height="46" rx="12"/>
+                <text class="nt" x="73" y="98" text-anchor="middle">CLAIMS</text>
+                <text class="sub" x="73" y="112" text-anchor="middle">PRE-SUBMIT / DENIED</text>
+                <path class="flow" d="M132 101 H168" marker-end="url(#arrA)"/>
+                <rect class="na" x="172" y="68" width="158" height="66" rx="14"/>
+                <text class="nt ta" x="251" y="95" text-anchor="middle">AI AUDIT ENGINE</text>
+                <text class="sub" x="251" y="110" text-anchor="middle">PAYER RULES + POLICY RAG</text>
+                <path class="flow" d="M330 88 C360 70 380 56 408 52" marker-end="url(#arrA)"/>
+                <rect class="n" x="412" y="30" width="226" height="44" rx="12"/>
+                <text class="nt" x="525" y="50" text-anchor="middle">CLEAN — SUBMITTED</text>
+                <text class="sub" x="525" y="64" text-anchor="middle">NO TOUCH REQUIRED</text>
+                <path class="flow" d="M330 114 C360 132 380 146 408 150" marker-end="url(#arrA)"/>
+                <rect class="n" x="412" y="128" width="226" height="44" rx="12"/>
+                <text class="nt" x="525" y="148" text-anchor="middle">FLAGGED — SPECIALIST</text>
+                <text class="sub" x="525" y="162" text-anchor="middle">CONFIRM OR OVERRIDE</text>
+                <path class="flow" d="M648 128 C658 110 658 92 648 76" marker-end="url(#arrA)" stroke-dasharray="3 3"/>
+                <text class="sub" x="251" y="158" text-anchor="middle">EVERY DECISION LOGGED · NOTHING FILES ON ITS OWN</text>
+              </svg>
+            </div>
+            <div class="outcome"><b>OUTCOME</b><span>Fewer denials and less rework — coding issues are caught before the claim is filed, not after rejection.</span></div>
+            <div class="chips">
+              <span class="chip">LLM claims reasoning</span>
+              <span class="chip">Payer-policy retrieval</span>
+              <span class="chip">Human-in-the-loop</span>
+              <span class="chip">On-prem option</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="shell b-5 reveal">
+          <div class="core">
+            <div class="card-tag">Patient Communication</div>
+            <h3>Clinic conversational assistant</h3>
+            <p>A bilingual patient-facing agent: answers procedure and pricing questions, qualifies leads, and books consultations. Built as a <strong>graph of constrained agent steps</strong>, so the assistant stays inside medically appropriate boundaries and escalates clinical questions to staff.</p>
+            <div class="schema">
+              <svg viewBox="0 0 660 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Clinic assistant flow">
+                <defs><marker id="arrB" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="rgba(19,19,22,.4)"/></marker></defs>
+                <rect class="n" x="14" y="78" width="112" height="46" rx="12"/>
+                <text class="nt" x="70" y="98" text-anchor="middle">PATIENT</text>
+                <text class="sub" x="70" y="112" text-anchor="middle">CHAT · 24/7</text>
+                <path class="flow" d="M126 101 H162" marker-end="url(#arrB)"/>
+                <rect class="na" x="166" y="64" width="162" height="74" rx="14"/>
+                <text class="nt ta" x="247" y="93" text-anchor="middle">AGENT GRAPH</text>
+                <text class="sub" x="247" y="108" text-anchor="middle">SCOPE-LIMITED STEPS</text>
+                <text class="sub" x="247" y="121" text-anchor="middle">RAG: CLINIC KNOWLEDGE</text>
+                <path class="flow" d="M328 84 C356 66 376 50 404 44" marker-end="url(#arrB)"/>
+                <rect class="n" x="408" y="22" width="238" height="42" rx="12"/>
+                <text class="nt" x="527" y="48" text-anchor="middle">ANSWERS — SERVICES &amp; PRICES</text>
+                <path class="flow" d="M328 101 H404" marker-end="url(#arrB)"/>
+                <rect class="n" x="408" y="80" width="238" height="42" rx="12"/>
+                <text class="nt" x="527" y="106" text-anchor="middle">BOOKING → CALENDAR / CRM</text>
+                <path class="flow" d="M328 118 C356 136 376 152 404 158" marker-end="url(#arrB)" stroke-dasharray="3 3"/>
+                <rect class="nd" x="408" y="138" width="238" height="42" rx="12"/>
+                <text class="nt" x="527" y="156" text-anchor="middle">CLINICAL QUESTION</text>
+                <text class="sub" x="527" y="170" text-anchor="middle">ESCALATED TO STAFF</text>
+              </svg>
+            </div>
+            <div class="outcome"><b>OUTCOME</b><span>Front-desk load drops while patients get instant answers and bookings — around the clock, in their language.</span></div>
+            <div class="chips">
+              <span class="chip">LangGraph</span>
+              <span class="chip">Graph-based RAG</span>
+              <span class="chip">Bilingual</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="shell b-12 reveal">
+          <div class="core">
+            <div class="card-tag">Voice</div>
+            <h3>Real-time voice agents for intake and scheduling</h3>
+            <p>A production voice pipeline — voice activity detection, streaming speech recognition, turn detection, LLM reasoning, and low-latency speech synthesis — tuned for natural phone conversations and applied to <strong>appointment scheduling, reminders, and pre-visit intake</strong>. The full pipeline runs on infrastructure we operate, so audio and transcripts can stay within a controlled environment end to end.</p>
+            <div class="schema">
+              <svg viewBox="0 0 900 180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Voice pipeline">
+                <defs><marker id="arrC" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="rgba(19,19,22,.4)"/></marker></defs>
+                <rect class="n" x="14" y="62" width="100" height="46" rx="12"/>
+                <text class="nt" x="64" y="82" text-anchor="middle">CALLER</text>
+                <text class="sub" x="64" y="96" text-anchor="middle">PHONE LINE</text>
+                <rect class="nd" x="142" y="22" width="744" height="126" rx="18"/>
+                <text class="sub ta" x="160" y="42">CLIENT PERIMETER — SELF-HOSTED INFERENCE</text>
+                <path class="flow" d="M114 85 H162" marker-end="url(#arrC)"/>
+                <rect class="n" x="166" y="62" width="92" height="46" rx="12"/>
+                <text class="nt" x="212" y="89" text-anchor="middle">VAD</text>
+                <path class="flow" d="M258 85 H280" marker-end="url(#arrC)"/>
+                <rect class="n" x="284" y="62" width="116" height="46" rx="12"/>
+                <text class="nt" x="342" y="82" text-anchor="middle">STT</text>
+                <text class="sub" x="342" y="96" text-anchor="middle">STREAMING</text>
+                <path class="flow" d="M400 85 H422" marker-end="url(#arrC)"/>
+                <rect class="n" x="426" y="62" width="120" height="46" rx="12"/>
+                <text class="nt" x="486" y="82" text-anchor="middle">TURN</text>
+                <text class="sub" x="486" y="96" text-anchor="middle">DETECTION</text>
+                <path class="flow" d="M546 85 H568" marker-end="url(#arrC)"/>
+                <rect class="na" x="572" y="62" width="120" height="46" rx="12"/>
+                <text class="nt ta" x="632" y="82" text-anchor="middle">LLM</text>
+                <text class="sub" x="632" y="96" text-anchor="middle">DIALOGUE LOGIC</text>
+                <path class="flow" d="M692 85 H714" marker-end="url(#arrC)"/>
+                <rect class="n" x="718" y="62" width="116" height="46" rx="12"/>
+                <text class="nt" x="776" y="82" text-anchor="middle">TTS</text>
+                <text class="sub" x="776" y="96" text-anchor="middle">NEURAL VOICE</text>
+                <path class="flow" d="M776 108 C776 138 200 138 70 112" marker-end="url(#arrC)" stroke-dasharray="3 3"/>
+                <text class="sub" x="500" y="168" text-anchor="middle">SUB-SECOND TURN-TAKING · AUDIO &amp; TRANSCRIPTS NEVER LEAVE THE PERIMETER</text>
+              </svg>
+            </div>
+            <div class="outcome"><b>OUTCOME</b><span>Call volume scales without headcount, and sensitive audio stays inside your environment — no third-party processors.</span></div>
+            <div class="chips">
+              <span class="chip">VAD → streaming STT → turn detection → LLM → neural TTS</span>
+              <span class="chip">Sub-second turn-taking</span>
+              <span class="chip">Self-hosted inference</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FINTECH ================= -->
+  <section id="fintech">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="eyebrow"><i></i>Vertical 02</span>
+        <h2>Fintech</h2>
+        <p>In financial systems the constraints are different — market data licensing, transaction integrity, and latency budgets measured in milliseconds. We build on that foundation: our team has prior experience in CIS banking infrastructure and integrates directly with institutional data sources such as Bloomberg.</p>
+      </div>
+
+      <div class="bento">
+        <div class="shell b-12 reveal">
+          <div class="core">
+            <div class="card-tag">Commodity Trading</div>
+            <h3>Commodity trading &amp; deal management platform</h3>
+            <p>An end-to-end platform for physical commodity trading: deal capture, counterparty management, document flow, and pricing against live market data via a <strong>Bloomberg B-PIPE integration</strong> with per-exchange entitlement handling. On top of the platform, an autonomous deal agent — a LangGraph-orchestrated workflow — drafts deal structures, checks them against trading rules, and routes them to traders for approval. A scoped, versioned public API exposes the platform to partner systems.</p>
+            <div class="schema">
+              <svg viewBox="0 0 900 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Commodity platform architecture">
+                <defs><marker id="arrD" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="rgba(19,19,22,.4)"/></marker></defs>
+                <rect class="n" x="14" y="34" width="190" height="48" rx="12"/>
+                <text class="nt" x="109" y="55" text-anchor="middle">BLOOMBERG B-PIPE</text>
+                <text class="sub" x="109" y="69" text-anchor="middle">LIVE PRICES · EID PER EXCHANGE</text>
+                <rect class="na" x="14" y="118" width="190" height="56" rx="14"/>
+                <text class="nt ta" x="109" y="141" text-anchor="middle">DEAL AGENT</text>
+                <text class="sub" x="109" y="156" text-anchor="middle">DRAFTS &amp; VALIDATES DEALS</text>
+                <path class="flow" d="M204 58 C240 64 256 76 282 86" marker-end="url(#arrD)"/>
+                <path class="flow-a" d="M204 146 C240 140 256 128 282 118" marker-end="url(#arrD)"/>
+                <rect class="n" x="286" y="56" width="262" height="92" rx="16"/>
+                <text class="nt" x="417" y="92" text-anchor="middle">PLATFORM CORE</text>
+                <text class="sub" x="417" y="108" text-anchor="middle">DEALS · COUNTERPARTIES</text>
+                <text class="sub" x="417" y="121" text-anchor="middle">DOCUMENTS · PRICING</text>
+                <path class="flow" d="M548 84 C586 76 604 66 632 58" marker-end="url(#arrD)"/>
+                <rect class="n" x="636" y="34" width="250" height="48" rx="12"/>
+                <text class="nt" x="761" y="55" text-anchor="middle">TRADER APPROVAL GATE</text>
+                <text class="sub" x="761" y="69" text-anchor="middle">AI PROPOSES — HUMANS DECIDE</text>
+                <path class="flow" d="M548 120 C586 128 604 138 632 146" marker-end="url(#arrD)"/>
+                <rect class="n" x="636" y="122" width="250" height="48" rx="12"/>
+                <text class="nt" x="761" y="143" text-anchor="middle">PARTNER API</text>
+                <text class="sub" x="761" y="157" text-anchor="middle">SCOPED · VERSIONED · EXTERNAL SYSTEMS</text>
+              </svg>
+            </div>
+            <div class="outcome"><b>OUTCOME</b><span>Faster deal cycles with controls intact — the agent prepares and validates, traders keep the final decision.</span></div>
+            <div class="chips">
+              <span class="chip">Bloomberg B-PIPE</span>
+              <span class="chip">Exchange entitlements (EID)</span>
+              <span class="chip">Autonomous deal agent</span>
+              <span class="chip">Trader approval gates</span>
+              <span class="chip">Partner API</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="shell b-5 reveal">
+          <div class="core">
+            <div class="card-tag">Retail Banking</div>
+            <h3>Voice banking suite for MENA &amp; CIS</h3>
+            <p>An embedded voice agent for retail banking apps: balances, card operations, transfers, and product questions — by voice, in the customer's language. Built on a <strong>structured schema of 60 banking intents</strong>, each mapped to whitelisted backend operations, so the agent acts only within defined, auditable boundaries.</p>
+            <div class="schema">
+              <svg viewBox="0 0 660 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Voice banking flow">
+                <defs><marker id="arrE" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="rgba(19,19,22,.4)"/></marker></defs>
+                <rect class="n" x="14" y="58" width="120" height="48" rx="12"/>
+                <text class="nt" x="74" y="79" text-anchor="middle">CUSTOMER</text>
+                <text class="sub" x="74" y="93" text-anchor="middle">VOICE · IN-APP</text>
+                <path class="flow" d="M134 82 H164" marker-end="url(#arrE)"/>
+                <rect class="na" x="168" y="48" width="152" height="68" rx="14"/>
+                <text class="nt ta" x="244" y="76" text-anchor="middle">INTENT SCHEMA</text>
+                <text class="sub" x="244" y="91" text-anchor="middle">60 MAPPED INTENTS</text>
+                <path class="flow" d="M320 82 H350" marker-end="url(#arrE)"/>
+                <rect class="n" x="354" y="48" width="158" height="68" rx="12"/>
+                <text class="nt" x="433" y="76" text-anchor="middle">WHITELISTED OPS</text>
+                <text class="sub" x="433" y="91" text-anchor="middle">AUDITED &amp; LOGGED</text>
+                <path class="flow" d="M512 82 H542" marker-end="url(#arrE)"/>
+                <rect class="n" x="546" y="58" width="100" height="48" rx="12"/>
+                <text class="nt" x="596" y="86" text-anchor="middle">CORE BANK</text>
+                <path class="flow" d="M244 116 V142" stroke-dasharray="3 3" marker-end="url(#arrE)"/>
+                <rect class="nd" x="150" y="146" width="188" height="36" rx="12"/>
+                <text class="sub" x="244" y="168" text-anchor="middle">UNMAPPED REQUEST → REJECTED</text>
+              </svg>
+            </div>
+            <div class="outcome"><b>OUTCOME</b><span>Voice self-service without operational risk — every action the agent can take is bounded, logged, and reviewable.</span></div>
+            <div class="chips">
+              <span class="chip">60 structured intents</span>
+              <span class="chip">Schema-bound actions</span>
+              <span class="chip">Multilingual</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="shell b-7 reveal">
+          <div class="core">
+            <div class="card-tag">Trading Analytics</div>
+            <h3>Trading analytics &amp; backtesting platform</h3>
+            <p>A CFD trading analytics environment combining institutional market data, an event-driven backtesting engine, and high-performance charting for desk-side analysis — built for analysts who need to <strong>move from hypothesis to backtested result inside one tool</strong>, with the same data feeding research and live monitoring.</p>
+            <p>Data ingestion, strategy execution, and visualization are separated architecturally, so each layer scales and evolves independently.</p>
+            <div class="schema">
+              <svg viewBox="0 0 660 180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Trading analytics architecture">
+                <defs><marker id="arrF" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="rgba(19,19,22,.4)"/></marker></defs>
+                <rect class="n" x="14" y="64" width="140" height="52" rx="12"/>
+                <text class="nt" x="84" y="86" text-anchor="middle">B-PIPE DATA</text>
+                <text class="sub" x="84" y="100" text-anchor="middle">REAL-TIME + REFERENCE</text>
+                <path class="flow" d="M154 78 C186 64 204 52 232 46" marker-end="url(#arrF)"/>
+                <rect class="na" x="236" y="22" width="194" height="50" rx="12"/>
+                <text class="nt ta" x="333" y="43" text-anchor="middle">BACKTEST ENGINE</text>
+                <text class="sub" x="333" y="58" text-anchor="middle">EVENT-DRIVEN · NAUTILUSTRADER</text>
+                <path class="flow" d="M154 102 C186 116 204 128 232 134" marker-end="url(#arrF)"/>
+                <rect class="n" x="236" y="110" width="194" height="50" rx="12"/>
+                <text class="nt" x="333" y="131" text-anchor="middle">LIVE MONITORING</text>
+                <text class="sub" x="333" y="146" text-anchor="middle">SAME DATA AS RESEARCH</text>
+                <path class="flow" d="M430 47 C462 54 480 66 506 76" marker-end="url(#arrF)"/>
+                <path class="flow" d="M430 135 C462 128 480 116 506 106" marker-end="url(#arrF)"/>
+                <rect class="n" x="510" y="64" width="136" height="54" rx="12"/>
+                <text class="nt" x="578" y="86" text-anchor="middle">DESK UI</text>
+                <text class="sub" x="578" y="101" text-anchor="middle">SCICHART.JS CHARTS</text>
+              </svg>
+            </div>
+            <div class="outcome"><b>OUTCOME</b><span>From hypothesis to backtested, chart-ready result in one tool — research and live monitoring never diverge on data.</span></div>
+            <div class="chips">
+              <span class="chip">Bloomberg B-PIPE</span>
+              <span class="chip">NautilusTrader backtesting</span>
+              <span class="chip">SciChart.js charting</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= INFRASTRUCTURE ================= -->
+  <section id="infrastructure">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="eyebrow"><i></i>Foundation</span>
+        <h2>One infrastructure underneath</h2>
+        <p>Both verticals run on inference infrastructure we design and operate ourselves. For healthcare this means data sovereignty; for fintech, predictable latency and cost. Clients are not locked to a third-party model provider.</p>
+      </div>
+
+      <div class="bento">
+        <div class="shell b-7 reveal">
+          <div class="core">
+            <div class="infra-note"><span class="dot"></span>
+              <div>
+                <h3>Production GPU inference cluster</h3>
+                <p>A self-hosted vLLM serving cluster running open-weight models in production, with capacity planning, monitoring, and failover handled by our team.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="shell b-5 reveal">
+          <div class="core">
+            <h3>Orchestration &amp; scheduling</h3>
+            <p>GPU workload orchestration built on HashiCorp Nomad with a FastAPI control plane — models are scheduled, scaled, and rotated without downtime.</p>
+          </div>
+        </div>
+        <div class="shell b-5 reveal">
+          <div class="core">
+            <h3>Model optimization</h3>
+            <p>Quantization (AWQ, INT4, FP8), speculative decoding, and tensor parallelism applied per workload — the difference between a demo and an economically viable product.</p>
+          </div>
+        </div>
+        <div class="shell b-7 reveal">
+          <div class="core">
+            <h3>Sovereign &amp; on-premise deployment</h3>
+            <p>The full stack — models, pipelines, orchestration — can be deployed inside a client's perimeter or in a chosen jurisdiction, including air-gapped environments.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= ENGAGEMENT ================= -->
+  <section id="engage">
+    <div class="wrap">
+      <div class="engage">
+        <div class="reveal">
+          <span class="eyebrow"><i></i>How we work</span>
+          <h2>From workshop to operated system</h2>
+          <p style="color:var(--muted);max-width:46ch">We start narrow, prove value on real data, and only then scale. Most engagements reach a working pilot within the first weeks, not months.</p>
+          <a class="cta" href="mailto:info@softteco.com">Discuss your use case
+            <span class="orb">
+              <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M2.5 9.5 L9.5 2.5 M4 2.5 H9.5 V8" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </a>
+        </div>
+        <div class="shell steps reveal">
+          <div class="core">
+            <div class="step">
+              <span class="mono">Discovery</span>
+              <div><h4>Use-case workshop</h4><p>We map your processes, data, and constraints, and select one use case with a measurable outcome.</p></div>
+            </div>
+            <div class="step">
+              <span class="mono">Pilot</span>
+              <div><h4>Working system on your data</h4><p>A scoped pilot in your environment — real integrations, real users, agreed success criteria.</p></div>
+            </div>
+            <div class="step">
+              <span class="mono">Production</span>
+              <div><h4>Deployment and operation</h4><p>Hardening, monitoring, and an SLA. We operate the system or hand it over to your team with full documentation.</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <span>SOFTTECO — AI &amp; SOFTWARE ENGINEERING</span>
+    <span>SOLUTION EXAMPLES · HEALTHCARE / FINTECH · 2026</span>
+  </div>
+</footer>
+
+<script>
+  (function(){
+    var els=document.querySelectorAll('.reveal');
+    if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+      els.forEach(function(el){el.classList.add('in')});
+      return;
+    }
+    var io=new IntersectionObserver(function(entries){
+      entries.forEach(function(e,i){
+        if(e.isIntersecting){
+          e.target.style.transitionDelay=(Math.min(i,4)*110)+'ms';
+          e.target.classList.add('in');
+          // release will-change after the animation settles
+          setTimeout(function(){e.target.style.willChange='auto'},1400);
+          io.unobserve(e.target);
+        }
+      });
+    },{threshold:.1,rootMargin:'0px 0px -60px 0px'});
+    els.forEach(function(el){io.observe(el)});
+  })();
+</script>
+
+</body>
+</html>
