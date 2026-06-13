@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BeeGuard 4.0 — Technical Architecture & Deployment Specification | SoftTeco</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0D2137;--navy-90:#0F2745;--navy-80:#142E52;
+  --blue:#1A5FA8;--blue-mid:#2575C4;--blue-lt:#3B8EE0;
+  --accent:#F0A500;--accent-lt:#FFD166;
+  --surface:#FFFFFF;--surface-2:#F4F8FD;--surface-3:#E8F0FB;
+  --border:#D0DFF0;--border-2:#B8CDE8;
+  --text-1:#0D2137;--text-2:#2C4A6E;--text-3:#5A7FA8;
+  --tag-bg:#E3EDF9;--tag-text:#1A5FA8;
+  --success:#1A7A5E;--warn:#C47A00;--danger:#B03030;
+  --mono:JetBrains Mono,monospace;
+  --sans:Inter,system-ui,sans-serif;
+  --r-sm:6px;--r-md:10px;--r-lg:14px;--r-xl:20px;
+  --shadow:0 2px 12px rgba(13,33,55,.07);
+  --shadow-md:0 4px 24px rgba(13,33,55,.12);
+}
+html{scroll-behavior:smooth;font-size:15px}
+body{font-family:var(--sans);background:#F0F5FC;color:var(--text-1);line-height:1.65;min-height:100vh}
+
+/* ── LAYOUT ── */
+.page-wrap{display:flex;min-height:100vh}
+.sidebar{width:260px;min-width:260px;background:var(--navy);position:fixed;top:0;left:0;height:100vh;overflow-y:auto;z-index:100;display:flex;flex-direction:column}
+.main{margin-left:260px;flex:1;min-width:0}
+
+/* ── SIDEBAR ── */
+.sidebar-brand{padding:22px 20px 16px;border-bottom:1px solid rgba(255,255,255,.1)}
+.brand-logo{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.brand-hex{width:34px;height:34px;background:var(--accent);border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:var(--navy);letter-spacing:-.5px;flex-shrink:0}
+.brand-name{font-size:15px;font-weight:700;color:#fff;letter-spacing:-.3px}
+.brand-reg{font-size:10px;color:rgba(255,255,255,.45);margin-top:1px}
+.brand-badges{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px}
+.brand-badge{font-size:10px;color:rgba(255,255,255,.6);background:rgba(255,255,255,.08);padding:3px 8px;border-radius:20px;border:1px solid rgba(255,255,255,.12)}
+.brand-badge.gold{color:var(--accent-lt);background:rgba(240,165,0,.12);border-color:rgba(240,165,0,.3)}
+.sidebar-doc-label{padding:16px 20px 8px;font-size:10px;font-weight:600;color:rgba(255,255,255,.35);letter-spacing:1.2px;text-transform:uppercase}
+.nav-items{padding:0 10px 20px;flex:1}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:var(--r-sm);cursor:pointer;transition:.15s;margin-bottom:2px;border:none;background:none;width:100%;text-align:left}
+.nav-item:hover{background:rgba(255,255,255,.08)}
+.nav-item.active{background:rgba(37,117,196,.35);border-left:3px solid var(--blue-lt)}
+.nav-item.active .nav-num{color:var(--accent-lt)}
+.nav-num{font-size:11px;font-weight:600;color:rgba(255,255,255,.3);min-width:20px;font-family:var(--mono)}
+.nav-label{font-size:12.5px;color:rgba(255,255,255,.75);font-weight:400;line-height:1.3}
+.nav-item.active .nav-label{color:#fff;font-weight:500}
+.sidebar-footer{padding:16px 20px;border-top:1px solid rgba(255,255,255,.1);margin-top:auto}
+.footer-contact{font-size:11px;color:rgba(255,255,255,.5);line-height:1.8}
+.footer-contact a{color:rgba(59,142,224,.9);text-decoration:none}
+.footer-hq{font-size:10px;color:rgba(255,255,255,.3);margin-top:8px;line-height:1.6}
+
+/* ── TOP BAR ── */
+.topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:0 40px;display:flex;align-items:center;justify-content:space-between;height:58px;position:sticky;top:0;z-index:50}
+.topbar-title{font-size:14px;font-weight:600;color:var(--text-2);letter-spacing:-.2px}
+.topbar-meta{display:flex;align-items:center;gap:16px}
+.meta-pill{font-size:11px;padding:4px 12px;border-radius:20px;font-weight:500}
+.meta-pill.conf{background:#FEF3E2;color:#7A4700;border:1px solid #F5C97A}
+.meta-pill.v{background:var(--tag-bg);color:var(--tag-text);border:1px solid var(--border-2)}
+.topbar-date{font-size:12px;color:var(--text-3)}
+
+/* ── CONTENT AREA ── */
+.content{padding:40px 48px 80px;max-width:960px}
+
+/* ── HERO ── */
+.hero{background:var(--navy);border-radius:var(--r-xl);padding:44px 48px;margin-bottom:40px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-60px;right:-60px;width:300px;height:300px;background:rgba(37,117,196,.18);border-radius:50%}
+.hero::after{content:'';position:absolute;bottom:-80px;right:80px;width:200px;height:200px;background:rgba(240,165,0,.08);border-radius:50%}
+.hero-eyebrow{font-size:11px;font-weight:600;letter-spacing:1.4px;color:var(--accent-lt);text-transform:uppercase;margin-bottom:14px}
+.hero-title{font-size:36px;font-weight:700;color:#fff;letter-spacing:-1px;line-height:1.15;margin-bottom:10px}
+.hero-title span{color:var(--accent)}
+.hero-sub{font-size:15px;color:rgba(255,255,255,.65);margin-bottom:28px;max-width:540px;font-weight:300;line-height:1.7}
+.hero-tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:32px}
+.hero-tag{font-size:11.5px;padding:5px 14px;border-radius:20px;border:1px solid rgba(255,255,255,.18);color:rgba(255,255,255,.7);font-weight:500}
+.hero-tag.hi{background:rgba(240,165,0,.15);border-color:rgba(240,165,0,.4);color:var(--accent-lt)}
+.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;position:relative;z-index:1}
+.hstat{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:var(--r-md);padding:16px 18px}
+.hstat-num{font-size:22px;font-weight:700;color:#fff;font-family:var(--mono);letter-spacing:-1px}
+.hstat-num span{font-size:13px;font-weight:400;color:rgba(255,255,255,.4)}
+.hstat-label{font-size:11px;color:rgba(255,255,255,.45);margin-top:4px;line-height:1.4}
+
+/* ── SECTIONS ── */
+.section{margin-bottom:50px}
+.section-id{font-size:11px;font-weight:600;color:var(--text-3);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;font-family:var(--mono)}
+.section-title{font-size:22px;font-weight:700;color:var(--navy);letter-spacing:-.5px;margin-bottom:6px;padding-bottom:12px;border-bottom:2px solid var(--surface-3)}
+.section-title::before{content:attr(data-num);display:inline-block;background:var(--blue);color:#fff;font-size:11px;font-weight:700;padding:2px 8px;border-radius:var(--r-sm);margin-right:10px;font-family:var(--mono);letter-spacing:0;vertical-align:2px}
+.section-intro{font-size:14.5px;color:var(--text-2);line-height:1.75;margin-bottom:24px;max-width:720px}
+.subsection-title{font-size:16px;font-weight:600;color:var(--navy);margin:28px 0 14px;padding-left:12px;border-left:3px solid var(--blue-lt)}
+
+/* ── TIER DIAGRAM ── */
+.tier-flow{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin:24px 0;border-radius:var(--r-lg);overflow:hidden;border:1px solid var(--border)}
+.tier-block{padding:22px 18px;background:var(--surface);position:relative}
+.tier-block:not(:last-child){border-right:1px solid var(--border)}
+.tier-block::after{content:'→';position:absolute;right:-10px;top:50%;transform:translateY(-50%);color:var(--border-2);font-size:18px;z-index:2}
+.tier-block:last-child::after{display:none}
+.tier-num{font-size:10px;font-weight:700;color:var(--blue);letter-spacing:1px;text-transform:uppercase;font-family:var(--mono);margin-bottom:8px}
+.tier-icon{width:36px;height:36px;border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;margin-bottom:10px;font-size:17px}
+.tier-icon.t1{background:#E3EDF9;color:var(--blue)}
+.tier-icon.t2{background:#E6F9F2;color:#0F6E56}
+.tier-icon.t3{background:#FEF3E2;color:#7A4700}
+.tier-icon.t4{background:#F0EAFF;color:#5A3FB5}
+.tier-name{font-size:13px;font-weight:700;color:var(--navy);margin-bottom:6px}
+.tier-desc{font-size:12px;color:var(--text-3);line-height:1.55}
+.tier-tag{display:inline-block;font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;margin-top:10px}
+.tier-tag.t1{background:#E3EDF9;color:var(--blue)}
+.tier-tag.t2{background:#E6F9F2;color:#0F6E56}
+.tier-tag.t3{background:#FEF3E2;color:#7A4700}
+.tier-tag.t4{background:#F0EAFF;color:#5A3FB5}
+
+/* ── SPEC TABLE ── */
+.spec-table{width:100%;border-collapse:collapse;font-size:13px;margin:16px 0;border-radius:var(--r-md);overflow:hidden;border:1px solid var(--border)}
+.spec-table thead tr{background:var(--navy)}
+.spec-table thead th{padding:11px 16px;text-align:left;font-size:11px;font-weight:600;color:rgba(255,255,255,.85);letter-spacing:.5px;text-transform:uppercase}
+.spec-table tbody tr{border-bottom:1px solid var(--border)}
+.spec-table tbody tr:last-child{border-bottom:none}
+.spec-table tbody tr:nth-child(even){background:var(--surface-2)}
+.spec-table tbody td{padding:11px 16px;color:var(--text-2);line-height:1.55;vertical-align:top}
+.spec-table tbody td:first-child{font-weight:600;color:var(--navy);white-space:nowrap;background:var(--surface-3);border-right:1px solid var(--border);min-width:180px}
+
+/* ── REQ TABLE ── */
+.req-table tbody td:first-child{color:var(--blue);font-weight:600;font-size:12.5px}
+
+/* ── KPI CARDS ── */
+.kpi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:20px 0}
+.kpi-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:18px 20px;transition:.2s}
+.kpi-card:hover{border-color:var(--blue-lt);box-shadow:var(--shadow-md)}
+.kpi-card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
+.kpi-name{font-size:13px;font-weight:600;color:var(--navy)}
+.kpi-refresh{font-size:10.5px;background:var(--tag-bg);color:var(--tag-text);padding:2px 8px;border-radius:20px;font-weight:600;font-family:var(--mono)}
+.kpi-source{font-size:11.5px;color:var(--text-3);margin-bottom:6px}
+.kpi-threshold{font-size:11.5px;color:var(--text-2);line-height:1.5;padding:7px 10px;background:var(--surface-2);border-radius:var(--r-sm);border-left:3px solid var(--border-2)}
+.kpi-threshold.warn{border-left-color:#F0A500;background:#FFFBF0}
+.kpi-threshold.danger{border-left-color:#CC3333;background:#FFF5F5}
+
+/* ── PHASE TIMELINE ── */
+.phases{display:flex;flex-direction:column;gap:0;margin:20px 0;position:relative}
+.phases::before{content:'';position:absolute;left:38px;top:20px;bottom:20px;width:2px;background:var(--border);z-index:0}
+.phase{display:flex;gap:20px;align-items:flex-start;position:relative;z-index:1}
+.phase:not(:last-child){margin-bottom:4px}
+.phase-bubble{width:36px;height:36px;min-width:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;font-family:var(--mono);margin-top:8px;border:3px solid var(--surface-2);z-index:2}
+.phase-bubble.p0{background:#E3EDF9;color:var(--blue);border-color:var(--surface-2)}
+.phase-bubble.p1{background:#E6F9F2;color:#0A5E42;border-color:var(--surface-2)}
+.phase-bubble.p2{background:#FEF3E2;color:#7A4700;border-color:var(--surface-2)}
+.phase-bubble.p3{background:var(--blue);color:#fff;border-color:var(--surface-2)}
+.phase-bubble.p4{background:var(--navy);color:var(--accent);border-color:var(--surface-2)}
+.phase-card{flex:1;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:18px 22px;margin-bottom:12px;transition:.2s}
+.phase-card:hover{border-color:var(--border-2);box-shadow:var(--shadow)}
+.phase-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
+.phase-name{font-size:14px;font-weight:700;color:var(--navy)}
+.phase-dur{font-size:11.5px;background:var(--tag-bg);color:var(--tag-text);padding:3px 10px;border-radius:20px;font-weight:600;white-space:nowrap}
+.phase-deliv{font-size:13px;color:var(--text-2);line-height:1.65;margin-bottom:10px}
+.phase-gate{font-size:12px;color:var(--text-3);padding:8px 12px;background:var(--surface-2);border-radius:var(--r-sm);border-left:3px solid var(--blue-lt)}
+.phase-gate strong{color:var(--text-2)}
+
+/* ── RISK TABLE ── */
+.risk-badge{font-size:10.5px;font-weight:700;padding:3px 10px;border-radius:20px;white-space:nowrap}
+.risk-badge.high{background:#FFE5E5;color:#8B1A1A}
+.risk-badge.med{background:#FFF3DC;color:#7A5000}
+.risk-badge.low{background:#E5F7EE;color:#1A5E38}
+
+/* ── STACK TABLE ── */
+.stack-layer{font-size:11px;font-weight:600;color:var(--blue);background:var(--tag-bg);padding:3px 8px;border-radius:var(--r-sm);white-space:nowrap}
+.stack-tech{font-family:var(--mono);font-size:12px;color:var(--navy);font-weight:500}
+
+/* ── DATA FLOW ── */
+.flow-steps{counter-reset:flow;margin:20px 0}
+.flow-step{display:flex;gap:14px;margin-bottom:0;padding:0}
+.flow-step:not(:last-child) .flow-step-line{flex:1}
+.flow-num{width:28px;height:28px;min-width:28px;border-radius:50%;background:var(--blue);color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;font-family:var(--mono);margin-top:2px}
+.flow-content{flex:1;padding-bottom:18px;border-left:2px solid var(--surface-3);padding-left:16px;margin-left:-15px}
+.flow-step:last-child .flow-content{border-left:2px solid transparent}
+.flow-text{font-size:13.5px;color:var(--text-2);line-height:1.6;padding-top:4px}
+.flow-code{font-family:var(--mono);font-size:11.5px;background:var(--surface-3);padding:8px 12px;border-radius:var(--r-sm);margin-top:8px;color:var(--navy);word-break:break-all;line-height:1.6;border:1px solid var(--border)}
+
+/* ── ML STAGE ── */
+.ml-stages{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:20px 0}
+.ml-stage{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:20px 22px}
+.ml-stage-num{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--text-3);font-family:var(--mono);margin-bottom:8px}
+.ml-stage-title{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:12px}
+.ml-model-tag{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:600;background:var(--navy);color:var(--accent-lt);padding:4px 12px;border-radius:var(--r-sm);margin-bottom:14px;font-family:var(--mono)}
+.detect-list{list-style:none;display:flex;flex-wrap:wrap;gap:6px}
+.detect-list li{font-size:11px;padding:3px 10px;border-radius:20px;background:var(--surface-2);color:var(--text-2);border:1px solid var(--border)}
+.state-items{display:flex;flex-direction:column;gap:8px}
+.state-item{display:flex;align-items:flex-start;gap:10px;padding:9px 12px;background:var(--surface-2);border-radius:var(--r-sm);border:1px solid var(--border)}
+.state-dot{width:8px;height:8px;min-width:8px;border-radius:50%;background:var(--blue);margin-top:5px}
+.state-text{font-size:12.5px;color:var(--text-2);line-height:1.5}
+
+/* ── SECURITY ── */
+.sec-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:20px 0}
+.sec-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:18px 20px}
+.sec-icon{width:32px;height:32px;border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;font-size:16px;margin-bottom:10px}
+.sec-icon.t{background:#E3EDF9;color:var(--blue)}
+.sec-icon.r{background:#E5F7EE;color:#1A5E38}
+.sec-icon.a{background:#FEF3E2;color:#7A4700}
+.sec-icon.s{background:#F0EAFF;color:#5A3FB5}
+.sec-card-title{font-size:13px;font-weight:700;color:var(--navy);margin-bottom:10px}
+.sec-items{list-style:none;display:flex;flex-direction:column;gap:7px}
+.sec-items li{font-size:12.5px;color:var(--text-2);line-height:1.5;padding-left:14px;position:relative}
+.sec-items li::before{content:'✓';position:absolute;left:0;color:var(--success);font-size:11px;top:1px;font-weight:700}
+
+/* ── SLA GRID ── */
+.sla-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:20px 0}
+.sla-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:16px;text-align:center}
+.sla-val{font-size:20px;font-weight:700;color:var(--navy);font-family:var(--mono);letter-spacing:-1px}
+.sla-label{font-size:11px;color:var(--text-3);margin-top:4px;line-height:1.4}
+
+/* ── OFFICE GRID ── */
+.offices-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:20px 0}
+.office-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:14px 16px}
+.office-flag{font-size:20px;margin-bottom:6px}
+.office-city{font-size:12.5px;font-weight:700;color:var(--navy)}
+.office-addr{font-size:11px;color:var(--text-3);margin-top:3px;line-height:1.5}
+
+/* ── REPORT CARDS ── */
+.report-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:20px 0}
+.report-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:18px}
+.report-icon{width:34px;height:34px;border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;font-size:16px;margin-bottom:10px}
+.report-card:nth-child(1) .report-icon{background:#E3EDF9;color:var(--blue)}
+.report-card:nth-child(2) .report-icon{background:#E6F9F2;color:#0F6E56}
+.report-card:nth-child(3) .report-icon{background:#FEF3E2;color:#7A4700}
+.report-card:nth-child(4) .report-icon{background:#F0EAFF;color:#5A3FB5}
+.report-card:nth-child(5) .report-icon{background:#FFE8EA;color:#8B1A1A}
+.report-name{font-size:13px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.report-aud{font-size:11px;color:var(--text-3);margin-bottom:8px}
+.report-desc{font-size:12px;color:var(--text-2);line-height:1.55}
+
+/* ── ALERT ── */
+.alert-box{background:var(--surface-2);border:1px solid var(--border);border-radius:var(--r-md);padding:14px 18px;display:flex;gap:12px;align-items:flex-start;margin:16px 0}
+.alert-icon{font-size:18px;margin-top:1px}
+.alert-text{font-size:13px;color:var(--text-2);line-height:1.6}
+.alert-text strong{color:var(--navy)}
+
+/* ── FOOTER ── */
+.page-footer{background:var(--navy);margin-top:60px;padding:32px 48px;display:flex;justify-content:space-between;align-items:flex-start;gap:32px}
+.footer-left .footer-brand{font-size:16px;font-weight:700;color:#fff;margin-bottom:6px}
+.footer-left p{font-size:12px;color:rgba(255,255,255,.45);line-height:1.7}
+.footer-links{font-size:12px;color:rgba(255,255,255,.5)}
+.footer-links a{color:rgba(59,142,224,.85);text-decoration:none}
+
+/* ── EXPAND ── */
+.expand-section{border:1px solid var(--border);border-radius:var(--r-lg);margin:12px 0;overflow:hidden}
+.expand-header{display:flex;justify-content:space-between;align-items:center;padding:14px 20px;background:var(--surface);cursor:pointer;user-select:none;transition:.15s}
+.expand-header:hover{background:var(--surface-2)}
+.expand-title{font-size:13.5px;font-weight:600;color:var(--navy)}
+.expand-arrow{font-size:14px;color:var(--text-3);transition:.2s;display:inline-block}
+.expand-body{padding:20px;background:var(--surface-2);border-top:1px solid var(--border);display:none}
+.expand-body.open{display:block}
+.expand-arrow.open{transform:rotate(180deg)}
+
+/* ── HAMBURGER BUTTON (mobile only) ── */
+.hamburger{display:none;position:fixed;top:12px;left:12px;z-index:200;background:var(--navy);border:none;border-radius:var(--r-sm);width:38px;height:38px;cursor:pointer;flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:0}
+.hamburger span{display:block;width:18px;height:2px;background:#fff;border-radius:2px;transition:.2s}
+#overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:90;transition:opacity .25s;opacity:0;pointer-events:none}
+#overlay.show{opacity:1;pointer-events:auto}
+@media(min-width:1200px){
+  .sidebar{width:280px;min-width:280px}
+  .main{margin-left:280px}
+  .content{padding:40px 56px 80px;max-width:1040px}
+}
+@media(max-width:1199px) and (min-width:901px){
+  .content{padding:32px 32px 80px}
+  .hero{padding:36px 36px}
+  .hero-title{font-size:28px}
+}
+@media(max-width:900px){
+  .hamburger{display:flex}
+  #overlay{display:block}
+  .sidebar{transform:translateX(-100%);transition:transform .28s cubic-bezier(.4,0,.2,1);z-index:100;box-shadow:4px 0 24px rgba(0,0,0,.18)}
+  .sidebar.open{transform:translateX(0)}
+  .main{margin-left:0}
+  .topbar{padding:0 16px 0 60px}
+  .topbar-title{font-size:12px}
+  .content{padding:24px 16px 64px}
+  .hero{padding:28px 22px;border-radius:var(--r-lg)}
+  .hero-title{font-size:24px}
+  .hero-sub{font-size:13px}
+  .hero-stats{grid-template-columns:1fr 1fr}
+  .tier-flow{grid-template-columns:1fr 1fr}
+  .tier-block::after{display:none}
+  .kpi-grid{grid-template-columns:1fr 1fr}
+  .sla-grid{grid-template-columns:1fr 1fr}
+  .offices-grid{grid-template-columns:1fr 1fr}
+  .ml-stages{grid-template-columns:1fr}
+  .sec-grid{grid-template-columns:1fr}
+  .report-grid{grid-template-columns:1fr 1fr}
+  .page-footer{flex-direction:column;padding:24px 20px;gap:20px}
+  .spec-table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}
+}
+@media(max-width:560px){
+  .kpi-grid{grid-template-columns:1fr}
+  .tier-flow{grid-template-columns:1fr}
+  .report-grid{grid-template-columns:1fr}
+  .topbar-meta{display:none}
+  .hero-tags{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- MOBILE HAMBURGER -->
+<button class="hamburger" id="hamburger" onclick="toggleSidebar()" aria-label="Open navigation">
+  <span></span><span></span><span></span>
+</button>
+
+<!-- OVERLAY (closes sidebar on tap) -->
+<div id="overlay" onclick="toggleSidebar()"></div>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-brand">
+    <div class="brand-logo">
+      <div class="brand-hex">ST</div>
+      <div>
+        <div class="brand-name">SoftTeco<sup style="font-size:8px;color:rgba(255,255,255,.5)">®</sup></div>
+        <div class="brand-reg">International Software Development</div>
+      </div>
+    </div>
+    <div class="brand-badges">
+      <span class="brand-badge gold">ISO 27001</span>
+      <span class="brand-badge">Est. 2008</span>
+      <span class="brand-badge">500+ Experts</span>
+    </div>
+  </div>
+  <div class="sidebar-doc-label">Document</div>
+  <div style="padding:0 10px 6px 20px">
+    <div style="font-size:12px;font-weight:600;color:rgba(255,255,255,.9);line-height:1.4">BeeGuard 4.0</div>
+    <div style="font-size:11px;color:rgba(255,255,255,.4);margin-top:3px">Technical Architecture & Deployment Specification — ADAFSA</div>
+  </div>
+  <div class="sidebar-doc-label" style="margin-top:10px">Contents</div>
+  <nav class="nav-items">
+    <button class="nav-item active" onclick="navTo('sec-exec',this)"><span class="nav-num">01</span><span class="nav-label">Executive Summary</span></button>
+    <button class="nav-item" onclick="navTo('sec-ctx',this)"><span class="nav-num">02</span><span class="nav-label">Context & Requirements</span></button>
+    <button class="nav-item" onclick="navTo('sec-arch',this)"><span class="nav-num">03</span><span class="nav-label">System Architecture</span></button>
+    <button class="nav-item" onclick="navTo('sec-ml',this)"><span class="nav-num">04</span><span class="nav-label">ML Pipeline</span></button>
+    <button class="nav-item" onclick="navTo('sec-llm',this)"><span class="nav-num">05</span><span class="nav-label">LLM Advisory Service</span></button>
+    <button class="nav-item" onclick="navTo('sec-hw',this)"><span class="nav-num">06</span><span class="nav-label">Hardware Specification</span></button>
+    <button class="nav-item" onclick="navTo('sec-platform',this)"><span class="nav-num">07</span><span class="nav-label">Platform & API</span></button>
+    <button class="nav-item" onclick="navTo('sec-sec',this)"><span class="nav-num">08</span><span class="nav-label">Security Architecture</span></button>
+    <button class="nav-item" onclick="navTo('sec-kpi',this)"><span class="nav-num">09</span><span class="nav-label">KPI Framework</span></button>
+    <button class="nav-item" onclick="navTo('sec-deploy',this)"><span class="nav-num">10</span><span class="nav-label">Deployment Architecture</span></button>
+    <button class="nav-item" onclick="navTo('sec-road',this)"><span class="nav-num">11</span><span class="nav-label">Implementation Roadmap</span></button>
+    <button class="nav-item" onclick="navTo('sec-risk',this)"><span class="nav-num">12</span><span class="nav-label">Risks & Mitigations</span></button>
+    <button class="nav-item" onclick="navTo('sec-sla',this)"><span class="nav-num">13</span><span class="nav-label">Quality & SLA</span></button>
+    <button class="nav-item" onclick="navTo('sec-stack',this)"><span class="nav-num">A</span><span class="nav-label">Technology Stack</span></button>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="footer-contact">
+      <a href="mailto:d.viazmin@softteco.com">d.viazmin@softteco.com</a><br>
+      <a href="https://softteco.com" target="_blank">softteco.com</a>
+    </div>
+    <div class="footer-hq">
+      HQ — 9A/4U Belwederska St, Warsaw, Poland<br>
+      UAE — Al-Murar, Dubai<br>
+      Lithuania · USA · United Kingdom
+    </div>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<div class="main">
+  <header class="topbar">
+    <div class="topbar-title">BeeGuard 4.0 — ADAFSA Deployment Specification</div>
+    <div class="topbar-meta">
+      <span class="meta-pill conf">Privileged &amp; Confidential</span>
+      <span class="meta-pill v">v1.0</span>
+      <span class="topbar-date">June 2026</span>
+    </div>
+  </header>
+
+  <div class="content">
+
+    <!-- HERO -->
+    <div class="hero">
+      <div class="hero-eyebrow">BeeGuard 4.0 — AI-Powered Apiary Intelligence</div>
+      <div class="hero-title">Autonomous hive monitoring<br>at <span>government scale</span></div>
+      <div class="hero-sub">Prepared for Abu Dhabi Agriculture &amp; Food Safety Authority (ADAFSA) via Innoventures. UAE sovereign-cloud-ready. Operator-free. Real-time.</div>
+      <div class="hero-tags">
+        <span class="hero-tag hi">UAE Data Sovereignty</span>
+        <span class="hero-tag">YOLOv9 + SAM 2</span>
+        <span class="hero-tag">Edge AI · Jetson Orin</span>
+        <span class="hero-tag">LLM Advisory (AR + EN)</span>
+        <span class="hero-tag">Kubernetes · ADG Cloud</span>
+        <span class="hero-tag">ADAFSA AI-Native 2027</span>
+      </div>
+      <div class="hero-stats">
+        <div class="hstat"><div class="hstat-num">30<span>s</span></div><div class="hstat-label">KPI refresh rate per hive</div></div>
+        <div class="hstat"><div class="hstat-num">10×<span></span></div><div class="hstat-label">Less training data vs YOLOv3</div></div>
+        <div class="hstat"><div class="hstat-num">72<span>h</span></div><div class="hstat-label">Offline edge buffer</div></div>
+        <div class="hstat"><div class="hstat-num">0<span></span></div><div class="hstat-label">Operators required per hive</div></div>
+      </div>
+    </div>
+
+    <!-- §1 EXECUTIVE SUMMARY -->
+    <div class="section" id="sec-exec">
+      <div class="section-id">Section 01</div>
+      <div class="section-title" data-num="1">Executive Summary</div>
+      <p class="section-intro">BeeGuard 4.0 is a fully autonomous, AI-native apiary intelligence platform designed for large-scale governmental honey production in arid environments. It supersedes BeeGuard 3.0 by eliminating manual operator dependency, delivering real-time per-hive telemetry, and deploying as a production-grade platform compliant with UAE data-sovereignty requirements.</p>
+
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:24px 0">
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:18px 20px;border-top:3px solid var(--blue)">
+          <div style="font-size:11px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px">Autonomy</div>
+          <div style="font-size:13px;color:var(--text-2);line-height:1.6">Fixed in-hive cameras eliminate the need for an operator to hold frames. Zero human handling required during monitoring cycles.</div>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:18px 20px;border-top:3px solid #0F6E56">
+          <div style="font-size:11px;font-weight:700;color:#0F6E56;text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px">Intelligence</div>
+          <div style="font-size:13px;color:var(--text-2);line-height:1.6">Foundation models (YOLOv9 + SAM 2) with LLM advisory reports in English and Arabic. Queen &amp; Varroa detection as first-class features.</div>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:18px 20px;border-top:3px solid #7A4700">
+          <div style="font-size:11px;font-weight:700;color:#7A4700;text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px">Scale</div>
+          <div style="font-size:13px;color:var(--text-2);line-height:1.6">Fleet dashboard for thousands of hives. UAE sovereign-cloud deployment. ADG Cloud / G42 Core42. 99.5% SLA.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- §2 CONTEXT -->
+    <div class="section" id="sec-ctx">
+      <div class="section-id">Section 02</div>
+      <div class="section-title" data-num="2">Context &amp; Stakeholder Requirements</div>
+      <p class="section-intro">ADAFSA is building UAE-native honey production at scale. The authority's mandate requires AI-native operations by 2027, automated KPI generation, and real-time executive dashboards. Requirements surfaced during the June 2026 discovery meeting with Innoventures (Hassan Odeh, Hamza Hindi) and SoftTeco (Alexey Shevchik, CTO; Dmitry Viazmin).</p>
+
+      <div class="subsection-title">Stakeholder requirements matrix</div>
+      <table class="spec-table req-table">
+        <thead><tr><th style="width:200px">Requirement</th><th>Detail from discovery</th></tr></thead>
+        <tbody>
+          <tr><td>Automated monitoring</td><td>No operator needed to hold frames to camera. Cameras must be fixed inside or attached to hives — "completely automated" per Hassan Odeh.</td></tr>
+          <tr><td>Per-minute KPI refresh</td><td>Leadership needs near-real-time metrics. Target: full hive assessment every 30–60 seconds. "Limiting camera frames to 1–2 per minute" — Hassan Odeh.</td></tr>
+          <tr><td>Multi-hive fleet scale</td><td>Platform must support an arbitrarily large farm from a single dashboard. "An enormous, well-funded project" with many hives across UAE.</td></tr>
+          <tr><td>Periodic frame only</td><td>No continuous live video required. Frame capture every 30 s sufficient. Conserves bandwidth and storage.</td></tr>
+          <tr><td>Transparent frame option</td><td>Glass/acrylic frame panels under investigation — enable external camera inspection without opening hives. "Gamechanging if it works."</td></tr>
+          <tr><td>Daily automated reports</td><td>Management dashboards and PDF/email reports generated without human input.</td></tr>
+          <tr><td>Alarms and alerting</td><td>Push alerts for: queenlessness, disease detection, swarming risk, population collapse.</td></tr>
+          <tr><td>UAE data sovereignty</td><td>All data within UAE borders. Preference for Abu Dhabi Government Cloud. ADAFSA is advised by PwC on this initiative.</td></tr>
+          <tr><td>Track record required</td><td>ADAFSA requires documented prior deployments before commitment. "Very important for them."</td></tr>
+          <tr><td>POC before production</td><td>Working POC across multiple hives required. "Doesn't have to be fully functional. It's a POC."</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- §3 ARCHITECTURE -->
+    <div class="section" id="sec-arch">
+      <div class="section-id">Section 03</div>
+      <div class="section-title" data-num="3">System Architecture</div>
+      <p class="section-intro">BeeGuard 4.0 is a four-tier distributed system. Each tier is independently fault-tolerant. Raw video never leaves the hive site — only structured inference results travel over the WAN, solving bandwidth, latency, data sovereignty, and offline resilience in a single design decision.</p>
+
+      <div class="tier-flow">
+        <div class="tier-block">
+          <div class="tier-num">Tier 1</div>
+          <div class="tier-icon t1">📷</div>
+          <div class="tier-name">Hive Sensor Layer</div>
+          <div class="tier-desc">Fixed micro-camera, IR-capable, IP67. Temp/humidity sensors. Load cell. Entrance IR counter. Acoustic sensor.</div>
+          <span class="tier-tag t1">Per hive</span>
+        </div>
+        <div class="tier-block">
+          <div class="tier-num">Tier 2</div>
+          <div class="tier-icon t2">🧠</div>
+          <div class="tier-name">Edge Inference Module</div>
+          <div class="tier-desc">Jetson Orin Nano. Runs full CV stack locally. 30 s capture cycle. 24 h offline buffer. Zero cloud dependency.</div>
+          <span class="tier-tag t2">Per 4–8 hives</span>
+        </div>
+        <div class="tier-block">
+          <div class="tier-num">Tier 3</div>
+          <div class="tier-icon t3">📡</div>
+          <div class="tier-name">Apiary Gateway</div>
+          <div class="tier-desc">LoRaWAN concentrator + 4G LTE. Aggregates site telemetry. Cross-hive analytics. 72 h WAN-loss buffer.</div>
+          <span class="tier-tag t3">Per site</span>
+        </div>
+        <div class="tier-block">
+          <div class="tier-num">Tier 4</div>
+          <div class="tier-icon t4">☁️</div>
+          <div class="tier-name">Cloud Platform</div>
+          <div class="tier-desc">ADG Cloud / G42 Core42. Kubernetes microservices. TimescaleDB. Kafka. LLM advisory. Dashboard API.</div>
+          <span class="tier-tag t4">UAE sovereign</span>
+        </div>
+      </div>
+
+      <div class="subsection-title">Data flow</div>
+      <div class="flow-steps">
+        <div class="flow-step">
+          <div class="flow-num">1</div>
+          <div class="flow-content"><div class="flow-text">Camera captures frame on schedule (every 30 s). Frame passed to Edge Inference Module.</div></div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-num">2</div>
+          <div class="flow-content">
+            <div class="flow-text">Edge inference produces structured JSON payload:</div>
+            <div class="flow-code">{ hive_id, timestamp, bee_count_estimate, brood_pattern_score,<br>&nbsp;&nbsp;queen_detected, varroa_index, honey_capped_area_pct, anomaly_flags }</div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-num">3</div>
+          <div class="flow-content"><div class="flow-text">Payload transmitted over LoRaWAN (small telemetry) or 4G LTE (flagged images) to Apiary Gateway.</div></div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-num">4</div>
+          <div class="flow-content"><div class="flow-text">Gateway aggregates all hive payloads, applies site-level analytics, forwards to Cloud Ingestion API over WireGuard VPN.</div></div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-num">5</div>
+          <div class="flow-content"><div class="flow-text">Analytics Engine computes rolling KPIs, trend forecasts, and swarming risk scores. LLM Advisory Service generates natural-language reports.</div></div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-num">6</div>
+          <div class="flow-content"><div class="flow-text">Dashboard API (GraphQL + WebSocket) serves real-time KPI tiles. Notification Service fires alerts within 60 s of anomaly detection.</div></div>
+        </div>
+      </div>
+
+      <div class="alert-box">
+        <span class="alert-icon">🔒</span>
+        <div class="alert-text"><strong>Data sovereignty:</strong> Raw video never leaves the apiary site. Only structured JSON inference results (≈30 bytes per hive per 30 s) are transmitted over the WAN. All cloud infrastructure is deployed within UAE borders on ADG Cloud or G42 Core42.</div>
+      </div>
+    </div>
+
+    <!-- §4 ML PIPELINE -->
+    <div class="section" id="sec-ml">
+      <div class="section-id">Section 04</div>
+      <div class="section-title" data-num="4">Machine Learning Pipeline</div>
+      <p class="section-intro">BeeGuard 4.0 deploys a two-stage CV pipeline optimised for arid-environment apiary imaging: high-contrast desert sunlight, propolis-obscured lenses, and dust hazing. Foundation models replace the legacy YOLOv3, requiring 10× less labelled training data.</p>
+
+      <div class="ml-stages">
+        <div class="ml-stage">
+          <div class="ml-stage-num">Stage 1</div>
+          <div class="ml-stage-title">Detection &amp; Segmentation</div>
+          <div class="ml-model-tag">YOLOv9 · SAM 2</div>
+          <div style="font-size:12.5px;color:var(--text-3);margin-bottom:10px">Detected object classes:</div>
+          <ul class="detect-list">
+            <li>Individual bees</li><li>Queen bee</li><li>Capped brood</li>
+            <li>Uncapped brood</li><li>Honey cells</li><li>Pollen cells</li>
+            <li>Empty cells</li><li>Varroa mites</li><li>Wax moth larvae</li>
+          </ul>
+          <div style="margin-top:12px;font-size:12px;color:var(--text-3)">SAM 2 runs post-detection on regions of interest only — not full frame — to meet the &lt;2 s latency budget.</div>
+        </div>
+        <div class="ml-stage">
+          <div class="ml-stage-num">Stage 2</div>
+          <div class="ml-stage-title">Colony State Inference</div>
+          <div class="ml-model-tag">MLP · Aggregation</div>
+          <div class="state-items">
+            <div class="state-item"><div class="state-dot"></div><div class="state-text"><strong>Colony Strength Score (0–100)</strong> — bee count × brood area × frame density</div></div>
+            <div class="state-item"><div class="state-dot"></div><div class="state-text"><strong>Queen Status</strong> — Present / Signs only / Suspected absent / Confirmed absent</div></div>
+            <div class="state-item"><div class="state-dot"></div><div class="state-text"><strong>Varroa Infestation Index (0–100)</strong> — mites per 100 bees + capped cell presence</div></div>
+            <div class="state-item"><div class="state-dot"></div><div class="state-text"><strong>Honey Reserve Level (%)</strong> — fraction of frames with capped honey</div></div>
+            <div class="state-item"><div class="state-dot"></div><div class="state-text"><strong>Swarming Risk Score (0–100)</strong> — density + queen cells + weight trajectory</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="subsection-title">Training data strategy</div>
+      <div class="expand-section">
+        <div class="expand-header" onclick="toggleExpand(this)">
+          <span class="expand-title">UAE species adaptation</span>
+          <span class="expand-arrow">▼</span>
+        </div>
+        <div class="expand-body open">
+          <p style="font-size:13px;color:var(--text-2);line-height:1.7">UAE apiaries primarily host <em>Apis mellifera jemenitica</em> and imported Carniolan/Italian strains. Minimum <strong>500 UAE-annotated frames</strong> required before production. SoftTeco's existing 2,000+ European frames form the transfer-learning base. Active learning pipeline feeds corrections back monthly.</p>
+        </div>
+      </div>
+      <div class="expand-section">
+        <div class="expand-header" onclick="toggleExpand(this)">
+          <span class="expand-title">Environmental augmentation</span>
+          <span class="expand-arrow">▼</span>
+        </div>
+        <div class="expand-body">
+          <p style="font-size:13px;color:var(--text-2);line-height:1.7">Training augmentation pipeline includes: brightness/contrast distortion for desert sunlight, lens flare simulation, dust/haze effects, propolis occlusion masking. Annotation tooling: Label Studio (self-hosted) with LLM-assisted pre-annotation — reduces manual annotation time by 60–80%.</p>
+        </div>
+      </div>
+      <div class="expand-section">
+        <div class="expand-header" onclick="toggleExpand(this)">
+          <span class="expand-title">Model lifecycle management</span>
+          <span class="expand-arrow">▼</span>
+        </div>
+        <div class="expand-body">
+          <p style="font-size:13px;color:var(--text-2);line-height:1.7">MLflow model registry. Apache Airflow for retraining DAGs. Canary deployment: 10% of fleet first. Models exported to ONNX → INT8 quantised for TensorRT 10 on Jetson Orin. OTA updates via Balena Cloud, signed and verified on-device.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- §5 LLM -->
+    <div class="section" id="sec-llm">
+      <div class="section-id">Section 05</div>
+      <div class="section-title" data-num="5">LLM Advisory &amp; Reporting Service</div>
+      <p class="section-intro">The LLM Advisory Service transforms structured telemetry into natural-language guidance for beekeepers and ADAFSA leadership. Reports are generated automatically in English and Arabic without human authorship. Two LLM options ensure UAE data-sovereignty compliance.</p>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:20px 0">
+        <div style="background:var(--surface);border:2px solid var(--blue);border-radius:var(--r-lg);padding:20px">
+          <div style="font-size:11px;font-weight:700;color:var(--blue);letter-spacing:.8px;text-transform:uppercase;margin-bottom:8px">Primary — Cloud LLM</div>
+          <div style="font-size:15px;font-weight:700;color:var(--navy);margin-bottom:8px">Claude API (Anthropic)</div>
+          <div style="font-size:12.5px;color:var(--text-2);line-height:1.6">Superior reasoning for nuanced agricultural advisory. Structured JSON output. Native multilingual (AR/EN). Activated when ADAFSA data-sovereignty policy permits external API.</div>
+          <div style="margin-top:10px;font-size:11px;background:var(--tag-bg);color:var(--tag-text);padding:4px 12px;border-radius:20px;display:inline-block;font-weight:600">claude-sonnet-4-6</div>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:20px">
+          <div style="font-size:11px;font-weight:700;color:var(--text-3);letter-spacing:.8px;text-transform:uppercase;margin-bottom:8px">Fallback — Local LLM</div>
+          <div style="font-size:15px;font-weight:700;color:var(--navy);margin-bottom:8px">Llama 3.1 70B (GGUF)</div>
+          <div style="font-size:12.5px;color:var(--text-2);line-height:1.6">Self-hosted on UAE private GPU cluster (NVIDIA A10G). Zero external API calls. Fully operational from Phase 1. Activated when full data-sovereignty is required.</div>
+          <div style="margin-top:10px;font-size:11px;background:var(--surface-2);color:var(--text-3);padding:4px 12px;border-radius:20px;display:inline-block;font-weight:600">4-bit quantised · INT8</div>
+        </div>
+      </div>
+
+      <div class="subsection-title">Report types</div>
+      <div class="report-grid">
+        <div class="report-card">
+          <div class="report-icon">📋</div>
+          <div class="report-name">Daily Beekeeper Briefing</div>
+          <div class="report-aud">Field beekeepers</div>
+          <div class="report-desc">Per-hive status, prioritised action list, urgency ranking. Delivered via mobile push.</div>
+        </div>
+        <div class="report-card">
+          <div class="report-icon">📊</div>
+          <div class="report-name">Weekly Management Summary</div>
+          <div class="report-aud">ADAFSA Operations</div>
+          <div class="report-desc">Fleet KPI narrative, trend analysis, projected honey yield, workforce planning.</div>
+        </div>
+        <div class="report-card">
+          <div class="report-icon">🚨</div>
+          <div class="report-name">Incident Alert Report</div>
+          <div class="report-aud">Beekeeper + Management</div>
+          <div class="report-desc">Auto-generated on anomaly: queen loss, Varroa outbreak, collapse. Includes response protocol.</div>
+        </div>
+        <div class="report-card">
+          <div class="report-icon">📈</div>
+          <div class="report-name">Seasonal Strategy Report</div>
+          <div class="report-aud">ADAFSA Leadership</div>
+          <div class="report-desc">Quarterly colony performance rankings, expansion recommendations, species health analysis.</div>
+        </div>
+        <div class="report-card">
+          <div class="report-icon">🗂️</div>
+          <div class="report-name">Regulatory Compliance Export</div>
+          <div class="report-aud">ADAFSA Compliance</div>
+          <div class="report-desc">Treatment history, honey harvest records, disease log for food safety traceability.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- §6 HARDWARE -->
+    <div class="section" id="sec-hw">
+      <div class="section-id">Section 06</div>
+      <div class="section-title" data-num="6">Hardware Specification</div>
+      <p class="section-intro">All hardware is rated for Abu Dhabi ambient conditions: operating temperatures to +70°C, IP66/IP67 dust and moisture protection, passive-only cooling (no fans in desert environments), and solar/battery power autonomy for remote apiary sites.</p>
+
+      <div class="subsection-title">In-hive camera module</div>
+      <table class="spec-table">
+        <thead><tr><th>Parameter</th><th>Specification</th></tr></thead>
+        <tbody>
+          <tr><td>Resolution</td><td>Minimum 12 MP (4000 × 3000). Full-frame capture for reliable bee and cell classification.</td></tr>
+          <tr><td>Lens</td><td>Wide-angle 120° FOV. Fisheye-corrected via on-device dewarping for consistent pixel-per-bee scale.</td></tr>
+          <tr><td>Low-light</td><td>Sony IMX586 sensor or equivalent. IR cut-filter switchable. IR LED array for darkness-capable inspection.</td></tr>
+          <tr><td>Ingress protection</td><td>IP67 — dust-tight, water-immersion resistant. Mandatory for UAE dust storms and humidity cycling.</td></tr>
+          <tr><td>Temperature rating</td><td>Operating: −10°C to +70°C. Storage: −20°C to +85°C. Mandatory for Abu Dhabi ambient extremes.</td></tr>
+          <tr><td>Lens coating</td><td>Hydrophobic anti-propolis nano-coating. Integrated compressed-air cleaning nozzle in mounting bracket.</td></tr>
+          <tr><td>Capture duty cycle</td><td>1 frame per 30 seconds (configurable). Camera powered down between captures to reduce heat and draw.</td></tr>
+          <tr><td>Mounting</td><td>Standardised bracket: Langstroth, Dadant, and Layens formats. Non-invasive clip system — no hive modification required.</td></tr>
+        </tbody>
+      </table>
+
+      <div class="subsection-title">Edge inference module</div>
+      <table class="spec-table">
+        <thead><tr><th>Parameter</th><th>Specification</th></tr></thead>
+        <tbody>
+          <tr><td>Compute</td><td>NVIDIA Jetson Orin Nano 8 GB — 1024-core Ampere GPU, 32 Tensor Cores, 40 TOPS AI performance.</td></tr>
+          <tr><td>Storage</td><td>256 GB NVMe SSD — rolling 24-hour frame buffer + model artefacts + OS.</td></tr>
+          <tr><td>Connectivity</td><td>Wi-Fi 6 (802.11ax), Bluetooth 5.0, Gigabit Ethernet, optional LTE Cat-M1 modem.</td></tr>
+          <tr><td>Power</td><td>7–15 W active. Solar enclosure + 40 Ah LiPo battery backup — 3-day autonomy without sun.</td></tr>
+          <tr><td>Enclosure</td><td>NEMA 4X (IP66) polycarbonate, passive cooling fins. No active fan — dust ingress risk in desert.</td></tr>
+          <tr><td>OS &amp; runtime</td><td>Ubuntu 22.04 LTS + JetPack 6. TensorRT 10. INT8 quantised models. Target latency: &lt;2 s per frame.</td></tr>
+          <tr><td>Hive coverage</td><td>One Edge Module per 4–8 hives. Time-multiplexed camera capture across assigned hives.</td></tr>
+          <tr><td>Fleet management</td><td>Balena Cloud. OTA updates, remote SSH, device health monitoring, zero-touch provisioning.</td></tr>
+        </tbody>
+      </table>
+
+      <div class="subsection-title">Environmental sensor package</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:16px 0">
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:14px 16px">
+          <div style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:6px">🌡️ Temperature &amp; Humidity</div>
+          <div style="font-size:12px;color:var(--text-2);line-height:1.55">DS18B20 internal probe ±0.5°C. Bosch BME280 ambient.</div>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:14px 16px">
+          <div style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:6px">⚖️ Hive Weight</div>
+          <div style="font-size:12px;color:var(--text-2);line-height:1.55">Four-point load cell 0–50 kg, 10 g resolution. Detects honey accumulation and swarm weight drop.</div>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:14px 16px">
+          <div style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:6px">🔊 Acoustic</div>
+          <div style="font-size:12px;color:var(--text-2);line-height:1.55">MEMS mic array. FFT analysis detects queenlessness signature (220 Hz → 150 Hz shift) and swarm piping.</div>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:14px 16px">
+          <div style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:6px">🚪 Entrance Counter</div>
+          <div style="font-size:12px;color:var(--text-2);line-height:1.55">Dual IR beam-break gate counting bees in/out. Traffic ratio is a validated colony health proxy.</div>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:14px 16px">
+          <div style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:6px">📷 Entrance Camera</div>
+          <div style="font-size:12px;color:var(--text-2);line-height:1.55">Dedicated wide-angle camera at hive entrance for flight-path and traffic density analysis.</div>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:14px 16px">
+          <div style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:6px">⚡ Power</div>
+          <div style="font-size:12px;color:var(--text-2);line-height:1.55">Solar panel + LiPo battery. All sensors on low-power I²C / UART bus. Watchdog auto-restart on failure.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- §7 PLATFORM -->
+    <div class="section" id="sec-platform">
+      <div class="section-id">Section 07</div>
+      <div class="section-title" data-num="7">Platform Architecture &amp; API Design</div>
+      <p class="section-intro">The cloud platform is a Kubernetes microservices deployment on UAE sovereign infrastructure. Each service has a single responsibility. The Dashboard API uses GraphQL with WebSocket subscriptions for real-time KPI updates. Both a web portal and mobile app are included.</p>
+
+      <div class="subsection-title">Microservices</div>
+      <table class="spec-table">
+        <thead><tr><th>Service</th><th>Responsibility</th></tr></thead>
+        <tbody>
+          <tr><td>Ingestion API</td><td>Authenticated REST / MQTT endpoint from gateways. Rate-limited, schema-validated. Writes to TimescaleDB and publishes to Kafka.</td></tr>
+          <tr><td>Fleet Manager</td><td>Hive registry, edge node inventory, sensor calibration records, OTA scheduling, zero-touch provisioning.</td></tr>
+          <tr><td>Analytics Engine</td><td>Batch and streaming analytics. Computes KPIs, rolling averages, anomaly detection (Z-score + LSTM autoencoder), predictive forecasts.</td></tr>
+          <tr><td>LLM Advisory</td><td>Scheduled and on-demand report generation. Prompt management, LLM API calls, output validation, Arabic translation, report storage.</td></tr>
+          <tr><td>Notification Service</td><td>Threshold and ML-triggered alert dispatch via push (FCM / APNs), SMS (UAE carrier: e& / du), email, and webhook.</td></tr>
+          <tr><td>Dashboard API</td><td>GraphQL with real-time WebSocket subscriptions serving live KPI tiles to web portal and mobile app.</td></tr>
+          <tr><td>Auth Service</td><td>OAuth 2.0 / OIDC. RBAC: ADAFSA Admin, Site Manager, Beekeeper, Read-Only. UAE PASS SSO integration.</td></tr>
+          <tr><td>ML Pipeline</td><td>Apache Airflow DAGs for retraining, MLflow registry updates, model evaluation, and canary rollout scheduling.</td></tr>
+          <tr><td>Media Service</td><td>Flagged frame storage and serving. Time-lapse sequence generation. MinIO S3-compatible backend.</td></tr>
+        </tbody>
+      </table>
+
+      <div class="subsection-title">Frontend applications</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0">
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:20px">
+          <div style="font-size:13px;font-weight:700;color:var(--navy);margin-bottom:12px">🖥️ ADAFSA Operations Portal (Web)</div>
+          <ul style="list-style:none;display:flex;flex-direction:column;gap:7px">
+            <li style="font-size:12.5px;color:var(--text-2)">React + TypeScript SPA. Bilingual EN/AR with RTL layout.</li>
+            <li style="font-size:12.5px;color:var(--text-2)">Geographic fleet map: colour-coded colony health overlay.</li>
+            <li style="font-size:12.5px;color:var(--text-2)">Per-hive drill-down with time-series charts and frame thumbnails.</li>
+            <li style="font-size:12.5px;color:var(--text-2)">Configurable KPI dashboard widgets for executive reporting.</li>
+            <li style="font-size:12.5px;color:var(--text-2)">Report centre: PDF export, scheduled delivery, on-demand generation.</li>
+          </ul>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:20px">
+          <div style="font-size:13px;font-weight:700;color:var(--navy);margin-bottom:12px">📱 Beekeeper Mobile App (iOS + Android)</div>
+          <ul style="list-style:none;display:flex;flex-direction:column;gap:7px">
+            <li style="font-size:12.5px;color:var(--text-2)">React Native. Offline-capable with local SQLite cache.</li>
+            <li style="font-size:12.5px;color:var(--text-2)">AI-prioritised daily action list — hives ranked by urgency.</li>
+            <li style="font-size:12.5px;color:var(--text-2)">Structured inspection logger feeding active learning pipeline.</li>
+            <li style="font-size:12.5px;color:var(--text-2)">Push alerts for critical events: queenlessness, Varroa, swarm risk.</li>
+            <li style="font-size:12.5px;color:var(--text-2)">QR code hive ID for rapid field navigation at scale.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- §8 SECURITY -->
+    <div class="section" id="sec-sec">
+      <div class="section-id">Section 08</div>
+      <div class="section-title" data-num="8">Security Architecture</div>
+      <p class="section-intro">Defence-in-depth across all four tiers. UAE PASS SSO integration. ADAFSA data ownership contractually guaranteed — SoftTeco has no right to access or train on ADAFSA telemetry without explicit written consent.</p>
+
+      <div class="sec-grid">
+        <div class="sec-card">
+          <div class="sec-icon t">🔐</div>
+          <div class="sec-card-title">Data in transit</div>
+          <ul class="sec-items">
+            <li>TLS 1.3 over MQTT (port 8883) for edge telemetry</li>
+            <li>LoRaWAN payload AES-128 encryption</li>
+            <li>WireGuard VPN gateway-to-cloud, mutual cert auth</li>
+            <li>Certificate pinning in mobile app</li>
+            <li>Local LLM mode: zero external API calls</li>
+          </ul>
+        </div>
+        <div class="sec-card">
+          <div class="sec-icon r">💾</div>
+          <div class="sec-card-title">Data at rest</div>
+          <ul class="sec-items">
+            <li>TimescaleDB AES-256 encryption at rest</li>
+            <li>Object storage SSE-S3 equivalent</li>
+            <li>Edge NVMe: LUKS full-disk encryption</li>
+            <li>Key management via hardware TPM on Jetson</li>
+            <li>HashiCorp Vault for secrets — no credentials in code</li>
+          </ul>
+        </div>
+        <div class="sec-card">
+          <div class="sec-icon a">🛡️</div>
+          <div class="sec-card-title">Access control</div>
+          <ul class="sec-items">
+            <li>RBAC enforced at Kong API gateway layer</li>
+            <li>UAE PASS SSO for all government users</li>
+            <li>MFA mandatory: Admin and Site Manager roles</li>
+            <li>Immutable audit log — 7-year retention</li>
+            <li>Tamper-evident enclosure with remote key wipe</li>
+          </ul>
+        </div>
+        <div class="sec-card">
+          <div class="sec-icon s">🇦🇪</div>
+          <div class="sec-card-title">UAE data sovereignty</div>
+          <ul class="sec-items">
+            <li>All data processed and stored within UAE borders</li>
+            <li>Zero cross-border transfer for operational telemetry</li>
+            <li>LLM options: UAE-hosted Claude API / Llama 3.1 local</li>
+            <li>ADG Cloud or G42 Core42 — both UAE-government certified</li>
+            <li>ADAFSA retains full data ownership contractually</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- §9 KPI -->
+    <div class="section" id="sec-kpi">
+      <div class="section-id">Section 09</div>
+      <div class="section-title" data-num="9">KPI Framework</div>
+      <p class="section-intro">All KPIs are computed automatically, updated on each inference cycle, and exposed via the ADAFSA Operations Portal. Thresholds are configurable per site by ADAFSA administrators.</p>
+
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-card-top"><div class="kpi-name">Colony Strength Score</div><div class="kpi-refresh">30 s</div></div>
+          <div class="kpi-source">Source: CV inference</div>
+          <div class="kpi-threshold warn">Below 40: Warning<br>Below 20: Critical alert</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-card-top"><div class="kpi-name">Queen Status</div><div class="kpi-refresh">30 s</div></div>
+          <div class="kpi-source">Source: CV inference</div>
+          <div class="kpi-threshold danger">Absent &gt;24 h: Critical alert — immediate intervention required</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-card-top"><div class="kpi-name">Varroa Infestation Index</div><div class="kpi-refresh">30 s</div></div>
+          <div class="kpi-source">Source: CV inference</div>
+          <div class="kpi-threshold warn">Above 3%: Treatment recommended</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-card-top"><div class="kpi-name">Honey Reserve Level</div><div class="kpi-refresh">30 s</div></div>
+          <div class="kpi-source">Source: CV inference</div>
+          <div class="kpi-threshold">Below 20%: Supplemental feed alert</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-card-top"><div class="kpi-name">Hive Weight</div><div class="kpi-refresh">5 min</div></div>
+          <div class="kpi-source">Source: Load cell</div>
+          <div class="kpi-threshold warn">Drop &gt;2 kg/day: Swarm alert</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-card-top"><div class="kpi-name">Entrance Traffic Ratio</div><div class="kpi-refresh">5 min</div></div>
+          <div class="kpi-source">Source: IR counter</div>
+          <div class="kpi-threshold">Below 30% of 7-day baseline: Activity alert</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-card-top"><div class="kpi-name">Internal Temperature</div><div class="kpi-refresh">5 min</div></div>
+          <div class="kpi-source">Source: DS18B20 probe</div>
+          <div class="kpi-threshold warn">Above 37°C: Overheating. Below 32°C: Chilled brood risk</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-card-top"><div class="kpi-name">Swarming Risk Score</div><div class="kpi-refresh">1 h</div></div>
+          <div class="kpi-source">Source: ML forecast</div>
+          <div class="kpi-threshold danger">Above 70: Preventive intervention required immediately</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-card-top"><div class="kpi-name">Projected Honey Yield</div><div class="kpi-refresh">Daily</div></div>
+          <div class="kpi-source">Source: ML forecast</div>
+          <div class="kpi-threshold">Informational — used for harvest scheduling and executive reporting</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- §10 DEPLOYMENT -->
+    <div class="section" id="sec-deploy">
+      <div class="section-id">Section 10</div>
+      <div class="section-title" data-num="10">Deployment Architecture</div>
+      <p class="section-intro">Cloud platform on UAE sovereign infrastructure. Edge hardware co-located with hive installations across geographically distributed apiary sites, including potential remote desert locations served by 4G LTE private APN with LoRaWAN and Starlink as failover options.</p>
+
+      <div class="subsection-title">Cloud infrastructure</div>
+      <table class="spec-table">
+        <thead><tr><th>Component</th><th>Specification</th></tr></thead>
+        <tbody>
+          <tr><td>Cloud provider</td><td>ADG Cloud (Abu Dhabi Government Cloud) primary. G42 Core42 as alternative. Both certified for UAE government data classification.</td></tr>
+          <tr><td>Orchestration</td><td>Kubernetes 1.30+. Node pools: general-purpose (8 × 32-core CPU) + GPU (2 × NVIDIA A10G for local LLM).</td></tr>
+          <tr><td>Databases</td><td>TimescaleDB (PostgreSQL 16) for time-series. Redis Cluster for caching and pub/sub. PostgreSQL 16 for relational data.</td></tr>
+          <tr><td>Object storage</td><td>MinIO (S3-compatible, self-hosted). Erasure-coded with 2-site replication across two UAE availability zones.</td></tr>
+          <tr><td>Message broker</td><td>Apache Kafka 3-node cluster. One topic per apiary site. 7-day retention. Replay capability for ML retraining.</td></tr>
+          <tr><td>API gateway</td><td>Kong Gateway (self-hosted). Rate limiting, RBAC enforcement, routing, observability.</td></tr>
+          <tr><td>Observability</td><td>Prometheus + Grafana for metrics. Loki for logs. Jaeger for distributed tracing. PagerDuty on-call integration.</td></tr>
+          <tr><td>CI/CD</td><td>GitLab CI/CD (self-hosted). ArgoCD for Kubernetes GitOps. Trivy container scanning + SAST + DAST in pipeline.</td></tr>
+          <tr><td>Backup / DR</td><td>Daily snapshots, 90-day retention. Cross-site replication. RTO: 4 hours. RPO: 1 hour.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- §11 ROADMAP -->
+    <div class="section" id="sec-road">
+      <div class="section-id">Section 11</div>
+      <div class="section-title" data-num="11">Phased Implementation Roadmap</div>
+      <p class="section-intro">Five phases from discovery through continuous optimisation. Each phase has measurable gate criteria before progression. POC is deliberately scoped to 5–10 hives to prove concept quickly.</p>
+
+      <div class="phases">
+        <div class="phase">
+          <div class="phase-bubble p0">0</div>
+          <div class="phase-card">
+            <div class="phase-header">
+              <div class="phase-name">Phase 0 — Discovery</div>
+              <div class="phase-dur">2 weeks</div>
+            </div>
+            <div class="phase-deliv">Site survey of selected ADAFSA apiary. Hive format validation. Connectivity and power assessment. Data-sovereignty legal review. UAE bee species identification for dataset planning.</div>
+            <div class="phase-gate"><strong>Gate:</strong> Signed NDA. Site access confirmed. Legal clearance for data processing.</div>
+          </div>
+        </div>
+        <div class="phase">
+          <div class="phase-bubble p1">1</div>
+          <div class="phase-card">
+            <div class="phase-header">
+              <div class="phase-name">Phase 1 — POC</div>
+              <div class="phase-dur">6–8 weeks</div>
+            </div>
+            <div class="phase-deliv">5–10 hive pilot installation. Edge hardware deployed. Basic CV inference live: bee count, colony strength score, entrance traffic. Simple dashboard. UAE-species model fine-tuning begins. Both LLM modes operational.</div>
+            <div class="phase-gate"><strong>Gate:</strong> CV accuracy above 80% on UAE bees. ADAFSA stakeholder demo approved.</div>
+          </div>
+        </div>
+        <div class="phase">
+          <div class="phase-bubble p2">2</div>
+          <div class="phase-card">
+            <div class="phase-header">
+              <div class="phase-name">Phase 2 — MVP</div>
+              <div class="phase-dur">10–12 weeks</div>
+            </div>
+            <div class="phase-deliv">50-hive deployment. Full KPI suite live. Queen detection and Varroa index operational. LLM daily briefings in English and Arabic. Mobile app beta release. Alert notification pipeline active.</div>
+            <div class="phase-gate"><strong>Gate:</strong> All KPIs refreshing under 60 s. Queen detection F1 above 85%. Zero critical security findings.</div>
+          </div>
+        </div>
+        <div class="phase">
+          <div class="phase-bubble p3">3</div>
+          <div class="phase-card">
+            <div class="phase-header">
+              <div class="phase-name">Phase 3 — Production</div>
+              <div class="phase-dur">8–10 weeks</div>
+            </div>
+            <div class="phase-deliv">Full-scale fleet rollout across all ADAFSA apiary sites. Predictive analytics live. UAE PASS SSO. Regulatory compliance export. 99.5% uptime SLA established and monitored.</div>
+            <div class="phase-gate"><strong>Gate:</strong> ADAFSA UAT sign-off. Data-sovereignty audit passed. SLA contract live.</div>
+          </div>
+        </div>
+        <div class="phase">
+          <div class="phase-bubble p4">4</div>
+          <div class="phase-card">
+            <div class="phase-header">
+              <div class="phase-name">Phase 4 — Optimise</div>
+              <div class="phase-dur">Ongoing</div>
+            </div>
+            <div class="phase-deliv">Monthly ML retraining cycles with accuracy improvement targets. Additional detection classes (disease expansion). Beekeeper Network cross-farm aggregation builds competitive moat over time.</div>
+            <div class="phase-gate"><strong>Gate:</strong> Continuous KPI improvement vs Phase 3 baseline tracked in monthly reviews.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- §12 RISKS -->
+    <div class="section" id="sec-risk">
+      <div class="section-id">Section 12</div>
+      <div class="section-title" data-num="12">Technical Risks &amp; Mitigations</div>
+      <p class="section-intro">All major risks are known and have concrete mitigations built into the architecture. High-severity risks receive primary design attention — not workarounds.</p>
+
+      <table class="spec-table">
+        <thead><tr><th>Risk</th><th style="width:80px">Severity</th><th>Mitigation</th></tr></thead>
+        <tbody>
+          <tr><td>Camera obstruction by propolis / wax</td><td><span class="risk-badge high">High</span></td><td>Hydrophobic anti-propolis nano-coating. Integrated compressed-air cleaning nozzle. Weekly maintenance protocol.</td></tr>
+          <tr><td>Edge compute thermal throttling at 50°C+ ambient</td><td><span class="risk-badge high">High</span></td><td>Passive heatsink enclosure rated to 70°C. Adaptive duty-cycle firmware reduces capture frequency above thermal threshold. Shaded mounting mandatory.</td></tr>
+          <tr><td>UAE bee species model accuracy gap</td><td><span class="risk-badge high">High</span></td><td>Min. 500 UAE-annotated frames before production. Active learning continuously feeds corrections back. Annotation budget reserved in project plan.</td></tr>
+          <tr><td>Connectivity loss at remote desert sites</td><td><span class="risk-badge med">Medium</span></td><td>72-hour offline edge buffer. LoRaWAN secondary backhaul sufficient for compressed telemetry. Starlink evaluated for ultra-remote sites.</td></tr>
+          <tr><td>LLM hallucination in advisory reports</td><td><span class="risk-badge med">Medium</span></td><td>Rule-based post-processing validator cross-checks all numerics against telemetry DB before display. Domain expert review during UAT.</td></tr>
+          <tr><td>Data sovereignty conflict with external LLM API</td><td><span class="risk-badge med">Medium</span></td><td>Llama 3.1 70B local fallback fully operational from Phase 1. External API activated only with explicit ADAFSA written approval.</td></tr>
+          <tr><td>Fleet management complexity at scale</td><td><span class="risk-badge low">Low</span></td><td>Kubernetes auto-scaling. Load tested to 10,000 hives pre-Phase 3. Balena Cloud proven at 100,000+ device deployments.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- §13 SLA -->
+    <div class="section" id="sec-sla">
+      <div class="section-id">Section 13</div>
+      <div class="section-title" data-num="13">Quality Standards &amp; SLA</div>
+
+      <div class="subsection-title">ML accuracy targets</div>
+      <table class="spec-table">
+        <thead><tr><th>Metric</th><th>Phase 2 target</th><th>Phase 3 target</th></tr></thead>
+        <tbody>
+          <tr><td>Colony Strength Score vs. expert</td><td>Correlation &gt;85%</td><td>Correlation &gt;92%</td></tr>
+          <tr><td>Queen detection F1 score</td><td>&gt;85%</td><td>&gt;92%</td></tr>
+          <tr><td>Varroa index vs. alcohol wash</td><td>Correlation &gt;80%</td><td>Correlation &gt;88%</td></tr>
+          <tr><td>Bee count estimate (±15% tolerance)</td><td>&gt;85% within tolerance</td><td>&gt;92% within tolerance</td></tr>
+          <tr><td>Swarming prediction recall (7-day)</td><td>&gt;70%</td><td>&gt;80%</td></tr>
+        </tbody>
+      </table>
+
+      <div class="subsection-title">Platform SLA (Phase 3 production)</div>
+      <div class="sla-grid">
+        <div class="sla-card"><div class="sla-val">99.5%</div><div class="sla-label">Monthly uptime target</div></div>
+        <div class="sla-card"><div class="sla-val">&lt;5 s</div><div class="sla-label">Telemetry to dashboard (P99)</div></div>
+        <div class="sla-card"><div class="sla-val">&lt;60 s</div><div class="sla-label">Alert delivery (P95)</div></div>
+        <div class="sla-card"><div class="sla-val">1 h</div><div class="sla-label">Critical support response</div></div>
+      </div>
+    </div>
+
+    <!-- APPENDIX: STACK -->
+    <div class="section" id="sec-stack">
+      <div class="section-id">Appendix A</div>
+      <div class="section-title" data-num="A">Technology Stack Summary</div>
+      <p class="section-intro">Every technology choice is justified by UAE deployment constraints — not defaults. Passive cooling over fans (desert dust), TimescaleDB over InfluxDB (SQL familiarity for ADAFSA team), Balena Cloud over raw K3s (proven fleet management at scale).</p>
+
+      <table class="spec-table">
+        <thead><tr><th>Layer</th><th>Technology</th><th>Rationale</th></tr></thead>
+        <tbody>
+          <tr><td>CV Detection</td><td><span class="stack-tech">YOLOv9 + SAM 2</span></td><td>State-of-the-art accuracy. 10× less labelled data. Real-time capable on Jetson.</td></tr>
+          <tr><td>Edge Runtime</td><td><span class="stack-tech">TensorRT 10 (INT8)</span></td><td>Maximum GPU throughput on Jetson Orin. &lt;2 s inference latency.</td></tr>
+          <tr><td>Edge OS</td><td><span class="stack-tech">Ubuntu 22.04 LTS + JetPack 6</span></td><td>NVIDIA-optimised. LTS support. Broad package ecosystem.</td></tr>
+          <tr><td>Fleet Management</td><td><span class="stack-tech">Balena Cloud</span></td><td>Proven at 100k+ devices. OTA, remote access, health monitoring.</td></tr>
+          <tr><td>Time-series DB</td><td><span class="stack-tech">TimescaleDB</span></td><td>PostgreSQL-compatible. Purpose-built for sensor telemetry.</td></tr>
+          <tr><td>Message Broker</td><td><span class="stack-tech">Apache Kafka</span></td><td>High-throughput ingestion. Replay for ML retraining pipeline.</td></tr>
+          <tr><td>Orchestration</td><td><span class="stack-tech">Kubernetes 1.30+</span></td><td>ADG Cloud native. Auto-scaling. GitOps via ArgoCD.</td></tr>
+          <tr><td>ML Platform</td><td><span class="stack-tech">MLflow + Airflow</span></td><td>Model versioning, experiment tracking, DAG orchestration.</td></tr>
+          <tr><td>LLM (cloud)</td><td><span class="stack-tech">Claude API (Anthropic)</span></td><td>Superior reasoning. Native multilingual AR/EN. Structured output.</td></tr>
+          <tr><td>LLM (local)</td><td><span class="stack-tech">Llama 3.1 70B (GGUF)</span></td><td>Data-sovereignty fallback. NVIDIA A10G GPU-accelerated.</td></tr>
+          <tr><td>Backend</td><td><span class="stack-tech">Python (FastAPI) + Go</span></td><td>Python for ML pipeline. Go for high-throughput ingestion services.</td></tr>
+          <tr><td>Web Frontend</td><td><span class="stack-tech">React + TypeScript</span></td><td>Type safety. RTL Arabic support. Large component ecosystem.</td></tr>
+          <tr><td>Mobile</td><td><span class="stack-tech">React Native</span></td><td>Single codebase iOS + Android. Offline-capable.</td></tr>
+          <tr><td>IaC</td><td><span class="stack-tech">Terraform + Helm</span></td><td>Reproducible infrastructure. Kubernetes chart management.</td></tr>
+          <tr><td>Observability</td><td><span class="stack-tech">Prometheus · Grafana · Loki · Jaeger</span></td><td>Full-stack observability. Open-source. Self-hosted in UAE.</td></tr>
+          <tr><td>Security</td><td><span class="stack-tech">WireGuard · Vault · Kong · LUKS</span></td><td>Defence-in-depth across all four deployment tiers.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- OFFICES -->
+    <div class="section">
+      <div class="subsection-title">SoftTeco offices</div>
+      <div class="offices-grid">
+        <div class="office-card"><div class="office-flag">🇵🇱</div><div class="office-city">Warsaw, Poland (HQ)</div><div class="office-addr">9A/4U Belwederska St<br>Warsaw 00-761</div></div>
+        <div class="office-card"><div class="office-flag">🇦🇪</div><div class="office-city">Dubai, UAE</div><div class="office-addr">Al-Murar, Dubai<br>United Arab Emirates</div></div>
+        <div class="office-card"><div class="office-flag">🇱🇹</div><div class="office-city">Lithuania</div><div class="office-addr">Vilnius &amp; Kaunas</div></div>
+        <div class="office-card"><div class="office-flag">🇺🇸</div><div class="office-city">United States</div><div class="office-addr">Wenham, MA</div></div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+
+  <footer class="page-footer">
+    <div class="footer-left">
+      <div class="footer-brand">SoftTeco<sup style="font-size:9px;opacity:.5">®</sup></div>
+      <p>ISO 27001 Certified · Est. 2008 · 500+ Experts<br>
+      BeeGuard 4.0 — Technical Architecture &amp; Deployment Specification<br>
+      Prepared for ADAFSA via Innoventures · Version 1.0 · June 2026</p>
+    </div>
+    <div class="footer-links">
+      <a href="mailto:d.viazmin@softteco.com">d.viazmin@softteco.com</a><br>
+      <a href="https://softteco.com" target="_blank">softteco.com</a><br>
+      <span style="color:rgba(255,255,255,.25);font-size:11px;margin-top:6px;display:block">Privileged &amp; Confidential. Not for distribution.</span>
+    </div>
+  </footer>
+</div>
+
+<script>
+// ── nav click: scroll to section, highlight item, close mobile sidebar ──
+function navTo(id,btn){
+  const el=document.getElementById(id);
+  if(!el)return;
+  // offset for sticky topbar (58px)
+  const top=el.getBoundingClientRect().top+window.pageYOffset-66;
+  window.scrollTo({top,behavior:'smooth'});
+  document.querySelectorAll('.nav-item').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  // close sidebar on mobile after click
+  if(window.innerWidth<=900){
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('overlay').classList.remove('show');
+  }
+}
+
+// ── hamburger toggle ──
+function toggleSidebar(){
+  const sb=document.getElementById('sidebar');
+  const ov=document.getElementById('overlay');
+  sb.classList.toggle('open');
+  ov.classList.toggle('show');
+}
+
+// ── expand/collapse ──
+function toggleExpand(header){
+  const body=header.nextElementSibling;
+  const arrow=header.querySelector('.expand-arrow');
+  body.classList.toggle('open');
+  arrow.classList.toggle('open');
+}
+
+// ── scroll-spy: update active nav item while scrolling ──
+const secMap={
+  'sec-exec':'01','sec-ctx':'02','sec-arch':'03','sec-ml':'04',
+  'sec-llm':'05','sec-hw':'06','sec-platform':'07','sec-sec':'08',
+  'sec-kpi':'09','sec-deploy':'10','sec-road':'11','sec-risk':'12',
+  'sec-sla':'13','sec-stack':'A'
+};
+let scrollSpyActive=true;
+const observer=new IntersectionObserver(entries=>{
+  if(!scrollSpyActive)return;
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const num=secMap[e.target.id];
+      if(!num)return;
+      document.querySelectorAll('.nav-item').forEach(b=>{
+        const n=b.querySelector('.nav-num');
+        if(n&&n.textContent===num)b.classList.add('active');
+        else b.classList.remove('active');
+      });
+    }
+  });
+},{threshold:0.12,rootMargin:'-66px 0px -45% 0px'});
+document.querySelectorAll('.section[id]').forEach(s=>observer.observe(s));
+</script>
+</body>
+</html>

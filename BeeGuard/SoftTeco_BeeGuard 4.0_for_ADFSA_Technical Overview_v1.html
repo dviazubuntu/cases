@@ -1,0 +1,852 @@
+<!doctype html>
+<html lang="en" class="light">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>SoftTeco BeeGuard 4.0 — ADAFSA Edition | AI Architecture v2</title>
+<meta name="description" content="Edge-first, offline-capable AI colony monitoring for ADAFSA — YOLOv9 + SAM2 + hybrid LLM. Aligned with UAE AI Native Government 2027." />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ctext y='52' font-size='52'%3E🐝%3C/text%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+<style>
+:root{
+  --bg:#0A0F1A; --card:#111827; --card-2:#0f1626; --text:#F1F5F9; --muted:#94a3b8;
+  --gold:#E6A817; --gold-2:#f5c453; --uae:#1E3A5F; --uae-2:#2b5183;
+  --border:rgba(255,255,255,.08); --glass:rgba(17,24,39,.55);
+  --shadow:0 10px 30px rgba(0,0,0,.4);
+}
+html.light{
+  --bg:#f7f6f1; --card:#ffffff; --card-2:#fbfaf5; --text:#0b1220; --muted:#475569;
+  --border:rgba(10,15,26,.08); --glass:rgba(255,255,255,.65); --shadow:0 10px 30px rgba(10,15,26,.08);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:'Inter',system-ui,sans-serif;scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+.container{max-width:1240px;margin:0 auto;padding:0 24px}
+h1,h2,h3,h4{margin:0;letter-spacing:-.02em}
+h2.section-title{font-size:clamp(26px,3vw,40px);font-weight:700;margin-bottom:8px}
+.section-sub{color:var(--muted);margin-bottom:32px;max-width:760px}
+section{padding:88px 0;border-top:1px solid var(--border)}
+section:first-of-type{border-top:none}
+
+/* NAV */
+.nav{position:sticky;top:0;z-index:50;backdrop-filter:saturate(140%) blur(18px);background:var(--glass);border-bottom:1px solid var(--border)}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;height:68px}
+.brand{display:flex;align-items:center;gap:12px;font-weight:700}
+.brand .bee{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,var(--gold),#8a5a00);display:grid;place-items:center;color:#0A0F1A;font-size:18px;box-shadow:0 4px 14px rgba(230,168,23,.35)}
+.brand small{display:block;color:var(--muted);font-weight:500;font-size:11px;letter-spacing:.18em;text-transform:uppercase}
+.nav-links{display:flex;gap:2px;align-items:center;flex-wrap:wrap}
+.nav-links a{padding:9px 10px;border-radius:8px;font-size:13px;color:var(--muted);position:relative;transition:.2s}
+.nav-links a:hover{color:var(--text)}
+.nav-links a.active{color:var(--text)}
+.nav-links a.active::after{content:"";position:absolute;left:10px;right:10px;bottom:2px;height:2px;background:var(--gold);border-radius:2px}
+.nav-actions{display:flex;gap:8px;align-items:center}
+.icon-btn{width:38px;height:38px;border-radius:10px;border:1px solid var(--border);background:transparent;color:var(--text);cursor:pointer;display:grid;place-items:center;transition:.2s}
+.icon-btn:hover{background:var(--card)}
+.burger{display:none}
+@media(max-width:1100px){
+  .nav-links{position:fixed;inset:68px 0 auto 0;flex-direction:column;align-items:stretch;background:var(--bg);border-bottom:1px solid var(--border);padding:12px;gap:2px;transform:translateY(-130%);transition:transform .25s;max-height:calc(100vh - 68px);overflow:auto}
+  .nav-links.open{transform:translateY(0)}
+  .nav-links a{padding:14px 16px}
+  .nav-links a.active::after{display:none}
+  .nav-links a.active{background:var(--card)}
+  .burger{display:grid}
+}
+
+/* HERO */
+.hero{padding:96px 0 64px;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:-20% -10% auto auto;width:60vw;height:60vw;background:radial-gradient(circle at 60% 40%,rgba(230,168,23,.18),transparent 60%);filter:blur(20px);pointer-events:none}
+.hero::after{content:"";position:absolute;inset:auto auto -30% -10%;width:50vw;height:50vw;background:radial-gradient(circle,rgba(30,58,95,.45),transparent 60%);filter:blur(30px);pointer-events:none}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border:1px solid var(--border);border-radius:999px;color:var(--gold);font-size:12px;letter-spacing:.16em;text-transform:uppercase;background:var(--card)}
+.hero h1{font-size:clamp(34px,5.4vw,64px);font-weight:800;line-height:1.05;margin:20px 0 16px;letter-spacing:-.03em}
+.hero h1 .accent{background:linear-gradient(90deg,var(--gold),var(--gold-2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p.lead{font-size:18px;color:var(--muted);max-width:760px}
+.hero-cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:12px 18px;border-radius:10px;font-weight:600;font-size:14px;border:1px solid var(--border);background:var(--card);cursor:pointer;color:var(--text);transition:.2s}
+.btn:hover{transform:translateY(-1px)}
+.btn.gold{background:linear-gradient(135deg,var(--gold),#c98c0a);border-color:transparent;color:#0A0F1A}
+
+.hero-badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:10px;font-size:12.5px;font-weight:600;border:1px solid var(--border);background:rgba(30,58,95,.25);color:#cfe1f4}
+.hero-badge i{color:var(--gold)}
+.hero-badge.uae2027{background:linear-gradient(135deg,rgba(230,168,23,.18),rgba(30,58,95,.35));border-color:rgba(230,168,23,.35)}
+
+.counters{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:48px}
+@media(max-width:780px){.counters{grid-template-columns:1fr}}
+.counter{padding:24px;border:1px solid var(--border);border-radius:16px;background:linear-gradient(180deg,var(--card),var(--card-2));position:relative;overflow:hidden}
+.counter .num{font-size:42px;font-weight:800;letter-spacing:-.03em;background:linear-gradient(90deg,var(--gold),var(--gold-2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.counter .lbl{color:var(--muted);margin-top:4px;font-size:14px}
+
+/* CARDS / GRID */
+.grid{display:grid;gap:16px}
+.card{background:linear-gradient(180deg,var(--card),var(--card-2));border:1px solid var(--border);border-radius:16px;padding:18px;transition:.25s;box-shadow:var(--shadow)}
+.card:hover{transform:translateY(-3px);border-color:rgba(230,168,23,.35)}
+.card .icn{width:40px;height:40px;border-radius:10px;background:rgba(230,168,23,.12);display:grid;place-items:center;color:var(--gold);font-size:18px}
+
+/* ARCHITECTURE DIAGRAM */
+.tiers{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;align-items:stretch}
+@media(max-width:1080px){.tiers{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:620px){.tiers{grid-template-columns:1fr}}
+.tier{position:relative;background:linear-gradient(180deg,var(--card),var(--card-2));border:1px solid var(--border);border-radius:18px;padding:18px;display:flex;flex-direction:column;gap:12px}
+.tier-head{display:flex;align-items:center;gap:10px;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);font-weight:700}
+.tier-head .dot{width:8px;height:8px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 4px rgba(230,168,23,.18)}
+.tier-title{font-size:15px;font-weight:700;margin-top:-4px}
+.block{position:relative;border:1px solid var(--border);border-radius:12px;padding:12px 12px 12px 42px;background:rgba(255,255,255,.02);transition:.2s;cursor:help}
+html.light .block{background:rgba(10,15,26,.02)}
+.block:hover{border-color:var(--gold);background:rgba(230,168,23,.06)}
+.block i.bi{position:absolute;left:12px;top:12px;width:22px;height:22px;display:grid;place-items:center;color:var(--gold)}
+.block b{display:block;font-size:13px}
+.block span{display:block;font-size:11.5px;color:var(--muted);margin-top:2px}
+.block.highlight{border-color:rgba(230,168,23,.5);background:rgba(230,168,23,.08)}
+/* connectors */
+.tier::after{content:"→";position:absolute;right:-18px;top:50%;transform:translateY(-50%);color:var(--gold);font-weight:700;font-size:22px;z-index:2}
+.tier:last-child::after{display:none}
+@media(max-width:1080px){
+  .tier::after{content:"↓";right:50%;top:auto;bottom:-22px;transform:translateX(50%)}
+}
+.arch-note{margin-top:14px;padding:12px 14px;border-radius:10px;background:rgba(30,58,95,.25);border:1px solid rgba(155,193,234,.25);color:#cfe1f4;font-size:13px}
+.arch-note i{color:var(--gold);margin-right:6px}
+.presentation{margin-top:32px;display:grid;grid-template-columns:repeat(3,1fr);gap:16px;position:relative}
+.presentation::before{content:"↓";position:absolute;top:-26px;left:50%;transform:translateX(-50%);color:var(--gold);font-size:22px;font-weight:700}
+@media(max-width:820px){.presentation{grid-template-columns:1fr}}
+.pres-card{border:1px dashed rgba(230,168,23,.35);border-radius:14px;padding:16px;background:rgba(230,168,23,.04)}
+.pres-card b{display:block;margin-bottom:4px}
+.pres-card span{color:var(--muted);font-size:13px}
+
+/* tooltip */
+[data-tip]{position:relative}
+[data-tip]:hover::before{content:attr(data-tip);position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:#000;color:#fff;padding:8px 10px;font-size:12px;border-radius:8px;white-space:normal;width:max-content;max-width:260px;z-index:30;box-shadow:0 8px 20px rgba(0,0,0,.4);border:1px solid var(--border)}
+
+/* JUSTIFICATION TABLE */
+.just-tbl{overflow:auto;border-radius:14px;border:1px solid var(--border);margin-top:20px}
+.just-tbl table{min-width:780px}
+.just-tbl td:nth-child(3){color:var(--gold);font-weight:600}
+
+/* FOUNDATION COMPARISON */
+.fcompare{display:grid;grid-template-columns:1fr 60px 1fr;gap:18px;align-items:stretch;margin-top:24px}
+@media(max-width:820px){.fcompare{grid-template-columns:1fr;gap:14px}.fcompare .vs{justify-self:center}}
+.fcol{padding:22px;border-radius:16px;border:1px solid var(--border);background:linear-gradient(180deg,var(--card),var(--card-2))}
+.fcol.bad{opacity:.85}
+.fcol.good{border-color:rgba(230,168,23,.4);box-shadow:0 0 0 1px rgba(230,168,23,.2)}
+.fcol h4{font-size:16px;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.fcol h4 .pill{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;padding:3px 8px;border-radius:999px;background:rgba(255,255,255,.05);color:var(--muted)}
+.fcol.good h4 .pill{background:rgba(230,168,23,.18);color:var(--gold)}
+.fmetric{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px dashed var(--border);font-size:14px}
+.fmetric:last-child{border-bottom:none}
+.fmetric i{width:32px;height:32px;border-radius:8px;background:rgba(230,168,23,.1);color:var(--gold);display:grid;place-items:center}
+.fmetric b{display:block}
+.fmetric span{color:var(--muted);font-size:12px}
+.vs{display:grid;place-items:center;color:var(--gold);font-weight:800;font-size:22px}
+
+/* DEPLOYMENT */
+.deploy{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media(max-width:980px){.deploy{grid-template-columns:1fr}}
+.deploy-card{padding:24px;border-radius:18px;border:1px solid var(--border);background:linear-gradient(180deg,var(--card),var(--card-2));position:relative;overflow:hidden}
+.deploy-card h3{font-size:20px;display:flex;align-items:center;gap:10px}
+.tag{display:inline-block;padding:4px 10px;border-radius:999px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:700}
+.tag.pilot{background:rgba(30,58,95,.4);color:#9bc1ea;border:1px solid rgba(155,193,234,.3)}
+.tag.prod{background:rgba(230,168,23,.15);color:var(--gold);border:1px solid rgba(230,168,23,.35)}
+.deploy-vis{margin:18px 0;padding:18px;border-radius:14px;background:rgba(255,255,255,.02);border:1px solid var(--border);display:flex;align-items:center;justify-content:space-around;min-height:140px;flex-wrap:wrap;gap:10px}
+html.light .deploy-vis{background:rgba(10,15,26,.02)}
+.apiary{display:flex;flex-direction:column;align-items:center;gap:6px;color:var(--muted);font-size:12px}
+.apiary i{font-size:22px;color:var(--gold)}
+.cloud-node{display:flex;flex-direction:column;align-items:center;gap:6px;color:var(--muted);font-size:12px}
+.cloud-node i{font-size:28px;color:#9bc1ea}
+.deploy ul{margin:0;padding-left:18px;color:var(--muted);font-size:14px;line-height:1.8}
+.deploy ul li b{color:var(--text);font-weight:600}
+.accuracy{margin-top:16px;padding:10px 14px;border-radius:10px;background:rgba(230,168,23,.1);border:1px solid rgba(230,168,23,.3);color:var(--gold);font-weight:600;font-size:13px;display:inline-block}
+
+.econ{margin-top:22px;padding:22px;border-radius:18px;border:1px solid var(--border);background:linear-gradient(135deg,rgba(30,58,95,.3),rgba(230,168,23,.06))}
+.econ h4{font-size:16px;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.econ h4 i{color:var(--gold)}
+.econ-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(max-width:820px){.econ-grid{grid-template-columns:1fr}}
+.econ-item{padding:14px;border-radius:12px;background:rgba(0,0,0,.18);border:1px solid var(--border)}
+html.light .econ-item{background:rgba(255,255,255,.5)}
+.econ-item .big{font-size:24px;font-weight:800;color:var(--gold);letter-spacing:-.02em}
+.econ-item .lbl{font-size:12px;color:var(--muted);margin-top:4px}
+.econ .dis{margin-top:12px;font-size:12px;color:var(--muted);font-style:italic}
+
+/* UAE map */
+.uae-map{margin-top:28px;padding:24px;border-radius:18px;border:1px solid var(--border);background:linear-gradient(180deg,var(--card),var(--card-2))}
+.uae-map h4{margin-bottom:12px;font-size:14px;color:var(--muted);text-transform:uppercase;letter-spacing:.14em}
+.map-svg{width:100%;height:auto;max-height:280px}
+
+/* TABLE */
+.tbl-wrap{overflow:auto;border-radius:14px;border:1px solid var(--border)}
+table{width:100%;border-collapse:collapse;min-width:820px;background:var(--card)}
+th,td{padding:13px 14px;text-align:left;font-size:13.5px;border-bottom:1px solid var(--border)}
+th{background:var(--card-2);font-size:11.5px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);cursor:pointer;user-select:none;position:sticky;top:0}
+th:hover{color:var(--text)}
+th .arrow{opacity:.5;margin-left:4px;font-size:10px}
+tbody tr:hover{background:rgba(230,168,23,.04)}
+td.acc{color:var(--gold);font-weight:600}
+.cam-pill{display:inline-block;padding:3px 9px;border-radius:999px;font-size:11px;font-weight:600;letter-spacing:.04em}
+.cam-pill.ent{background:rgba(155,193,234,.15);color:#9bc1ea;border:1px solid rgba(155,193,234,.3)}
+.cam-pill.fr{background:rgba(230,168,23,.12);color:var(--gold);border:1px solid rgba(230,168,23,.3)}
+.note{margin-top:14px;color:var(--muted);font-size:13px;font-style:italic;padding:12px 14px;border-left:3px solid var(--gold);background:rgba(230,168,23,.06);border-radius:0 8px 8px 0}
+
+/* LLM widget */
+.llm{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media(max-width:980px){.llm{grid-template-columns:1fr}}
+.llm-panel{padding:20px;border-radius:16px;border:1px solid var(--border);background:linear-gradient(180deg,var(--card),var(--card-2))}
+select,input,textarea{font-family:inherit}
+.select{width:100%;padding:12px 14px;border-radius:10px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:14px}
+pre.json{margin:14px 0 0;padding:14px;background:#05080f;color:#cbd5e1;border-radius:10px;font-size:12.5px;overflow:auto;max-height:280px;border:1px solid var(--border)}
+html.light pre.json{background:#0b1220;color:#e2e8f0}
+.insight{padding:16px;border-radius:12px;background:rgba(230,168,23,.06);border:1px solid rgba(230,168,23,.3);color:var(--text);line-height:1.6;font-size:14.5px;min-height:120px}
+.insight em{color:var(--muted)}
+.model-chip{display:inline-flex;align-items:center;gap:6px;padding:5px 11px;border-radius:999px;background:var(--uae);color:#cfe1f4;font-size:11.5px;font-weight:600;letter-spacing:.04em;margin-bottom:6px}
+.model-reason{display:block;font-size:11.5px;color:var(--muted);margin-bottom:12px;font-style:italic}
+
+/* LLM ROUTING */
+.routing{margin-top:24px;padding:20px;border-radius:16px;border:1px solid var(--border);background:linear-gradient(180deg,var(--card),var(--card-2))}
+.routing h4{font-size:14px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);margin-bottom:14px}
+.routes{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(max-width:820px){.routes{grid-template-columns:1fr}}
+.route{padding:14px;border-radius:12px;border:1px solid var(--border);background:rgba(0,0,0,.18);position:relative}
+html.light .route{background:rgba(255,255,255,.5)}
+.route .cond{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.12em;margin-bottom:8px}
+.route .arrow{color:var(--gold);margin:0 6px}
+.route b{font-size:14px}
+.route span.where{display:block;font-size:11.5px;color:var(--muted);margin-top:4px}
+
+/* Code */
+.code-wrap{position:relative;margin-top:18px}
+pre.code{margin:0;padding:18px;background:#05080f;color:#e2e8f0;border-radius:12px;font-size:13px;overflow:auto;border:1px solid var(--border);font-family:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace}
+.copy-btn{position:absolute;top:10px;right:10px;padding:6px 10px;font-size:12px;border-radius:8px;border:1px solid var(--border);background:rgba(255,255,255,.05);color:#fff;cursor:pointer}
+.copy-btn:hover{background:rgba(230,168,23,.2);border-color:var(--gold)}
+
+/* SECURITY BADGES */
+.badges{display:grid;grid-template-columns:repeat(6,1fr);gap:14px}
+@media(max-width:1080px){.badges{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:620px){.badges{grid-template-columns:repeat(2,1fr)}}
+.badge{padding:18px;border-radius:14px;border:1px solid var(--border);background:linear-gradient(180deg,var(--card),var(--card-2));text-align:center;transition:.2s}
+.badge:hover{transform:translateY(-3px);border-color:var(--gold)}
+.badge i{font-size:24px;color:var(--gold);margin-bottom:10px;display:block}
+.badge b{font-size:13px;display:block}
+.badge span{font-size:11.5px;color:var(--muted);display:block;margin-top:3px}
+
+/* DATA RETENTION */
+.retention{margin-top:24px;display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+@media(max-width:820px){.retention{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:480px){.retention{grid-template-columns:1fr}}
+.ret-item{padding:16px;border-radius:14px;border:1px solid var(--border);background:rgba(0,0,0,.18)}
+html.light .ret-item{background:rgba(255,255,255,.5)}
+.ret-item .tag-r{display:inline-block;padding:3px 9px;border-radius:999px;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;background:rgba(230,168,23,.15);color:var(--gold);margin-bottom:8px}
+.ret-item b{display:block;font-size:14px}
+.ret-item span{display:block;font-size:12px;color:var(--muted);margin-top:4px}
+
+/* BENCHMARK */
+.bench{display:grid;grid-template-columns:1.2fr 1fr;gap:20px;align-items:start}
+@media(max-width:980px){.bench{grid-template-columns:1fr}}
+.bench-chart{padding:22px;border-radius:16px;border:1px solid var(--border);background:linear-gradient(180deg,var(--card),var(--card-2))}
+.bench-row{display:grid;grid-template-columns:160px 1fr 60px;gap:12px;align-items:center;margin-bottom:14px;font-size:13px}
+.bench-row .lbl{color:var(--muted)}
+.bench-bar{position:relative;height:10px;border-radius:999px;background:rgba(255,255,255,.06);overflow:hidden}
+html.light .bench-bar{background:rgba(10,15,26,.08)}
+.bench-bar .fill{position:absolute;left:0;top:0;bottom:0;background:linear-gradient(90deg,var(--gold),var(--gold-2));border-radius:999px}
+.bench-bar .you{position:absolute;top:-3px;width:3px;height:16px;background:#fff;box-shadow:0 0 0 2px rgba(255,255,255,.2)}
+.bench-row .val{text-align:right;color:var(--gold);font-weight:700;font-size:12.5px}
+.bench-legend{font-size:12px;color:var(--muted);margin-top:6px}
+.bench-legend .swatch{display:inline-block;width:10px;height:10px;border-radius:3px;background:var(--gold);margin-right:6px;vertical-align:middle}
+
+/* INTEGRATION */
+.integ{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:24px}
+@media(max-width:980px){.integ{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:480px){.integ{grid-template-columns:1fr}}
+.integ-card{padding:18px;border-radius:14px;border:1px solid var(--border);background:linear-gradient(180deg,var(--card),var(--card-2))}
+.integ-card i{color:var(--gold);font-size:20px}
+.integ-card b{display:block;margin-top:10px;font-size:14px}
+.integ-card span{display:block;font-size:12.5px;color:var(--muted);margin-top:4px}
+
+/* COMPANY */
+.company{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+@media(max-width:820px){.company{grid-template-columns:1fr}}
+.company-card{padding:28px;border-radius:18px;border:1px solid var(--border);background:linear-gradient(180deg,var(--card),var(--card-2))}
+.company-card h3{font-size:34px;font-weight:800;color:var(--uae-2);letter-spacing:-.02em}
+html:not(.light) .company-card h3{color:#9bc1ea}
+.company-card .meta{margin-top:8px;color:var(--muted);font-size:14px}
+.company-card .contact{margin-top:18px;line-height:1.9;font-size:14px}
+.company-card .contact a{color:var(--gold)}
+.offices{list-style:none;padding:0;margin:0;display:grid;gap:12px}
+.offices li{display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed var(--border)}
+.offices li:last-child{border-bottom:none}
+.offices i{color:var(--gold);margin-top:3px}
+.offices b{display:block;font-size:14px}
+.offices span{font-size:13px;color:var(--muted)}
+
+footer{padding:32px 0;border-top:1px solid var(--border);color:var(--muted);font-size:13px;text-align:center}
+footer .dis{font-size:12px;margin-top:6px;opacity:.8}
+html.light .arch-note{color:var(--uae-2)}
+html.light .hero-badge{color:var(--uae)}
+html.light .map-svg text{fill:var(--uae)!important}
+html.light .bench-bar .you{background:var(--uae);box-shadow:0 0 0 2px rgba(30,58,95,.2)}
+html.light pre.json{background:#f1f5f9;color:#0f172a;border-color:var(--border)}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<header class="nav">
+  <div class="container nav-inner">
+    <a href="#top" class="brand">
+      <span class="bee">🐝</span>
+      <div>
+        SoftTeco<sup style="color:var(--gold)">®</sup>
+        <small>BeeGuard 4.0</small>
+      </div>
+    </a>
+    <nav class="nav-links" id="navLinks">
+      <a href="#overview">Overview</a>
+      <a href="#architecture">Architecture</a>
+      <a href="#why">Why this stack</a>
+      <a href="#models">Model Stack</a>
+      <a href="#deployment">Deployment</a>
+      <a href="#llm">LLM Insights</a>
+      <a href="#network">Network</a>
+      <a href="#integration">Integration</a>
+      <a href="#security">Security</a>
+      <a href="#company">Company</a>
+    </nav>
+    <div class="nav-actions">
+      <button class="icon-btn" id="themeBtn" title="Toggle theme"><i class="fa-solid fa-moon"></i></button>
+      <button class="icon-btn burger" id="burger" title="Menu"><i class="fa-solid fa-bars"></i></button>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="container">
+    <span class="eyebrow"><i class="fa-solid fa-shield-halved"></i> ADAFSA Edition · Abu Dhabi</span>
+    <h1>Autonomous, edge-first <span class="accent">AI colony monitoring</span> for the UAE.</h1>
+    <p class="lead">SoftTeco BeeGuard 4.0 combines <span data-tip="You Only Look Once v9 — lightweight object detection optimized for edge devices.">YOLOv9</span>, <span data-tip="Segment Anything Model v2 — Meta's foundation segmentation model for zero-shot object masking.">SAM2</span> and a hybrid Llama 3 / GPT-4 reasoning layer to deliver real-time hive intelligence — across thousands of apiaries — under a strict government-grade security envelope.</p>
+    <div class="hero-badges">
+      <span class="hero-badge uae2027"><i class="fa-solid fa-flag"></i> UAE AI Native Government 2027 — aligned</span>
+      <span class="hero-badge"><i class="fa-solid fa-tower-broadcast"></i> Operates 14+ days offline</span>
+      <span class="hero-badge"><i class="fa-solid fa-bug"></i> Varroa detection · 90% mAP</span>
+      <span class="hero-badge"><i class="fa-solid fa-lock"></i> Sovereign UAE data residency</span>
+    </div>
+    <div class="hero-cta">
+      <a class="btn gold" href="#architecture"><i class="fa-solid fa-diagram-project"></i> View architecture</a>
+      <a class="btn" href="#llm"><i class="fa-solid fa-wand-magic-sparkles"></i> Try LLM insight demo</a>
+    </div>
+    <div class="counters" id="counters">
+      <div class="counter"><div class="num"><span data-target="10">0</span>×</div><div class="lbl">Less labeled data required (vs. classic CNN pipelines)</div></div>
+      <div class="counter"><div class="num"><span data-target="99">0</span>%</div><div class="lbl">Edge inference uptime per hive (self-diagnosing)</div></div>
+      <div class="counter"><div class="num">&lt; <span data-target="5">0</span> min</div><div class="lbl">End-to-end alert latency</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- OVERVIEW -->
+<section id="overview">
+  <div class="container">
+    <h2 class="section-title">Overview</h2>
+    <p class="section-sub">BeeGuard 4.0 is an edge-first colony monitoring platform engineered for the Abu Dhabi Agriculture & Food Safety Authority (ADAFSA). Every hive is an autonomous compute node — capturing imagery, running on-device AI, buffering locally up to 14 days, and synchronising securely to a sovereign cloud control plane.</p>
+    <div class="grid" style="grid-template-columns:repeat(3,1fr)">
+      <div class="card"><div class="icn"><i class="fa-solid fa-microchip"></i></div><h3 style="margin:10px 0 6px;font-size:16px">Edge-first by design</h3><p style="color:var(--muted);font-size:14px;margin:0">95% of inference runs on the hive. Connectivity drops never stop monitoring — 14-day offline buffer.</p></div>
+      <div class="card"><div class="icn"><i class="fa-solid fa-bolt"></i></div><h3 style="margin:10px 0 6px;font-size:16px">Foundation-model AI</h3><p style="color:var(--muted);font-size:14px;margin:0">SAM2 + YOLOv9 cut annotation cost by 10× while raising mAP above 0.90.</p></div>
+      <div class="card"><div class="icn"><i class="fa-solid fa-bug"></i></div><h3 style="margin:10px 0 6px;font-size:16px"><em>Varroa destructor</em> detection</h3><p style="color:var(--muted);font-size:14px;margin:0">Dedicated YOLOv9 model — 90% mAP — flags mite outbreaks days before visible colony collapse.</p></div>
+      <div class="card"><div class="icn"><i class="fa-solid fa-chart-line"></i></div><h3 style="margin:10px 0 6px;font-size:16px">Predictive analytics</h3><p style="color:var(--muted);font-size:14px;margin:0"><b>Nectar flow start</b> (±2 days) · <b>foraging forecast</b> (24h) · <b>colony strength</b> (7-day rolling trend).</p></div>
+      <div class="card"><div class="icn"><i class="fa-solid fa-network-wired"></i></div><h3 style="margin:10px 0 6px;font-size:16px">Beekeeper network</h3><p style="color:var(--muted);font-size:14px;margin:0">Anonymized cross-hive benchmarking across 5,000+ colonies — a unique competitive moat for ADAFSA.</p></div>
+      <div class="card"><div class="icn"><i class="fa-solid fa-lock"></i></div><h3 style="margin:10px 0 6px;font-size:16px">Sovereign & secure</h3><p style="color:var(--muted);font-size:14px;margin:0">Signed models, mutual TLS, ADAFSA SSO, full audit trail — ISO 27001 aligned, raw imagery never leaves apiary.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ARCHITECTURE -->
+<section id="architecture">
+  <div class="container">
+    <h2 class="section-title">Technical Architecture</h2>
+    <p class="section-sub">A four-tier pipeline from the hive sensor to the ADAFSA dashboard. Tier 1 deploys <b>two camera positions</b> per hive — entrance and frame inspection. Hover any block for a brief description.</p>
+
+    <div class="tiers">
+      <!-- TIER 1 -->
+      <div class="tier">
+        <div class="tier-head"><span class="dot"></span>Tier 1</div>
+        <div class="tier-title">Edge Layer · per hive</div>
+        <div class="block" data-tip="Fixed entrance camera, always-on, captures bee traffic, foraging patterns and nectar-flow indicators every 30–60 seconds."><i class="bi fa-solid fa-camera"></i><b>Entrance Camera (5–8 MP, IR-cut)</b><span>Always on · every 30–60 sec</span></div>
+        <div class="block" data-tip="Secondary camera or slot used for weekly / on-demand frame inspection. Operator may slide a frame into view for deeper inference until transparent frame walls become commercially available."><i class="bi fa-solid fa-magnifying-glass"></i><b>Frame Inspection Camera / Slot</b><span>Weekly or on-demand</span></div>
+        <div class="block" data-tip="Edge AI accelerator running quantized models locally. Raspberry Pi 4 in pilot, NVIDIA Jetson Orin Nano at scale (one gateway per 10 hives)."><i class="bi fa-solid fa-microchip"></i><b>Edge AI Compute (RPi 4 / Jetson Orin Nano)</b><span>YOLOv9 + SAM2 · INT8</span></div>
+        <div class="block" data-tip="Local SQLite store with thumbnail caching keeps the hive operational during connectivity loss."><i class="bi fa-solid fa-database"></i><b>Local Buffer (SQLite + Thumbnails)</b><span>7–14 day retention</span></div>
+      </div>
+      <!-- TIER 2 -->
+      <div class="tier">
+        <div class="tier-head"><span class="dot"></span>Tier 2</div>
+        <div class="tier-title">Connectivity</div>
+        <div class="block" data-tip="4G/LTE modem provides the primary backhaul to the cloud. SIM-management is centralised."><i class="bi fa-solid fa-tower-cell"></i><b>4G / LTE Module</b><span>Primary backhaul</span></div>
+        <div class="block" data-tip="LoRaWAN long-range, low-power radio used as fallback for metrics only when 4G is unavailable."><i class="bi fa-solid fa-broadcast-tower"></i><b>LoRaWAN Backup</b><span>Metrics only</span></div>
+        <div class="block highlight" data-tip="Store-and-forward queue persists up to 14 days of metrics + thumbnails locally. When the uplink returns, the buffer drains in order — zero data loss."><i class="bi fa-solid fa-cloud-arrow-up"></i><b>Offline Mode · Store &amp; Forward</b><span>14-day buffer · zero data loss</span></div>
+        <div class="block" data-tip="MQTT is a lightweight publish/subscribe protocol, secured with mutual TLS 1.3 between edge and cloud."><i class="bi fa-solid fa-shield"></i><b>MQTT over TLS 1.3</b><span>Edge → Cloud sync</span></div>
+      </div>
+      <!-- TIER 3 -->
+      <div class="tier">
+        <div class="tier-head"><span class="dot"></span>Tier 3</div>
+        <div class="tier-title">Cloud Control Plane</div>
+        <div class="block" data-tip="API gateway brokers all requests, enforces rate limits, OAuth2 and integrates with ADAFSA Single Sign-On."><i class="bi fa-solid fa-network-wired"></i><b>API Gateway (Kong / AWS)</b><span>OAuth2 + ADAFSA SSO</span></div>
+        <div class="block" data-tip="TimescaleDB — PostgreSQL extension optimized for time-series at scale, used for metrics, events and metadata."><i class="bi fa-solid fa-chart-line"></i><b>TimescaleDB</b><span>Time-series + metadata</span></div>
+        <div class="block" data-tip="Feast feature store — single source of truth for ML features with online + offline parity."><i class="bi fa-solid fa-cubes"></i><b>Feature Store (Feast)</b><span>30-day rolling windows</span></div>
+      </div>
+      <!-- TIER 4 -->
+      <div class="tier">
+        <div class="tier-head"><span class="dot"></span>Tier 4</div>
+        <div class="tier-title">Analytics & AI Layer</div>
+        <div class="block" data-tip="Prophet and XGBoost forecast swarming risk, nectar flow start, yield and colony strength 7–21 days in advance."><i class="bi fa-solid fa-chart-area"></i><b>Predictive ML (Prophet / XGBoost)</b><span>Swarming · nectar flow · yield</span></div>
+        <div class="block" data-tip="Hybrid LLM stack: Llama 3 70B on private GPUs for routine and sensitive insights; GPT-4 Turbo on Azure UAE for complex cross-hive reasoning; Llama 3 8B at the edge when offline."><i class="bi fa-solid fa-wand-magic-sparkles"></i><b>Hybrid LLM Engine</b><span>Llama 3 70B · GPT-4 · Llama 3 8B</span></div>
+        <div class="block" data-tip="Deterministic rules engine — queen loss detection, Varroa thresholds, temperature anomalies, swarming triggers."><i class="bi fa-solid fa-bell"></i><b>Rules & Alerts</b><span>Queen loss · Varroa · Swarm</span></div>
+      </div>
+    </div>
+
+    <div class="arch-note"><i class="fa-solid fa-circle-info"></i>The operator may slide a frame into the inspection camera's view for deeper inference — until transparent frame walls become commercially available, this manual / semi-automated capture is the standard.</div>
+
+    <div class="presentation">
+      <div class="pres-card"><b><i class="fa-solid fa-display" style="color:var(--gold)"></i> ADAFSA Dashboard</b><span>React + Mapbox · live hive map, drilldowns, KPIs</span></div>
+      <div class="pres-card"><b><i class="fa-solid fa-bell" style="color:var(--gold)"></i> Alert System</b><span>Telegram · Email · SMS · webhook</span></div>
+      <div class="pres-card"><b><i class="fa-solid fa-code" style="color:var(--gold)"></i> Reporting API</b><span>REST · daily Parquet drops · ADAFSA data lake</span></div>
+    </div>
+
+    <div class="code-wrap">
+      <pre class="code"><code># edge_inference.py — per-hive loop (pseudo-code)
+while camera.alive:
+    frame   = entrance_cam.capture()                   # every 30–60 sec
+    bees    = yolov9.detect(frame, model="bees-int8")
+    varroa  = yolov9.detect(frame, model="varroa-int8")
+    traffic = resnet18.classify(frame_sequence)        # entrance flow
+
+    if scheduler.frame_inspection_due():               # weekly / on-demand
+        f2     = frame_cam.capture()
+        queen  = sam2.segment(f2, prompt="queen")
+        brood  = yolov9.detect(f2, model="brood-int8")
+        honey  = sam2.segment(f2, prompt="capped honey")
+
+    if vision.blur_or_soiling_detected(frame):         # self-diagnosis
+        alerts.notify("lens cleaning required")
+        continue
+
+    metrics = aggregate(bees, varroa, traffic, queen, brood, honey)
+    buffer.write_sqlite(metrics, ts=now())             # always local-first
+
+    if uplink.available():
+        buffer.flush_to_mqtt("adafsa/hive/{id}/metrics", tls=True)
+    else:
+        buffer.offline_queue.append(metrics)           # store-and-forward
+        # buffer holds up to 14 days — zero data loss</code></pre>
+      <button class="copy-btn" data-copy>Copy</button>
+    </div>
+  </div>
+</section>
+
+<!-- WHY THIS STACK -->
+<section id="why">
+  <div class="container">
+    <h2 class="section-title">Why this technology landscape?</h2>
+    <p class="section-sub">Every architectural choice maps to an ADAFSA-specific constraint — desert connectivity, sparse labeled data, AI-native KPIs, and sovereign data residency.</p>
+
+    <div class="just-tbl tbl-wrap">
+      <table>
+        <thead><tr>
+          <th>Requirement</th><th>Common alternative</th><th>BeeGuard 4.0 choice</th><th>Justification</th>
+        </tr></thead>
+        <tbody>
+          <tr><td>Offline operation</td><td>Cloud-only inference</td><td>Edge AI (YOLOv9 + SAM2)</td><td>Desert apiaries have intermittent 4G — edge inference + 14-day buffer guarantees no data loss.</td></tr>
+          <tr><td>Low labeled data</td><td>Classic CNN (100k+ labels)</td><td>Foundation models (SAM2)</td><td>10× less annotation — critical for UAE-specific bee strains with limited training corpora.</td></tr>
+          <tr><td>Real-time alerts</td><td>Daily batch processing</td><td>Edge + MQTT streaming</td><td>Queen-loss and Varroa events detected within 48h, per ADAFSA inspector requirements.</td></tr>
+          <tr><td>Privacy</td><td>Cloud-native processing</td><td>Edge + on-prem Llama 3</td><td>Hive imagery never leaves the apiary without explicit consent — sovereign UAE data residency.</td></tr>
+          <tr><td>Scalability</td><td>One model per farm</td><td>Shared Jetson gateway</td><td>10 hives per gateway → &lt; $15 / hive / month at production scale.</td></tr>
+          <tr><td>Government AI mandate</td><td>Legacy BI dashboards</td><td>LLM-augmented insights</td><td>ADAFSA requires AI-native, narrative KPIs per UAE 2027 initiative.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 style="margin-top:40px;font-size:20px">Foundation-model advantage</h3>
+    <p style="color:var(--muted);font-size:14px;margin:6px 0 0">Why SAM2 + YOLOv9 beat a from-scratch CNN pipeline for ADAFSA's specific data conditions.</p>
+    <div class="fcompare">
+      <div class="fcol bad">
+        <h4>Traditional CNN <span class="pill">Baseline</span></h4>
+        <div class="fmetric"><i class="fa-solid fa-tag"></i><div><b>100,000 labeled images</b><span>Manual annotation by domain experts</span></div></div>
+        <div class="fmetric"><i class="fa-solid fa-clock"></i><div><b>6 months</b><span>From labeling to deployment</span></div></div>
+        <div class="fmetric"><i class="fa-solid fa-bullseye"></i><div><b>mAP 0.85</b><span>Plateaus without more labels</span></div></div>
+      </div>
+      <div class="vs">VS</div>
+      <div class="fcol good">
+        <h4>Foundation models <span class="pill">BeeGuard 4.0</span></h4>
+        <div class="fmetric"><i class="fa-solid fa-tag"></i><div><b>10,000 labeled + synthetic</b><span>SAM2 zero-shot + targeted fine-tuning</span></div></div>
+        <div class="fmetric"><i class="fa-solid fa-clock"></i><div><b>4 weeks</b><span>Labeling-light pipeline</span></div></div>
+        <div class="fmetric"><i class="fa-solid fa-bullseye"></i><div><b>mAP 0.92</b><span>Higher accuracy, faster iteration</span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MODEL STACK -->
+<section id="models">
+  <div class="container">
+    <h2 class="section-title">AI Model Stack</h2>
+    <p class="section-sub">Quantized for INT8 inference where possible, split by <b>camera position</b> (entrance vs. frame inspection). Click any column header to sort.</p>
+    <div class="tbl-wrap">
+      <table id="modelTable">
+        <thead>
+          <tr>
+            <th data-key="0">Camera <span class="arrow">⇅</span></th>
+            <th data-key="1">Task <span class="arrow">⇅</span></th>
+            <th data-key="2">Model <span class="arrow">⇅</span></th>
+            <th data-key="3">Training Data <span class="arrow">⇅</span></th>
+            <th data-key="4">Format <span class="arrow">⇅</span></th>
+            <th data-key="5">Accuracy Target <span class="arrow">⇅</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><span class="cam-pill ent">Entrance</span></td><td>Entrance traffic flow</td><td>ResNet-18</td><td>20k sequences</td><td>INT8</td><td class="acc">Accuracy ≥ 95%</td></tr>
+          <tr><td><span class="cam-pill ent">Entrance</span></td><td>Bees in flight</td><td>YOLOv9-tiny</td><td>40k images</td><td>INT8 TFLite</td><td class="acc">mAP@0.5 ≥ 0.90</td></tr>
+          <tr><td><span class="cam-pill ent">Entrance</span></td><td>Varroa mite (on returning bee)</td><td>YOLOv9-tiny</td><td>8k verified</td><td>INT8</td><td class="acc">mAP@0.5 ≥ 0.90</td></tr>
+          <tr><td><span class="cam-pill fr">Frame</span></td><td>Bees on frame</td><td>YOLOv9-tiny</td><td>60k images</td><td>INT8 TFLite</td><td class="acc">mAP@0.5 ≥ 0.92</td></tr>
+          <tr><td><span class="cam-pill fr">Frame</span></td><td>Queen detection</td><td>SAM2 + classifier</td><td>5k labeled + synthetic</td><td>ONNX</td><td class="acc">F1 ≥ 0.88</td></tr>
+          <tr><td><span class="cam-pill fr">Frame</span></td><td>Queen cells (swarming)</td><td>YOLOv9-tiny</td><td>3k labeled</td><td>INT8</td><td class="acc">mAP@0.5 ≥ 0.86</td></tr>
+          <tr><td><span class="cam-pill fr">Frame</span></td><td>Brood pattern</td><td>YOLOv9-tiny</td><td>15k labeled</td><td>INT8</td><td class="acc">mAP@0.5 ≥ 0.85</td></tr>
+          <tr><td><span class="cam-pill fr">Frame</span></td><td>Capped honey area</td><td>SAM2 (zero-shot)</td><td>No labeling</td><td>ONNX</td><td class="acc">IoU ≥ 0.80</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note">SAM2 + YOLOv9 require 10× less labeled data than traditional approaches — the foundation-model advantage that makes ADAFSA-scale deployment feasible.</div>
+  </div>
+</section>
+
+<!-- DEPLOYMENT -->
+<section id="deployment">
+  <div class="container">
+    <h2 class="section-title">Deployment Topology</h2>
+    <p class="section-sub">A staged rollout — from a focused pilot to nationwide production on hybrid cloud infrastructure.</p>
+
+    <div class="deploy">
+      <div class="deploy-card">
+        <h3><span class="tag pilot">Pilot</span> 100 hives</h3>
+        <div class="deploy-vis">
+          <div class="apiary"><i class="fa-solid fa-hive"></i>30 hives</div>
+          <i class="fa-solid fa-right-long" style="color:var(--gold)"></i>
+          <div class="apiary"><i class="fa-solid fa-hive"></i>40 hives</div>
+          <i class="fa-solid fa-right-long" style="color:var(--gold)"></i>
+          <div class="apiary"><i class="fa-solid fa-hive"></i>30 hives</div>
+          <i class="fa-solid fa-right-long" style="color:var(--gold)"></i>
+          <div class="cloud-node"><i class="fa-solid fa-cloud"></i>Cloud Ingress</div>
+        </div>
+        <ul>
+          <li><b>100 × Raspberry Pi 4</b> + entrance + frame camera</li>
+          <li><b>4G router</b> per apiary</li>
+          <li><b>Cloud ingress</b> on AWS / GCC UAE region</li>
+          <li><b>8-week</b> deployment window</li>
+        </ul>
+        <span class="accuracy"><i class="fa-solid fa-bullseye"></i> Accuracy target: mAP ≥ 0.90</span>
+      </div>
+      <div class="deploy-card">
+        <h3><span class="tag prod">Production</span> 5,000+ hives</h3>
+        <div class="deploy-vis">
+          <div class="apiary"><i class="fa-solid fa-server"></i>500 gateways</div>
+          <i class="fa-solid fa-right-long" style="color:var(--gold)"></i>
+          <div class="apiary"><i class="fa-solid fa-hive"></i>10 hives × each</div>
+          <i class="fa-solid fa-right-long" style="color:var(--gold)"></i>
+          <div class="apiary"><i class="fa-solid fa-tower-cell"></i>5G + Starlink</div>
+          <i class="fa-solid fa-right-long" style="color:var(--gold)"></i>
+          <div class="cloud-node"><i class="fa-solid fa-cloud-arrow-up"></i>Hybrid Cloud</div>
+        </div>
+        <ul>
+          <li><b>500 × Jetson Orin Nano</b> gateways (10 hives each)</li>
+          <li><b>5G private network</b> + Starlink backup</li>
+          <li><b>Hybrid cloud</b> — ADAFSA on-prem + Azure UAE</li>
+          <li><b>Real-time alerts</b> under 5 minutes end-to-end</li>
+        </ul>
+        <span class="accuracy"><i class="fa-solid fa-bullseye"></i> Accuracy target: mAP ≥ 0.92</span>
+      </div>
+    </div>
+
+
+    <div class="uae-map">
+      <h4><i class="fa-solid fa-map-location-dot" style="color:var(--gold)"></i> Apiary clusters — Emirate of Abu Dhabi</h4>
+      <svg class="map-svg" viewBox="0 0 600 260" xmlns="http://www.w3.org/2000/svg" aria-label="UAE map">
+        <defs>
+          <linearGradient id="uaeg" x1="0" x2="1">
+            <stop offset="0" stop-color="#1E3A5F" stop-opacity=".55"/>
+            <stop offset="1" stop-color="#1E3A5F" stop-opacity=".25"/>
+          </linearGradient>
+        </defs>
+        <path d="M40,150 C80,80 180,55 260,70 C320,82 360,55 420,60 C490,66 540,90 560,120 C575,145 555,175 525,185 C485,200 430,190 380,200 C320,212 260,235 200,225 C140,215 90,210 60,195 C35,182 25,170 40,150 Z"
+              fill="url(#uaeg)" stroke="rgba(230,168,23,.45)" stroke-width="1.5"/>
+        <g font-family="Inter,sans-serif" font-size="11" fill="#F1F5F9">
+          <g transform="translate(380,140)"><circle r="16" fill="rgba(230,168,23,.15)"/><circle r="6" fill="#E6A817"/><text x="14" y="4">Abu Dhabi</text></g>
+          <g transform="translate(470,120)"><circle r="16" fill="rgba(230,168,23,.15)"/><circle r="6" fill="#E6A817"/><text x="14" y="4">Al Ain</text></g>
+          <g transform="translate(180,170)"><circle r="16" fill="rgba(230,168,23,.15)"/><circle r="6" fill="#E6A817"/><text x="14" y="4">Western Region</text></g>
+        </g>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- LLM -->
+<section id="llm">
+  <div class="container">
+    <h2 class="section-title">Hybrid LLM Insights Subsystem</h2>
+    <p class="section-sub">Raw hive metrics are routed to the right model — local Llama 3 for routine work, GPT-4 Turbo for complex cross-hive reasoning, and an edge Llama 3 8B when offline.</p>
+
+    <div class="llm">
+      <div class="llm-panel">
+        <label for="hiveSel" style="display:block;font-size:13px;color:var(--muted);margin-bottom:8px">Select hive</label>
+        <select class="select" id="hiveSel">
+          <option value="H-102">H-102 — Liwa Apiary 04 (Varroa-positive)</option>
+          <option value="H-205">H-205 — Al Ain Cluster 02 (healthy)</option>
+          <option value="H-089">H-089 — Western Region 07 (collapse-onset)</option>
+          <option value="H-312">H-312 — Abu Dhabi East 11 (swarm-ready · queen cells)</option>
+        </select>
+        <pre class="json" id="hiveJson"></pre>
+        <button class="btn gold" id="genBtn" style="margin-top:14px;width:100%;justify-content:center"><i class="fa-solid fa-wand-magic-sparkles"></i> Generate LLM Insight</button>
+      </div>
+      <div class="llm-panel">
+        <div class="model-chip" id="modelChip"><i class="fa-solid fa-circle" style="color:#4ade80;font-size:8px"></i> Llama 3 70B (local)</div>
+        <span class="model-reason" id="modelReason">Routine single-hive analysis — privacy-preserving local inference.</span>
+        <div class="insight" id="insight"><em>Select a hive and click "Generate LLM Insight" to view a recommendation.</em></div>
+      </div>
+    </div>
+
+    <div class="routing">
+      <h4><i class="fa-solid fa-route" style="color:var(--gold)"></i> Routing logic</h4>
+      <div class="routes">
+        <div class="route">
+          <div class="cond">If</div>
+          <b>Routine · no anomaly</b>
+          <span class="where"><span class="arrow">→</span> <b>Llama 3 70B</b> on private GPU (UAE on-prem)</span>
+        </div>
+        <div class="route">
+          <div class="cond">If</div>
+          <b>Complex · cross-hive anomaly</b>
+          <span class="where"><span class="arrow">→</span> <b>GPT-4 Turbo</b> on Azure UAE region</span>
+        </div>
+        <div class="route">
+          <div class="cond">If</div>
+          <b>Offline · low connectivity</b>
+          <span class="where"><span class="arrow">→</span> <b>Llama 3 8B</b> at the edge gateway</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BEEKEEPER NETWORK -->
+<section id="network">
+  <div class="container">
+    <h2 class="section-title">Beekeeper Network & Benchmarking</h2>
+    <p class="section-sub">Anonymized cross-hive aggregation across 5,000+ colonies — a rare competitive moat. Every farm sees how its hives compare to the regional cohort, without ever sharing raw imagery.</p>
+
+    <div class="bench">
+      <div class="bench-chart">
+        <div style="font-size:13px;color:var(--muted);margin-bottom:14px">Hive <b style="color:var(--gold)">H-205 (Al Ain)</b> vs. anonymized cohort (n = 5,142)</div>
+
+        <div class="bench-row"><div class="lbl">Colony strength</div><div class="bench-bar"><div class="fill" style="width:88%"></div><div class="you" style="left:88%"></div></div><div class="val">88th %ile</div></div>
+        <div class="bench-row"><div class="lbl">Honey yield (7d)</div><div class="bench-bar"><div class="fill" style="width:72%"></div><div class="you" style="left:72%"></div></div><div class="val">72nd %ile</div></div>
+        <div class="bench-row"><div class="lbl">Varroa load (lower = better)</div><div class="bench-bar"><div class="fill" style="width:14%"></div><div class="you" style="left:14%"></div></div><div class="val">14th %ile</div></div>
+        <div class="bench-row"><div class="lbl">Swarming probability</div><div class="bench-bar"><div class="fill" style="width:31%"></div><div class="you" style="left:31%"></div></div><div class="val">31st %ile</div></div>
+        <div class="bench-row"><div class="lbl">Entrance traffic</div><div class="bench-bar"><div class="fill" style="width:79%"></div><div class="you" style="left:79%"></div></div><div class="val">79th %ile</div></div>
+
+        <div class="bench-legend"><span class="swatch"></span>Cohort distribution · white marker = this hive's percentile rank</div>
+      </div>
+      <div>
+        <div class="card"><div class="icn"><i class="fa-solid fa-user-secret"></i></div><h3 style="margin:10px 0 6px;font-size:16px">Privacy-preserving aggregation</h3><p style="color:var(--muted);font-size:14px;margin:0">Differential privacy applied at aggregation time — no raw image sharing, no farm-level re-identification, no PII.</p></div>
+        <div class="card" style="margin-top:14px"><div class="icn"><i class="fa-solid fa-chart-pie"></i></div><h3 style="margin:10px 0 6px;font-size:16px">"Your hive vs. 5,000+ hives"</h3><p style="color:var(--muted);font-size:14px;margin:0">Inspectors see swarming probability, colony strength, and honey yield benchmarked against the regional average — instantly contextualizing every alert.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INTEGRATION -->
+<section id="integration">
+  <div class="container">
+    <h2 class="section-title">Integration with ADAFSA Systems</h2>
+    <p class="section-sub">BeeGuard 4.0 plugs into ADAFSA's existing agricultural data lake and dashboards through open, well-documented interfaces — no proprietary lock-in.</p>
+
+    <div class="integ">
+      <div class="integ-card"><i class="fa-solid fa-code"></i><b>Real-time REST API</b><span>OAuth2-protected hive metrics, events, and inference results — JSON, OpenAPI 3.1 spec.</span></div>
+      <div class="integ-card"><i class="fa-solid fa-file-zipper"></i><b>Daily Parquet drops</b><span>Time-partitioned aggregates pushed to the ADAFSA data lake (S3-compatible bucket).</span></div>
+      <div class="integ-card"><i class="fa-solid fa-bolt"></i><b>Webhook support</b><span>Push alerts to ADAFSA workflows, Teams, Telegram or any custom HTTPS endpoint.</span></div>
+      <div class="integ-card"><i class="fa-solid fa-user-shield"></i><b>OAuth2 + ADAFSA SSO</b><span>Federated identity — inspector role, attribute-based access, audit log.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- SECURITY & RESILIENCE -->
+<section id="security">
+  <div class="container">
+    <h2 class="section-title">Security, Resilience & Data Governance</h2>
+    <p class="section-sub">SoftTeco BeeGuard 4.0 is engineered for government-grade deployment — hardened at the silicon, network, model and identity layers. Designed for UAE Sovereign Cloud and ADAFSA data-residency requirements.</p>
+    <div class="badges">
+      <div class="badge" data-tip="Verified boot chain anchored in a TPM 2.0 module — only signed firmware can run."><i class="fa-solid fa-shield-halved"></i><b>Secure Boot + TPM 2.0</b><span>Hardware root of trust</span></div>
+      <div class="badge" data-tip="All traffic uses TLS 1.3 with mutual auth, tunneled over WireGuard for site-to-site."><i class="fa-solid fa-key"></i><b>TLS 1.3 + WireGuard</b><span>In-transit encryption</span></div>
+      <div class="badge" data-tip="AES-256 encryption at rest for buffer storage, time-series DB and object store."><i class="fa-solid fa-database"></i><b>AES-256 at rest</b><span>Disk + DB encryption</span></div>
+      <div class="badge" data-tip="OAuth2 + OIDC federated with ADAFSA Single Sign-On — role and attribute-based access."><i class="fa-solid fa-user-shield"></i><b>OAuth2 + ADAFSA SSO</b><span>Federated identity</span></div>
+      <div class="badge" data-tip="Every model artifact is signed via Sigstore — the edge node refuses to load unsigned weights."><i class="fa-solid fa-signature"></i><b>Signed Models (Sigstore)</b><span>Supply-chain integrity</span></div>
+      <div class="badge" data-tip="SoftTeco is ISO/IEC 27001 certified — information security management is independently audited."><i class="fa-solid fa-certificate"></i><b>ISO 27001 Certified</b><span>SoftTeco corporate</span></div>
+      <div class="badge" data-tip="On-device blur and soiling detection alerts the farm supervisor when the lens requires cleaning — keeps inference quality high."><i class="fa-solid fa-droplet"></i><b>Blur / Soil Detection</b><span>Lens-cleaning alerts</span></div>
+      <div class="badge" data-tip="Low-confidence frames are automatically re-captured; failing sensors are flagged and quarantined."><i class="fa-solid fa-rotate"></i><b>Auto-retry & Self-diagnosing</b><span>99% uptime guarantee</span></div>
+      <div class="badge" data-tip="All data processed and stored within UAE sovereign cloud regions — full residency compliance."><i class="fa-solid fa-flag"></i><b>UAE Data Residency</b><span>Sovereign cloud only</span></div>
+    </div>
+
+    <h3 style="margin-top:40px;font-size:20px">Data retention & privacy policy</h3>
+    <p style="color:var(--muted);font-size:14px;margin:6px 0 0">Strict, role-aware retention — raw imagery is processed in-memory and never persisted.</p>
+    <div class="retention">
+      <div class="ret-item"><span class="tag-r">Raw images</span><b>Never stored</b><span>Processed in-memory on the edge node; discarded immediately after inference.</span></div>
+      <div class="ret-item"><span class="tag-r">Thumbnails</span><b>7 d edge · 30 d cloud</b><span>Cloud retention only when attached to an alert, for inspector review.</span></div>
+      <div class="ret-item"><span class="tag-r">Inference JSON</span><b>2 years cloud</b><span>Time-series metrics and events — audit-grade retention.</span></div>
+      <div class="ret-item"><span class="tag-r">Region</span><b>UAE sovereign</b><span>All storage and processing within UAE cloud regions.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPANY -->
+<section id="company">
+  <div class="container">
+    <h2 class="section-title">SoftTeco</h2>
+    <p class="section-sub">Global engineering partner behind BeeGuard 4.0 — delivering production AI systems to enterprise and government customers since 2008.</p>
+
+    <div class="company">
+      <div class="company-card">
+        <h3>SoftTeco<sup style="font-size:18px;color:var(--gold)">®</sup></h3>
+        <div class="meta">ISO 27001 Certified · Est. 2008 · 500+ Experts</div>
+        <div class="contact">
+          <div><i class="fa-solid fa-envelope" style="color:var(--gold);width:18px"></i> <a href="mailto:d.viazmin@softteco.com">d.viazmin@softteco.com</a></div>
+          <div><i class="fa-solid fa-globe" style="color:var(--gold);width:18px"></i> <a href="https://softteco.com" target="_blank" rel="noopener">softteco.com</a></div>
+        </div>
+      </div>
+      <div class="company-card">
+        <ul class="offices">
+          <li><i class="fa-solid fa-location-dot"></i><div><b>Poland (HQ)</b><span>9A/4U Belwederska st., Warsaw, 00-761</span></div></li>
+          <li><i class="fa-solid fa-location-dot"></i><div><b>UAE</b><span>Al-Murar, Dubai</span></div></li>
+          <li><i class="fa-solid fa-location-dot"></i><div><b>Lithuania</b><span>Vilnius · Kaunas</span></div></li>
+          <li><i class="fa-solid fa-location-dot"></i><div><b>United States</b><span>Wenham, MA</span></div></li>
+          <li><i class="fa-solid fa-location-dot"></i><div><b>United Kingdom</b><span>Loughborough</span></div></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    © 2008–2026 SoftTeco<sup style="color:var(--gold)">®</sup> — Confidential — for partner & customer evaluation
+    <div class="dis">BeeGuard 4.0 — ADAFSA Edition · Technical Architecture Document v2.1 · Aligned with UAE AI Native Government 2027</div>
+  </div>
+</footer>
+
+<script>
+// THEME
+const themeBtn = document.getElementById('themeBtn');
+themeBtn.addEventListener('click', () => {
+  document.documentElement.classList.toggle('light');
+  const ic = themeBtn.querySelector('i');
+  ic.className = document.documentElement.classList.contains('light') ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+});
+
+// MOBILE NAV
+const burger = document.getElementById('burger');
+const nav = document.getElementById('navLinks');
+burger.addEventListener('click', () => nav.classList.toggle('open'));
+nav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => nav.classList.remove('open')));
+
+// ACTIVE LINK ON SCROLL
+const sections = [...document.querySelectorAll('section[id]')];
+const links = [...document.querySelectorAll('.nav-links a')];
+const setActive = () => {
+  const y = window.scrollY + 120;
+  let cur = sections[0]?.id;
+  for (const s of sections) if (s.offsetTop <= y) cur = s.id;
+  links.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + cur));
+};
+window.addEventListener('scroll', setActive, {passive:true}); setActive();
+
+// COUNTERS
+const animateCounter = (el) => {
+  const target = +el.dataset.target;
+  const dur = 1400; const start = performance.now();
+  const step = (t) => {
+    const p = Math.min(1, (t-start)/dur);
+    el.textContent = Math.round(target * (1 - Math.pow(1-p,3)));
+    if (p < 1) requestAnimationFrame(step);
+  };
+  requestAnimationFrame(step);
+};
+const io = new IntersectionObserver((ents) => {
+  ents.forEach(e => { if (e.isIntersecting) { e.target.querySelectorAll('[data-target]').forEach(animateCounter); io.unobserve(e.target);} });
+},{threshold:.3});
+io.observe(document.getElementById('counters'));
+
+// TABLE SORT
+const table = document.getElementById('modelTable');
+const tbody = table.querySelector('tbody');
+const dirs = {};
+table.querySelectorAll('th').forEach(th => th.addEventListener('click', () => {
+  const k = +th.dataset.key;
+  dirs[k] = !dirs[k];
+  const rows = [...tbody.querySelectorAll('tr')];
+  rows.sort((a,b) => {
+    const av = a.children[k].textContent.trim();
+    const bv = b.children[k].textContent.trim();
+    return dirs[k] ? av.localeCompare(bv, undefined, {numeric:true}) : bv.localeCompare(av, undefined, {numeric:true});
+  });
+  rows.forEach(r => tbody.appendChild(r));
+}));
+
+// COPY
+document.querySelectorAll('[data-copy]').forEach(btn => btn.addEventListener('click', () => {
+  const code = btn.parentElement.querySelector('code, pre').innerText;
+  navigator.clipboard.writeText(code).then(() => {
+    const old = btn.textContent; btn.textContent = 'Copied ✓';
+    setTimeout(() => btn.textContent = old, 1400);
+  });
+}));
+
+// LLM DEMO
+const hives = {
+  'H-102': {
+    model: 'Llama 3 70B (local)', dot: '#4ade80',
+    reason: 'Single-hive Varroa anomaly — handled privately on-prem.',
+    metrics: {hive_id:'H-102',location:'Liwa Apiary 04',population:45200,queen_detected:false,queen_last_seen_days:9,brood_area_cm2:340,honey_area_cm2:210,varroa_per_100:6.2,varroa_status:'POSITIVE',temperature_c:35.4,humidity_pct:58,entrance_traffic_per_min:182,inspections:[{date:'2026-06-05',queen:false},{date:'2026-06-08',queen:false},{date:'2026-06-11',queen:false}]},
+    insight: 'Hive H-102 shows strong population (45,200) but the queen has not been detected for 9 days. Varroa load is 6.2 per 100 bees — above the 5.0 treatment threshold — with mites visible on frames 3 and 7. Recommended: requeen within 10 days and begin oxalic acid treatment immediately. Swarming risk: Medium (60% confidence).'
+  },
+  'H-205': {
+    model: 'Llama 3 70B (local)', dot: '#4ade80',
+    reason: 'Healthy hive, routine summary — local model is sufficient.',
+    metrics: {hive_id:'H-205',location:'Al Ain Cluster 02',population:52100,queen_detected:true,brood_area_cm2:420,honey_area_cm2_trend:[180,205,225,240],varroa_per_100:0.4,varroa_status:'CLEAR',temperature_c:34.8,humidity_pct:55,entrance_traffic_per_min:240,disease_flags:[],cohort_percentile:{strength:88,yield:72,varroa:14}},
+    insight: 'Hive H-205 is in excellent condition. Queen active, brood pattern uniform, honey area increasing (180 → 240 cm²). Varroa clear (0.4/100). Cohort: 88th percentile colony strength across 5,142 anonymized hives. Expected harvest in 14–18 days. Swarming risk: Low.'
+  },
+  'H-089': {
+    model: 'GPT-4 Turbo (Azure UAE)', dot: '#f5c453',
+    reason: 'Cross-hive collapse pattern — escalated to GPT-4 Turbo for multi-hive reasoning against 12 neighbours.',
+    metrics: {hive_id:'H-089',location:'Western Region 07',population:18900,population_trend_7d:[31000,27800,24500,22100,20800,19600,18900],queen_detected:true,brood_area_cm2:90,temperature_c:33.1,humidity_pct:71,varroa_per_100:11.8,varroa_status:'CRITICAL',entrance_traffic_per_min:42,abnormal_sound_db:74,cross_hive_correlation:0.81},
+    insight: 'Hive H-089 shows rapid population decline (−39% in 7 days) with critical Varroa load (11.8/100) and unusually low entrance traffic. Cross-referenced against 12 neighbouring hives, the pattern is consistent with collapse-onset rather than seasonal drift (cross-hive correlation 0.81). Immediate action: isolate the hive, full Varroa treatment, and brood-frame inspection within 48 hours.'
+  },
+  'H-312': {
+    model: 'GPT-4 Turbo (Azure UAE)', dot: '#f5c453',
+    reason: 'Multi-signal swarming prediction (queen cells + bearding + traffic spike) — complex reasoning routed to GPT-4 Turbo.',
+    metrics: {hive_id:'H-312',location:'Abu Dhabi East 11',population:61500,queen_detected:true,brood_area_cm2:510,honey_area_cm2:380,queen_cells_detected:5,entrance_traffic_per_min:310,temperature_c:36.2,humidity_pct:52,bearding_observed:true,swarm_probability:0.88},
+    insight: 'Hive H-312 is approaching swarm-readiness: 5 queen cells detected on the brood frame (primary swarming predictor), heavy bearding at the entrance, and population at 61,500 (top 5% of fleet). Honey stores ample. Recommended: perform a split within 5–7 days or apply Demaree management to prevent loss of foragers. Swarming risk: High (88% confidence).'
+  }
+};
+const sel = document.getElementById('hiveSel');
+const json = document.getElementById('hiveJson');
+const chip = document.getElementById('modelChip');
+const reason = document.getElementById('modelReason');
+const insightEl = document.getElementById('insight');
+const renderHive = () => {
+  const h = hives[sel.value];
+  json.textContent = JSON.stringify(h.metrics, null, 2);
+  chip.innerHTML = '<i class="fa-solid fa-circle" style="color:'+h.dot+';font-size:8px"></i> ' + h.model;
+  reason.textContent = h.reason;
+  insightEl.innerHTML = '<em>Click "Generate LLM Insight" to run the routed model on this hive.</em>';
+};
+sel.addEventListener('change', renderHive); renderHive();
+document.getElementById('genBtn').addEventListener('click', () => {
+  insightEl.innerHTML = '<em>Routing to ' + hives[sel.value].model + '…</em>';
+  setTimeout(() => insightEl.textContent = hives[sel.value].insight, 700);
+});
+</script>
+</body>
+</html>
