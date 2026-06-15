@@ -376,21 +376,21 @@ body{font-family:var(--sans);background:#F0F5FC;color:var(--text-1);line-height:
     <!-- HERO -->
     <div class="hero">
       <div class="hero-eyebrow">BeeGuard 4.0 — AI-Powered Apiary Intelligence</div>
-      <div class="hero-title">Autonomous hive monitoring<br>at <span>government scale</span></div>
-      <div class="hero-sub">Prepared for Abu Dhabi Agriculture &amp; Food Safety Authority (ADAFSA) via Innoventures. UAE sovereign-cloud-ready. Operator-free. Real-time.</div>
+      <div class="hero-title">Operator-assisted AI hive inspection<br>at <span>government scale</span></div>
+      <div class="hero-sub">Prepared for Abu Dhabi Agriculture &amp; Food Safety Authority (ADAFSA) via Innoventures. UAE sovereign-cloud-ready. Operator-assisted inspection. AI-powered analysis.</div>
       <div class="hero-tags">
         <span class="hero-tag hi">UAE Data Sovereignty</span>
         <span class="hero-tag">YOLOv9 + SAM 2</span>
-        <span class="hero-tag">Edge AI · Jetson Orin</span>
+        <span class="hero-tag">Wearable Camera · Jetson Orin</span>
         <span class="hero-tag">LLM Advisory (AR + EN)</span>
         <span class="hero-tag">Kubernetes · ADG Cloud</span>
         <span class="hero-tag">ADAFSA AI-Native 2027</span>
       </div>
       <div class="hero-stats">
-        <div class="hstat"><div class="hstat-num">30<span>s</span></div><div class="hstat-label">KPI refresh rate per hive</div></div>
+        <div class="hstat"><div class="hstat-num">&lt;5<span>s</span></div><div class="hstat-label">AI analysis per lifted frame</div></div>
         <div class="hstat"><div class="hstat-num">10×<span></span></div><div class="hstat-label">Less training data vs YOLOv3</div></div>
         <div class="hstat"><div class="hstat-num">72<span>h</span></div><div class="hstat-label">Offline edge buffer</div></div>
-        <div class="hstat"><div class="hstat-num">0<span></span></div><div class="hstat-label">Operators required per hive</div></div>
+        <div class="hstat"><div class="hstat-num">1<span></span></div><div class="hstat-label">Operator per inspection round</div></div>
       </div>
     </div>
 
@@ -398,12 +398,12 @@ body{font-family:var(--sans);background:#F0F5FC;color:var(--text-1);line-height:
     <div class="section" id="sec-exec">
       <div class="section-id">Section 01</div>
       <div class="section-title" data-num="1">Executive Summary</div>
-      <p class="section-intro">BeeGuard 4.0 is a fully autonomous, AI-native apiary intelligence platform designed for large-scale governmental honey production in arid environments. It supersedes BeeGuard 3.0 by eliminating manual operator dependency, delivering real-time per-hive telemetry, and deploying as a production-grade platform compliant with UAE data-sovereignty requirements.</p>
+      <p class="section-intro">BeeGuard 4.0 is an operator-assisted, AI-native apiary intelligence platform designed for large-scale governmental honey production in arid environments. It supersedes BeeGuard 3.0 by transforming each manual frame inspection into a structured, AI-analysed data event — delivering per-hive colony intelligence, automated reporting, and fleet-wide dashboards, all compliant with UAE data-sovereignty requirements. Frame photography is performed by the field operator (camera wearable or hive-mounted), who lifts each frame briefly for capture; the AI pipeline handles all analysis automatically.</p>
 
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:24px 0">
         <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:18px 20px;border-top:3px solid var(--blue)">
-          <div style="font-size:11px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px">Autonomy</div>
-          <div style="font-size:13px;color:var(--text-2);line-height:1.6">Fixed in-hive cameras eliminate the need for an operator to hold frames. Zero human handling required during monitoring cycles.</div>
+          <div style="font-size:11px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px">Operator-Assisted</div>
+          <div style="font-size:13px;color:var(--text-2);line-height:1.6">An operator lifts each frame briefly to a camera — wearable on the body or mounted at the hive entrance. The AI analyses every photo instantly. No manual scoring needed.</div>
         </div>
         <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:18px 20px;border-top:3px solid #0F6E56">
           <div style="font-size:11px;font-weight:700;color:#0F6E56;text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px">Intelligence</div>
@@ -420,17 +420,17 @@ body{font-family:var(--sans);background:#F0F5FC;color:var(--text-1);line-height:
     <div class="section" id="sec-ctx">
       <div class="section-id">Section 02</div>
       <div class="section-title" data-num="2">Context &amp; Stakeholder Requirements</div>
-      <p class="section-intro">ADAFSA is building UAE-native honey production at scale. The authority's mandate requires AI-native operations by 2027, automated KPI generation, and real-time executive dashboards. Requirements surfaced during the June 2026 discovery meeting with Innoventures (Hassan Odeh, Hamza Hindi) and SoftTeco (Alexey Shevchik, CTO; Dmitry Viazmin).</p>
+      <p class="section-intro">ADAFSA is building UAE-native honey production at scale. The authority's mandate requires AI-native operations by 2027, automated KPI generation from inspection data, and real-time executive dashboards.</p>
 
       <div class="subsection-title">Stakeholder requirements matrix</div>
       <table class="spec-table req-table">
         <thead><tr><th style="width:200px">Requirement</th><th>Detail from discovery</th></tr></thead>
         <tbody>
-          <tr><td>Automated monitoring</td><td>No operator needed to hold frames to camera. Cameras must be fixed inside or attached to hives — "completely automated" per Hassan Odeh.</td></tr>
-          <tr><td>Per-minute KPI refresh</td><td>Leadership needs near-real-time metrics. Target: full hive assessment every 30–60 seconds. "Limiting camera frames to 1–2 per minute" — Hassan Odeh.</td></tr>
+          <tr><td>Operator-assisted inspection</td><td>Frame photography requires an operator to lift each frame briefly to the camera. Camera can be worn by the operator (chest/head mount) or fixed at the hive entrance. Hive frame spacing makes fully autonomous in-hive cameras impractical for high-quality imaging.</td></tr>
+          <tr><td>Per-inspection KPI update</td><td>AI analysis completes within 5 seconds of each frame photo. Full hive assessment (all frames) completed within a single operator inspection round. Results visible on dashboard immediately after each photo.</td></tr>
           <tr><td>Multi-hive fleet scale</td><td>Platform must support an arbitrarily large farm from a single dashboard. "An enormous, well-funded project" with many hives across UAE.</td></tr>
-          <tr><td>Periodic frame only</td><td>No continuous live video required. Frame capture every 30 s sufficient. Conserves bandwidth and storage.</td></tr>
-          <tr><td>Transparent frame option</td><td>Glass/acrylic frame panels under investigation — enable external camera inspection without opening hives. "Gamechanging if it works."</td></tr>
+          <tr><td>Photo-per-frame workflow</td><td>One photo per frame side, captured as the operator lifts it. No continuous video required. Operator lifts frame → photo taken → frame lowered → repeat. Conserves bandwidth and storage; each inspection session produces a structured per-hive dataset.</td></tr>
+          <tr><td>Camera mounting options</td><td>Two validated approaches: (1) wearable camera on operator (chest, head, or wrist mount) triggered as each frame is lifted; (2) lightweight stand clipped to hive body at inspection height — operator presents frame to camera. Both options feed the same AI inference pipeline.</td></tr>
           <tr><td>Daily automated reports</td><td>Management dashboards and PDF/email reports generated without human input.</td></tr>
           <tr><td>Alarms and alerting</td><td>Push alerts for: queenlessness, disease detection, swarming risk, population collapse.</td></tr>
           <tr><td>UAE data sovereignty</td><td>All data within UAE borders. Preference for Abu Dhabi Government Cloud. ADAFSA is advised by PwC on this initiative.</td></tr>
@@ -450,15 +450,15 @@ body{font-family:var(--sans);background:#F0F5FC;color:var(--text-1);line-height:
         <div class="tier-block">
           <div class="tier-num">Tier 1</div>
           <div class="tier-icon t1">📷</div>
-          <div class="tier-name">Hive Sensor Layer</div>
-          <div class="tier-desc">Fixed micro-camera, IR-capable, IP67. Temp/humidity sensors. Load cell. Entrance IR counter. Acoustic sensor.</div>
-          <span class="tier-tag t1">Per hive</span>
+          <div class="tier-name">Capture Layer</div>
+          <div class="tier-desc">Operator wearable or hive-mounted camera. IP67. Temp/humidity sensors. Load cell. Acoustic sensor. Triggered per frame lift.</div>
+          <span class="tier-tag t1">Per operator</span>
         </div>
         <div class="tier-block">
           <div class="tier-num">Tier 2</div>
           <div class="tier-icon t2">🧠</div>
           <div class="tier-name">Edge Inference Module</div>
-          <div class="tier-desc">Jetson Orin Nano. Runs full CV stack locally. 30 s capture cycle. 24 h offline buffer. Zero cloud dependency.</div>
+          <div class="tier-desc">Jetson Orin Nano. Runs full CV stack locally. Triggered by each photo capture. 24 h offline buffer. Zero cloud dependency.</div>
           <span class="tier-tag t2">Per 4–8 hives</span>
         </div>
         <div class="tier-block">
@@ -477,16 +477,23 @@ body{font-family:var(--sans);background:#F0F5FC;color:var(--text-1);line-height:
         </div>
       </div>
 
+      <div style="background:#FFF8E6;border:1px solid #F5C97A;border-left:4px solid #D4A017;border-radius:var(--r-md);padding:16px 20px;margin:20px 0;display:flex;gap:14px;align-items:flex-start">
+        <span style="font-size:20px;margin-top:1px">🐝</span>
+        <div>
+          <div style="font-size:13px;font-weight:700;color:#7A4700;margin-bottom:6px">Design rationale: operator-assisted frame inspection</div>
+          <div style="font-size:13px;color:#5A3A00;line-height:1.7">The internal frame spacing inside a bee hive is minimal by design (the <em>bee space</em> of 6–9 mm). A fixed in-hive camera cannot achieve the viewing angle, distance, or illumination needed for reliable classification of bees, brood, queen, honey, and Varroa mites at this proximity. Accordingly, BeeGuard 4.0 adopts an <strong>operator-assisted capture model</strong>: the beekeeper lifts each frame briefly, presents it to a wearable or stand-mounted camera, the AI analyses the image instantly (under 5 seconds), and the frame is returned. This mirrors existing best-practice inspection workflows while adding full AI scoring to every inspection event.</div>
+        </div>
+      </div>
       <div class="subsection-title">Data flow</div>
       <div class="flow-steps">
         <div class="flow-step">
           <div class="flow-num">1</div>
-          <div class="flow-content"><div class="flow-text">Camera captures frame on schedule (every 30 s). Frame passed to Edge Inference Module.</div></div>
+          <div class="flow-content"><div class="flow-text">Operator lifts a hive frame and presents it to the camera (wearable or hive-mounted). Camera triggers automatically on frame proximity, or operator presses a capture button. Image passed to Edge Inference Module.</div></div>
         </div>
         <div class="flow-step">
           <div class="flow-num">2</div>
           <div class="flow-content">
-            <div class="flow-text">Edge inference produces structured JSON payload:</div>
+            <div class="flow-text">Edge inference processes the photo and produces a structured JSON payload per frame:</div>
             <div class="flow-code">{ hive_id, timestamp, bee_count_estimate, brood_pattern_score,<br>&nbsp;&nbsp;queen_detected, varroa_index, honey_capped_area_pct, anomaly_flags }</div>
           </div>
         </div>
@@ -510,7 +517,7 @@ body{font-family:var(--sans);background:#F0F5FC;color:var(--text-1);line-height:
 
       <div class="alert-box">
         <span class="alert-icon">🔒</span>
-        <div class="alert-text"><strong>Data sovereignty:</strong> Raw video never leaves the apiary site. Only structured JSON inference results (≈30 bytes per hive per 30 s) are transmitted over the WAN. All cloud infrastructure is deployed within UAE borders on ADG Cloud or G42 Core42.</div>
+        <div class="alert-text"><strong>Data sovereignty:</strong> Raw frame photos are processed on the edge and never transmitted raw over the WAN. Only structured JSON inference results (≈30 bytes per frame) are sent to the cloud. All cloud infrastructure is deployed within UAE borders on ADG Cloud or G42 Core42.</div>
       </div>
     </div>
 
@@ -639,7 +646,7 @@ body{font-family:var(--sans);background:#F0F5FC;color:var(--text-1);line-height:
       <div class="section-title" data-num="6">Hardware Specification</div>
       <p class="section-intro">All hardware is rated for Abu Dhabi ambient conditions: operating temperatures to +70°C, IP66/IP67 dust and moisture protection, passive-only cooling (no fans in desert environments), and solar/battery power autonomy for remote apiary sites.</p>
 
-      <div class="subsection-title">In-hive camera module</div>
+      <div class="subsection-title">Camera module (wearable or hive-mounted)</div>
       <table class="spec-table">
         <thead><tr><th>Parameter</th><th>Specification</th></tr></thead>
         <tbody>
@@ -648,9 +655,9 @@ body{font-family:var(--sans);background:#F0F5FC;color:var(--text-1);line-height:
           <tr><td>Low-light</td><td>Sony IMX586 sensor or equivalent. IR cut-filter switchable. IR LED array for darkness-capable inspection.</td></tr>
           <tr><td>Ingress protection</td><td>IP67 — dust-tight, water-immersion resistant. Mandatory for UAE dust storms and humidity cycling.</td></tr>
           <tr><td>Temperature rating</td><td>Operating: −10°C to +70°C. Storage: −20°C to +85°C. Mandatory for Abu Dhabi ambient extremes.</td></tr>
-          <tr><td>Lens coating</td><td>Hydrophobic anti-propolis nano-coating. Integrated compressed-air cleaning nozzle in mounting bracket.</td></tr>
-          <tr><td>Capture duty cycle</td><td>1 frame per 30 seconds (configurable). Camera powered down between captures to reduce heat and draw.</td></tr>
-          <tr><td>Mounting</td><td>Standardised bracket: Langstroth, Dadant, and Layens formats. Non-invasive clip system — no hive modification required.</td></tr>
+          <tr><td>Lens coating</td><td>Hydrophobic nano-coating. Easy-clean design for field use. Camera housing clips to operator vest or hive stand bracket — no permanent hive modification required.</td></tr>
+          <tr><td>Capture trigger</td><td>Photo triggered by operator action: proximity sensor (auto-fires when frame is presented), physical button on wearable, or foot pedal. Captures one image per frame side. Powers down between inspections.</td></tr>
+          <tr><td>Mounting options</td><td>Option A: chest/head/wrist harness worn by operator — camera auto-triggers as frame enters capture zone. Option B: lightweight stand clipped to hive body at inspection height. Both compatible with Langstroth, Dadant, and Layens formats. No permanent hive modification.</td></tr>
         </tbody>
       </table>
 
@@ -664,7 +671,7 @@ body{font-family:var(--sans);background:#F0F5FC;color:var(--text-1);line-height:
           <tr><td>Power</td><td>7–15 W active. Solar enclosure + 40 Ah LiPo battery backup — 3-day autonomy without sun.</td></tr>
           <tr><td>Enclosure</td><td>NEMA 4X (IP66) polycarbonate, passive cooling fins. No active fan — dust ingress risk in desert.</td></tr>
           <tr><td>OS &amp; runtime</td><td>Ubuntu 22.04 LTS + JetPack 6. TensorRT 10. INT8 quantised models. Target latency: &lt;2 s per frame.</td></tr>
-          <tr><td>Hive coverage</td><td>One Edge Module per 4–8 hives. Time-multiplexed camera capture across assigned hives.</td></tr>
+          <tr><td>Coverage</td><td>One Edge Module per operator kit. Processes photos from all hives inspected during a session. Each session covers multiple hives sequentially.</td></tr>
           <tr><td>Fleet management</td><td>Balena Cloud. OTA updates, remote SSH, device health monitoring, zero-touch provisioning.</td></tr>
         </tbody>
       </table>
@@ -736,8 +743,8 @@ body{font-family:var(--sans);background:#F0F5FC;color:var(--text-1);line-height:
           <div style="font-size:13px;font-weight:700;color:var(--navy);margin-bottom:12px">📱 Beekeeper Mobile App (iOS + Android)</div>
           <ul style="list-style:none;display:flex;flex-direction:column;gap:7px">
             <li style="font-size:12.5px;color:var(--text-2)">React Native. Offline-capable with local SQLite cache.</li>
-            <li style="font-size:12.5px;color:var(--text-2)">AI-prioritised daily action list — hives ranked by urgency.</li>
-            <li style="font-size:12.5px;color:var(--text-2)">Structured inspection logger feeding active learning pipeline.</li>
+            <li style="font-size:12.5px;color:var(--text-2)">Inspection workflow guide — hives and frames to inspect, ranked by urgency and last-inspection date.</li>
+            <li style="font-size:12.5px;color:var(--text-2)">Capture trigger integrated in app — one tap per frame, automatic photo, instant AI result on screen.</li>
             <li style="font-size:12.5px;color:var(--text-2)">Push alerts for critical events: queenlessness, Varroa, swarm risk.</li>
             <li style="font-size:12.5px;color:var(--text-2)">QR code hive ID for rapid field navigation at scale.</li>
           </ul>
@@ -807,22 +814,22 @@ body{font-family:var(--sans);background:#F0F5FC;color:var(--text-1);line-height:
 
       <div class="kpi-grid">
         <div class="kpi-card">
-          <div class="kpi-card-top"><div class="kpi-name">Colony Strength Score</div><div class="kpi-refresh">30 s</div></div>
+          <div class="kpi-card-top"><div class="kpi-name">Colony Strength Score</div><div class="kpi-refresh">Per inspection</div></div>
           <div class="kpi-source">Source: CV inference</div>
           <div class="kpi-threshold warn">Below 40: Warning<br>Below 20: Critical alert</div>
         </div>
         <div class="kpi-card">
-          <div class="kpi-card-top"><div class="kpi-name">Queen Status</div><div class="kpi-refresh">30 s</div></div>
+          <div class="kpi-card-top"><div class="kpi-name">Queen Status</div><div class="kpi-refresh">Per inspection</div></div>
           <div class="kpi-source">Source: CV inference</div>
           <div class="kpi-threshold danger">Absent &gt;24 h: Critical alert — immediate intervention required</div>
         </div>
         <div class="kpi-card">
-          <div class="kpi-card-top"><div class="kpi-name">Varroa Infestation Index</div><div class="kpi-refresh">30 s</div></div>
+          <div class="kpi-card-top"><div class="kpi-name">Varroa Infestation Index</div><div class="kpi-refresh">Per inspection</div></div>
           <div class="kpi-source">Source: CV inference</div>
           <div class="kpi-threshold warn">Above 3%: Treatment recommended</div>
         </div>
         <div class="kpi-card">
-          <div class="kpi-card-top"><div class="kpi-name">Honey Reserve Level</div><div class="kpi-refresh">30 s</div></div>
+          <div class="kpi-card-top"><div class="kpi-name">Honey Reserve Level</div><div class="kpi-refresh">Per inspection</div></div>
           <div class="kpi-source">Source: CV inference</div>
           <div class="kpi-threshold">Below 20%: Supplemental feed alert</div>
         </div>
@@ -902,7 +909,7 @@ body{font-family:var(--sans);background:#F0F5FC;color:var(--text-1);line-height:
               <div class="phase-name">Phase 1 — POC</div>
               <div class="phase-dur">6–8 weeks</div>
             </div>
-            <div class="phase-deliv">5–10 hive pilot installation. Edge hardware deployed. Basic CV inference live: bee count, colony strength score, entrance traffic. Simple dashboard. UAE-species model fine-tuning begins. Both LLM modes operational.</div>
+            <div class="phase-deliv">5–10 hive pilot with operator-assisted inspection workflow. Wearable/stand-mount camera kits deployed. Basic CV inference live: bee count, colony strength score, brood pattern. Simple inspection dashboard. UAE-species model fine-tuning begins. Both LLM modes operational.</div>
             <div class="phase-gate"><strong>Gate:</strong> CV accuracy above 80% on UAE bees. ADAFSA stakeholder demo approved.</div>
           </div>
         </div>
@@ -951,8 +958,8 @@ body{font-family:var(--sans);background:#F0F5FC;color:var(--text-1);line-height:
       <table class="spec-table">
         <thead><tr><th>Risk</th><th style="width:80px">Severity</th><th>Mitigation</th></tr></thead>
         <tbody>
-          <tr><td>Camera obstruction by propolis / wax</td><td><span class="risk-badge high">High</span></td><td>Hydrophobic anti-propolis nano-coating. Integrated compressed-air cleaning nozzle. Weekly maintenance protocol.</td></tr>
-          <tr><td>Edge compute thermal throttling at 50°C+ ambient</td><td><span class="risk-badge high">High</span></td><td>Passive heatsink enclosure rated to 70°C. Adaptive duty-cycle firmware reduces capture frequency above thermal threshold. Shaded mounting mandatory.</td></tr>
+          <tr><td>Photo quality in field conditions (dust, angle, lighting)</td><td><span class="risk-badge high">High</span></td><td>Auto-exposure and HDR mode on capture module. AI confidence score returned per photo — operator prompted to retake if below threshold. UV-resistant lens coating. LED fill-light ring on camera housing for consistent illumination.</td></tr>
+          <tr><td>Edge compute thermal throttling at 50°C+ ambient</td><td><span class="risk-badge high">High</span></td><td>Passive heatsink enclosure rated to 70°C. Inspection sessions are time-limited by nature (operator pace), so sustained compute load is lower than a continuous-capture system. Shaded carry case mandatory in field.</td></tr>
           <tr><td>UAE bee species model accuracy gap</td><td><span class="risk-badge high">High</span></td><td>Min. 500 UAE-annotated frames before production. Active learning continuously feeds corrections back. Annotation budget reserved in project plan.</td></tr>
           <tr><td>Connectivity loss at remote desert sites</td><td><span class="risk-badge med">Medium</span></td><td>72-hour offline edge buffer. LoRaWAN secondary backhaul sufficient for compressed telemetry. Starlink evaluated for ultra-remote sites.</td></tr>
           <tr><td>LLM hallucination in advisory reports</td><td><span class="risk-badge med">Medium</span></td><td>Rule-based post-processing validator cross-checks all numerics against telemetry DB before display. Domain expert review during UAT.</td></tr>
