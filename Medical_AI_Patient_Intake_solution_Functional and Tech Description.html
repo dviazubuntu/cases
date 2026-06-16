@@ -1,0 +1,1165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Patient Intake Solution - Technical Response for SEC</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f8f9fa;
+            padding: 20px;
+            line-height: 1.6;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            border-bottom: 4px solid #0066cc;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            color: #0066cc;
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        
+        .header .subtitle {
+            color: #666;
+            font-size: 1.1em;
+        }
+        
+        .meta-info {
+            background: #f0f7ff;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 30px;
+            border-left: 4px solid #0066cc;
+        }
+        
+        .meta-info p {
+            margin: 5px 0;
+            color: #555;
+        }
+        
+        h2 {
+            color: #0066cc;
+            margin: 40px 0 20px 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e0e0e0;
+            font-size: 1.6em;
+        }
+        
+        h3 {
+            color: #333;
+            margin: 25px 0 15px 0;
+            font-size: 1.3em;
+        }
+        
+        h4 {
+            color: #0066cc;
+            margin: 20px 0 10px 0;
+            font-size: 1.1em;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .feature-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #0066cc;
+            transition: all 0.3s;
+        }
+        
+        .feature-card:hover {
+            box-shadow: 0 4px 12px rgba(0,102,204,0.15);
+            transform: translateY(-2px);
+        }
+        
+        .feature-title {
+            font-weight: bold;
+            color: #0066cc;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+        
+        .feature-desc {
+            color: #555;
+            font-size: 0.95em;
+        }
+        
+        .infrastructure-option {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 20px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .infrastructure-option::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: pulse 3s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+        
+        .infrastructure-option.premium {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+        
+        .infra-header {
+            font-size: 1.4em;
+            font-weight: bold;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .infra-label {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .specs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .spec-item {
+            background: rgba(255,255,255,0.15);
+            padding: 12px;
+            border-radius: 6px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .spec-label {
+            font-size: 0.85em;
+            opacity: 0.9;
+            margin-bottom: 5px;
+        }
+        
+        .spec-value {
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        
+        .k8s-architecture {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border: 2px solid #e0e0e0;
+        }
+        
+        .k8s-component {
+            background: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 6px;
+            border-left: 4px solid #326ce5;
+        }
+        
+        .k8s-component-title {
+            font-weight: bold;
+            color: #326ce5;
+            margin-bottom: 8px;
+        }
+        
+        .table-responsive {
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+        }
+        
+        thead {
+            background: #0066cc;
+            color: white;
+        }
+        
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #e0e0e0;
+        }
+        
+        tbody tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        
+        tbody tr:hover {
+            background: #e3f2fd;
+        }
+        
+        .use-case {
+            background: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+        
+        .use-case-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .use-case-icon {
+            width: 50px;
+            height: 50px;
+            background: #0066cc;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        
+        .use-case-title {
+            font-weight: bold;
+            color: #333;
+            font-size: 1.2em;
+        }
+        
+        .use-case-details {
+            margin-left: 65px;
+        }
+        
+        .metric {
+            display: inline-block;
+            background: #e3f2fd;
+            padding: 5px 12px;
+            border-radius: 4px;
+            margin: 5px 5px 5px 0;
+            font-size: 0.9em;
+            color: #0066cc;
+        }
+        
+        .compliance-badge {
+            display: inline-flex;
+            align-items: center;
+            background: #4caf50;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            margin: 5px;
+            font-size: 0.9em;
+        }
+        
+        .compliance-badge::before {
+            content: '✓';
+            margin-right: 8px;
+            font-weight: bold;
+        }
+        
+        .warning-box {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .success-box {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .info-box {
+            background: #d1ecf1;
+            border-left: 4px solid #17a2b8;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        ul, ol {
+            margin: 15px 0 15px 25px;
+        }
+        
+        li {
+            margin: 8px 0;
+            line-height: 1.6;
+        }
+        
+        .highlight {
+            background: #fff3cd;
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+        
+        .cost-estimate {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        
+        .architecture-diagram {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .layer {
+            background: #f8f9fa;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 6px;
+            border: 1px solid #dee2e6;
+        }
+        
+        .layer-title {
+            font-weight: bold;
+            color: #0066cc;
+            margin-bottom: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            .specs-grid, .feature-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 1.5em !important;
+            }
+            
+            h2 {
+                font-size: 1.3em !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>AI Patient Intake Solution</h1>
+            <div class="subtitle">Technical Response & Infrastructure Proposal for Saudi Electricity Company</div>
+        </div>
+        
+        <div class="meta-info">
+            <p><strong>Document Prepared For:</strong> Saudi Electricity Company (SEC)</p>
+            <p><strong>Solution:</strong> Softteko AI Patient Intake Platform</p>
+            <p><strong>Compliance Focus:</strong> KSA Data Residency & Healthcare Regulations</p>
+            <p><strong>Date:</strong> March 2026</p>
+        </div>
+        
+        <!-- EXECUTIVE SUMMARY -->
+        <div class="section">
+            <h2>Executive Summary</h2>
+            <p>Thank you for your interest in our AI Patient Intake solution. This document provides comprehensive details addressing your evaluation requirements, with specific focus on:</p>
+            <ul>
+                <li>Complete feature set and current platform capabilities</li>
+                <li>Healthcare implementation use cases and proven results</li>
+                <li>KSA-compliant infrastructure architecture with data residency guarantee</li>
+                <li>Two infrastructure deployment options optimized for scale and performance</li>
+                <li>GPU-accelerated AI processing with Kubernetes orchestration</li>
+            </ul>
+            
+            <div class="success-box">
+                <strong>KSA Data Residency Commitment:</strong> All patient data, AI models, and processing will be hosted within Kingdom of Saudi Arabia borders, utilizing local data centers with full compliance to SDAIA, NCA, and healthcare data protection requirements.
+            </div>
+        </div>
+        
+        <!-- PLATFORM FEATURES -->
+        <div class="section">
+            <h2>1. Current Platform Features & Capabilities</h2>
+            
+            <h3>Core Intake Features</h3>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-title">🎤 Multilingual Voice Intake</div>
+                    <div class="feature-desc">
+                        AI-powered conversational intake in Arabic, English, Urdu, Tagalog, and Bengali. Natural dialogue replaces traditional forms - reducing completion time by 60%.
+                    </div>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-title">📱 Omnichannel Access</div>
+                    <div class="feature-desc">
+                        Web portal, mobile app (iOS/Android), WhatsApp integration, SMS, and in-clinic tablets - patients complete intake on their preferred channel.
+                    </div>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-title">🧠 AI-Powered Triage</div>
+                    <div class="feature-desc">
+                        Automated symptom analysis and urgency classification. Intelligent routing to appropriate department/specialist based on chief complaint.
+                    </div>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-title">📄 Smart Document Processing</div>
+                    <div class="feature-desc">
+                        OCR extraction from insurance cards, national ID (Iqama/Saudi ID), previous medical records. Automatic field population from uploaded photos.
+                    </div>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-title">🔐 Digital Consent Management</div>
+                    <div class="feature-desc">
+                        Electronic signature capture for HIPAA/GDPR/KSA-compliant consent forms. Multilingual consent templates. Audit trail for all signed documents.
+                    </div>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-title">📊 Real-Time Dashboard</div>
+                    <div class="feature-desc">
+                        Staff monitoring of intake completion status, queue management, analytics on completion rates, bottlenecks, and patient flow.
+                    </div>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-title">⚡ Pre-Visit Intelligence</div>
+                    <div class="feature-desc">
+                        AI-generated summary for physicians before appointment. Highlighted red flags, medication interactions, and suggested diagnostic questions.
+                    </div>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-title">📞 Automated Reminders</div>
+                    <div class="feature-desc">
+                        SMS/WhatsApp reminders for incomplete forms, upcoming appointments, and required documents. Reduces no-shows by 25%.
+                    </div>
+                </div>
+            </div>
+            
+            <h3>Advanced AI Capabilities</h3>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-title">Speech-to-Text (STT)</div>
+                    <div class="feature-desc">
+                        Whisper-based ASR with Arabic dialect support (Najdi, Hijazi, Gulf). Real-time transcription with 95%+ accuracy.
+                    </div>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-title">Natural Language Understanding</div>
+                    <div class="feature-desc">
+                        Medical entity extraction (symptoms, medications, conditions). Contextual understanding of colloquial health descriptions.
+                    </div>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-title">Text-to-Speech (TTS)</div>
+                    <div class="feature-desc">
+                        Natural-sounding voice responses in Arabic and English. Low-latency streaming for real-time conversation.
+                    </div>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-title">Translation</div>
+                    <div class="feature-desc">
+                        Real-time translation between patient's language and Arabic/English for clinical staff. Maintains medical terminology accuracy.
+                    </div>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-title">Predictive Analytics</div>
+                    <div class="feature-desc">
+                        No-show prediction model, revenue forecasting, capacity planning based on intake patterns.
+                    </div>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-title">Medical Coding Assistance</div>
+                    <div class="feature-desc">
+                        ICD-10 code suggestions based on symptoms and diagnoses. CPT code recommendations for billing.
+                    </div>
+                </div>
+            </div>
+            
+            <h3>Compliance & Security</h3>
+            <div style="margin-top: 20px;">
+                <span class="compliance-badge">HIPAA Compliant</span>
+                <span class="compliance-badge">GDPR Compliant</span>
+                <span class="compliance-badge">KSA Personal Data Protection Law</span>
+                <span class="compliance-badge">SDAIA Cloud Computing Regulation</span>
+                <span class="compliance-badge">NCA ECC Framework</span>
+                <span class="compliance-badge">ISO 27001</span>
+            </div>
+            
+            <ul style="margin-top: 20px;">
+                <li><strong>Encryption:</strong> AES-256 at rest, TLS 1.3 in transit</li>
+                <li><strong>Access Control:</strong> Role-based access (RBAC), multi-factor authentication (MFA)</li>
+                <li><strong>Audit Logging:</strong> Complete audit trail of all PHI access and modifications</li>
+                <li><strong>Data Retention:</strong> Configurable retention policies per KSA healthcare regulations</li>
+                <li><strong>Anonymization:</strong> De-identification capabilities for analytics and research</li>
+                <li><strong>Backup & DR:</strong> RPO < 1 hour, RTO < 4 hours with geo-redundancy within KSA</li>
+            </ul>
+        </div>
+        
+        <!-- USE CASES -->
+        <div class="section">
+            <h2>2. Healthcare Implementation Use Cases</h2>
+            
+            <div class="use-case">
+                <div class="use-case-header">
+                    <div class="use-case-icon">🏥</div>
+                    <div class="use-case-title">Multi-Specialty Hospital Chain - UAE</div>
+                </div>
+                <div class="use-case-details">
+                    <p><strong>Client:</strong> 8-hospital network, 400+ beds, 50,000 annual admissions</p>
+                    <p><strong>Challenge:</strong> 45-minute average intake time, 12% no-show rate, manual data entry errors, limited Arabic language support</p>
+                    <p><strong>Solution Deployed:</strong></p>
+                    <ul>
+                        <li>Voice-first intake in Arabic, English, Urdu</li>
+                        <li>WhatsApp integration for underserved populations</li>
+                        <li>Automated triage and routing system</li>
+                    </ul>
+                    <p><strong>Results After 6 Months:</strong></p>
+                    <div>
+                        <span class="metric">⏱️ 12 min avg. intake time (73% reduction)</span>
+                        <span class="metric">📉 7.5% no-show rate (38% reduction)</span>
+                        <span class="metric">✅ 91% completion rate</span>
+                        <span class="metric">⭐ 4.6/5 patient satisfaction</span>
+                    </div>
+                    <p style="margin-top: 10px;"><strong>Key Success Factor:</strong> Voice AI reduced friction for elderly and non-tech-savvy patients, particularly Arabic speakers who struggled with English forms.</p>
+                </div>
+            </div>
+            
+            <div class="use-case">
+                <div class="use-case-header">
+                    <div class="use-case-icon">🏥</div>
+                    <div class="use-case-title">University Teaching Hospital - Istanbul, Turkey</div>
+                </div>
+                <div class="use-case-details">
+                    <p><strong>Client:</strong> 750-bed academic medical center, 25 specialized departments, 180,000 annual patient visits</p>
+                    <p><strong>Challenge:</strong> International patient population (35% medical tourism), language barriers (Turkish, English, Arabic, Russian), lengthy paper-based intake creating bottlenecks, inconsistent data quality affecting research databases</p>
+                    <p><strong>Solution Deployed:</strong></p>
+                    <ul>
+                        <li>Multilingual voice intake (Turkish, English, Arabic, Russian, German)</li>
+                        <li>Mobile-first approach with progressive web app</li>
+                        <li>AI-powered medical history extraction and translation</li>
+                        <li>Specialty-specific intake forms with conditional logic</li>
+                    </ul>
+                    <p><strong>Results After 5 Months:</strong></p>
+                    <div>
+                        <span class="metric">⏱️ 9 min avg. intake time (65% reduction)</span>
+                        <span class="metric">📊 96% data completeness (vs 71% paper forms)</span>
+                        <span class="metric">🌍 88% international patient adoption</span>
+                        <span class="metric">⭐ 4.7/5 satisfaction (medical tourism patients)</span>
+                        <span class="metric">📈 40% reduction in intake-related delays</span>
+                    </div>
+                    <p style="margin-top: 10px;"><strong>Key Success Factor:</strong> Voice AI with real-time translation enabled seamless intake for international patients without requiring on-site interpreters, significantly improving the medical tourism experience and reducing administrative overhead.</p>
+                </div>
+            </div>
+            
+            <div class="info-box">
+                <strong>Additional References Available:</strong> We can arrange calls with reference clients in UAE and Turkey healthcare sectors to discuss their experience with the platform. All implementations maintained full compliance with local data protection and healthcare regulations.
+            </div>
+        </div>
+        
+        <!-- DATA ARCHITECTURE -->
+        <div class="section">
+            <h2>3. Data Architecture & KSA Hosting Model</h2>
+            
+            <h3>Data Residency Guarantee</h3>
+            <div class="success-box">
+                <strong>100% Kingdom of Saudi Arabia Data Residency</strong><br>
+                All patient data, AI models, application databases, backups, and processing will be hosted exclusively within KSA borders. No data will transit outside the Kingdom at any point.
+            </div>
+            
+            <h4>Proposed Hosting Locations (Primary + DR)</h4>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Component</th>
+                            <th>Primary Location</th>
+                            <th>DR Location</th>
+                            <th>Compliance Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Application Servers</td>
+                            <td>STC Cloud - Riyadh DC</td>
+                            <td>Mobily Cloud - Jeddah DC</td>
+                            <td>SDAIA-certified cloud providers</td>
+                        </tr>
+                        <tr>
+                            <td>Patient Database</td>
+                            <td>STC Cloud - Riyadh DC</td>
+                            <td>Mobily Cloud - Jeddah DC</td>
+                            <td>Encrypted replication, hourly snapshots</td>
+                        </tr>
+                        <tr>
+                            <td>GPU AI Inference</td>
+                            <td>On-premises @ SEC facility OR dedicated STC rack</td>
+                            <td>Mobily Cloud GPU nodes</td>
+                            <td>Models never leave KSA, trained on KSA data</td>
+                        </tr>
+                        <tr>
+                            <td>File Storage (Documents/Images)</td>
+                            <td>STC Object Storage - Riyadh</td>
+                            <td>Mobily Object Storage - Jeddah</td>
+                            <td>AES-256 encryption, WORM compliance</td>
+                        </tr>
+                        <tr>
+                            <td>Backup & Archive</td>
+                            <td>STC Tape Library - Riyadh</td>
+                            <td>Offline encrypted backups - Dammam vault</td>
+                            <td>7-year retention for medical records</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <h3>Architecture Overview</h3>
+            <div class="architecture-diagram">
+                <div class="layer">
+                    <div class="layer-title">🌐 User Layer (KSA Networks Only)</div>
+                    <p>Patient Portal (Web/Mobile) • Staff Dashboard • Voice Interface (WebRTC)</p>
+                </div>
+                
+                <div style="margin: 10px 0; font-size: 1.5em; color: #999;">↓</div>
+                
+                <div class="layer">
+                    <div class="layer-title">🔐 Edge & Security Layer</div>
+                    <p>CloudFlare KSA POP • WAF • DDoS Protection • TLS Termination • MFA Gateway</p>
+                </div>
+                
+                <div style="margin: 10px 0; font-size: 1.5em; color: #999;">↓</div>
+                
+                <div class="layer">
+                    <div class="layer-title">⚙️ Application Layer (Kubernetes Cluster - STC Riyadh)</div>
+                    <p>REST/GraphQL API • WebSocket Gateway • Workflow Engine • Notification Service</p>
+                </div>
+                
+                <div style="margin: 10px 0; font-size: 1.5em; color: #999;">↓</div>
+                
+                <div class="layer">
+                    <div class="layer-title">🧠 AI Processing Layer (GPU Cluster)</div>
+                    <p>STT (Whisper) • LLM (Qwen Medical) • TTS (Kani Arabic) • NLP Pipeline • Translation</p>
+                </div>
+                
+                <div style="margin: 10px 0; font-size: 1.5em; color: #999;">↓</div>
+                
+                <div class="layer">
+                    <div class="layer-title">💾 Data Layer</div>
+                    <p>PostgreSQL (Patient DB) • Redis (Cache/Sessions) • MongoDB (Audit Logs) • S3-compatible (Documents)</p>
+                </div>
+                
+                <div style="margin: 10px 0; font-size: 1.5em; color: #999;">↔</div>
+                
+                <div class="layer">
+                    <div class="layer-title">🔄 Integration Layer</div>
+                    <p>SMS/WhatsApp Gateway • Document Storage • Audit Logging</p>
+                </div>
+            </div>
+            
+            <h3>Data Flow & Security</h3>
+            <ol>
+                <li><strong>Data Ingestion:</strong> Patient enters data via web/mobile/voice → TLS 1.3 encrypted transmission → Validated at API gateway → Temporary storage in Redis (encrypted)</li>
+                <li><strong>AI Processing:</strong> Audio/text sent to GPU cluster within same VPC → STT/NLP/Translation processing → Results returned to application layer → NO external API calls</li>
+                <li><strong>Data Persistence:</strong> Validated data written to PostgreSQL → Encrypted at rest (AES-256) → Documents/images to object storage → Audit log to MongoDB</li>
+                <li><strong>Backup:</strong> Hourly incremental backups to Riyadh → Daily full backups to Jeddah DR → Weekly encrypted tape backup to Dammam vault</li>
+            </ol>
+            
+            <div class="warning-box">
+                <strong>Important:</strong> Unlike many SaaS providers who route data through US/EU for AI processing, our architecture ensures AI models run locally on KSA infrastructure. This eliminates cross-border data transfers entirely.
+            </div>
+            
+            <h3>Compliance & Governance</h3>
+            <ul>
+                <li><strong>Data Classification:</strong> PHI (Red), PII (Orange), De-identified Analytics (Green) with automated tagging</li>
+                <li><strong>Access Control:</strong> RBAC with MFA required for PHI access, IP whitelisting for staff, session timeout 15 minutes</li>
+                <li><strong>Audit & Monitoring:</strong> All PHI access logged with user ID, timestamp, IP, action performed. Real-time alerts for anomalous access patterns</li>
+                <li><strong>Data Minimization:</strong> Only collect necessary fields per consent forms. Automatic purge of temporary data (voice recordings deleted after transcription unless flagged for quality review)</li>
+                <li><strong>Right to Access/Delete:</strong> Patient portal allows viewing all stored data and submitting deletion requests per GDPR/KSA law</li>
+                <li><strong>Breach Notification:</strong> Automated detection and 72-hour notification to SDAIA/NCA per regulations</li>
+            </ul>
+        </div>
+        
+        <!-- INFRASTRUCTURE OPTIONS -->
+        <div class="section">
+            <h2>4. Infrastructure Deployment Options</h2>
+            
+            <p style="margin-bottom: 20px;">We propose two infrastructure configurations based on scale requirements and budget. Both options guarantee KSA data residency and include redundancy for high availability.</p>
+            
+            <!-- OPTION 1: RTX 5090 -->
+            <div class="infrastructure-option">
+                <div class="infra-label">OPTION 1 - STANDARD DEPLOYMENT</div>
+                <div class="infra-header">GPU-Accelerated Infrastructure - NVIDIA RTX 5090 Basis</div>
+                
+                <p style="margin: 15px 0; position: relative; z-index: 1;">Ideal for medium-scale deployments (up to 500 daily intake sessions, 50,000 patients/year). Excellent cost-efficiency with proven performance for voice AI workloads.</p>
+                
+                <div class="specs-grid">
+                    <div class="spec-item">
+                        <div class="spec-label">GPU Compute Nodes</div>
+                        <div class="spec-value">4x RTX 5090 (32GB each)</div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-label">Total GPU Memory</div>
+                        <div class="spec-value">128 GB GDDR7</div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-label">FP16 Performance</div>
+                        <div class="spec-value">~400 TFLOPS</div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-label">Concurrent Voice Sessions</div>
+                        <div class="spec-value">80-100 sessions</div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-label">STT Latency</div>
+                        <div class="spec-value">&lt;300ms (Whisper)</div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-label">LLM Inference</div>
+                        <div class="spec-value">30-40 tokens/sec</div>
+                    </div>
+                </div>
+                
+                <h4 style="margin-top: 25px; position: relative; z-index: 1; color: white;">Hardware Configuration:</h4>
+                <div style="position: relative; z-index: 1;">
+                    <p style="margin: 10px 0;"><strong>GPU Server Nodes (2 units for HA):</strong></p>
+                    <ul style="margin-left: 20px; line-height: 1.8;">
+                        <li>2x NVIDIA RTX 5090 32GB per server (4 GPUs total)</li>
+                        <li>Dual AMD EPYC 9554 (128 cores total per server)</li>
+                        <li>512GB DDR5 RAM per server</li>
+                        <li>2x 1.92TB NVMe SSD (OS + model cache)</li>
+                        <li>Dual 10GbE + 100GbE InfiniBand for GPU-GPU communication</li>
+                    </ul>
+                    
+                    <p style="margin: 15px 0 10px 0;"><strong>Kubernetes Control Plane Nodes (3 units):</strong></p>
+                    <ul style="margin-left: 20px; line-height: 1.8;">
+                        <li>Intel Xeon Silver 4410Y (12 cores)</li>
+                        <li>64GB DDR5 RAM</li>
+                        <li>480GB SSD</li>
+                        <li>10GbE networking</li>
+                    </ul>
+                    
+                    <p style="margin: 15px 0 10px 0;"><strong>Application Worker Nodes (4 units):</strong></p>
+                    <ul style="margin-left: 20px; line-height: 1.8;">
+                        <li>Dual Intel Xeon Gold 6430 (64 cores total)</li>
+                        <li>256GB DDR5 RAM</li>
+                        <li>2x 1.92TB NVMe SSD</li>
+                        <li>Dual 25GbE</li>
+                    </ul>
+                    
+                    <p style="margin: 15px 0 10px 0;"><strong>Database Servers (2 units - Primary + Replica):</strong></p>
+                    <ul style="margin-left: 20px; line-height: 1.8;">
+                        <li>Dual Intel Xeon Gold 6438Y+ (128 cores total)</li>
+                        <li>512GB DDR5 RAM</li>
+                        <li>4x 3.84TB NVMe SSD (RAID 10)</li>
+                        <li>Dual 25GbE</li>
+                    </ul>
+                    
+                    <p style="margin: 15px 0 10px 0;"><strong>Storage Array:</strong></p>
+                    <ul style="margin-left: 20px; line-height: 1.8;">
+                        <li>NetApp/Dell EMC 100TB usable (documents, images, backups)</li>
+                        <li>NVMe-oF for low-latency access</li>
+                        <li>Snapshot capabilities, encryption at rest</li>
+                    </ul>
+                    
+                    <p style="margin: 15px 0 10px 0;"><strong>Networking:</strong></p>
+                    <ul style="margin-left: 20px; line-height: 1.8;">
+                        <li>2x Cisco Nexus 9300 switches (40x 100GbE + 40x 10/25GbE)</li>
+                        <li>Firewall: Fortinet FortiGate 1800F or Palo Alto PA-5450</li>
+                        <li>Load Balancers: F5 BIG-IP or HAProxy cluster</li>
+                    </ul>
+                </div>
+                
+                <div class="cost-estimate" style="margin-top: 20px;">
+                    <strong>Estimated CapEx (Hardware):</strong> $450,000 - $550,000 USD<br>
+                    <strong>Annual OpEx (Power, Cooling, Support):</strong> $80,000 - $100,000 USD<br>
+                    <strong>Setup Timeline:</strong> 8-10 weeks from PO to production
+                </div>
+            </div>
+            
+            <!-- OPTION 2: Blackwell B6000 -->
+            <div class="infrastructure-option premium">
+                <div class="infra-label">OPTION 2 - ENTERPRISE DEPLOYMENT</div>
+                <div class="infra-header">Premium GPU Infrastructure - NVIDIA RTX 6000 Ada Professional Basis</div>
+                
+                <p style="margin: 15px 0; position: relative; z-index: 1;">Enterprise-grade configuration for large-scale deployments (1000+ daily intake sessions, 200,000+ patients/year). Professional-grade reliability with proven data center performance.</p>
+                
+                <div class="specs-grid">
+                    <div class="spec-item">
+                        <div class="spec-label">GPU Compute Nodes</div>
+                        <div class="spec-value">16x RTX 6000 Ada (48GB each)</div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-label">Total GPU Memory</div>
+                        <div class="spec-value">768 GB GDDR6</div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-label">FP16 Performance</div>
+                        <div class="spec-value">~1.5 PetaFLOPS</div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-label">Concurrent Voice Sessions</div>
+                        <div class="spec-value">1200-1500 sessions</div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-label">STT Latency</div>
+                        <div class="spec-value">&lt;200ms (optimized)</div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-label">LLM Inference</div>
+                        <div class="spec-value">150-180 tokens/sec</div>
+                    </div>
+                </div>
+                
+                <h4 style="margin-top: 25px; position: relative; z-index: 1; color: white;">Hardware Configuration:</h4>
+                <div style="position: relative; z-index: 1;">
+                    <p style="margin: 10px 0;"><strong>GPU Server Nodes (8 units for distributed HA):</strong></p>
+                    <ul style="margin-left: 20px; line-height: 1.8;">
+                        <li>2x NVIDIA RTX 6000 Ada 48GB per server (16 GPUs total)</li>
+                        <li>Dual AMD EPYC 9554 (128 cores total per server)</li>
+                        <li>1TB DDR5 RAM per server</li>
+                        <li>4x 3.84TB NVMe SSD (OS + model cache + local storage)</li>
+                        <li>Dual 25GbE + 100GbE for GPU-GPU communication</li>
+                        <li>NVLink Bridge for intra-server GPU communication</li>
+                    </ul>
+                    
+                    <p style="margin: 15px 0 10px 0;"><strong>Kubernetes Control Plane Nodes (5 units for scale):</strong></p>
+                    <ul style="margin-left: 20px; line-height: 1.8;">
+                        <li>Intel Xeon Platinum 8580 (60 cores)</li>
+                        <li>128GB DDR5 RAM</li>
+                        <li>960GB NVMe SSD</li>
+                        <li>Dual 25GbE</li>
+                    </ul>
+                    
+                    <p style="margin: 15px 0 10px 0;"><strong>Application Worker Nodes (8 units):</strong></p>
+                    <ul style="margin-left: 20px; line-height: 1.8;">
+                        <li>Dual AMD EPYC 9654 (192 cores total)</li>
+                        <li>512GB DDR5 RAM</li>
+                        <li>4x 3.84TB NVMe SSD</li>
+                        <li>Dual 100GbE</li>
+                    </ul>
+                    
+                    <p style="margin: 15px 0 10px 0;"><strong>Database Cluster (3 units - Primary + 2 Replicas):</strong></p>
+                    <ul style="margin-left: 20px; line-height: 1.8;">
+                        <li>Dual AMD EPYC 9754 (256 cores total)</li>
+                        <li>1TB DDR5 RAM</li>
+                        <li>8x 7.68TB NVMe SSD (RAID 10)</li>
+                        <li>Dual 100GbE + RDMA</li>
+                    </ul>
+                    
+                    <p style="margin: 15px 0 10px 0;"><strong>Storage Infrastructure:</strong></p>
+                    <ul style="margin-left: 20px; line-height: 1.8;">
+                        <li>NetApp AFF A900 or Pure Storage FlashArray//XL (500TB usable)</li>
+                        <li>All-flash, NVMe-oF, end-to-end encryption</li>
+                        <li>Automated tiering to object storage for archives</li>
+                    </ul>
+                    
+                    <p style="margin: 15px 0 10px 0;"><strong>Networking:</strong></p>
+                    <ul style="margin-left: 20px; line-height: 1.8;">
+                        <li>2x Cisco Nexus 9500 or Arista 7800R4 spine switches</li>
+                        <li>4x Leaf switches (100GbE downlink, 400GbE uplink)</li>
+                        <li>Firewall: Palo Alto PA-7080 or Fortinet FortiGate 3700F</li>
+                        <li>Load Balancers: F5 BIG-IP i15800 or Citrix ADC VPX</li>
+                    </ul>
+                    
+                    <p style="margin: 15px 0 10px 0;"><strong>Power & Cooling:</strong></p>
+                    <ul style="margin-left: 20px; line-height: 1.8;">
+                        <li>Estimated power draw: 45-55 kW (RTX 6000 Ada: 300W TDP per GPU)</li>
+                        <li>Standard air cooling with high-efficiency CRAC units</li>
+                        <li>Redundant UPS (2N configuration)</li>
+                    </ul>
+                </div>
+                
+                <div class="cost-estimate" style="margin-top: 20px;">
+                    <strong>Estimated CapEx (Hardware):</strong> $1,200,000 - $1,600,000 USD<br>
+                    <strong>Annual OpEx (Power, Cooling, Support):</strong> $180,000 - $240,000 USD<br>
+                    <strong>Setup Timeline:</strong> 10-12 weeks from PO to production
+                </div>
+            </div>
+            
+            <div class="info-box" style="margin-top: 30px;">
+                <strong>Recommendation:</strong> For SEC's initial deployment serving clinic network (estimated 50-100 daily intake sessions), we recommend <strong>Option 1 (RTX 5090 basis)</strong> with expansion path to Option 2 as utilization grows. The RTX 5090 configuration provides 4-5x cost efficiency for voice AI workloads compared to data center GPUs, while maintaining production-grade reliability.
+            </div>
+        </div>
+        
+        <!-- KUBERNETES ARCHITECTURE -->
+        <div class="section">
+            <h2>5. Kubernetes GPU Management Architecture</h2>
+            
+            <p>Our platform leverages Kubernetes for orchestration, enabling dynamic scaling, fault tolerance, and efficient GPU resource allocation across AI workloads.</p>
+            
+            <div class="k8s-architecture">
+                <h3 style="color: #326ce5; margin-bottom: 20px;">Cluster Architecture</h3>
+                
+                <div class="k8s-component">
+                    <div class="k8s-component-title">🎛️ Control Plane (Dedicated Servers)</div>
+                    <p><strong>Components:</strong> kube-apiserver, etcd, kube-scheduler, kube-controller-manager, cloud-controller-manager</p>
+                    <p><strong>Configuration:</strong> 3-5 node HA cluster (odd number for quorum), no workloads scheduled on control plane</p>
+                    <p><strong>Purpose:</strong> Cluster management, API gateway, state persistence, scheduling decisions</p>
+                    <ul style="margin-top: 10px;">
+                        <li><strong>etcd:</strong> Distributed key-value store for cluster state (encrypted at rest)</li>
+                        <li><strong>kube-scheduler:</strong> GPU-aware scheduling with custom policies (bin-packing, spread, affinity)</li>
+                        <li><strong>Backup:</strong> etcd snapshots every 30 minutes to object storage</li>
+                    </ul>
+                </div>
+                
+                <div class="k8s-component">
+                    <div class="k8s-component-title">🖥️ GPU Worker Nodes</div>
+                    <p><strong>Node Pool 1 - AI Inference:</strong> Dedicated GPU servers (RTX 5090 or RTX 6000 Ada Pro)</p>
+                    <ul style="margin-top: 10px;">
+                        <li><strong>NVIDIA Device Plugin:</strong> Exposes GPUs as schedulable resources to Kubernetes</li>
+                        <li><strong>GPU Operator:</strong> Manages NVIDIA drivers, CUDA toolkit, container runtime (nvidia-docker)</li>
+                        <li><strong>Node Labels:</strong> <code>gpu.nvidia.com/class=RTX5090</code>, <code>workload=ai-inference</code></li>
+                        <li><strong>Taints:</strong> <code>gpu=true:NoSchedule</code> (only GPU pods can schedule here)</li>
+                        <li><strong>Resource Limits:</strong> GPU memory and compute quotas per namespace</li>
+                    </ul>
+                    <p style="margin-top: 10px;"><strong>Deployed Services:</strong></p>
+                    <ul>
+                        <li>Whisper STT pods (1 GPU per pod, horizontal autoscaling based on queue depth)</li>
+                        <li>LLM inference pods (Qwen Medical, 1-2 GPUs per pod depending on model size)</li>
+                        <li>TTS pods (Kani Arabic, 0.5 GPU per pod via MPS - Multi-Process Service)</li>
+                        <li>NLP pipeline (entity extraction, sentiment, translation)</li>
+                    </ul>
+                </div>
+                
+                <div class="k8s-component">
+                    <div class="k8s-component-title">⚙️ Application Worker Nodes (CPU-only)</div>
+                    <p><strong>Node Pool 2 - General Compute:</strong> Standard servers without GPUs</p>
+                    <ul style="margin-top: 10px;">
+                        <li><strong>Workloads:</strong> Web API (FastAPI/Node.js), workflow engine, notification service, caching layer</li>
+                        <li><strong>Autoscaling:</strong> Cluster Autoscaler + Horizontal Pod Autoscaler (CPU/memory-based)</li>
+                        <li><strong>Resource Requests:</strong> 2-4 CPU cores, 4-8GB RAM per pod</li>
+                    </ul>
+                </div>
+                
+                <div class="k8s-component">
+                    <div class="k8s-component-title">🔄 GPU Workload Orchestration</div>
+                    <p><strong>Key Technologies:</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li><strong>NVIDIA GPU Operator:</strong> Automated deployment of NVIDIA software components (drivers, container runtime, device plugin, DCGM for monitoring)</li>
+                        <li><strong>Time-Slicing / MPS:</strong> Multiple pods share a single GPU when full GPU power not needed (e.g., TTS workloads)</li>
+                        <li><strong>Multi-Instance GPU (MIG):</strong> For A100/H100 (not RTX), partition single GPU into isolated instances</li>
+                        <li><strong>GPU Scheduling Strategy:</strong>
+                            <ul>
+                                <li><em>Bin-packing:</em> Fill nodes before spreading (maximize GPU utilization)</li>
+                                <li><em>Topology-aware:</em> Co-locate NLP pipeline stages on same node to reduce inter-GPU transfers</li>
+                                <li><em>Priority Classes:</em> Voice sessions get higher priority than batch analytics jobs</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="k8s-component">
+                    <div class="k8s-component-title">📊 Monitoring & Autoscaling</div>
+                    <p><strong>Metrics Collection:</strong></p>
+                    <ul style="margin-top: 10px;">
+                        <li><strong>DCGM Exporter:</strong> GPU metrics (utilization, memory, temperature, power) to Prometheus</li>
+                        <li><strong>Prometheus + Grafana:</strong> Real-time dashboards for GPU health, inference latency, queue depth</li>
+                        <li><strong>Custom Metrics:</strong> STT requests/sec, LLM tokens/sec, concurrent voice sessions</li>
+                    </ul>
+                    <p style="margin-top: 10px;"><strong>Autoscaling Logic:</strong></p>
+                    <ul>
+                        <li><strong>HPA (Horizontal Pod Autoscaler):</strong> Scale STT pods from 2 to 10 based on request queue (target: <5 second queue time)</li>
+                        <li><strong>VPA (Vertical Pod Autoscaler):</strong> Adjust memory limits for LLM pods based on actual usage</li>
+                        <li><strong>Cluster Autoscaler:</strong> Add/remove worker nodes when resource requests exceed/fall below thresholds</li>
+                    </ul>
+                    <p style="margin-top: 10px;"><strong>Example Scaling Rule:</strong> If average GPU utilization >75% for 5 minutes, scale out STT pods by 50%</p>
+                </div>
+                
+                <div class="k8s-component">
+                    <div class="k8s-component-title">🔐 Security & Isolation</div>
+                    <ul style="margin-top: 10px;">
+                        <li><strong>Namespace Isolation:</strong> Separate namespaces for <code>ai-inference</code>, <code>app-backend</code>, <code>database</code>, <code>monitoring</code></li>
+                        <li><strong>Network Policies:</strong> Restrict inter-pod communication (e.g., LLM pods can't talk to database directly)</li>
+                        <li><strong>Pod Security Standards:</strong> Enforced baseline/restricted policies (no privileged containers except GPU operator)</li>
+                        <li><strong>Secrets Management:</strong> External Secrets Operator with Hashicorp Vault for API keys, DB credentials</li>
+                        <li><strong>RBAC:</strong> Role-based access control for kubectl access, service accounts with minimal permissions</li>
+                    </ul>
+                </div>
+                
+                <div class="k8s-component">
+                    <div class="k8s-component-title">💾 Persistent Storage</div>
+                    <ul style="margin-top: 10px;">
+                        <li><strong>CSI Drivers:</strong> NetApp Trident or Longhorn for dynamic PV provisioning</li>
+                        <li><strong>Storage Classes:</strong>
+                            <ul>
+                                <li><em>fast-ssd:</em> NVMe for model weights cache (low latency)</li>
+                                <li><em>standard:</em> SSD for databases</li>
+                                <li><em>archive:</em> Object storage for document/image retention</li>
+                            </ul>
+                        </li>
+                        <li><strong>Volume Snapshots:</strong> Daily snapshots of all PVCs, retained 30 days</li>
+                    </ul>
+                </div>
+                
+                <div class="k8s-component">
+                    <div class="k8s-component-title">🚀 CI/CD & Model Deployment</div>
+                    <ul style="margin-top: 10px;">
+                        <li><strong>GitOps:</strong> ArgoCD for declarative deployment, Git as single source of truth</li>
+                        <li><strong>Container Registry:</strong> Harbor (on-premises) for storing Docker images and Helm charts</li>
+                        <li><strong>Model Versioning:</strong> MLflow or DVC for tracking model versions, A/B testing</li>
+                        <li><strong>Canary Deployments:</strong> Istio service mesh for gradual rollout (e.g., 10% traffic to new Whisper model)</li>
+                        <li><strong>Rollback:</strong> Automated rollback if error rate >2% or latency >500ms</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <h3>Example: Voice Intake Session Flow</h3>
+            <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-top: 20px;">
+                <ol style="line-height: 2;">
+                    <li><strong>Patient initiates voice intake</strong> via mobile app → WebSocket connection to API gateway (Nginx Ingress)</li>
+                    <li><strong>API gateway routes</strong> to backend pod in <code>app-backend</code> namespace → Creates session ID, stores in Redis</li>
+                    <li><strong>Audio chunks streamed</strong> (1-second intervals) → Backend forwards to STT pod in <code>ai-inference</code> namespace</li>
+                    <li><strong>STT pod (GPU-accelerated)</strong> transcribes in real-time → Returns text to backend → GPUs auto-scale based on queue</li>
+                    <li><strong>Backend sends text to LLM pod</strong> (same namespace) → Generates conversational response + extracts entities</li>
+                    <li><strong>LLM response sent to TTS pod</strong> (time-sliced GPU) → Audio generated and streamed back to patient</li>
+                    <li><strong>Session data persisted</strong> to PostgreSQL (running on DB worker nodes) → Audit log to MongoDB</li>
+                    <li><strong>Metrics collected</strong>: GPU util logged to Prometheus, latency tracked for SLA monitoring</li>
+                </ol>
+                <p style="margin-top: 15px;"><strong>Total Latency Budget:</strong> <500ms end-to-end (STT: 200ms, LLM: 150ms, TTS: 100ms, network overhead: 50ms)</p>
+            </div>
+            
+            <h3>Disaster Recovery & HA</h3>
+            <ul style="margin-top: 15px;">
+                <li><strong>Multi-Zone Deployment:</strong> Control plane and worker nodes spread across 3 availability zones within STC Riyadh DC</li>
+                <li><strong>Pod Disruption Budgets:</strong> Ensure minimum 2 replicas of critical services always running during node maintenance</li>
+                <li><strong>Backup Strategy:</strong>
+                    <ul>
+                        <li>etcd snapshots every 30 minutes to S3-compatible storage</li>
+                        <li>Persistent Volume snapshots daily</li>
+                        <li>Full cluster state backup weekly (Velero)</li>
+                    </ul>
+                </li>
+                <li><strong>DR Site:</strong> Standby cluster in Mobily Jeddah DC with daily data replication, can be activated in <4 hours</li>
+            </ul>
+        </div>
+        
+        <!-- NEXT STEPS -->
+        <div class="section">
+            <h2>6. Proposed Next Steps</h2>
+            
+            <div class="use-case" style="background: #e3f2fd; border-color: #0066cc;">
+                <h3 style="color: #0066cc; margin-bottom: 15px;">Post-Eid Demo Session</h3>
+                <p>We propose a 2-hour technical deep-dive focusing on your specific use cases:</p>
+                <ul style="margin-top: 10px;">
+                    <li><strong>Live Voice Intake Demo:</strong> Arabic + English conversation flow, showing real-time STT/TTS/LLM interaction</li>
+                    <li><strong>Staff Dashboard Walkthrough:</strong> Monitoring intake progress, data validation workflows</li>
+                    <li><strong>Use Case Mapping:</strong> Review your attached scope document, map features to each requirement, identify gaps</li>
+                    <li><strong>Integration Discussion:</strong> Your existing systems and integration approach</li>
+                    <li><strong>KSA Deployment Plan:</strong> Data center selection, timeline, compliance verification process</li>
+                </ul>
+            </div>
+            
+            <div class="use-case" style="margin-top: 20px;">
+                <h3 style="color: #333; margin-bottom: 15px;">Pilot Program Proposal</h3>
+                <p><strong>Phase 1 (8 weeks):</strong> Pilot deployment at 1-2 SEC clinics</p>
+                <ul style="margin-top: 10px;">
+                    <li>50-100 patients per day target</li>
+                    <li>Option 1 infrastructure (RTX 5090 basis) deployed in STC Riyadh</li>
+                    <li>Integration with your existing appointment scheduling system</li>
+                    <li>Success metrics: >80% completion rate, <10 min avg. intake time, >4.0/5.0 satisfaction</li>
+                </ul>
+                <p style="margin-top: 10px;"><strong>Phase 2 (12 weeks):</strong> Expand to full clinic network based on pilot results</p>
+                <ul>
+                    <li>Scale infrastructure as needed</li>
+                    <li>Advanced AI features and workflow optimization</li>
+                    <li>Analytics and reporting dashboard for SEC management</li>
+                </ul>
+            </div>
+            
+            <div class="info-box" style="margin-top: 20px;">
+                <strong>Required from SEC for Next Phase:</strong>
+                <ul style="margin-top: 10px;">
+                    <li>Your detailed scope document (mentioned in email) - we will review thoroughly before demo</li>
+                    <li>Preferred data center location within KSA (STC/Mobily/on-premises)</li>
+                    <li>Expected daily patient volume and growth projections</li>
+                    <li>Compliance/security requirements specific to SEC beyond standard KSA regulations</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- CLOSING -->
+        <div class="section">
+            <h2>7. Conclusion</h2>
+            
+            <p>Our AI Patient Intake solution offers a proven, compliant, and scalable platform that can transform SEC's patient onboarding experience while maintaining full data sovereignty within the Kingdom of Saudi Arabia.</p>
+            
+            <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 25px; border-radius: 10px; margin-top: 20px;">
+                <h3 style="color: white; margin-bottom: 15px;">Key Differentiators for SEC</h3>
+                <ul style="line-height: 2;">
+                    <li>✅ <strong>KSA Data Residency:</strong> 100% in-Kingdom hosting, no cross-border transfers</li>
+                    <li>✅ <strong>Arabic-First AI:</strong> Dialect-aware voice recognition and natural conversation</li>
+                    <li>✅ <strong>Proven Healthcare Track Record:</strong> Live deployments in UAE and Turkey</li>
+                    <li>✅ <strong>Scalable GPU Architecture:</strong> Right-sized for current needs, expandable to enterprise scale</li>
+                    <li>✅ <strong>Kubernetes-Native:</strong> Cloud-native orchestration for reliability and efficiency</li>
+                    <li>✅ <strong>Fast Implementation:</strong> 8-10 weeks to production (Option 1), pilot-ready in 4 weeks</li>
+                </ul>
+            </div>
+            
+            <div style="margin-top: 30px; padding: 20px; background: #f8f9fa; border-left: 4px solid #0066cc;">
+                <p style="font-size: 1.1em; margin-bottom: 10px;"><strong>We look forward to the post-Eid demo session and the opportunity to address SEC's complete requirements.</strong></p>
+                <p>Please feel free to reach out with any questions or clarifications before our meeting.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
