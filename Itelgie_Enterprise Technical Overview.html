@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Itelgie — Enterprise HR & Project Management Platform</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --white: #ffffff;
+    --bg: #f5f8ff;
+    --blue-50: #eff6ff;
+    --blue-100: #dbeafe;
+    --blue-200: #bfdbfe;
+    --blue-400: #60a5fa;
+    --blue-500: #3b82f6;
+    --blue-600: #2563eb;
+    --blue-700: #1d4ed8;
+    --blue-800: #1e40af;
+    --blue-900: #1e3a8a;
+    --text-primary: #0f172a;
+    --text-secondary: #334155;
+    --text-muted: #64748b;
+    --border: #e2e8f0;
+    --shadow-sm: 0 1px 3px rgba(30,58,138,0.06), 0 1px 2px rgba(30,58,138,0.04);
+    --shadow-md: 0 4px 16px rgba(30,58,138,0.10), 0 2px 6px rgba(30,58,138,0.06);
+    --shadow-lg: 0 12px 40px rgba(30,58,138,0.14), 0 4px 12px rgba(30,58,138,0.08);
+    --radius: 14px;
+    --radius-sm: 8px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text-primary);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ─── NAV ─────────────────────────────────────────── */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(255,255,255,0.88);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    transition: box-shadow 0.3s;
+  }
+  nav.scrolled { box-shadow: var(--shadow-md); }
+  .nav-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;
+    gap: 2rem;
+  }
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.25rem;
+    color: var(--blue-900);
+    letter-spacing: -0.02em;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .nav-logo span { color: var(--blue-600); }
+  .nav-links {
+    display: flex;
+    gap: 0.25rem;
+    list-style: none;
+    flex-wrap: wrap;
+  }
+  .nav-links a {
+    text-decoration: none;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    font-weight: 500;
+    padding: 0.375rem 0.875rem;
+    border-radius: 999px;
+    transition: background 0.2s, color 0.2s;
+  }
+  .nav-links a:hover {
+    background: var(--blue-50);
+    color: var(--blue-700);
+  }
+
+  /* ─── HERO ────────────────────────────────────────── */
+  .hero {
+    background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 45%, #1d4ed8 100%);
+    color: white;
+    padding: 6rem 2rem 5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 70% 50%, rgba(96,165,250,0.18) 0%, transparent 60%),
+                radial-gradient(ellipse at 20% 80%, rgba(30,64,175,0.3) 0%, transparent 50%);
+    pointer-events: none;
+  }
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 48px 48px;
+    pointer-events: none;
+  }
+  .hero-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(96,165,250,0.15);
+    border: 1px solid rgba(96,165,250,0.3);
+    color: #93c5fd;
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.375rem 1rem;
+    border-radius: 999px;
+    margin-bottom: 1.5rem;
+  }
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(3rem, 7vw, 5.5rem);
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    margin-bottom: 1rem;
+  }
+  .hero h1 span {
+    background: linear-gradient(90deg, #93c5fd, #60a5fa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .hero-sub {
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    color: #bfdbfe;
+    font-weight: 300;
+    max-width: 540px;
+    line-height: 1.6;
+    margin-bottom: 2.5rem;
+  }
+  .hero-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .hero-pill {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.14);
+    color: #e0eaff;
+    font-size: 0.8rem;
+    font-weight: 500;
+    padding: 0.35rem 0.85rem;
+    border-radius: 999px;
+    font-family: 'DM Mono', 'Fira Mono', monospace;
+  }
+
+  /* ─── MAIN CONTENT ────────────────────────────────── */
+  main { max-width: 1280px; margin: 0 auto; padding: 3rem 2rem 5rem; }
+
+  section { margin-bottom: 4rem; scroll-margin-top: 80px; }
+
+  .section-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--blue-600);
+    margin-bottom: 0.5rem;
+  }
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    font-weight: 700;
+    color: var(--blue-900);
+    letter-spacing: -0.02em;
+    margin-bottom: 0.75rem;
+  }
+  .section-desc {
+    color: var(--text-muted);
+    font-size: 1rem;
+    max-width: 600px;
+    margin-bottom: 2rem;
+  }
+
+  /* ─── CARDS ───────────────────────────────────────── */
+  .card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.75rem;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.22s ease, box-shadow 0.22s ease;
+  }
+  .card:hover {
+    transform: translateY(-3px) scale(1.005);
+    box-shadow: var(--shadow-lg);
+  }
+
+  /* ─── TABS ────────────────────────────────────────── */
+  .tabs-wrapper { background: white; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-sm); }
+  .tab-bar {
+    display: flex;
+    border-bottom: 1px solid var(--border);
+    background: var(--blue-50);
+    overflow-x: auto;
+  }
+  .tab-btn {
+    padding: 1rem 1.5rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--text-muted);
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    border-bottom: 2.5px solid transparent;
+    transition: color 0.2s, border-color 0.2s, background 0.2s;
+    white-space: nowrap;
+  }
+  .tab-btn:hover { color: var(--blue-700); background: rgba(37,99,235,0.04); }
+  .tab-btn.active { color: var(--blue-700); border-bottom-color: var(--blue-600); background: white; font-weight: 600; }
+  .tab-panel { display: none; padding: 2rem; animation: fadeIn 0.25s ease; }
+  .tab-panel.active { display: block; }
+
+  /* ─── BADGES / CHIPS ─────────────────────────────── */
+  .chip {
+    display: inline-block;
+    background: var(--blue-50);
+    color: var(--blue-800);
+    border: 1px solid var(--blue-200);
+    font-size: 0.78rem;
+    font-weight: 500;
+    font-family: 'DM Mono', 'Fira Mono', 'Courier New', monospace;
+    padding: 0.2rem 0.6rem;
+    border-radius: 5px;
+    letter-spacing: 0.01em;
+  }
+
+  /* ─── TECH GRID ──────────────────────────────────── */
+  .tech-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; }
+  .tech-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+    cursor: default;
+  }
+  .tech-card:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: var(--shadow-md);
+    border-color: var(--blue-300, #93c5fd);
+  }
+  .tech-icon { font-size: 1.6rem; }
+  .tech-name { font-weight: 600; font-size: 0.95rem; color: var(--blue-900); }
+  .tech-ver { font-size: 0.78rem; color: var(--text-muted); }
+
+  /* ─── AI FEATURE LIST ────────────────────────────── */
+  .feature-list { display: flex; flex-direction: column; gap: 0.75rem; }
+  .feature-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.875rem;
+    padding: 1rem 1.25rem;
+    background: var(--blue-50);
+    border-radius: var(--radius-sm);
+    border-left: 3px solid var(--blue-500);
+  }
+  .feature-icon { font-size: 1.1rem; margin-top: 0.1rem; flex-shrink: 0; }
+  .feature-text { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.5; }
+  .feature-text strong { color: var(--blue-900); font-weight: 600; }
+
+  /* ─── DIFFERENTIATORS GRID ───────────────────────── */
+  .diff-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; }
+  .diff-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow 0.2s, transform 0.2s;
+  }
+  .diff-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+  .diff-emoji { font-size: 1.5rem; flex-shrink: 0; }
+  .diff-card p { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.5; }
+  .diff-card strong { display: block; color: var(--blue-900); font-weight: 600; margin-bottom: 0.2rem; font-size: 0.95rem; }
+
+  /* ─── DEPLOYMENT GRID ───────────────────────────── */
+  .deploy-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; }
+  .deploy-card {
+    background: white;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow 0.22s, transform 0.22s;
+  }
+  .deploy-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-4px); }
+  .deploy-header {
+    padding: 1.5rem;
+    background: linear-gradient(135deg, var(--blue-900), var(--blue-700));
+    color: white;
+  }
+  .deploy-header h3 { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 700; margin-bottom: 0.25rem; }
+  .deploy-header p { font-size: 0.85rem; opacity: 0.75; }
+  .deploy-body { padding: 1.5rem; }
+  .deploy-row {
+    display: flex;
+    gap: 0.75rem;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--border);
+    align-items: flex-start;
+  }
+  .deploy-row:last-child { border-bottom: none; }
+  .deploy-row-label { font-size: 0.78rem; font-weight: 600; color: var(--blue-600); text-transform: uppercase; letter-spacing: 0.06em; width: 90px; flex-shrink: 0; padding-top: 0.1rem; }
+  .deploy-row-val { font-size: 0.875rem; color: var(--text-secondary); line-height: 1.5; }
+
+  /* ─── ACCORDION ─────────────────────────────────── */
+  .accordion { display: flex; flex-direction: column; gap: 0.5rem; }
+  .acc-item {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+  }
+  .acc-trigger {
+    width: 100%;
+    background: none;
+    border: none;
+    text-align: left;
+    padding: 1.2rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--blue-900);
+    transition: background 0.2s;
+  }
+  .acc-trigger:hover { background: var(--blue-50); }
+  .acc-icon {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--blue-100);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    color: var(--blue-700);
+    flex-shrink: 0;
+    transition: transform 0.25s, background 0.2s;
+  }
+  .acc-item.open .acc-icon { transform: rotate(180deg); background: var(--blue-600); color: white; }
+  .acc-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s cubic-bezier(0.4,0,0.2,1);
+  }
+  .acc-body-inner { padding: 0 1.5rem 1.5rem; }
+  .acc-item.open .acc-body { max-height: 800px; }
+  .acc-title-wrap { display: flex; align-items: center; gap: 0.75rem; }
+  .acc-emoji { font-size: 1.1rem; }
+
+  /* ─── SECURITY LIST ─────────────────────────────── */
+  .sec-list { display: flex; flex-direction: column; gap: 0.6rem; }
+  .sec-item {
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+  .sec-item::before { content: '✓'; color: var(--blue-600); font-weight: 700; flex-shrink: 0; margin-top: 0.05rem; }
+  .sec-item strong { color: var(--blue-900); }
+
+  /* ─── ESTIMATION ────────────────────────────────── */
+  .est-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+  .est-card {
+    background: white;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    padding: 2rem;
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow 0.2s, transform 0.2s;
+    position: relative;
+  }
+  .est-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-3px); }
+  .est-phase {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--blue-600);
+    margin-bottom: 0.5rem;
+  }
+  .est-card h3 { font-family: 'Syne', sans-serif; font-size: 1.15rem; font-weight: 700; color: var(--blue-900); margin-bottom: 1.25rem; }
+  .est-dur {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+  }
+  .est-cost {
+    font-family: 'Syne', sans-serif;
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--blue-900);
+    line-height: 1.1;
+  }
+  .est-currency { font-size: 1rem; color: var(--text-muted); font-weight: 500; margin-top: 0.25rem; font-family: 'DM Sans', sans-serif; }
+  .info-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    background: var(--blue-100);
+    color: var(--blue-700);
+    border-radius: 50%;
+    font-size: 0.7rem;
+    cursor: pointer;
+    margin-left: 0.4rem;
+    font-style: normal;
+    position: relative;
+  }
+  .info-icon:hover .tooltip {
+    opacity: 1;
+    transform: translateY(-4px);
+    pointer-events: auto;
+  }
+  .tooltip {
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%) translateY(0px);
+    background: var(--blue-900);
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 400;
+    line-height: 1.5;
+    padding: 0.6rem 0.9rem;
+    border-radius: 8px;
+    width: 220px;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.2s, transform 0.2s;
+    pointer-events: none;
+    z-index: 99;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+  }
+  .tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-top-color: var(--blue-900);
+  }
+
+  /* ─── UTILS ─────────────────────────────────────── */
+  .mt-1 { margin-top: 0.5rem; }
+  .mt-2 { margin-top: 1rem; }
+  .mt-3 { margin-top: 1.5rem; }
+  .grid-2 { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 0.75rem; }
+  .divider { border: none; border-top: 1px solid var(--border); margin: 1.5rem 0; }
+  p.lead { font-size: 1rem; color: var(--text-secondary); line-height: 1.7; }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* ─── FOOTER ────────────────────────────────────── */
+  footer {
+    border-top: 1px solid var(--border);
+    background: white;
+    padding: 2rem;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.82rem;
+  }
+
+  /* ─── RESPONSIVE ────────────────────────────────── */
+  @media (max-width: 640px) {
+    .nav-links { display: none; }
+    .hero { padding: 4rem 1.5rem 3.5rem; }
+    main { padding: 2rem 1rem 4rem; }
+    .tab-btn { padding: 0.75rem 1rem; font-size: 0.82rem; }
+    .est-cost { font-size: 1.6rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="topnav">
+  <div class="nav-inner">
+    <a class="nav-logo" href="#">Itel<span>gie</span></a>
+    <ul class="nav-links">
+      <li><a href="#architecture">Architecture</a></li>
+      <li><a href="#deployment">Deployment</a></li>
+      <li><a href="#security">Security</a></li>
+      <li><a href="#estimation">Estimation</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-inner">
+    <div class="hero-badge">📋 Enterprise Technical Overview</div>
+    <h1>Itelgie<br><span>Platform</span></h1>
+    <p class="hero-sub">Enterprise HR &amp; Project Management Platform — a modern, AI-powered solution built for global scale.</p>
+    <div class="hero-pills">
+      <span class="hero-pill">Java 23</span>
+      <span class="hero-pill">Spring Boot 3.4.0</span>
+      <span class="hero-pill">PostgreSQL 17.4</span>
+      <span class="hero-pill">Gemini 2.5 Flash</span>
+      <span class="hero-pill">Kubernetes</span>
+      <span class="hero-pill">OAuth2 + JWT</span>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <!-- ─── ARCHITECTURE ──────────────────────────── -->
+  <section id="architecture">
+    <div class="section-label">01 — Architecture</div>
+    <h2 class="section-title">Technology Stack &amp; Integrations</h2>
+    <p class="section-desc">A modern, battle-tested stack purpose-built for enterprise HR and project workloads at global scale.</p>
+
+    <div class="tabs-wrapper">
+      <div class="tab-bar" role="tablist">
+        <button class="tab-btn active" onclick="switchTab(this,'core')" role="tab">⚙️ Core Stack</button>
+        <button class="tab-btn" onclick="switchTab(this,'ai')" role="tab">🤖 AI / ML Integration</button>
+        <button class="tab-btn" onclick="switchTab(this,'enterprise')" role="tab">🔗 Enterprise Integration</button>
+        <button class="tab-btn" onclick="switchTab(this,'diff')" role="tab">🏆 Key Differentiators</button>
+      </div>
+
+      <!-- CORE STACK -->
+      <div id="tab-core" class="tab-panel active">
+        <div class="tech-grid">
+          <div class="tech-card">
+            <div class="tech-icon">☕</div>
+            <div class="tech-name">Spring Boot</div>
+            <div class="tech-ver"><span class="chip">3.4.0</span></div>
+            <p style="font-size:0.8rem;color:var(--text-muted);margin-top:0.25rem;">Primary backend framework</p>
+          </div>
+          <div class="tech-card">
+            <div class="tech-icon">♨️</div>
+            <div class="tech-name">Java</div>
+            <div class="tech-ver"><span class="chip">v23 LTS</span></div>
+            <p style="font-size:0.8rem;color:var(--text-muted);margin-top:0.25rem;">Latest LTS runtime</p>
+          </div>
+          <div class="tech-card">
+            <div class="tech-icon">🐘</div>
+            <div class="tech-name">PostgreSQL</div>
+            <div class="tech-ver"><span class="chip">17.4</span></div>
+            <p style="font-size:0.8rem;color:var(--text-muted);margin-top:0.25rem;">Primary database + Liquibase migrations</p>
+          </div>
+          <div class="tech-card">
+            <div class="tech-icon">⚡</div>
+            <div class="tech-name">Redis</div>
+            <div class="tech-ver"><span class="chip">5.2.0</span></div>
+            <p style="font-size:0.8rem;color:var(--text-muted);margin-top:0.25rem;">High-performance caching</p>
+          </div>
+          <div class="tech-card">
+            <div class="tech-icon">📨</div>
+            <div class="tech-name">Apache Kafka</div>
+            <div class="tech-ver"><span class="chip">latest</span></div>
+            <p style="font-size:0.8rem;color:var(--text-muted);margin-top:0.25rem;">Async message queue</p>
+          </div>
+          <div class="tech-card">
+            <div class="tech-icon">🐳</div>
+            <div class="tech-name">Docker + Kubernetes</div>
+            <div class="tech-ver"><span class="chip">containerized</span></div>
+            <p style="font-size:0.8rem;color:var(--text-muted);margin-top:0.25rem;">Container orchestration</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- AI / ML -->
+      <div id="tab-ai" class="tab-panel">
+        <div class="card" style="margin-bottom:1.25rem;">
+          <p class="lead"><strong style="color:var(--blue-900);">Primary AI Model:</strong> Google Gemini <span class="chip">2.5 Flash</span> via <span class="chip">Vertex AI</span></p>
+          <p style="font-size:0.85rem;color:var(--text-muted);margin-top:0.75rem;font-style:italic;">Note: We are open to considering an alternative model; however, estimation of its implementation will be conducted only after the Discovery phase.</p>
+        </div>
+        <div class="feature-list">
+          <div class="feature-item">
+            <div class="feature-icon">📝</div>
+            <div class="feature-text"><strong>Intelligent Text Generation</strong> — Automated HR notifications and performance assessment narratives tailored per employee.</div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">📊</div>
+            <div class="feature-text"><strong>Competency Matrix Analysis</strong> — Automated analysis and scoring of competency frameworks across roles and seniority levels.</div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">⚡</div>
+            <div class="feature-text"><strong>Smart Action Items</strong> — AI-driven generation and priority ranking of action items from meeting notes and assessments.</div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">💬</div>
+            <div class="feature-text"><strong>Feedback Processing &amp; Sentiment Analysis</strong> — Real-time sentiment scoring of employee feedback submissions.</div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">🔌</div>
+            <div class="feature-text"><strong>Custom Feign Clients</strong> — Configurable temperature and token limit controls for AI response tuning per use-case.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ENTERPRISE INTEGRATION -->
+      <div id="tab-enterprise" class="tab-panel">
+        <div class="grid-2">
+          <div class="card">
+            <div style="font-size:1.4rem;margin-bottom:0.75rem;">🌐</div>
+            <strong style="color:var(--blue-900);display:block;margin-bottom:0.4rem;">API Gateway</strong>
+            <p style="font-size:0.875rem;color:var(--text-secondary);">Spring Cloud <span class="chip">OpenFeign</span> for seamless microservice communication and external API integration.</p>
+          </div>
+          <div class="card">
+            <div style="font-size:1.4rem;margin-bottom:0.75rem;">🔐</div>
+            <strong style="color:var(--blue-900);display:block;margin-bottom:0.4rem;">Security</strong>
+            <p style="font-size:0.875rem;color:var(--text-secondary);"><span class="chip">OAuth2</span> + <span class="chip">JWT</span> with multi-tenant support for enterprise-wide identity management.</p>
+          </div>
+          <div class="card">
+            <div style="font-size:1.4rem;margin-bottom:0.75rem;">📈</div>
+            <strong style="color:var(--blue-900);display:block;margin-bottom:0.4rem;">Monitoring</strong>
+            <p style="font-size:0.875rem;color:var(--text-secondary);"><span class="chip">Micrometer</span> with <span class="chip">Prometheus</span> metrics for full observability and alerting.</p>
+          </div>
+          <div class="card">
+            <div style="font-size:1.4rem;margin-bottom:0.75rem;">📚</div>
+            <strong style="color:var(--blue-900);display:block;margin-bottom:0.4rem;">API Documentation</strong>
+            <p style="font-size:0.875rem;color:var(--text-secondary);"><span class="chip">OpenAPI 3.0</span> with interactive <span class="chip">Swagger UI</span> — always up-to-date API contracts.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- KEY DIFFERENTIATORS -->
+      <div id="tab-diff" class="tab-panel">
+        <div class="diff-grid">
+          <div class="diff-card">
+            <div class="diff-emoji">🚀</div>
+            <div>
+              <strong>Modern Tech Stack</strong>
+              <p>Java 23 + Spring Boot 3.4 — the cutting edge of the JVM ecosystem, ensuring long-term support and performance.</p>
+            </div>
+          </div>
+          <div class="diff-card">
+            <div class="diff-emoji">🤖</div>
+            <div>
+              <strong>Advanced AI Capabilities</strong>
+              <p>Native Google Gemini 2.5 Flash integration via Vertex AI for intelligent automation across HR workflows.</p>
+            </div>
+          </div>
+          <div class="diff-card">
+            <div class="diff-emoji">🛡️</div>
+            <div>
+              <strong>Enterprise-Grade Security</strong>
+              <p>Proven security framework with OAuth2, JWT, RBAC, AES-256, TLS 1.3, and full GDPR compliance built in.</p>
+            </div>
+          </div>
+          <div class="diff-card">
+            <div class="diff-emoji">☁️</div>
+            <div>
+              <strong>Flexible Deployment</strong>
+              <p>Choice of Google Cloud (GKE) or on-premises Kubernetes — adapt to your infrastructure and compliance needs.</p>
+            </div>
+          </div>
+          <div class="diff-card">
+            <div class="diff-emoji">🔗</div>
+            <div>
+              <strong>Oracle Fusion Integration</strong>
+              <p>Comprehensive integration experience with Oracle Fusion — minimal friction for enterprises already in the ecosystem.</p>
+            </div>
+          </div>
+          <div class="diff-card">
+            <div class="diff-emoji">🌍</div>
+            <div>
+              <strong>Global Scalability</strong>
+              <p>Scalable multi-tenant architecture designed to support distributed teams and global enterprise rollouts.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ─── DEPLOYMENT ────────────────────────────── -->
+  <section id="deployment">
+    <div class="section-label">02 — Deployment</div>
+    <h2 class="section-title">Deployment Options</h2>
+    <p class="section-desc">Two battle-tested deployment paths designed to meet strict enterprise infrastructure and compliance requirements.</p>
+
+    <div class="deploy-grid">
+      <!-- GCP -->
+      <div class="deploy-card">
+        <div class="deploy-header">
+          <h3>☁️ Option 1: Google Cloud Tenant</h3>
+          <p>Fully managed cloud infrastructure on GCP</p>
+        </div>
+        <div class="deploy-body">
+          <div class="deploy-row">
+            <div class="deploy-row-label">Framework</div>
+            <div class="deploy-row-val">Google Kubernetes Engine (GKE) in client's GCP project</div>
+          </div>
+          <div class="deploy-row">
+            <div class="deploy-row-label">Database</div>
+            <div class="deploy-row-val">Cloud SQL for PostgreSQL with automated backups</div>
+          </div>
+          <div class="deploy-row">
+            <div class="deploy-row-label">Storage</div>
+            <div class="deploy-row-val">Google Cloud Storage for file management</div>
+          </div>
+          <div class="deploy-row">
+            <div class="deploy-row-label">Monitoring</div>
+            <div class="deploy-row-val">Cloud Monitoring + Cloud Logging</div>
+          </div>
+          <div class="deploy-row">
+            <div class="deploy-row-label">CI/CD</div>
+            <div class="deploy-row-val">Google Cloud Build with Bitbucket Pipelines integration</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- On-Prem -->
+      <div class="deploy-card">
+        <div class="deploy-header" style="background:linear-gradient(135deg,#1e293b,#334155);">
+          <h3>🏢 Option 2: On-Premises</h3>
+          <p>Full control on your own infrastructure</p>
+        </div>
+        <div class="deploy-body">
+          <div class="deploy-row">
+            <div class="deploy-row-label">Framework</div>
+            <div class="deploy-row-val">Kubernetes cluster on client's own infrastructure</div>
+          </div>
+          <div class="deploy-row">
+            <div class="deploy-row-label">Database</div>
+            <div class="deploy-row-val">PostgreSQL Enterprise with customer-managed backups</div>
+          </div>
+          <div class="deploy-row">
+            <div class="deploy-row-label">Storage</div>
+            <div class="deploy-row-val">Customer's existing file storage systems</div>
+          </div>
+          <div class="deploy-row">
+            <div class="deploy-row-label">Monitoring</div>
+            <div class="deploy-row-val">Prometheus + Grafana observability stack</div>
+          </div>
+          <div class="deploy-row">
+            <div class="deploy-row-label">CI/CD</div>
+            <div class="deploy-row-val">GitLab CI / Jenkins with custom pipelines</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Automation details -->
+    <div class="card mt-3">
+      <strong style="color:var(--blue-900);font-size:1rem;display:block;margin-bottom:1rem;">⚙️ Deployment Automation</strong>
+      <div class="grid-2">
+        <div class="feature-item" style="border-left-color:var(--blue-400);">
+          <div class="feature-icon">🐳</div>
+          <div class="feature-text"><strong>Multi-stage Docker builds</strong> with OpenJDK 23 for minimal, secure container images.</div>
+        </div>
+        <div class="feature-item" style="border-left-color:var(--blue-400);">
+          <div class="feature-icon">🔄</div>
+          <div class="feature-text"><strong>Zero-downtime rolling updates</strong> with automated health checks at each deployment step.</div>
+        </div>
+        <div class="feature-item" style="border-left-color:var(--blue-400);">
+          <div class="feature-icon">🧪</div>
+          <div class="feature-text"><strong>Separate environments</strong> — test, staging, and production with full environment parity.</div>
+        </div>
+        <div class="feature-item" style="border-left-color:var(--blue-400);">
+          <div class="feature-icon">💾</div>
+          <div class="feature-text"><strong>Automated database backups</strong> with point-in-time recovery capabilities.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── SECURITY ──────────────────────────────── -->
+  <section id="security">
+    <div class="section-label">03 — Security</div>
+    <h2 class="section-title">Security Framework</h2>
+    <p class="section-desc">End-to-end security architecture covering authentication, compliance, infrastructure hardening, and incident response.</p>
+
+    <div class="accordion">
+
+      <div class="acc-item" id="acc-0">
+        <button class="acc-trigger" onclick="toggleAcc(0)">
+          <span class="acc-title-wrap"><span class="acc-emoji">🛡️</span> Enterprise Security Framework</span>
+          <span class="acc-icon">▼</span>
+        </button>
+        <div class="acc-body">
+          <div class="acc-body-inner">
+            <div class="sec-list">
+              <div class="sec-item"><span><strong>Authentication:</strong> OAuth2 + JWT with multi-factor authentication (MFA) support</span></div>
+              <div class="sec-item"><span><strong>Authorization:</strong> Role-based access control (RBAC) with fine-grained permissions per resource</span></div>
+              <div class="sec-item"><span><strong>TLS 1.3</strong> encryption for all data in transit across all services</span></div>
+              <div class="sec-item"><span><strong>AES-256 encryption</strong> for sensitive data at rest</span></div>
+              <div class="sec-item"><span><strong>Field-level encryption</strong> for PII and financial data fields</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item" id="acc-1">
+        <button class="acc-trigger" onclick="toggleAcc(1)">
+          <span class="acc-title-wrap"><span class="acc-emoji">📋</span> Compliance &amp; Governance</span>
+          <span class="acc-icon">▼</span>
+        </button>
+        <div class="acc-body">
+          <div class="acc-body-inner">
+            <div class="sec-list">
+              <div class="sec-item"><span><strong>GDPR Compliance:</strong> Full data privacy controls including right-to-be-forgotten workflows</span></div>
+              <div class="sec-item"><span><strong>Audit Trail:</strong> Comprehensive immutable logging of all data access and modifications</span></div>
+              <div class="sec-item"><span><strong>Data Residency:</strong> Configurable data storage regions to meet local regulatory requirements</span></div>
+              <div class="sec-item"><span><strong>Security Headers:</strong> CSP, HSTS, and a full suite of browser security headers enforced by default</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item" id="acc-2">
+        <button class="acc-trigger" onclick="toggleAcc(2)">
+          <span class="acc-title-wrap"><span class="acc-emoji">🏗️</span> Infrastructure Security</span>
+          <span class="acc-icon">▼</span>
+        </button>
+        <div class="acc-body">
+          <div class="acc-body-inner">
+            <div class="sec-list">
+              <div class="sec-item"><span><strong>Network Security:</strong> VPC isolation with strict firewall rules per service tier</span></div>
+              <div class="sec-item"><span><strong>Container Security:</strong> Signed images with automated vulnerability scanning in the CI/CD pipeline</span></div>
+              <div class="sec-item"><span><strong>Secrets Management:</strong> Google Secret Manager or HashiCorp Vault — no hardcoded credentials</span></div>
+              <div class="sec-item"><span><strong>Backup Security:</strong> All backups encrypted with secure, rotated key management</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item" id="acc-3">
+        <button class="acc-trigger" onclick="toggleAcc(3)">
+          <span class="acc-title-wrap"><span class="acc-emoji">🚨</span> Monitoring &amp; Incident Response</span>
+          <span class="acc-icon">▼</span>
+        </button>
+        <div class="acc-body">
+          <div class="acc-body-inner">
+            <div class="sec-list">
+              <div class="sec-item"><span><strong>Security Monitoring:</strong> Real-time threat detection with automated alerting pipelines</span></div>
+              <div class="sec-item"><span><strong>Vulnerability Management:</strong> Regular security scanning and patching cycles</span></div>
+              <div class="sec-item"><span><strong>Incident Response:</strong> Automated runbooks and incident response workflows</span></div>
+              <div class="sec-item"><span><strong>Penetration Testing:</strong> Regular third-party security assessments and red-team exercises</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ─── ESTIMATION ────────────────────────────── -->
+  <section id="estimation">
+    <div class="section-label">04 — Estimation</div>
+    <h2 class="section-title">Ball-park Estimation</h2>
+    <p class="section-desc">Indicative timelines and cost ranges for each project phase. Final figures subject to refinement after the Discovery phase.</p>
+
+    <div class="est-grid">
+
+      <div class="est-card">
+        <div class="est-phase">Phase 1</div>
+        <h3>Initiation &amp; Assessment</h3>
+        <div class="est-dur">
+          <span>⏱</span>
+          <span><strong>Duration:</strong> 3 weeks</span>
+        </div>
+        <div class="est-cost">
+          37,000
+          <span class="info-icon">ℹ
+            <span class="tooltip">Ball-park estimate only. Exact costs will be confirmed following the Discovery &amp; Assessment phase.</span>
+          </span>
+        </div>
+        <div class="est-currency">AED — Ball-park Estimate</div>
+      </div>
+
+      <div class="est-card" style="border-color:var(--blue-200);">
+        <div class="est-phase">Phase 2</div>
+        <h3>Implementation &amp; Integration</h3>
+        <div class="est-dur">
+          <span>⏱</span>
+          <span><strong>Duration:</strong> 2 months</span>
+        </div>
+        <div class="est-cost">
+          200,000 – 250,000
+          <span class="info-icon">ℹ
+            <span class="tooltip">Ball-park range. The lower/upper bound depends on scope finalised after the Discovery phase. Subject to change.</span>
+          </span>
+        </div>
+        <div class="est-currency">AED — Range</div>
+      </div>
+
+    </div>
+
+    <div class="card mt-3" style="border-left: 4px solid var(--blue-400);">
+      <p style="font-size:0.875rem;color:var(--text-secondary);line-height:1.7;">
+        <strong style="color:var(--blue-900);">📌 Note on Estimates:</strong> All figures above are ball-park estimations intended for initial budgeting and planning purposes only. Actual costs and timelines will be formally scoped and confirmed during the Discovery &amp; Assessment phase. Any AI model substitution (in place of Google Gemini) will be estimated separately following Discovery.
+      </p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p>Itelgie — Enterprise HR &amp; Project Management Platform &nbsp;·&nbsp; Technical Overview Document &nbsp;·&nbsp; All estimates subject to change after Discovery phase.</p>
+</footer>
+
+<script>
+  // Sticky nav shadow
+  const nav = document.getElementById('topnav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 10);
+  });
+
+  // Tabs
+  function switchTab(btn, id) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-' + id).classList.add('active');
+  }
+
+  // Accordion
+  function toggleAcc(idx) {
+    const item = document.getElementById('acc-' + idx);
+    const wasOpen = item.classList.contains('open');
+    // Close all
+    document.querySelectorAll('.acc-item').forEach(a => a.classList.remove('open'));
+    // Toggle this one
+    if (!wasOpen) item.classList.add('open');
+  }
+</script>
+</body>
+</html>
