@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BeeGuard 4.0 — Technical &amp; Financial Proposal | SoftTeco</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0D2137;--navy-90:#0F2745;--navy-80:#142E52;
+  --blue:#1A5FA8;--blue-mid:#2575C4;--blue-lt:#3B8EE0;
+  --accent:#F0A500;--accent-lt:#FFD166;
+  --surface:#FFFFFF;--surface-2:#F4F8FD;--surface-3:#E8F0FB;
+  --border:#D0DFF0;--border-2:#B8CDE8;
+  --text-1:#0D2137;--text-2:#2C4A6E;--text-3:#5A7FA8;
+  --tag-bg:#E3EDF9;--tag-text:#1A5FA8;
+  --success:#1A7A5E;--warn:#C47A00;--danger:#B03030;
+  --mono:JetBrains Mono,monospace;
+  --sans:Inter,system-ui,sans-serif;
+  --r-sm:6px;--r-md:10px;--r-lg:14px;--r-xl:20px;
+  --shadow:0 2px 12px rgba(13,33,55,.07);
+  --shadow-md:0 4px 24px rgba(13,33,55,.12);
+}
+html{scroll-behavior:smooth;font-size:15px}
+body{font-family:var(--sans);background:#F0F5FC;color:var(--text-1);line-height:1.65;min-height:100vh}
+
+/* ── LAYOUT ── */
+.page-wrap{display:flex;min-height:100vh}
+.sidebar{width:260px;min-width:260px;background:var(--navy);position:fixed;top:0;left:0;height:100vh;overflow-y:auto;z-index:100;display:flex;flex-direction:column}
+.main{margin-left:260px;flex:1;min-width:0}
+
+/* ── SIDEBAR ── */
+.sidebar-brand{padding:22px 20px 16px;border-bottom:1px solid rgba(255,255,255,.1)}
+.brand-logo{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.brand-hex{width:34px;height:34px;background:var(--accent);border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:var(--navy);letter-spacing:-.5px;flex-shrink:0}
+.brand-name{font-size:15px;font-weight:700;color:#fff;letter-spacing:-.3px}
+.brand-reg{font-size:10px;color:rgba(255,255,255,.45);margin-top:1px}
+.brand-badges{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px}
+.brand-badge{font-size:10px;color:rgba(255,255,255,.6);background:rgba(255,255,255,.08);padding:3px 8px;border-radius:20px;border:1px solid rgba(255,255,255,.12)}
+.brand-badge.gold{color:var(--accent-lt);background:rgba(240,165,0,.12);border-color:rgba(240,165,0,.3)}
+.sidebar-doc-label{padding:16px 20px 8px;font-size:10px;font-weight:600;color:rgba(255,255,255,.35);letter-spacing:1.2px;text-transform:uppercase}
+.nav-items{padding:0 10px 20px;flex:1}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:var(--r-sm);cursor:pointer;transition:.15s;margin-bottom:2px;border:none;background:none;width:100%;text-align:left}
+.nav-item:hover{background:rgba(255,255,255,.08)}
+.nav-item.active{background:rgba(37,117,196,.35);border-left:3px solid var(--blue-lt)}
+.nav-item.active .nav-num{color:var(--accent-lt)}
+.nav-num{font-size:11px;font-weight:600;color:rgba(255,255,255,.3);min-width:20px;font-family:var(--mono)}
+.nav-label{font-size:12.5px;color:rgba(255,255,255,.75);font-weight:400;line-height:1.3}
+.nav-item.active .nav-label{color:#fff;font-weight:500}
+.sidebar-footer{padding:16px 20px;border-top:1px solid rgba(255,255,255,.1);margin-top:auto}
+.footer-contact{font-size:11px;color:rgba(255,255,255,.5);line-height:1.8}
+.footer-contact a{color:rgba(59,142,224,.9);text-decoration:none}
+.footer-hq{font-size:10px;color:rgba(255,255,255,.3);margin-top:8px;line-height:1.6}
+
+/* ── TOP BAR ── */
+.topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:0 40px;display:flex;align-items:center;justify-content:space-between;height:58px;position:sticky;top:0;z-index:50}
+.topbar-title{font-size:14px;font-weight:600;color:var(--text-2);letter-spacing:-.2px}
+.topbar-meta{display:flex;align-items:center;gap:16px}
+.meta-pill{font-size:11px;padding:4px 12px;border-radius:20px;font-weight:500}
+.meta-pill.conf{background:#FEF3E2;color:#7A4700;border:1px solid #F5C97A}
+.meta-pill.v{background:var(--tag-bg);color:var(--tag-text);border:1px solid var(--border-2)}
+.topbar-date{font-size:12px;color:var(--text-3)}
+
+/* ── CONTENT AREA ── */
+.content{padding:40px 48px 80px;max-width:960px}
+
+/* ── HERO ── */
+.hero{background:var(--navy);border-radius:var(--r-xl);padding:44px 48px;margin-bottom:40px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-60px;right:-60px;width:300px;height:300px;background:rgba(37,117,196,.18);border-radius:50%}
+.hero::after{content:'';position:absolute;bottom:-80px;right:80px;width:200px;height:200px;background:rgba(240,165,0,.08);border-radius:50%}
+.hero-eyebrow{font-size:11px;font-weight:600;letter-spacing:1.4px;color:var(--accent-lt);text-transform:uppercase;margin-bottom:14px}
+.hero-title{font-size:36px;font-weight:700;color:#fff;letter-spacing:-1px;line-height:1.15;margin-bottom:10px}
+.hero-title span{color:var(--accent)}
+.hero-sub{font-size:15px;color:rgba(255,255,255,.65);margin-bottom:28px;max-width:540px;font-weight:300;line-height:1.7}
+.hero-tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:32px}
+.hero-tag{font-size:11.5px;padding:5px 14px;border-radius:20px;border:1px solid rgba(255,255,255,.18);color:rgba(255,255,255,.7);font-weight:500}
+.hero-tag.hi{background:rgba(240,165,0,.15);border-color:rgba(240,165,0,.4);color:var(--accent-lt)}
+.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;position:relative;z-index:1}
+.hstat{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:var(--r-md);padding:16px 18px}
+.hstat-num{font-size:22px;font-weight:700;color:#fff;font-family:var(--mono);letter-spacing:-1px}
+.hstat-num span{font-size:13px;font-weight:400;color:rgba(255,255,255,.4)}
+.hstat-label{font-size:11px;color:rgba(255,255,255,.45);margin-top:4px;line-height:1.4}
+
+/* ── SECTIONS ── */
+.section{margin-bottom:50px}
+.section-id{font-size:11px;font-weight:600;color:var(--text-3);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;font-family:var(--mono)}
+.section-title{font-size:22px;font-weight:700;color:var(--navy);letter-spacing:-.5px;margin-bottom:6px;padding-bottom:12px;border-bottom:2px solid var(--surface-3)}
+.section-title::before{content:attr(data-num);display:inline-block;background:var(--blue);color:#fff;font-size:11px;font-weight:700;padding:2px 8px;border-radius:var(--r-sm);margin-right:10px;font-family:var(--mono);letter-spacing:0;vertical-align:2px}
+.section-intro{font-size:14.5px;color:var(--text-2);line-height:1.75;margin-bottom:24px;max-width:720px}
+.subsection-title{font-size:16px;font-weight:600;color:var(--navy);margin:28px 0 14px;padding-left:12px;border-left:3px solid var(--blue-lt)}
+
+/* ── TIER DIAGRAM ── */
+.tier-flow{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin:24px 0;border-radius:var(--r-lg);overflow:hidden;border:1px solid var(--border)}
+.tier-block{padding:22px 18px;background:var(--surface);position:relative}
+.tier-block:not(:last-child){border-right:1px solid var(--border)}
+.tier-block::after{content:'→';position:absolute;right:-10px;top:50%;transform:translateY(-50%);color:var(--border-2);font-size:18px;z-index:2}
+.tier-block:last-child::after{display:none}
+.tier-num{font-size:10px;font-weight:700;color:var(--blue);letter-spacing:1px;text-transform:uppercase;font-family:var(--mono);margin-bottom:8px}
+.tier-icon{width:36px;height:36px;border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;margin-bottom:10px;font-size:17px}
+.tier-icon.t1{background:#E3EDF9;color:var(--blue)}
+.tier-icon.t2{background:#E6F9F2;color:#0F6E56}
+.tier-icon.t3{background:#FEF3E2;color:#7A4700}
+.tier-icon.t4{background:#F0EAFF;color:#5A3FB5}
+.tier-name{font-size:13px;font-weight:700;color:var(--navy);margin-bottom:6px}
+.tier-desc{font-size:12px;color:var(--text-3);line-height:1.55}
+.tier-tag{display:inline-block;font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;margin-top:10px}
+.tier-tag.t1{background:#E3EDF9;color:var(--blue)}
+.tier-tag.t2{background:#E6F9F2;color:#0F6E56}
+.tier-tag.t3{background:#FEF3E2;color:#7A4700}
+.tier-tag.t4{background:#F0EAFF;color:#5A3FB5}
+
+/* ── SPEC TABLE ── */
+.spec-table{width:100%;border-collapse:collapse;font-size:13px;margin:16px 0;border-radius:var(--r-md);overflow:hidden;border:1px solid var(--border)}
+.spec-table thead tr{background:var(--navy)}
+.spec-table thead th{padding:11px 16px;text-align:left;font-size:11px;font-weight:600;color:rgba(255,255,255,.85);letter-spacing:.5px;text-transform:uppercase}
+.spec-table tbody tr{border-bottom:1px solid var(--border)}
+.spec-table tbody tr:last-child{border-bottom:none}
+.spec-table tbody tr:nth-child(even){background:var(--surface-2)}
+.spec-table tbody td{padding:11px 16px;color:var(--text-2);line-height:1.55;vertical-align:top}
+.spec-table tbody td:first-child{font-weight:600;color:var(--navy);white-space:nowrap;background:var(--surface-3);border-right:1px solid var(--border);min-width:180px}
+
+/* ── REQ TABLE ── */
+.req-table tbody td:first-child{color:var(--blue);font-weight:600;font-size:12.5px}
+
+/* ── KPI CARDS ── */
+.kpi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:20px 0}
+.kpi-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:18px 20px;transition:.2s}
+.kpi-card:hover{border-color:var(--blue-lt);box-shadow:var(--shadow-md)}
+.kpi-card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
+.kpi-name{font-size:13px;font-weight:600;color:var(--navy)}
+.kpi-refresh{font-size:10.5px;background:var(--tag-bg);color:var(--tag-text);padding:2px 8px;border-radius:20px;font-weight:600;font-family:var(--mono)}
+.kpi-source{font-size:11.5px;color:var(--text-3);margin-bottom:6px}
+.kpi-threshold{font-size:11.5px;color:var(--text-2);line-height:1.5;padding:7px 10px;background:var(--surface-2);border-radius:var(--r-sm);border-left:3px solid var(--border-2)}
+.kpi-threshold.warn{border-left-color:#F0A500;background:#FFFBF0}
+.kpi-threshold.danger{border-left-color:#CC3333;background:#FFF5F5}
+
+/* ── PHASE TIMELINE ── */
+.phases{display:flex;flex-direction:column;gap:0;margin:20px 0;position:relative}
+.phases::before{content:'';position:absolute;left:38px;top:20px;bottom:20px;width:2px;background:var(--border);z-index:0}
+.phase{display:flex;gap:20px;align-items:flex-start;position:relative;z-index:1}
+.phase:not(:last-child){margin-bottom:4px}
+.phase-bubble{width:36px;height:36px;min-width:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;font-family:var(--mono);margin-top:8px;border:3px solid var(--surface-2);z-index:2}
+.phase-bubble.p0{background:#E3EDF9;color:var(--blue);border-color:var(--surface-2)}
+.phase-bubble.p1{background:#E6F9F2;color:#0A5E42;border-color:var(--surface-2)}
+.phase-bubble.p2{background:#FEF3E2;color:#7A4700;border-color:var(--surface-2)}
+.phase-bubble.p3{background:var(--blue);color:#fff;border-color:var(--surface-2)}
+.phase-bubble.p4{background:var(--navy);color:var(--accent);border-color:var(--surface-2)}
+.phase-card{flex:1;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:18px 22px;margin-bottom:12px;transition:.2s}
+.phase-card:hover{border-color:var(--border-2);box-shadow:var(--shadow)}
+.phase-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
+.phase-name{font-size:14px;font-weight:700;color:var(--navy)}
+.phase-dur{font-size:11.5px;background:var(--tag-bg);color:var(--tag-text);padding:3px 10px;border-radius:20px;font-weight:600;white-space:nowrap}
+.phase-deliv{font-size:13px;color:var(--text-2);line-height:1.65;margin-bottom:10px}
+.phase-gate{font-size:12px;color:var(--text-3);padding:8px 12px;background:var(--surface-2);border-radius:var(--r-sm);border-left:3px solid var(--blue-lt)}
+.phase-gate strong{color:var(--text-2)}
+
+/* ── RISK TABLE ── */
+.risk-badge{font-size:10.5px;font-weight:700;padding:3px 10px;border-radius:20px;white-space:nowrap}
+.risk-badge.high{background:#FFE5E5;color:#8B1A1A}
+.risk-badge.med{background:#FFF3DC;color:#7A5000}
+.risk-badge.low{background:#E5F7EE;color:#1A5E38}
+
+/* ── STACK TABLE ── */
+.stack-layer{font-size:11px;font-weight:600;color:var(--blue);background:var(--tag-bg);padding:3px 8px;border-radius:var(--r-sm);white-space:nowrap}
+.stack-tech{font-family:var(--mono);font-size:12px;color:var(--navy);font-weight:500}
+
+/* ── DATA FLOW ── */
+.flow-steps{counter-reset:flow;margin:20px 0}
+.flow-step{display:flex;gap:14px;margin-bottom:0;padding:0}
+.flow-step:not(:last-child) .flow-step-line{flex:1}
+.flow-num{width:28px;height:28px;min-width:28px;border-radius:50%;background:var(--blue);color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;font-family:var(--mono);margin-top:2px}
+.flow-content{flex:1;padding-bottom:18px;border-left:2px solid var(--surface-3);padding-left:16px;margin-left:-15px}
+.flow-step:last-child .flow-content{border-left:2px solid transparent}
+.flow-text{font-size:13.5px;color:var(--text-2);line-height:1.6;padding-top:4px}
+.flow-code{font-family:var(--mono);font-size:11.5px;background:var(--surface-3);padding:8px 12px;border-radius:var(--r-sm);margin-top:8px;color:var(--navy);word-break:break-all;line-height:1.6;border:1px solid var(--border)}
+
+/* ── ML STAGE ── */
+.ml-stages{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:20px 0}
+.ml-stage{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:20px 22px}
+.ml-stage-num{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--text-3);font-family:var(--mono);margin-bottom:8px}
+.ml-stage-title{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:12px}
+.ml-model-tag{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:600;background:var(--navy);color:var(--accent-lt);padding:4px 12px;border-radius:var(--r-sm);margin-bottom:14px;font-family:var(--mono)}
+.detect-list{list-style:none;display:flex;flex-wrap:wrap;gap:6px}
+.detect-list li{font-size:11px;padding:3px 10px;border-radius:20px;background:var(--surface-2);color:var(--text-2);border:1px solid var(--border)}
+.state-items{display:flex;flex-direction:column;gap:8px}
+.state-item{display:flex;align-items:flex-start;gap:10px;padding:9px 12px;background:var(--surface-2);border-radius:var(--r-sm);border:1px solid var(--border)}
+.state-dot{width:8px;height:8px;min-width:8px;border-radius:50%;background:var(--blue);margin-top:5px}
+.state-text{font-size:12.5px;color:var(--text-2);line-height:1.5}
+
+/* ── SECURITY ── */
+.sec-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:20px 0}
+.sec-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:18px 20px}
+.sec-icon{width:32px;height:32px;border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;font-size:16px;margin-bottom:10px}
+.sec-icon.t{background:#E3EDF9;color:var(--blue)}
+.sec-icon.r{background:#E5F7EE;color:#1A5E38}
+.sec-icon.a{background:#FEF3E2;color:#7A4700}
+.sec-icon.s{background:#F0EAFF;color:#5A3FB5}
+.sec-card-title{font-size:13px;font-weight:700;color:var(--navy);margin-bottom:10px}
+.sec-items{list-style:none;display:flex;flex-direction:column;gap:7px}
+.sec-items li{font-size:12.5px;color:var(--text-2);line-height:1.5;padding-left:14px;position:relative}
+.sec-items li::before{content:'✓';position:absolute;left:0;color:var(--success);font-size:11px;top:1px;font-weight:700}
+
+/* ── SLA GRID ── */
+.sla-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:20px 0}
+.sla-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:16px;text-align:center}
+.sla-val{font-size:20px;font-weight:700;color:var(--navy);font-family:var(--mono);letter-spacing:-1px}
+.sla-label{font-size:11px;color:var(--text-3);margin-top:4px;line-height:1.4}
+
+/* ── OFFICE GRID ── */
+.offices-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:20px 0}
+.office-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:14px 16px}
+.office-flag{font-size:20px;margin-bottom:6px}
+.office-city{font-size:12.5px;font-weight:700;color:var(--navy)}
+.office-addr{font-size:11px;color:var(--text-3);margin-top:3px;line-height:1.5}
+
+/* ── REPORT CARDS ── */
+.report-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:20px 0}
+.report-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:18px}
+.report-icon{width:34px;height:34px;border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;font-size:16px;margin-bottom:10px}
+.report-card:nth-child(1) .report-icon{background:#E3EDF9;color:var(--blue)}
+.report-card:nth-child(2) .report-icon{background:#E6F9F2;color:#0F6E56}
+.report-card:nth-child(3) .report-icon{background:#FEF3E2;color:#7A4700}
+.report-card:nth-child(4) .report-icon{background:#F0EAFF;color:#5A3FB5}
+.report-card:nth-child(5) .report-icon{background:#FFE8EA;color:#8B1A1A}
+.report-name{font-size:13px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.report-aud{font-size:11px;color:var(--text-3);margin-bottom:8px}
+.report-desc{font-size:12px;color:var(--text-2);line-height:1.55}
+
+/* ── ALERT ── */
+.alert-box{background:var(--surface-2);border:1px solid var(--border);border-radius:var(--r-md);padding:14px 18px;display:flex;gap:12px;align-items:flex-start;margin:16px 0}
+.alert-icon{font-size:18px;margin-top:1px}
+.alert-text{font-size:13px;color:var(--text-2);line-height:1.6}
+.alert-text strong{color:var(--navy)}
+
+/* ── FOOTER ── */
+.page-footer{background:var(--navy);margin-top:60px;padding:32px 48px;display:flex;justify-content:space-between;align-items:flex-start;gap:32px}
+.footer-left .footer-brand{font-size:16px;font-weight:700;color:#fff;margin-bottom:6px}
+.footer-left p{font-size:12px;color:rgba(255,255,255,.45);line-height:1.7}
+.footer-links{font-size:12px;color:rgba(255,255,255,.5)}
+.footer-links a{color:rgba(59,142,224,.85);text-decoration:none}
+
+/* ── EXPAND ── */
+.expand-section{border:1px solid var(--border);border-radius:var(--r-lg);margin:12px 0;overflow:hidden}
+.expand-header{display:flex;justify-content:space-between;align-items:center;padding:14px 20px;background:var(--surface);cursor:pointer;user-select:none;transition:.15s}
+.expand-header:hover{background:var(--surface-2)}
+.expand-title{font-size:13.5px;font-weight:600;color:var(--navy)}
+.expand-arrow{font-size:14px;color:var(--text-3);transition:.2s;display:inline-block}
+.expand-body{padding:20px;background:var(--surface-2);border-top:1px solid var(--border);display:none}
+.expand-body.open{display:block}
+.expand-arrow.open{transform:rotate(180deg)}
+
+/* ── HAMBURGER BUTTON (mobile only) ── */
+.hamburger{display:none;position:fixed;top:12px;left:12px;z-index:200;background:var(--navy);border:none;border-radius:var(--r-sm);width:38px;height:38px;cursor:pointer;flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:0}
+.hamburger span{display:block;width:18px;height:2px;background:#fff;border-radius:2px;transition:.2s}
+#overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:90;transition:opacity .25s;opacity:0;pointer-events:none}
+#overlay.show{opacity:1;pointer-events:auto}
+@media(min-width:1200px){
+  .sidebar{width:280px;min-width:280px}
+  .main{margin-left:280px}
+  .content{padding:40px 56px 80px;max-width:1040px}
+}
+@media(max-width:1199px) and (min-width:901px){
+  .content{padding:32px 32px 80px}
+  .hero{padding:36px 36px}
+  .hero-title{font-size:28px}
+}
+@media(max-width:900px){
+  .hamburger{display:flex}
+  #overlay{display:block}
+  .sidebar{transform:translateX(-100%);transition:transform .28s cubic-bezier(.4,0,.2,1);z-index:100;box-shadow:4px 0 24px rgba(0,0,0,.18)}
+  .sidebar.open{transform:translateX(0)}
+  .main{margin-left:0}
+  .topbar{padding:0 16px 0 60px}
+  .topbar-title{font-size:12px}
+  .content{padding:24px 16px 64px}
+  .hero{padding:28px 22px;border-radius:var(--r-lg)}
+  .hero-title{font-size:24px}
+  .hero-sub{font-size:13px}
+  .hero-stats{grid-template-columns:1fr 1fr}
+  .tier-flow{grid-template-columns:1fr 1fr}
+  .tier-block::after{display:none}
+  .kpi-grid{grid-template-columns:1fr 1fr}
+  .sla-grid{grid-template-columns:1fr 1fr}
+  .offices-grid{grid-template-columns:1fr 1fr}
+  .ml-stages{grid-template-columns:1fr}
+  .sec-grid{grid-template-columns:1fr}
+  .report-grid{grid-template-columns:1fr 1fr}
+  .page-footer{flex-direction:column;padding:24px 20px;gap:20px}
+  .spec-table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}
+}
+@media(max-width:560px){
+  .kpi-grid{grid-template-columns:1fr}
+  .tier-flow{grid-template-columns:1fr}
+  .report-grid{grid-template-columns:1fr}
+  .topbar-meta{display:none}
+  .hero-tags{display:none}
+}
+
+
+/* ── PROPOSAL-SPECIFIC COMPONENTS ── */
+.fin-hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin:20px 0}
+.fin-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:20px 22px}
+.fin-card.total{border:2px solid var(--blue);background:linear-gradient(135deg,var(--surface-3),var(--surface))}
+.fin-card-label{font-size:11px;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px}
+.fin-card-val{font-size:26px;font-weight:700;color:var(--navy);font-family:var(--mono);letter-spacing:-1px}
+.fin-card-sub{font-size:11.5px;color:var(--text-3);margin-top:6px;line-height:1.5}
+
+.phase-cost-bar{display:flex;align-items:center;gap:14px;margin:10px 0}
+.phase-cost-bar-label{font-size:12.5px;font-weight:600;color:var(--navy);min-width:230px}
+.phase-cost-bar-track{flex:1;height:22px;background:var(--surface-2);border-radius:20px;overflow:hidden;border:1px solid var(--border)}
+.phase-cost-bar-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--blue-lt));border-radius:20px;display:flex;align-items:center;justify-content:flex-end;padding-right:10px}
+.phase-cost-bar-fill span{font-size:10px;color:#fff;font-weight:700;font-family:var(--mono)}
+.phase-cost-bar-val{font-size:12.5px;font-weight:700;color:var(--navy);font-family:var(--mono);min-width:110px;text-align:right}
+
+.milestone-grid{display:flex;flex-direction:column;gap:0;margin:20px 0;position:relative}
+.milestone-grid::before{content:'';position:absolute;left:18px;top:18px;bottom:18px;width:2px;background:var(--border);z-index:0}
+.milestone{display:flex;gap:18px;align-items:flex-start;position:relative;z-index:1;margin-bottom:14px}
+.milestone-dot{width:36px;height:36px;min-width:36px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;font-family:var(--mono);border:3px solid var(--surface-2)}
+.milestone-card{flex:1;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:16px 20px}
+.milestone-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;flex-wrap:wrap;gap:8px}
+.milestone-name{font-size:13.5px;font-weight:700;color:var(--navy)}
+.milestone-pct{font-size:11.5px;background:var(--tag-bg);color:var(--tag-text);padding:3px 12px;border-radius:20px;font-weight:700}
+.milestone-amt{font-size:15px;font-weight:700;color:var(--blue);font-family:var(--mono)}
+.milestone-trigger{font-size:12px;color:var(--text-3);line-height:1.5;margin-top:4px}
+
+.assumption-list{list-style:none;display:flex;flex-direction:column;gap:8px;margin:14px 0}
+.assumption-list li{font-size:12.5px;color:var(--text-2);line-height:1.6;padding-left:18px;position:relative}
+.assumption-list li::before{content:'※';position:absolute;left:0;color:var(--blue);font-weight:700}
+
+.role-table tbody td:nth-child(2),.role-table tbody td:nth-child(3),.role-table tbody td:nth-child(4){font-family:var(--mono);text-align:right}
+.role-table thead th:nth-child(2),.role-table thead th:nth-child(3),.role-table thead th:nth-child(4){text-align:right}
+
+@media(max-width:900px){
+  .fin-hero-stats{grid-template-columns:1fr 1fr}
+  .phase-cost-bar{flex-direction:column;align-items:flex-start;gap:6px}
+  .phase-cost-bar-label{min-width:0}
+  .phase-cost-bar-track{width:100%}
+}
+@media(max-width:560px){
+  .fin-hero-stats{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<!-- MOBILE HAMBURGER -->
+<button class="hamburger" id="hamburger" onclick="toggleSidebar()" aria-label="Open navigation">
+  <span></span><span></span><span></span>
+</button>
+
+<!-- OVERLAY -->
+<div id="overlay" onclick="toggleSidebar()"></div>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-brand">
+    <div class="brand-logo">
+      <div class="brand-hex">ST</div>
+      <div>
+        <div class="brand-name">SoftTeco<sup style="font-size:8px;color:rgba(255,255,255,.5)">®</sup></div>
+        <div class="brand-reg">International Software Development</div>
+      </div>
+    </div>
+    <div class="brand-badges">
+      <span class="brand-badge gold">ISO 27001</span>
+      <span class="brand-badge">Est. 2008</span>
+      <span class="brand-badge">500+ Experts</span>
+    </div>
+  </div>
+  <div class="sidebar-doc-label">Document</div>
+  <div style="padding:0 10px 6px 20px">
+    <div style="font-size:12px;font-weight:600;color:rgba(255,255,255,.9);line-height:1.4">BeeGuard 4.0</div>
+    <div style="font-size:11px;color:rgba(255,255,255,.4);margin-top:3px">Technical &amp; Financial Proposal — ADAFSA</div>
+  </div>
+  <div class="sidebar-doc-label" style="margin-top:10px">Contents</div>
+  <nav class="nav-items">
+    <button class="nav-item active" onclick="navTo('sec-exec',this)"><span class="nav-num">01</span><span class="nav-label">Executive Summary</span></button>
+    <button class="nav-item" onclick="navTo('sec-scope',this)"><span class="nav-num">02</span><span class="nav-label">Scope of Work</span></button>
+    <button class="nav-item" onclick="navTo('sec-plan',this)"><span class="nav-num">03</span><span class="nav-label">Project Plan &amp; Timeline</span></button>
+    <button class="nav-item" onclick="navTo('sec-staffing',this)"><span class="nav-num">04</span><span class="nav-label">Staffing Plan</span></button>
+    <button class="nav-item" onclick="navTo('sec-cost',this)"><span class="nav-num">05</span><span class="nav-label">Cost Breakdown by Phase</span></button>
+    <button class="nav-item" onclick="navTo('sec-hardware',this)"><span class="nav-num">06</span><span class="nav-label">Hardware (CAPEX) Estimate</span></button>
+    <button class="nav-item" onclick="navTo('sec-summary',this)"><span class="nav-num">07</span><span class="nav-label">Total Investment Summary</span></button>
+    <button class="nav-item" onclick="navTo('sec-payment',this)"><span class="nav-num">08</span><span class="nav-label">Payment Milestones</span></button>
+    <button class="nav-item" onclick="navTo('sec-assumptions',this)"><span class="nav-num">09</span><span class="nav-label">Assumptions &amp; Exclusions</span></button>
+    <button class="nav-item" onclick="navTo('sec-accept',this)"><span class="nav-num">10</span><span class="nav-label">Proposal Acceptance</span></button>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="footer-contact">
+      <a href="mailto:d.viazmin@softteco.com">d.viazmin@softteco.com</a><br>
+      <a href="https://softteco.com" target="_blank">softteco.com</a>
+    </div>
+    <div class="footer-hq">
+      HQ — 9A/4U Belwederska St, Warsaw, Poland<br>
+      UAE — Al-Murar, Dubai<br>
+      Lithuania · USA · United Kingdom
+    </div>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<div class="main">
+  <header class="topbar">
+    <div class="topbar-title">BeeGuard 4.0 — Technical &amp; Financial Proposal</div>
+    <div class="topbar-meta">
+      <span class="meta-pill conf">Privileged &amp; Confidential</span>
+      <span class="meta-pill v">v1.0</span>
+      <span class="topbar-date">June 2026</span>
+    </div>
+  </header>
+
+  <div class="content">
+
+    <!-- HERO -->
+    <div class="hero">
+      <div class="hero-eyebrow">BeeGuard 4.0 — Implementation &amp; Integration Proposal</div>
+      <div class="hero-title">Technical &amp; Financial<br>Proposal for <span>ADAFSA</span></div>
+      <div class="hero-sub">Operator-assisted AI hive inspection platform. Staffing plan, project schedule, and full cost calculation against the SoftTeco UAE Rate Card.</div>
+      <div class="hero-tags">
+        <span class="hero-tag hi">5 Delivery Phases</span>
+        <span class="hero-tag">27 Weeks Core Delivery</span>
+        <span class="hero-tag">17 Role Types</span>
+        <span class="hero-tag">SoftTeco Rate Card (AED) +10%</span>
+        <span class="hero-tag">Fixed-Phase, Milestone Billing</span>
+      </div>
+      <div class="hero-stats">
+        <div class="hstat"><div class="hstat-num">5</div><div class="hstat-label">Delivery phases (P0–P4)</div></div>
+        <div class="hstat"><div class="hstat-num">~42<span>wk</span></div><div class="hstat-label">Total programme duration</div></div>
+        <div class="hstat"><div class="hstat-num">AED 2.04<span>M</span></div><div class="hstat-label">Total labour investment</div></div>
+        <div class="hstat"><div class="hstat-num">AED 2.38<span>M</span></div><div class="hstat-label">Labour + hardware (POC→Prod)</div></div>
+      </div>
+    </div>
+
+    <!-- §1 EXECUTIVE SUMMARY -->
+    <div class="section" id="sec-exec">
+      <div class="section-id">Section 01</div>
+      <div class="section-title" data-num="1">Executive Summary</div>
+      <p class="section-intro">This proposal sets out the implementation and integration plan for BeeGuard 4.0 at ADAFSA, building directly on the Technical Architecture &amp; Deployment Specification (v3) and the operator-assisted inspection model confirmed with the client. It covers the staffing plan, schedule, and full cost calculation, computed against the SoftTeco UAE Rate Card with a uniform 10% uplift applied to every position, as instructed.</p>
+
+      <div class="fin-hero-stats">
+        <div class="fin-card total">
+          <div class="fin-card-label">Total labour cost (P0–P4)</div>
+          <div class="fin-card-val">AED 2,038,626</div>
+          <div class="fin-card-sub">Across Discovery, POC, MVP, Production, and 3-month Optimise retainer</div>
+        </div>
+        <div class="fin-card">
+          <div class="fin-card-label">Hardware — POC scale</div>
+          <div class="fin-card-val">AED 38,600</div>
+          <div class="fin-card-sub">8–10 hive pilot kit (cameras, edge modules, sensors, gateway)</div>
+        </div>
+        <div class="fin-card">
+          <div class="fin-card-label">Hardware — MVP scale</div>
+          <div class="fin-card-val">AED 212,600</div>
+          <div class="fin-card-sub">50-hive deployment kit</div>
+        </div>
+        <div class="fin-card">
+          <div class="fin-card-label">Programme duration</div>
+          <div class="fin-card-val">~42 weeks</div>
+          <div class="fin-card-sub">P0–P3 core delivery; P4 is an initial 3-month retainer, renewable</div>
+        </div>
+      </div>
+
+      <p class="section-intro" style="margin-top:20px">All rates used in this proposal are sourced exclusively from the SoftTeco Rate Card (AED) and reflect only positions published on that card. No role outside the rate card has been substituted or estimated. Production-scale hardware (full ADAFSA fleet) is excluded from the totals above pending the confirmed hive count from Phase 0 discovery; an illustrative 500-hive estimate is provided in Section 6 for budget planning.</p>
+    </div>
+
+    <!-- §2 SCOPE OF WORK -->
+    <div class="section" id="sec-scope">
+      <div class="section-id">Section 02</div>
+      <div class="section-title" data-num="2">Scope of Work</div>
+      <p class="section-intro">Scope is delivered in five phases, matching the roadmap defined in the BeeGuard 4.0 Technical Architecture &amp; Deployment Specification. Each phase has a fixed deliverable set and an explicit exit gate.</p>
+
+      <table class="spec-table">
+        <thead><tr><th style="width:170px">Phase</th><th>In-scope deliverables</th></tr></thead>
+        <tbody>
+          <tr><td>P0 — Discovery</td><td>Apiary site survey, hive format validation, connectivity/power assessment, data-sovereignty legal review, UAE bee species identification, requirements sign-off.</td></tr>
+          <tr><td>P1 — POC</td><td>5–10 hive pilot. Operator-assisted capture kit (wearable + stand-mount camera). Edge inference deployment. Basic CV pipeline (bee count, colony strength, brood pattern). Simple dashboard. UAE-species model fine-tuning begins.</td></tr>
+          <tr><td>P2 — MVP</td><td>50-hive deployment. Three-tier KPI &amp; Metrics Framework live: 7 operator metrics (colony strength, queen status, brood, reserves, swarming readiness, Varroa, foraging), 6 manager metrics (growth trend, efficiency index, gamification dashboard, health heatmap), groundwork for 6 ADAFSA strategic metrics (yield forecast, bloom readiness, collapse early-warning). Queen and Varroa detection. LLM daily briefings (EN/AR). Mobile inspection app beta. Alert notification pipeline.</td></tr>
+          <tr><td>P3 — Production</td><td>Full-fleet rollout across ADAFSA apiary sites. ADAFSA strategic metrics live: Predictive Honey Yield Forecast, Bloom Readiness Index, Colony Collapse Early Warning, Total Hive Health Index, Economic Value ROI, Treatment Efficacy tracking. UAE PASS SSO. Regulatory compliance export. 99.5% uptime SLA established.</td></tr>
+          <tr><td>P4 — Optimise</td><td>Monthly ML retraining cycles, accuracy improvement tracking, additional detection classes, Beekeeper Network data aggregation. Modelled as an initial 3-month retainer, renewable thereafter.</td></tr>
+        </tbody>
+      </table>
+
+      <div class="alert-box">
+        <span class="alert-icon">📐</span>
+        <div class="alert-text"><strong>Basis of estimate:</strong> Scope, phase gates, and architecture referenced in this proposal are unchanged from the BeeGuard 4.0 Technical Architecture &amp; Deployment Specification (v3), including the operator-assisted frame inspection model confirmed with ADAFSA.</div>
+      </div>
+    </div>
+
+    <!-- §3 PROJECT PLAN & TIMELINE -->
+    <div class="section" id="sec-plan">
+      <div class="section-id">Section 03</div>
+      <div class="section-title" data-num="3">Project Plan &amp; Timeline</div>
+      <p class="section-intro">Estimate durations use the midpoint of each phase's planning range from the technical specification. A Project Manager and Solution Architect provide continuity across all phases for governance and technical coherence.</p>
+
+      <div class="phases">
+        <div class="phase">
+          <div class="phase-bubble p0">0</div>
+          <div class="phase-card">
+            <div class="phase-header"><div class="phase-name">Phase 0 — Discovery</div><div class="phase-dur">2 weeks</div></div>
+            <div class="phase-deliv">Site survey, requirements confirmation, legal/data-sovereignty review, species identification.</div>
+            <div class="phase-gate"><strong>Gate:</strong> Signed NDA, confirmed site access, legal clearance.</div>
+          </div>
+        </div>
+        <div class="phase">
+          <div class="phase-bubble p1">1</div>
+          <div class="phase-card">
+            <div class="phase-header"><div class="phase-name">Phase 1 — POC</div><div class="phase-dur">7 weeks (6–8 range)</div></div>
+            <div class="phase-deliv">5–10 hive operator-assisted pilot. Capture kit, edge inference, basic dashboard, UAE-species fine-tuning.</div>
+            <div class="phase-gate"><strong>Gate:</strong> CV accuracy &gt;80% on UAE bees. ADAFSA demo approved.</div>
+          </div>
+        </div>
+        <div class="phase">
+          <div class="phase-bubble p2">2</div>
+          <div class="phase-card">
+            <div class="phase-header"><div class="phase-name">Phase 2 — MVP</div><div class="phase-dur">11 weeks (10–12 range)</div></div>
+            <div class="phase-deliv">50-hive deployment. Operator + manager KPI tiers live (13 metrics), queen/Varroa detection, bilingual LLM briefings, mobile app beta.</div>
+            <div class="phase-gate"><strong>Gate:</strong> KPIs &lt;60s refresh. Queen detection F1 &gt;85%. Zero critical security findings.</div>
+          </div>
+        </div>
+        <div class="phase">
+          <div class="phase-bubble p3">3</div>
+          <div class="phase-card">
+            <div class="phase-header"><div class="phase-name">Phase 3 — Production</div><div class="phase-dur">9 weeks (8–10 range)</div></div>
+            <div class="phase-deliv">Full-fleet rollout. ADAFSA strategic metrics tier live (yield forecast, bloom readiness, collapse early-warning), UAE PASS SSO, compliance export, SLA live.</div>
+            <div class="phase-gate"><strong>Gate:</strong> ADAFSA UAT sign-off. Data-sovereignty audit passed.</div>
+          </div>
+        </div>
+        <div class="phase">
+          <div class="phase-bubble p4">4</div>
+          <div class="phase-card">
+            <div class="phase-header"><div class="phase-name">Phase 4 — Optimise</div><div class="phase-dur">13 weeks (initial retainer)</div></div>
+            <div class="phase-deliv">Monthly retraining, accuracy tracking, Beekeeper Network aggregation. Costed here as the first 3-month retainer period; renewable.</div>
+            <div class="phase-gate"><strong>Gate:</strong> Continuous KPI improvement vs Phase 3 baseline, reviewed monthly.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="alert-box">
+        <span class="alert-icon">🗓️</span>
+        <div class="alert-text"><strong>Total core programme:</strong> Phases 0–3 run sequentially with light overlap at hand-off points, totalling approximately <strong>29 weeks (~6.7 months)</strong> from contract signature to production sign-off. Phase 4 begins immediately after Phase 3 gate and is billed as an ongoing retainer.</div>
+      </div>
+    </div>
+
+    <!-- §4 STAFFING PLAN -->
+    <div class="section" id="sec-staffing">
+      <div class="section-id">Section 04</div>
+      <div class="section-title" data-num="4">Staffing Plan</div>
+      <p class="section-intro">Role allocations reflect fractional full-time equivalent (FTE) commitment per phase, calculated on a standard 40-hour work week. Only positions published on the SoftTeco Rate Card are used — no role substitutions or estimates outside the card.</p>
+
+      <div class="subsection-title">Phase 0 — Discovery (2 weeks)</div>
+      <table class="spec-table">
+        <thead><tr><th>Role</th><th style="text-align:right">Allocation</th><th style="text-align:right">Hours</th></tr></thead>
+        <tbody>
+          <tr><td>Solution Architect</td><td style="text-align:right">0.50 FTE</td><td style="text-align:right">40</td></tr>
+          <tr><td>Project Manager</td><td style="text-align:right">0.50 FTE</td><td style="text-align:right">40</td></tr>
+          <tr><td>Lead Business Analyst</td><td style="text-align:right">1.00 FTE</td><td style="text-align:right">80</td></tr>
+          <tr><td>Business Analyst</td><td style="text-align:right">1.00 FTE</td><td style="text-align:right">80</td></tr>
+        </tbody>
+      </table>
+
+      <div class="subsection-title">Phase 1 — POC (7 weeks)</div>
+      <table class="spec-table">
+        <thead><tr><th>Role</th><th style="text-align:right">Allocation</th><th style="text-align:right">Hours</th></tr></thead>
+        <tbody>
+          <tr><td>Solution Architect</td><td style="text-align:right">0.30 FTE</td><td style="text-align:right">84</td></tr>
+          <tr><td>Project Manager</td><td style="text-align:right">0.50 FTE</td><td style="text-align:right">140</td></tr>
+          <tr><td>Senior Engineer (Software)</td><td style="text-align:right">1.00 FTE</td><td style="text-align:right">280</td></tr>
+          <tr><td>Middle Engineer (Software)</td><td style="text-align:right">1.00 FTE</td><td style="text-align:right">280</td></tr>
+          <tr><td>Senior ML/Data Engineer</td><td style="text-align:right">1.00 FTE</td><td style="text-align:right">280</td></tr>
+          <tr><td>Middle ML/Data Engineer</td><td style="text-align:right">1.00 FTE</td><td style="text-align:right">280</td></tr>
+          <tr><td>DevOps Middle Engineer</td><td style="text-align:right">0.50 FTE</td><td style="text-align:right">140</td></tr>
+          <tr><td>Senior UI/UX Designer</td><td style="text-align:right">0.50 FTE</td><td style="text-align:right">140</td></tr>
+          <tr><td>Middle UI Designer</td><td style="text-align:right">0.50 FTE</td><td style="text-align:right">140</td></tr>
+          <tr><td>QA Middle Manual Engineer</td><td style="text-align:right">0.50 FTE</td><td style="text-align:right">140</td></tr>
+        </tbody>
+      </table>
+
+      <div class="subsection-title">Phase 2 — MVP (11 weeks)</div>
+      <table class="spec-table">
+        <thead><tr><th>Role</th><th style="text-align:right">Allocation</th><th style="text-align:right">Hours</th></tr></thead>
+        <tbody>
+          <tr><td>Solution Architect</td><td style="text-align:right">0.30 FTE</td><td style="text-align:right">132</td></tr>
+          <tr><td>Project Manager</td><td style="text-align:right">0.70 FTE</td><td style="text-align:right">308</td></tr>
+          <tr><td>Lead Business Analyst</td><td style="text-align:right">0.30 FTE</td><td style="text-align:right">132</td></tr>
+          <tr><td>Software Team Lead</td><td style="text-align:right">0.50 FTE</td><td style="text-align:right">220</td></tr>
+          <tr><td>Senior Engineer (Software)</td><td style="text-align:right">1.50 FTE</td><td style="text-align:right">660</td></tr>
+          <tr><td>Middle Engineer (Software)</td><td style="text-align:right">1.50 FTE</td><td style="text-align:right">660</td></tr>
+          <tr><td>DevOps Senior Engineer</td><td style="text-align:right">1.00 FTE</td><td style="text-align:right">440</td></tr>
+          <tr><td>DevOps Middle Engineer</td><td style="text-align:right">1.00 FTE</td><td style="text-align:right">440</td></tr>
+          <tr><td>Senior ML/Data Engineer</td><td style="text-align:right">1.00 FTE</td><td style="text-align:right">440</td></tr>
+          <tr><td>Middle ML/Data Engineer</td><td style="text-align:right">1.00 FTE</td><td style="text-align:right">440</td></tr>
+          <tr><td>Senior Data Scientist/Analyst</td><td style="text-align:right">0.50 FTE</td><td style="text-align:right">220</td></tr>
+          <tr><td>Senior UI/UX Designer</td><td style="text-align:right">0.50 FTE</td><td style="text-align:right">220</td></tr>
+          <tr><td>Middle UI Designer</td><td style="text-align:right">1.00 FTE</td><td style="text-align:right">440</td></tr>
+          <tr><td>QA Senior Automation Engineer</td><td style="text-align:right">1.00 FTE</td><td style="text-align:right">440</td></tr>
+          <tr><td>QA Middle Manual Engineer</td><td style="text-align:right">1.00 FTE</td><td style="text-align:right">440</td></tr>
+        </tbody>
+      </table>
+
+      <div class="subsection-title">Phase 3 — Production (9 weeks)</div>
+      <table class="spec-table">
+        <thead><tr><th>Role</th><th style="text-align:right">Allocation</th><th style="text-align:right">Hours</th></tr></thead>
+        <tbody>
+          <tr><td>Solution Architect</td><td style="text-align:right">0.30 FTE</td><td style="text-align:right">108</td></tr>
+          <tr><td>Project Manager</td><td style="text-align:right">0.70 FTE</td><td style="text-align:right">252</td></tr>
+          <tr><td>Software Team Lead</td><td style="text-align:right">0.50 FTE</td><td style="text-align:right">180</td></tr>
+          <tr><td>Senior Engineer (Software)</td><td style="text-align:right">1.00 FTE</td><td style="text-align:right">360</td></tr>
+          <tr><td>Middle Engineer (Software)</td><td style="text-align:right">1.00 FTE</td><td style="text-align:right">360</td></tr>
+          <tr><td>DevOps Senior Engineer</td><td style="text-align:right">1.00 FTE</td><td style="text-align:right">360</td></tr>
+          <tr><td>DevOps Middle Engineer</td><td style="text-align:right">0.50 FTE</td><td style="text-align:right">180</td></tr>
+          <tr><td>Senior ML/Data Engineer</td><td style="text-align:right">0.50 FTE</td><td style="text-align:right">180</td></tr>
+          <tr><td>Senior Data Scientist/Analyst</td><td style="text-align:right">0.50 FTE</td><td style="text-align:right">180</td></tr>
+          <tr><td>QA Senior Automation Engineer</td><td style="text-align:right">1.00 FTE</td><td style="text-align:right">360</td></tr>
+          <tr><td>QA Middle Automation Engineer</td><td style="text-align:right">0.50 FTE</td><td style="text-align:right">180</td></tr>
+          <tr><td>QA Middle Manual Engineer</td><td style="text-align:right">0.50 FTE</td><td style="text-align:right">180</td></tr>
+          <tr><td>Business Analyst</td><td style="text-align:right">0.30 FTE</td><td style="text-align:right">108</td></tr>
+        </tbody>
+      </table>
+
+      <div class="subsection-title">Phase 4 — Optimise (13 weeks, initial retainer)</div>
+      <table class="spec-table">
+        <thead><tr><th>Role</th><th style="text-align:right">Allocation</th><th style="text-align:right">Hours</th></tr></thead>
+        <tbody>
+          <tr><td>Project Manager</td><td style="text-align:right">0.25 FTE</td><td style="text-align:right">130</td></tr>
+          <tr><td>Senior ML/Data Engineer</td><td style="text-align:right">0.50 FTE</td><td style="text-align:right">260</td></tr>
+          <tr><td>Middle ML/Data Engineer</td><td style="text-align:right">0.50 FTE</td><td style="text-align:right">260</td></tr>
+          <tr><td>DevOps Middle Engineer</td><td style="text-align:right">0.25 FTE</td><td style="text-align:right">130</td></tr>
+          <tr><td>QA Middle Automation Engineer</td><td style="text-align:right">0.25 FTE</td><td style="text-align:right">130</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- §5 COST BREAKDOWN BY PHASE -->
+    <div class="section" id="sec-cost">
+      <div class="section-id">Section 05</div>
+      <div class="section-title" data-num="5">Cost Breakdown by Phase</div>
+      <p class="section-intro">Phase cost = Σ (allocation × phase weeks × 40 hours × applied rate) for each role. Figures below are labour only; hardware is itemised separately in Section 6.</p>
+
+      <div class="alert-box">
+        <span class="alert-icon">📈</span>
+        <div class="alert-text"><strong>KPI &amp; Metrics Framework — no additive cost:</strong> the BeeGuard 4.0 Technical Overview (v3) documents 19 metrics across three audience tiers (Field Operator, Farm Manager, ADAFSA Strategic). All tiers are computed by the same Analytics Engine and served by the same Dashboard API already staffed in Phases 2&ndash;3 below (Senior/Middle ML Engineers, Senior Data Scientist, UI/UX Designers) &mdash; the technical specification confirms no separate data collection is required per tier. The richer metrics catalogue is therefore a clarification of existing scope, not new budget.</div>
+      </div>
+
+      <div style="margin:24px 0">
+        <div class="phase-cost-bar">
+          <div class="phase-cost-bar-label">P0 — Discovery</div>
+          <div class="phase-cost-bar-track"><div class="phase-cost-bar-fill" style="width:4%"><span>2%</span></div></div>
+          <div class="phase-cost-bar-val">AED 41,228</div>
+        </div>
+        <div class="phase-cost-bar">
+          <div class="phase-cost-bar-label">P1 — POC</div>
+          <div class="phase-cost-bar-track"><div class="phase-cost-bar-fill" style="width:32%"><span>16%</span></div></div>
+          <div class="phase-cost-bar-val">AED 330,607</div>
+        </div>
+        <div class="phase-cost-bar">
+          <div class="phase-cost-bar-label">P2 — MVP</div>
+          <div class="phase-cost-bar-track"><div class="phase-cost-bar-fill" style="width:95%"><span>48%</span></div></div>
+          <div class="phase-cost-bar-val">AED 969,452</div>
+        </div>
+        <div class="phase-cost-bar">
+          <div class="phase-cost-bar-label">P3 — Production</div>
+          <div class="phase-cost-bar-track"><div class="phase-cost-bar-fill" style="width:51%"><span>26%</span></div></div>
+          <div class="phase-cost-bar-val">AED 525,452</div>
+        </div>
+        <div class="phase-cost-bar">
+          <div class="phase-cost-bar-label">P4 — Optimise (3-mo retainer)</div>
+          <div class="phase-cost-bar-track"><div class="phase-cost-bar-fill" style="width:17%"><span>8%</span></div></div>
+          <div class="phase-cost-bar-val">AED 171,886</div>
+        </div>
+      </div>
+
+      <table class="spec-table">
+        <thead><tr><th>Phase</th><th style="text-align:right">Duration</th><th style="text-align:right">Labour cost (AED)</th><th style="text-align:right">% of total</th></tr></thead>
+        <tbody>
+          <tr><td>P0 — Discovery</td><td style="text-align:right">2 weeks</td><td style="text-align:right">41,228.00</td><td style="text-align:right">2.0%</td></tr>
+          <tr><td>P1 — POC</td><td style="text-align:right">7 weeks</td><td style="text-align:right">330,607.20</td><td style="text-align:right">16.2%</td></tr>
+          <tr><td>P2 — MVP</td><td style="text-align:right">11 weeks</td><td style="text-align:right">969,452.00</td><td style="text-align:right">47.6%</td></tr>
+          <tr><td>P3 — Production</td><td style="text-align:right">9 weeks</td><td style="text-align:right">525,452.40</td><td style="text-align:right">25.8%</td></tr>
+          <tr><td>P4 — Optimise (3-mo)</td><td style="text-align:right">13 weeks</td><td style="text-align:right">171,886.00</td><td style="text-align:right">8.4%</td></tr>
+          <tr style="background:var(--surface-3);font-weight:700"><td>TOTAL</td><td style="text-align:right">~42 weeks</td><td style="text-align:right">2,038,625.60</td><td style="text-align:right">100%</td></tr>
+        </tbody>
+      </table>
+
+      <div class="subsection-title">Cost by role, across all phases</div>
+      <table class="spec-table role-table">
+        <thead><tr><th>Role</th><th style="text-align:right">Total hours</th><th style="text-align:right">Total cost (AED)</th></tr></thead>
+        <tbody>
+          <tr><td>Senior ML/Data Engineer</td><td>1,160.0</td><td>290,928.00</td></tr>
+          <tr><td>Software Engineer — Senior</td><td>1,300.0</td><td>240,240.00</td></tr>
+          <tr><td>Middle ML/Data Engineer</td><td>980.0</td><td>184,338.00</td></tr>
+          <tr><td>Software Engineer — Middle</td><td>1,300.0</td><td>174,460.00</td></tr>
+          <tr><td>DevOps Engineer — Senior</td><td>800.0</td><td>161,040.00</td></tr>
+          <tr><td>QA Senior Automation Engineer</td><td>800.0</td><td>140,800.00</td></tr>
+          <tr><td>Project Manager</td><td>870.0</td><td>138,765.00</td></tr>
+          <tr><td>DevOps Engineer — Middle</td><td>890.0</td><td>134,123.00</td></tr>
+          <tr><td>Solution Architect</td><td>364.0</td><td>91,291.20</td></tr>
+          <tr><td>QA Middle Manual Engineer</td><td>760.0</td><td>86,108.00</td></tr>
+          <tr><td>Software Engineer — Team Lead</td><td>400.0</td><td>83,600.00</td></tr>
+          <tr><td>Senior Data Scientist/Analyst</td><td>400.0</td><td>83,600.00</td></tr>
+          <tr><td>Middle UI Designer</td><td>580.0</td><td>72,732.00</td></tr>
+          <tr><td>Senior UI/UX Designer</td><td>360.0</td><td>52,668.00</td></tr>
+          <tr><td>QA Middle Automation Engineer</td><td>310.0</td><td>41,602.00</td></tr>
+          <tr><td>Lead Business Analyst</td><td>212.0</td><td>35,446.40</td></tr>
+          <tr><td>Business Analyst</td><td>188.0</td><td>26,884.00</td></tr>
+          <tr style="background:var(--surface-3);font-weight:700"><td>TOTAL</td><td>11,674.0</td><td>2,038,625.60</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- §7 HARDWARE -->
+    <div class="section" id="sec-hardware">
+      <div class="section-id">Section 06</div>
+      <div class="section-title" data-num="6">Hardware (CAPEX) Estimate</div>
+      <p class="section-intro">Hardware is procured separately from labour and is <strong>not</strong> covered by the SoftTeco Rate Card. Unit pricing below is indicative, sourced from the BeeGuard 4.0 hardware specification, and provided for budget planning. Final pricing will be confirmed via vendor RFQ during Phase 0.</p>
+
+      <table class="spec-table">
+        <thead><tr><th>Item</th><th style="text-align:right">Unit (AED)</th><th style="text-align:right">POC qty</th><th style="text-align:right">POC cost</th><th style="text-align:right">MVP qty</th><th style="text-align:right">MVP cost</th></tr></thead>
+        <tbody>
+          <tr><td>Wearable / stand camera module (12MP, IP67)</td><td style="text-align:right">1,850</td><td style="text-align:right">8</td><td style="text-align:right">14,800</td><td style="text-align:right">50</td><td style="text-align:right">92,500</td></tr>
+          <tr><td>Edge Inference Module (Jetson Orin Nano kit)</td><td style="text-align:right">4,200</td><td style="text-align:right">2</td><td style="text-align:right">8,400</td><td style="text-align:right">10</td><td style="text-align:right">42,000</td></tr>
+          <tr><td>Environmental sensor kit</td><td style="text-align:right">950</td><td style="text-align:right">8</td><td style="text-align:right">7,600</td><td style="text-align:right">50</td><td style="text-align:right">47,500</td></tr>
+          <tr><td>Apiary Gateway (LoRaWAN + 4G LTE)</td><td style="text-align:right">3,600</td><td style="text-align:right">1</td><td style="text-align:right">3,600</td><td style="text-align:right">5</td><td style="text-align:right">18,000</td></tr>
+          <tr><td>Operator field kit (harness, trigger, tablet)</td><td style="text-align:right">2,100</td><td style="text-align:right">2</td><td style="text-align:right">4,200</td><td style="text-align:right">6</td><td style="text-align:right">12,600</td></tr>
+          <tr style="background:var(--surface-3);font-weight:700"><td>TOTAL</td><td></td><td></td><td style="text-align:right">38,600</td><td></td><td style="text-align:right">212,600</td></tr>
+        </tbody>
+      </table>
+
+      <div class="alert-box">
+        <span class="alert-icon">📦</span>
+        <div class="alert-text"><strong>Illustrative production estimate:</strong> at a planning assumption of 500 hives (10× the MVP baseline), full-fleet hardware would scale to approximately <strong>AED 2,126,000</strong>. This figure is illustrative only — actual production hardware cost will be quoted once ADAFSA confirms the total hive count at Phase 0.</div>
+      </div>
+    </div>
+
+    <!-- §7 TOTAL INVESTMENT SUMMARY -->
+    <div class="section" id="sec-summary">
+      <div class="section-id">Section 07</div>
+      <div class="section-title" data-num="7">Total Investment Summary</div>
+      <p class="section-intro">This table shows how the cumulative labour cost is built directly from the per-phase figures in Section 5 (Cost Breakdown by Phase), with hardware from Section 6 added at the milestone where it is procured. Each row simply adds that phase's own labour cost to the running total from the row above &mdash; nothing here is a new calculation.</p>
+
+      <div class="alert-box">
+        <span class="alert-icon">🔗</span>
+        <div class="alert-text"><strong>How to read this table:</strong> the <em>"This phase&rsquo;s labour"</em> column is copied directly from the Section 5 phase totals. The <em>"Cumulative labour"</em> column is a running sum: each value equals the row above plus that phase&rsquo;s own labour cost. For example, the POC row is AED 41,228 (P0, carried forward) + AED 330,607.20 (P1&rsquo;s own cost, from Section 5) = AED 371,835.20.</div>
+      </div>
+
+      <table class="spec-table">
+        <thead><tr><th>Through milestone</th><th style="text-align:right">This phase&rsquo;s labour (AED)</th><th style="text-align:right">+ Cumulative labour (AED)</th><th style="text-align:right">+ Hardware (AED)</th><th style="text-align:right">= Cumulative total (AED)</th></tr></thead>
+        <tbody>
+          <tr><td>End of P0 — Discovery</td><td style="text-align:right">41,228.00</td><td style="text-align:right">41,228.00</td><td style="text-align:right">—</td><td style="text-align:right">41,228.00</td></tr>
+          <tr><td>End of P1 — POC</td><td style="text-align:right">330,607.20</td><td style="text-align:right">371,835.20</td><td style="text-align:right">38,600</td><td style="text-align:right">410,435.20</td></tr>
+          <tr><td>End of P2 — MVP</td><td style="text-align:right">969,452.00</td><td style="text-align:right">1,341,287.20</td><td style="text-align:right">212,600</td><td style="text-align:right">1,553,887.20</td></tr>
+          <tr><td>End of P3 — Production*</td><td style="text-align:right">525,452.40</td><td style="text-align:right">1,866,739.60</td><td style="text-align:right">2,126,000*</td><td style="text-align:right">3,992,739.60*</td></tr>
+          <tr style="background:var(--surface-3);font-weight:700"><td>+ P4 Optimise (3-mo retainer)</td><td style="text-align:right">171,886.00</td><td style="text-align:right">2,038,625.60</td><td style="text-align:right">2,126,000*</td><td style="text-align:right">4,164,625.60*</td></tr>
+        </tbody>
+      </table>
+      <div style="font-size:11.5px;color:var(--text-3);margin-top:8px">Each "This phase&rsquo;s labour" value reconciles exactly to the matching row in Section 5, Cost Breakdown by Phase. *Production hardware figure is illustrative (500-hive planning assumption) — see Section 6. Excluded from the headline labour-only total of AED 2,038,625.60 referenced in Section 1 (Executive Summary).</div>
+
+      <div class="fin-hero-stats" style="margin-top:24px">
+        <div class="fin-card total">
+          <div class="fin-card-label">Labour only — all 5 phases</div>
+          <div class="fin-card-val">AED 2.04M</div>
+        </div>
+        <div class="fin-card">
+          <div class="fin-card-label">Labour + hardware through MVP</div>
+          <div class="fin-card-val">AED 1.55M</div>
+        </div>
+        <div class="fin-card">
+          <div class="fin-card-label">POC-only investment</div>
+          <div class="fin-card-val">AED 410K</div>
+        </div>
+        <div class="fin-card">
+          <div class="fin-card-label">Avg. weekly burn (P1–P3)</div>
+          <div class="fin-card-val">AED 66.4K</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- §9 PAYMENT MILESTONES -->
+    <div class="section" id="sec-payment">
+      <div class="section-id">Section 08</div>
+      <div class="section-title" data-num="8">Payment Milestones</div>
+      <p class="section-intro">Proposed milestone-based billing tied to phase gate sign-off, consistent with standard SoftTeco government engagement terms. Percentages apply to each phase's labour cost; hardware is invoiced separately upon procurement.</p>
+
+      <div class="milestone-grid">
+        <div class="milestone">
+          <div class="milestone-dot">P0</div>
+          <div class="milestone-card">
+            <div class="milestone-head"><div class="milestone-name">Discovery kickoff</div><div class="milestone-pct">100% of P0</div></div>
+            <div class="milestone-amt">AED 41,228</div>
+            <div class="milestone-trigger">Due on contract signature, prior to site survey commencement.</div>
+          </div>
+        </div>
+        <div class="milestone">
+          <div class="milestone-dot">P1</div>
+          <div class="milestone-card">
+            <div class="milestone-head"><div class="milestone-name">POC delivery</div><div class="milestone-pct">50% / 50%</div></div>
+            <div class="milestone-amt">AED 165,304 + AED 165,304</div>
+            <div class="milestone-trigger">50% on POC kickoff; 50% on POC demo approval and gate sign-off.</div>
+          </div>
+        </div>
+        <div class="milestone">
+          <div class="milestone-dot">P2</div>
+          <div class="milestone-card">
+            <div class="milestone-head"><div class="milestone-name">MVP delivery</div><div class="milestone-pct">30% / 40% / 30%</div></div>
+            <div class="milestone-amt">AED 290,836 + 387,781 + 290,836</div>
+            <div class="milestone-trigger">30% on kickoff, 40% at mid-phase demo, 30% on MVP gate sign-off.</div>
+          </div>
+        </div>
+        <div class="milestone">
+          <div class="milestone-dot">P3</div>
+          <div class="milestone-card">
+            <div class="milestone-head"><div class="milestone-name">Production rollout</div><div class="milestone-pct">30% / 40% / 30%</div></div>
+            <div class="milestone-amt">AED 157,636 + 210,181 + 157,636</div>
+            <div class="milestone-trigger">30% on kickoff, 40% at staged rollout milestone, 30% on UAT sign-off.</div>
+          </div>
+        </div>
+        <div class="milestone">
+          <div class="milestone-dot">P4</div>
+          <div class="milestone-card">
+            <div class="milestone-head"><div class="milestone-name">Optimise retainer</div><div class="milestone-pct">Monthly</div></div>
+            <div class="milestone-amt">AED 57,295 / month</div>
+            <div class="milestone-trigger">Billed monthly in advance, starting immediately after P3 gate. Renewable beyond the initial 3-month term.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="alert-box">
+        <span class="alert-icon">💳</span>
+        <div class="alert-text"><strong>Hardware billing:</strong> Hardware (Section 6) is invoiced on a procure-to-order basis, separate from the labour milestone schedule above, with payment due prior to vendor dispatch.</div>
+      </div>
+    </div>
+
+    <!-- §10 ASSUMPTIONS & EXCLUSIONS -->
+    <div class="section" id="sec-assumptions">
+      <div class="section-id">Section 09</div>
+      <div class="section-title" data-num="9">Assumptions &amp; Exclusions</div>
+
+      <div class="subsection-title">Assumptions</div>
+      <ul class="assumption-list">
+        <li>Phase durations use the midpoint of each range stated in the BeeGuard 4.0 Technical Architecture &amp; Deployment Specification (v3).</li>
+        <li>The 19-metric, three-tier KPI &amp; Metrics Framework (BeeGuard 4.0 Technical Overview v3, Section 9) is delivered by the Analytics Engine and Dashboard API roles already costed in Phases 2&ndash;3; it does not introduce additional staffing or budget beyond the figures in Section 4.</li>
+        <li>All hourly rates are taken directly from the SoftTeco Rate Card (AED) with a uniform +10% uplift applied per client instruction. No role outside the published rate card has been used.</li>
+        <li>A standard 40-hour work week is used to convert FTE allocation into billable hours.</li>
+        <li>Phase 4 (Optimise) is costed as an initial 3-month retainer; actual ongoing retainer terms to be confirmed at P3 gate.</li>
+        <li>Hardware unit pricing is indicative and subject to confirmation via vendor RFQ at Phase 0.</li>
+        <li>Production-scale hardware (Section 6) assumes an illustrative 500-hive fleet; actual cost will be re-quoted once ADAFSA confirms total hive count.</li>
+        <li>UAE PASS SSO integration assumes ADAFSA provides API access and sandbox credentials during Phase 2.</li>
+        <li>ADG Cloud / G42 Core42 account provisioning and any associated platform fees are assumed to be arranged directly by ADAFSA and are excluded from this estimate.</li>
+      </ul>
+
+      <div class="subsection-title">Exclusions</div>
+      <ul class="assumption-list">
+        <li>Cloud infrastructure consumption costs (compute, storage, bandwidth) — billed directly by the UAE sovereign cloud provider, not included in labour or hardware figures above.</li>
+        <li>Third-party LLM API consumption costs (if external Claude API mode is selected over the local LLM fallback) — billed directly by Anthropic per ADAFSA's own account.</li>
+        <li>Mobile carrier SIM/data plans for field connectivity (4G LTE private APN).</li>
+        <li>Physical site preparation, electrical work, or civil works at apiary locations.</li>
+        <li>Travel and accommodation for on-site visits beyond what is included in standard remote delivery — to be agreed separately if on-site presence is required.</li>
+        <li>Annual hardware maintenance, replacement parts, and extended warranty beyond original equipment manufacturer terms.</li>
+        <li>VAT and any applicable UAE taxes — all figures in this proposal are presented net of VAT.</li>
+      </ul>
+    </div>
+
+    <!-- §11 ACCEPTANCE -->
+    <div class="section" id="sec-accept">
+      <div class="section-id">Section 10</div>
+      <div class="section-title" data-num="10">Proposal Acceptance</div>
+      <p class="section-intro">This proposal is valid for 30 days from the date of issue. Upon written acceptance by ADAFSA (or its designated representative), SoftTeco will issue a formal Statement of Work reflecting the scope, schedule, and commercial terms set out in this document, and the engagement will proceed to Phase 0 kickoff.</p>
+
+    </div>
+
+    <!-- OFFICES -->
+    <div class="section">
+      <div class="subsection-title">SoftTeco offices</div>
+      <div class="offices-grid">
+        <div class="office-card"><div class="office-flag">🇵🇱</div><div class="office-city">Warsaw, Poland (HQ)</div><div class="office-addr">9A/4U Belwederska St<br>Warsaw 00-761</div></div>
+        <div class="office-card"><div class="office-flag">🇦🇪</div><div class="office-city">Dubai, UAE</div><div class="office-addr">Al-Murar, Dubai<br>United Arab Emirates</div></div>
+        <div class="office-card"><div class="office-flag">🇱🇹</div><div class="office-city">Lithuania</div><div class="office-addr">Vilnius &amp; Kaunas</div></div>
+        <div class="office-card"><div class="office-flag">🇺🇸</div><div class="office-city">United States</div><div class="office-addr">Wenham, MA</div></div>
+        <div class="office-card"><div class="office-flag">🇬🇧</div><div class="office-city">United Kingdom</div><div class="office-addr">Loughborough</div></div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+
+  <footer class="page-footer">
+    <div class="footer-left">
+      <div class="footer-brand">SoftTeco<sup style="font-size:9px;opacity:.5">®</sup></div>
+      <p>ISO 27001 Certified · Est. 2008 · 500+ Experts<br>
+      BeeGuard 4.0 — Technical &amp; Financial Proposal<br>
+      Prepared for ADAFSA via Innoventures · Version 1.0 · June 2026</p>
+    </div>
+    <div class="footer-links">
+      <a href="mailto:d.viazmin@softteco.com">d.viazmin@softteco.com</a><br>
+      <a href="https://softteco.com" target="_blank">softteco.com</a><br>
+      <span style="color:rgba(255,255,255,.25);font-size:11px;margin-top:6px;display:block">Privileged &amp; Confidential. Not for distribution.</span>
+    </div>
+  </footer>
+</div>
+
+<script>
+function navTo(id,btn){
+  const el=document.getElementById(id);
+  if(!el)return;
+  const top=el.getBoundingClientRect().top+window.pageYOffset-66;
+  window.scrollTo({top,behavior:'smooth'});
+  document.querySelectorAll('.nav-item').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  if(window.innerWidth<=900){
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('overlay').classList.remove('show');
+  }
+}
+function toggleSidebar(){
+  const sb=document.getElementById('sidebar');
+  const ov=document.getElementById('overlay');
+  sb.classList.toggle('open');
+  ov.classList.toggle('show');
+}
+const secMap={
+  'sec-exec':'01','sec-scope':'02','sec-plan':'03','sec-staffing':'04',
+  'sec-cost':'05','sec-hardware':'06','sec-summary':'07',
+  'sec-payment':'08','sec-assumptions':'09','sec-accept':'10'
+};
+let scrollSpyActive=true;
+const observer=new IntersectionObserver(entries=>{
+  if(!scrollSpyActive)return;
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const num=secMap[e.target.id];
+      if(!num)return;
+      document.querySelectorAll('.nav-item').forEach(b=>{
+        const n=b.querySelector('.nav-num');
+        if(n&&n.textContent===num)b.classList.add('active');
+        else b.classList.remove('active');
+      });
+    }
+  });
+},{threshold:0.12,rootMargin:'-66px 0px -45% 0px'});
+document.querySelectorAll('.section[id]').forEach(s=>observer.observe(s));
+</script>
+</body>
+</html>
