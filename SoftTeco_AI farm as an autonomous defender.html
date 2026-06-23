@@ -1,0 +1,647 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Softteco — Autonomous Defender · Concept</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0A111E;--bg-2:#0C1422;--panel:#111C2F;--panel-2:#0F1A2C;
+    --line:#23344E;--line-strong:#39506F;--ink:#E8EFF9;--muted:#8499B4;--muted-2:#5E7290;
+    --recon:#39D6C5;--enum:#4C8DFF;--vuln:#9B7BFF;--exploit:#F2A93B;--post:#FF7A4D;--report:#46D17F;--crit:#FF5C6C;
+    --grid:rgba(120,150,190,.06);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:"Inter",system-ui,sans-serif;font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased;
+    background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+    background-size:46px 46px;}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 28px}
+  .mono{font-family:"JetBrains Mono",ui-monospace,monospace}
+  h1,h2,h3{font-family:"Space Grotesk",sans-serif;font-weight:600;letter-spacing:-.01em;line-height:1.12;margin:0}
+  p{margin:0 0 1em}
+  a{color:var(--recon);text-decoration:none}
+
+  header{border-bottom:1px solid var(--line);position:relative;overflow:hidden}
+  .topbar{display:flex;justify-content:space-between;align-items:center;padding:18px 28px;max-width:1120px;margin:0 auto;
+    font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--muted);letter-spacing:.04em}
+  .topbar .brand{color:var(--ink);font-weight:700}
+  .topbar .brand b{color:var(--recon)}
+  .status{display:inline-flex;align-items:center;gap:7px}
+  .dot{width:7px;height:7px;border-radius:50%;background:var(--report);box-shadow:0 0 0 0 rgba(70,209,127,.6);animation:pulse 2.4s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(70,209,127,.5)}70%{box-shadow:0 0 0 7px rgba(70,209,127,0)}100%{box-shadow:0 0 0 0 rgba(70,209,127,0)}}
+
+  .hero{max-width:1120px;margin:0 auto;padding:64px 28px 40px}
+  .eyebrow{font-family:"JetBrains Mono",monospace;font-size:12.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--recon);margin-bottom:22px}
+  .hero h1{font-size:clamp(34px,6vw,68px);max-width:16ch}
+  .hero h1 .g{background:linear-gradient(92deg,var(--recon),var(--enum) 50%,var(--report));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .lede{font-size:clamp(17px,2.1vw,21px);color:var(--muted);max-width:64ch;margin-top:24px}
+  .metastrip{display:flex;flex-wrap:wrap;gap:0;margin-top:40px;border:1px solid var(--line);border-radius:10px;overflow:hidden;font-family:"JetBrains Mono",monospace;font-size:12.5px}
+  .metastrip div{padding:14px 20px;border-right:1px solid var(--line);flex:1;min-width:160px}
+  .metastrip div:last-child{border-right:none}
+  .metastrip span{display:block;color:var(--muted);font-size:11px;letter-spacing:.08em;margin-bottom:5px}
+  .metastrip b{color:var(--ink);font-weight:500}
+
+  section{padding:62px 0;border-top:1px solid var(--line)}
+  .snum{font-family:"JetBrains Mono",monospace;font-size:12.5px;letter-spacing:.16em;color:var(--muted);margin-bottom:14px;display:flex;align-items:center;gap:12px}
+  .snum::before{content:"";width:34px;height:1px;background:var(--line-strong)}
+  h2{font-size:clamp(26px,3.4vw,38px);max-width:24ch;margin-bottom:18px}
+  .section-lede{color:var(--muted);max-width:72ch;font-size:17px;margin-bottom:34px}
+
+  .fig{background:var(--panel-2);border:1px solid var(--line);border-radius:14px;padding:26px 22px 20px;margin:8px 0 26px;position:relative;
+    background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:28px 28px}
+  .fig svg{display:block;width:100%;height:auto}
+  .figcap{font-family:"JetBrains Mono",monospace;font-size:11.5px;color:var(--muted);letter-spacing:.05em;margin-top:14px;padding-top:13px;border-top:1px dashed var(--line)}
+  .figcap b{color:var(--recon);font-weight:500}
+
+  .n-title{font-family:"Space Grotesk",sans-serif;font-weight:600;fill:var(--ink)}
+  .n-sub{font-family:"JetBrains Mono",monospace;fill:var(--muted);letter-spacing:.02em}
+  .n-tag{font-family:"JetBrains Mono",monospace;fill:var(--muted);letter-spacing:.1em}
+  .lab{font-family:"JetBrains Mono",monospace;fill:var(--muted)}
+  .lab-ink{font-family:"JetBrains Mono",monospace;fill:var(--ink)}
+
+  .legend{display:flex;flex-wrap:wrap;gap:8px 18px;margin:2px 0 26px;font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--muted)}
+  .legend i{width:11px;height:11px;border-radius:3px;display:inline-block;margin-right:7px;vertical-align:-1px}
+
+  .roles{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin-top:8px}
+  .role{border:1px solid var(--line);border-left-width:3px;border-radius:10px;padding:16px 18px;background:var(--panel)}
+  .role h4{margin:0 0 6px;font-family:"Space Grotesk";font-size:15.5px;font-weight:600}
+  .role p{margin:0;color:var(--muted);font-size:14px;line-height:1.55}
+  .role .tag{font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:.1em;color:var(--muted);display:block;margin-bottom:9px}
+
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:34px;align-items:start}
+  @media(max-width:760px){.cols{grid-template-columns:1fr;gap:22px}}
+
+  ul.clean{list-style:none;padding:0;margin:0}
+  ul.clean li{padding:11px 0 11px 26px;border-bottom:1px solid var(--line);position:relative;color:var(--muted);font-size:15px}
+  ul.clean li::before{content:"›";position:absolute;left:4px;color:var(--recon);font-weight:700}
+  ul.clean li b{color:var(--ink);font-weight:600}
+  ul.clean li:last-child{border-bottom:none}
+
+  .callout{border:1px solid var(--crit);border-radius:12px;padding:22px 24px;background:linear-gradient(180deg,rgba(255,92,108,.07),rgba(255,92,108,.02));margin-top:8px}
+  .callout h3{font-size:18px;color:var(--ink);margin-bottom:10px;display:flex;align-items:center;gap:10px}
+  .callout h3 .badge{font-family:"JetBrains Mono";font-size:10px;letter-spacing:.12em;color:var(--crit);border:1px solid var(--crit);border-radius:5px;padding:3px 8px}
+  .callout p{color:var(--muted);margin:0 0 .7em}
+  .callout p:last-child{margin:0}
+
+  .metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-top:8px}
+  .metric{border:1px solid var(--line);border-radius:10px;padding:18px;background:var(--panel)}
+  .metric .k{font-family:"Space Grotesk";font-size:13px;color:var(--ink);font-weight:600;margin-bottom:6px}
+  .metric .v{font-family:"JetBrains Mono";font-size:12.5px;color:var(--muted);line-height:1.5}
+
+  footer{border-top:1px solid var(--line);padding:34px 0 60px;color:var(--muted);font-family:"JetBrains Mono",monospace;font-size:12.5px}
+  footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px}
+
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
+  .reveal.vis{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.dot{animation:none}}
+  @media(max-width:600px){.hero{padding-top:44px}.metastrip div{min-width:46%}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="topbar">
+    <div class="brand">SOFTTECO<b>//</b>DEFEND</div>
+    <div class="status"><span class="dot"></span> SOLUTION CONCEPT · v0.1</div>
+  </div>
+  <div class="hero">
+    <div class="eyebrow">Autonomous Defense · Agentic SOC</div>
+    <h1>An agent farm as an <span class="g">autonomous defender</span> for your enterprise</h1>
+    <p class="lede">A hierarchical team of specialized agents that detects threats by behavior, investigates and correlates at machine speed, and contains them with <b>reversible, auditable, scope-bound</b> actions — and pairs with the red-team validation farm in a continuous purple-team loop.</p>
+    <div class="metastrip mono">
+      <div><span>CATEGORY</span><b>agentic SOC</b></div>
+      <div><span>CORE</span><b>hierarchical farm</b></div>
+      <div><span>PAIRS WITH</span><b>SECVAL (red)</b></div>
+      <div><span>CONTAINMENT</span><b>reversible · gated</b></div>
+      <div><span>OUTPUT</span><b>MTTR ↓ · audit trail</b></div>
+    </div>
+  </div>
+</header>
+
+<!-- ============ 0 · POSITIONING ============ -->
+<section id="thesis"><div class="wrap reveal">
+  <div class="snum mono">00 · POSITIONING</div>
+  <h2>2026 is the “Year of the Defender” — agents now answer attacks at machine speed</h2>
+  <p class="section-lede">Attackers already use agents to scale and adapt faster than humans can react, so the defensive answer is symmetric: a team of agents that triages noise, investigates automatically, and contains threats in seconds — under human-governed policy. The map shows where the market sits and where Softteco’s paired red+blue model is differentiated.</p>
+
+  <div class="fig">
+    <svg viewBox="0 0 1040 540" role="img" aria-label="Defender positioning map">
+      <defs><marker id="ar0" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="var(--line-strong)"/></marker></defs>
+      <line x1="120" y1="60" x2="120" y2="470" stroke="var(--line-strong)" stroke-width="1.5" marker-end="url(#ar0)"/>
+      <line x1="120" y1="470" x2="980" y2="470" stroke="var(--line-strong)" stroke-width="1.5" marker-end="url(#ar0)"/>
+      <text x="92" y="56" class="lab-ink" font-size="13" text-anchor="end" transform="rotate(-90 92 56)" style="transform-box:fill-box">AUDITABILITY →</text>
+      <text x="135" y="44" class="lab" font-size="12">↑ fully auditable / transparent</text>
+      <text x="135" y="462" class="lab" font-size="12">black-box decisions</text>
+      <text x="960" y="498" class="lab" font-size="12" text-anchor="end">autonomous response →</text>
+      <text x="130" y="498" class="lab" font-size="12">alerting only</text>
+
+      <line x1="550" y1="60" x2="550" y2="470" stroke="var(--line)" stroke-dasharray="4 5"/>
+      <line x1="120" y1="265" x2="980" y2="265" stroke="var(--line)" stroke-dasharray="4 5"/>
+
+      <g><circle cx="640" cy="170" r="7" fill="var(--enum)"/><text x="654" y="174" class="lab-ink" font-size="13">Microsoft · CrowdStrike · Google — platform-native</text></g>
+      <g><circle cx="430" cy="210" r="7" fill="var(--vuln)"/><text x="444" y="214" class="lab-ink" font-size="13">Dropzone · Prophet · Conifers — AI SOC analyst</text></g>
+      <g><circle cx="360" cy="350" r="7" fill="var(--muted)"/><text x="374" y="354" class="lab-ink" font-size="13">legacy SIEM / SOAR — static playbooks</text></g>
+
+      <rect x="700" y="300" width="250" height="150" rx="12" fill="rgba(70,209,127,.08)" stroke="var(--report)" stroke-dasharray="6 5"/>
+      <text x="825" y="338" class="n-title" font-size="16" text-anchor="middle">SOFTTECO FIT</text>
+      <text x="825" y="368" class="lab" font-size="12" text-anchor="middle">auditable autonomy</text>
+      <text x="825" y="392" class="lab" font-size="12" text-anchor="middle">paired purple-team</text>
+      <text x="825" y="416" class="lab" font-size="12" text-anchor="middle">sovereign / on-prem</text>
+    </svg>
+    <div class="figcap mono"><b>FIG.0</b> — axes: autonomous response × auditability. The crowded zone is platform-native SOC; Softteco differentiates on auditable autonomy plus a red+blue loop no pure-SOC vendor offers.</div>
+  </div>
+
+  <div class="cols">
+    <ul class="clean">
+      <li><b>Behavior &gt; signatures.</b> Signature defense fails on the unknown; behavioral baselines catch “someone who doesn’t belong”.</li>
+      <li><b>Triage is where noise dies.</b> ~90% of alerts are noise; agents enrich, correlate and kill false-positives at machine speed.</li>
+      <li><b>Reversible containment.</b> Isolate host, revoke session, block connection — in seconds, but always reversible and bounded.</li>
+    </ul>
+    <div class="callout" style="border-color:var(--exploit);background:linear-gradient(180deg,rgba(242,169,59,.07),rgba(242,169,59,.02))">
+      <h3 style="color:var(--ink)"><span class="badge" style="color:var(--exploit);border-color:var(--exploit)">REALITY CHECK</span> Speed without control just moves risk faster</h3>
+      <p>Autonomous containment of a host, a network segment, or a supply-chain partner carries operational consequences that compound fast.</p>
+      <p>And black-box autonomous decisions are a compliance blocker in regulated industries. So transparency, reversibility and human accountability are designed in — not bolted on.</p>
+    </div>
+  </div>
+</div></section>
+
+<!-- ============ 1 · FARM ============ -->
+<section id="farm"><div class="wrap reveal">
+  <div class="snum mono">01 · ARCHITECTURE</div>
+  <h2>Hierarchical farm: orchestrator, specialized units, shared entity graph</h2>
+  <p class="section-lede">The same hierarchical pattern as the red-team farm, mapped to the defensive lifecycle. A defense orchestrator prioritizes by business risk and governs how much autonomy each unit has; every agent reads and writes a shared entity graph of assets, identities and behavior.</p>
+
+  <div class="legend">
+    <span><i style="background:var(--recon)"></i>ingest</span>
+    <span><i style="background:var(--enum)"></i>detect</span>
+    <span><i style="background:var(--vuln)"></i>triage</span>
+    <span><i style="background:var(--exploit)"></i>investigate</span>
+    <span><i style="background:var(--report)"></i>contain</span>
+    <span><i style="background:var(--post)"></i>learn</span>
+  </div>
+
+  <div class="fig">
+    <svg viewBox="0 0 1040 520" role="img" aria-label="Defender farm diagram">
+      <defs><marker id="ar1" markerWidth="8" markerHeight="8" refX="6.5" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="var(--line-strong)"/></marker></defs>
+      <rect x="350" y="26" width="340" height="84" rx="10" fill="var(--panel)" stroke="var(--report)" stroke-width="1.6"/>
+      <rect x="350" y="26" width="6" height="84" rx="3" fill="var(--report)"/>
+      <text x="372" y="56" class="n-title" font-size="18">Defense Orchestrator</text>
+      <text x="372" y="80" class="n-sub" font-size="12.5">risk-based prioritization · ATT&amp;CK context</text>
+      <text x="372" y="98" class="n-sub" font-size="12.5">autonomy policy · governance</text>
+
+      <g stroke="var(--line-strong)" stroke-width="1.4" fill="none" marker-end="url(#ar1)">
+        <path d="M520,110 C520,150 95,150 95,196"/><path d="M520,110 C520,150 265,150 265,196"/>
+        <path d="M520,110 C520,160 435,160 435,196"/><path d="M520,110 C520,160 605,160 605,196"/>
+        <path d="M520,110 C520,150 775,150 775,196"/><path d="M520,110 C520,150 945,150 945,196"/>
+      </g>
+
+      <g><rect x="20" y="200" width="150" height="112" rx="9" fill="var(--panel-2)" stroke="var(--recon)" stroke-width="1.4"/><rect x="20" y="200" width="150" height="5" rx="2" fill="var(--recon)"/>
+        <text x="34" y="232" class="n-title" font-size="14.5">Sensor /</text><text x="34" y="250" class="n-title" font-size="14.5">Ingest</text>
+        <text x="34" y="272" class="n-sub" font-size="11">EDR · IdP · cloud</text><text x="34" y="288" class="n-sub" font-size="11">email · network</text><text x="34" y="304" class="n-sub" font-size="11">SIEM normalize</text></g>
+
+      <g><rect x="190" y="200" width="150" height="112" rx="9" fill="var(--panel-2)" stroke="var(--enum)" stroke-width="1.4"/><rect x="190" y="200" width="150" height="5" rx="2" fill="var(--enum)"/>
+        <text x="204" y="232" class="n-title" font-size="14.5">Detection</text>
+        <text x="204" y="256" class="n-sub" font-size="11">behavioral</text><text x="204" y="272" class="n-sub" font-size="11">anomaly</text><text x="204" y="288" class="n-sub" font-size="11">ATT&amp;CK map</text></g>
+
+      <g><rect x="360" y="200" width="150" height="112" rx="9" fill="var(--panel-2)" stroke="var(--vuln)" stroke-width="1.4"/><rect x="360" y="200" width="150" height="5" rx="2" fill="var(--vuln)"/>
+        <text x="374" y="232" class="n-title" font-size="14.5">Triage /</text><text x="374" y="250" class="n-title" font-size="14.5">Enrich</text>
+        <text x="374" y="272" class="n-sub" font-size="11">dedup · correlate</text><text x="374" y="288" class="n-sub" font-size="11">threat-intel</text><text x="374" y="304" class="n-sub" font-size="11">kill false-pos</text></g>
+
+      <g><rect x="530" y="200" width="150" height="112" rx="9" fill="var(--panel-2)" stroke="var(--exploit)" stroke-width="1.4"/><rect x="530" y="200" width="150" height="5" rx="2" fill="var(--exploit)"/>
+        <text x="544" y="232" class="n-title" font-size="14.5">Investigate</text><text x="544" y="250" class="n-title" font-size="14.5">/ Hunt</text>
+        <text x="544" y="272" class="n-sub" font-size="11">hypothesis hunt</text><text x="544" y="288" class="n-sub" font-size="11">cross-signal</text><text x="544" y="304" class="n-sub" font-size="11">incident story</text></g>
+
+      <g><rect x="700" y="200" width="150" height="112" rx="9" fill="var(--panel-2)" stroke="var(--report)" stroke-width="1.6"/><rect x="700" y="200" width="150" height="5" rx="2" fill="var(--report)"/>
+        <text x="714" y="232" class="n-title" font-size="14.5">Respond /</text><text x="714" y="250" class="n-title" font-size="14.5">Contain</text>
+        <text x="714" y="272" class="n-sub" font-size="11">isolate · revoke</text><text x="714" y="288" class="n-sub" font-size="11">block · lock</text><text x="714" y="304" class="n-sub" font-size="11">reversible ✦</text></g>
+
+      <g><rect x="870" y="200" width="150" height="112" rx="9" fill="var(--panel-2)" stroke="var(--post)" stroke-width="1.4"/><rect x="870" y="200" width="150" height="5" rx="2" fill="var(--post)"/>
+        <text x="884" y="232" class="n-title" font-size="14.5">Recover /</text><text x="884" y="250" class="n-title" font-size="14.5">Learn</text>
+        <text x="884" y="272" class="n-sub" font-size="11">restore</text><text x="884" y="288" class="n-sub" font-size="11">detection-as-code</text><text x="884" y="304" class="n-sub" font-size="11">baseline update</text></g>
+
+      <g stroke="var(--line)" stroke-width="1.2" stroke-dasharray="3 4" fill="none">
+        <path d="M95,312 L95,392"/><path d="M265,312 L265,392"/><path d="M435,312 L435,392"/><path d="M605,312 L605,392"/><path d="M775,312 L775,392"/><path d="M945,312 L945,392"/>
+      </g>
+
+      <rect x="20" y="396" width="1000" height="92" rx="10" fill="var(--panel)" stroke="var(--line-strong)" stroke-width="1.4"/>
+      <text x="40" y="430" class="n-title" font-size="17">Shared Entity Graph · Incident Timeline</text>
+      <text x="40" y="456" class="n-sub" font-size="12.5">assets · identities · behavior baselines · incidents — one memory for every unit</text>
+      <text x="40" y="476" class="n-sub" font-size="12.5">read/write by all agents · cross-signal correlation · risk-based prioritization</text>
+    </svg>
+    <div class="figcap mono"><b>FIG.1</b> — solid lines: dispatch from the orchestrator. Dashed: read/write of the entity graph. <b>✦</b> = action behind the policy gate (see 06).</div>
+  </div>
+
+  <div class="roles">
+    <div class="role" style="border-left-color:var(--report)"><span class="tag mono">BRAIN</span><h4>Defense Orchestrator</h4><p>Prioritizes by business risk, holds the autonomy policy — what agents do on their own vs. what they escalate.</p></div>
+    <div class="role" style="border-left-color:var(--recon)"><span class="tag mono">INGEST</span><h4>Sensor / Ingest</h4><p>Normalizes signal from EDR, identity, cloud, email, network and SIEM into one schema.</p></div>
+    <div class="role" style="border-left-color:var(--enum)"><span class="tag mono">DETECT</span><h4>Detection</h4><p>Behavioral analytics and anomaly detection mapped to MITRE ATT&CK — not signatures.</p></div>
+    <div class="role" style="border-left-color:var(--vuln)"><span class="tag mono">TRIAGE</span><h4>Triage / Enrich</h4><p>Dedup, correlate into incidents, enrich with threat intel, kill false-positives. Where the noise dies.</p></div>
+    <div class="role" style="border-left-color:var(--exploit)"><span class="tag mono">HUNT</span><h4>Investigate / Hunt</h4><p>Hypothesis-driven hunting across identity, endpoint, email and cloud — assembles the incident story.</p></div>
+    <div class="role" style="border-left-color:var(--report)"><span class="tag mono">CONTAIN</span><h4>Respond / Contain</h4><p>Isolate, revoke, block, lock — reversible, blast-radius-bounded actions. Irreversible steps gated.</p></div>
+  </div>
+</div></section>
+
+<!-- ============ 2 · LIFECYCLE ============ -->
+<section id="lifecycle"><div class="wrap reveal">
+  <div class="snum mono">02 · DEFENSE LIFECYCLE</div>
+  <h2>A real-time pipeline with a learning loop</h2>
+  <p class="section-lede">Signal flows through the lifecycle at machine speed; what the system learns from each incident feeds back into detection as code, so the same attack is caught faster next time. Containment is the one stage gated for irreversible or business-critical actions.</p>
+
+  <div class="fig">
+    <svg viewBox="0 0 1040 380" role="img" aria-label="Defense lifecycle diagram">
+      <defs>
+        <marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="var(--line-strong)"/></marker>
+        <marker id="ar2l" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="var(--post)"/></marker>
+      </defs>
+      <g><rect x="20" y="150" width="150" height="92" rx="9" fill="var(--panel)" stroke="var(--recon)" stroke-width="1.5"/><text x="34" y="178" class="n-tag" font-size="11" fill="var(--recon)">01</text><text x="34" y="202" class="n-title" font-size="15">Ingest</text><text x="34" y="226" class="n-sub" font-size="10.5">Normalize signal</text></g>
+      <g><rect x="190" y="150" width="150" height="92" rx="9" fill="var(--panel)" stroke="var(--enum)" stroke-width="1.5"/><text x="204" y="178" class="n-tag" font-size="11" fill="var(--enum)">02</text><text x="204" y="202" class="n-title" font-size="15">Detect</text><text x="204" y="226" class="n-sub" font-size="10.5">Behavioral · ATT&amp;CK</text></g>
+      <g><rect x="360" y="150" width="150" height="92" rx="9" fill="var(--panel)" stroke="var(--vuln)" stroke-width="1.5"/><text x="374" y="178" class="n-tag" font-size="11" fill="var(--vuln)">03</text><text x="374" y="202" class="n-title" font-size="15">Triage</text><text x="374" y="226" class="n-sub" font-size="10.5">Enrich · kill FP</text></g>
+      <g><rect x="530" y="150" width="150" height="92" rx="9" fill="var(--panel)" stroke="var(--exploit)" stroke-width="1.5"/><text x="544" y="178" class="n-tag" font-size="11" fill="var(--exploit)">04</text><text x="544" y="202" class="n-title" font-size="15">Investigate</text><text x="544" y="226" class="n-sub" font-size="10.5">Hunt · correlate</text></g>
+      <g><rect x="700" y="150" width="150" height="92" rx="9" fill="var(--panel)" stroke="var(--report)" stroke-width="2"/><text x="714" y="178" class="n-tag" font-size="11" fill="var(--report)">05 ✦</text><text x="714" y="202" class="n-title" font-size="15">Contain</text><text x="714" y="226" class="n-sub" font-size="10.5">Reversible</text></g>
+      <g><rect x="870" y="150" width="150" height="92" rx="9" fill="var(--panel)" stroke="var(--post)" stroke-width="1.5"/><text x="884" y="178" class="n-tag" font-size="11" fill="var(--post)">06</text><text x="884" y="202" class="n-title" font-size="15">Learn</text><text x="884" y="226" class="n-sub" font-size="10.5">Detection-as-code</text></g>
+
+      <g stroke="var(--line-strong)" stroke-width="1.6" marker-end="url(#ar2)">
+        <line x1="170" y1="196" x2="188" y2="196"/><line x1="340" y1="196" x2="358" y2="196"/><line x1="510" y1="196" x2="528" y2="196"/><line x1="680" y1="196" x2="698" y2="196"/><line x1="850" y1="196" x2="868" y2="196"/>
+      </g>
+
+      <!-- learning loop 06 -> 02 -->
+      <path d="M945,150 C945,70 265,70 265,148" fill="none" stroke="var(--post)" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#ar2l)"/>
+      <text x="600" y="58" class="lab" font-size="12" fill="var(--post)" text-anchor="middle">learning loop → better detection (detection-as-code)</text>
+
+      <text x="775" y="270" class="lab" font-size="11" fill="var(--crit)" text-anchor="middle">✦ human-gate on irreversible</text>
+      <text x="120" y="300" class="lab" font-size="11.5" text-anchor="middle">↻ real-time · machine-speed</text>
+    </svg>
+    <div class="figcap mono"><b>FIG.2</b> — phases color-coded (legend from 01). Containment is reversible by default; irreversible or business-critical actions pass a human-gate. Learning closes the loop.</div>
+  </div>
+</div></section>
+
+<!-- ============ 3 · PURPLE TEAM ============ -->
+<section id="purple"><div class="wrap reveal">
+  <div class="snum mono">03 · PURPLE-TEAM LOOP</div>
+  <h2>Red and Blue on one stream — defense that co-evolves with the attack</h2>
+  <p class="section-lede">This is the part no pure-SOC vendor can offer: the validation farm (SECVAL) and the defender share one event stream and one knowledge graph. Proven attack-paths become new detections; the steps the defender misses become coverage gaps that drive the next red-team campaign.</p>
+
+  <div class="fig">
+    <svg viewBox="0 0 1040 480" role="img" aria-label="Purple-team loop diagram">
+      <defs>
+        <marker id="ar3a" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="var(--exploit)"/></marker>
+        <marker id="ar3b" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="var(--recon)"/></marker>
+      </defs>
+      <text x="520" y="42" class="n-title" font-size="16" text-anchor="middle" fill="var(--report)">CONTINUOUS PURPLE-TEAM LOOP</text>
+
+      <!-- RED -->
+      <rect x="40" y="120" width="280" height="240" rx="13" fill="var(--panel)" stroke="var(--exploit)" stroke-width="1.8"/>
+      <text x="64" y="158" class="n-title" font-size="18" fill="var(--exploit)">RED · SECVAL</text>
+      <text x="64" y="182" class="n-sub" font-size="12">autonomous validation</text>
+      <rect x="64" y="200" width="232" height="30" rx="7" fill="rgba(242,169,59,.10)" stroke="var(--exploit)"/><text x="80" y="220" class="n-sub" font-size="11" fill="var(--exploit)">recon → exploit → validate</text>
+      <text x="64" y="262" class="n-sub" font-size="12">→ proven attack-paths</text>
+      <text x="64" y="284" class="n-sub" font-size="12">→ exploitability evidence</text>
+      <text x="64" y="320" class="n-sub" font-size="11.5">finds what gets in</text>
+
+      <!-- CENTER -->
+      <rect x="430" y="100" width="180" height="280" rx="13" fill="var(--panel-2)" stroke="var(--report)" stroke-width="2"/>
+      <text x="520" y="200" class="n-title" font-size="15" text-anchor="middle" fill="var(--report)">SHARED</text>
+      <text x="520" y="222" class="n-title" font-size="15" text-anchor="middle" fill="var(--report)">EVENT STREAM</text>
+      <text x="520" y="248" class="n-sub" font-size="11.5" text-anchor="middle">+ knowledge</text>
+      <text x="520" y="265" class="n-sub" font-size="11.5" text-anchor="middle">graph</text>
+      <text x="520" y="300" class="n-sub" font-size="11" text-anchor="middle">one source</text>
+      <text x="520" y="316" class="n-sub" font-size="11" text-anchor="middle">of truth</text>
+
+      <!-- BLUE -->
+      <rect x="720" y="120" width="280" height="240" rx="13" fill="var(--panel)" stroke="var(--recon)" stroke-width="1.8"/>
+      <text x="744" y="158" class="n-title" font-size="18" fill="var(--recon)">BLUE · Protector</text>
+      <text x="744" y="182" class="n-sub" font-size="12">autonomous defense</text>
+      <rect x="744" y="200" width="232" height="30" rx="7" fill="rgba(57,214,197,.10)" stroke="var(--recon)"/><text x="760" y="220" class="n-sub" font-size="11" fill="var(--recon)">detect → investigate → contain</text>
+      <text x="744" y="262" class="n-sub" font-size="12">→ new detections</text>
+      <text x="744" y="284" class="n-sub" font-size="12">→ coverage gaps</text>
+      <text x="744" y="320" class="n-sub" font-size="11.5">catches what got in</text>
+
+      <!-- top flow: red -> center -> blue -->
+      <line x1="320" y1="170" x2="428" y2="170" stroke="var(--exploit)" stroke-width="1.8" marker-end="url(#ar3a)"/>
+      <line x1="612" y1="170" x2="718" y2="170" stroke="var(--recon)" stroke-width="1.8" marker-end="url(#ar3b)"/>
+      <text x="520" y="150" class="lab" font-size="11" text-anchor="middle" fill="var(--report)">attack-paths → new detections</text>
+
+      <!-- bottom flow: blue -> center -> red -->
+      <line x1="718" y1="320" x2="612" y2="320" stroke="var(--recon)" stroke-width="1.8" marker-end="url(#ar3b)"/>
+      <line x1="428" y1="320" x2="322" y2="320" stroke="var(--exploit)" stroke-width="1.8" marker-end="url(#ar3a)"/>
+      <text x="520" y="352" class="lab" font-size="11" text-anchor="middle" fill="var(--report)">coverage gaps → next campaign</text>
+
+      <text x="520" y="420" class="lab" font-size="12" text-anchor="middle">↻ the attacker’s behaviour you train against is your own red farm</text>
+    </svg>
+    <div class="figcap mono"><b>FIG.3</b> — warm = attack (SECVAL), cool = defense (Protector), green = the shared substrate. Both farms run on the same control plane and event-sourcing, so red and blue improve each other continuously.</div>
+  </div>
+</div></section>
+
+<!-- ============ 4 · ORCHESTRATION ============ -->
+<section id="infra"><div class="wrap reveal">
+  <div class="snum mono">04 · ORCHESTRATION & INFRA</div>
+  <h2>Control plane: LangGraph · Nomad · FastAPI</h2>
+  <p class="section-lede">The same control plane as the validation farm. Ingestion workers pull from your existing tooling; detection workers reason over the normalized signal; response actuators can act — but every action passes the policy gate first, and agents run as scoped microservices, never as an “everything agent”.</p>
+
+  <div class="fig">
+    <svg viewBox="0 0 1040 600" role="img" aria-label="Defender control plane diagram">
+      <defs>
+        <marker id="ar4" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="var(--line-strong)"/></marker>
+        <marker id="ar4c" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="var(--report)"/></marker>
+      </defs>
+      <rect x="20" y="24" width="1000" height="170" rx="12" fill="none" stroke="var(--line-strong)" stroke-dasharray="6 5"/>
+      <text x="36" y="48" class="n-tag" font-size="12" fill="var(--report)">CONTROL PLANE</text>
+
+      <rect x="40" y="64" width="220" height="110" rx="9" fill="var(--panel)" stroke="var(--line)"/><text x="56" y="92" class="n-title" font-size="15">FastAPI</text>
+      <text x="56" y="114" class="n-sub" font-size="11.5">incident intake</text><text x="56" y="132" class="n-sub" font-size="11.5">dispatch</text><text x="56" y="150" class="n-sub" font-size="11.5">event-stream API</text><text x="56" y="168" class="n-sub" font-size="11.5">usage billing</text>
+
+      <rect x="290" y="64" width="220" height="110" rx="9" fill="var(--panel)" stroke="var(--line)"/><text x="306" y="92" class="n-title" font-size="15">LangGraph</text>
+      <text x="306" y="114" class="n-sub" font-size="11.5">agent flow graph</text><text x="306" y="132" class="n-sub" font-size="11.5">lifecycle</text><text x="306" y="150" class="n-sub" font-size="11.5">transitions</text><text x="306" y="168" class="n-sub" font-size="11.5">escalation logic</text>
+
+      <rect x="540" y="64" width="220" height="110" rx="9" fill="var(--panel)" stroke="var(--crit)" stroke-width="1.6"/><text x="556" y="92" class="n-title" font-size="15" fill="var(--crit)">Policy Gate</text>
+      <text x="556" y="114" class="n-sub" font-size="11.5">policy-as-code</text><text x="556" y="132" class="n-sub" font-size="11.5">checked before</text><text x="556" y="150" class="n-sub" font-size="11.5">every action</text><text x="556" y="168" class="n-sub" font-size="11.5">reversibility check</text>
+
+      <rect x="790" y="64" width="210" height="110" rx="9" fill="var(--panel)" stroke="var(--line)"/><text x="806" y="92" class="n-title" font-size="15">Nomad</text>
+      <text x="806" y="114" class="n-sub" font-size="11.5">scheduler</text><text x="806" y="132" class="n-sub" font-size="11.5">job dispatch</text><text x="806" y="150" class="n-sub" font-size="11.5">scoped identities</text>
+
+      <line x1="520" y1="194" x2="520" y2="244" stroke="var(--line-strong)" stroke-width="1.6" marker-end="url(#ar4)"/>
+      <text x="534" y="224" class="lab" font-size="12">dispatch · scoped workers</text>
+
+      <rect x="20" y="250" width="1000" height="200" rx="12" fill="none" stroke="var(--line-strong)" stroke-dasharray="6 5"/>
+      <text x="36" y="274" class="n-tag" font-size="12" fill="var(--report)">SCOPED WORKER POOL · agents as microservices</text>
+
+      <g><rect x="40" y="290" width="300" height="142" rx="9" fill="var(--panel-2)" stroke="var(--line)"/><text x="56" y="316" class="n-title" font-size="14">Ingestion workers</text>
+        <rect x="56" y="330" width="80" height="26" rx="6" fill="rgba(57,214,197,.12)" stroke="var(--recon)"/><text x="96" y="347" class="lab" font-size="10.5" text-anchor="middle" fill="var(--recon)">EDR</text>
+        <rect x="144" y="330" width="80" height="26" rx="6" fill="rgba(57,214,197,.12)" stroke="var(--recon)"/><text x="184" y="347" class="lab" font-size="10.5" text-anchor="middle" fill="var(--recon)">IdP</text>
+        <rect x="232" y="330" width="92" height="26" rx="6" fill="rgba(57,214,197,.12)" stroke="var(--recon)"/><text x="278" y="347" class="lab" font-size="10.5" text-anchor="middle" fill="var(--recon)">cloud</text>
+        <rect x="56" y="364" width="80" height="26" rx="6" fill="rgba(57,214,197,.12)" stroke="var(--recon)"/><text x="96" y="381" class="lab" font-size="10.5" text-anchor="middle" fill="var(--recon)">email</text>
+        <rect x="144" y="364" width="80" height="26" rx="6" fill="rgba(57,214,197,.12)" stroke="var(--recon)"/><text x="184" y="381" class="lab" font-size="10.5" text-anchor="middle" fill="var(--recon)">network</text>
+        <rect x="232" y="364" width="92" height="26" rx="6" fill="rgba(57,214,197,.12)" stroke="var(--recon)"/><text x="278" y="381" class="lab" font-size="10.5" text-anchor="middle" fill="var(--recon)">SIEM</text>
+        <text x="56" y="414" class="n-sub" font-size="10.5">read-only connectors</text></g>
+
+      <g><rect x="356" y="290" width="300" height="142" rx="9" fill="var(--panel-2)" stroke="var(--line)"/><text x="372" y="316" class="n-title" font-size="14">Detection workers</text>
+        <rect x="372" y="330" width="130" height="26" rx="6" fill="rgba(76,141,255,.12)" stroke="var(--enum)"/><text x="437" y="347" class="lab" font-size="10.5" text-anchor="middle" fill="var(--enum)">behavioral models</text>
+        <rect x="510" y="330" width="128" height="26" rx="6" fill="rgba(155,123,255,.12)" stroke="var(--vuln)"/><text x="574" y="347" class="lab" font-size="10.5" text-anchor="middle" fill="var(--vuln)">anomaly</text>
+        <rect x="372" y="364" width="130" height="26" rx="6" fill="rgba(155,123,255,.12)" stroke="var(--vuln)"/><text x="437" y="381" class="lab" font-size="10.5" text-anchor="middle" fill="var(--vuln)">ATT&amp;CK map</text>
+        <rect x="510" y="364" width="128" height="26" rx="6" fill="rgba(76,141,255,.12)" stroke="var(--enum)"/><text x="574" y="381" class="lab" font-size="10.5" text-anchor="middle" fill="var(--enum)">correlation</text>
+        <text x="372" y="414" class="n-sub" font-size="10.5">reason over normalized signal</text></g>
+
+      <g><rect x="672" y="290" width="328" height="142" rx="9" fill="var(--panel-2)" stroke="var(--report)"/><text x="688" y="316" class="n-title" font-size="14" fill="var(--report)">Response actuators</text>
+        <rect x="688" y="330" width="140" height="26" rx="6" fill="rgba(70,209,127,.12)" stroke="var(--report)"/><text x="758" y="347" class="lab" font-size="10.5" text-anchor="middle" fill="var(--report)">isolate host</text>
+        <rect x="836" y="330" width="148" height="26" rx="6" fill="rgba(70,209,127,.12)" stroke="var(--report)"/><text x="910" y="347" class="lab" font-size="10.5" text-anchor="middle" fill="var(--report)">revoke session</text>
+        <rect x="688" y="364" width="140" height="26" rx="6" fill="rgba(70,209,127,.12)" stroke="var(--report)"/><text x="758" y="381" class="lab" font-size="10.5" text-anchor="middle" fill="var(--report)">block conn</text>
+        <rect x="836" y="364" width="148" height="26" rx="6" fill="rgba(70,209,127,.12)" stroke="var(--report)"/><text x="910" y="381" class="lab" font-size="10.5" text-anchor="middle" fill="var(--report)">lock account</text>
+        <text x="688" y="414" class="n-sub" font-size="10.5" fill="var(--crit)">✦ actions only via Policy Gate</text></g>
+
+      <rect x="20" y="486" width="1000" height="64" rx="10" fill="var(--panel)" stroke="var(--report)" stroke-width="1.4"/>
+      <text x="40" y="514" class="n-title" font-size="15" fill="var(--report)">Event Bus →</text>
+      <text x="170" y="514" class="n-sub" font-size="12.5">every detection, decision and action emits an event</text>
+      <text x="170" y="534" class="n-sub" font-size="12.5">feeds the audit trail, billing and the purple-team loop (see 05, 03)</text>
+
+      <g stroke="var(--report)" stroke-width="1.2" stroke-dasharray="3 4" marker-end="url(#ar4c)" opacity=".8">
+        <line x1="190" y1="432" x2="190" y2="484"/><line x1="506" y1="432" x2="506" y2="484"/><line x1="836" y1="432" x2="836" y2="484"/>
+      </g>
+    </svg>
+    <div class="figcap mono"><b>FIG.4</b> — ingestion is read-only; only response actuators can change state, and only through the <b style="color:var(--crit)">Policy Gate</b>. Each worker is a scoped microservice with its own identity.</div>
+  </div>
+</div></section>
+
+<!-- ============ 5 · EVENT TRACKING ============ -->
+<section id="events"><div class="wrap reveal">
+  <div class="snum mono">05 · EVENT TRACKING & AUDIT</div>
+  <h2>Every autonomous decision is traceable by design</h2>
+  <p class="section-lede">Same event-sourcing core as the validation farm. For a defender this is not cosmetic: auditability of autonomous decisions is a hard compliance requirement in regulated industries, and the difference between a trusted teammate and a black box.</p>
+
+  <div class="fig">
+    <svg viewBox="0 0 1040 480" role="img" aria-label="Event-sourcing diagram">
+      <defs><marker id="ar5" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="var(--line-strong)"/></marker></defs>
+      <g><rect x="60" y="24" width="180" height="56" rx="8" fill="var(--panel)" stroke="var(--enum)"/><text x="150" y="50" class="n-sub" font-size="12.5" text-anchor="middle" fill="var(--ink)">Detection event</text><text x="150" y="68" class="n-sub" font-size="10.5" text-anchor="middle">signal + score</text></g>
+      <g><rect x="290" y="24" width="180" height="56" rx="8" fill="var(--panel)" stroke="var(--recon)"/><text x="380" y="50" class="n-sub" font-size="12.5" text-anchor="middle" fill="var(--ink)">Agent decision</text><text x="380" y="68" class="n-sub" font-size="10.5" text-anchor="middle">reasoning step</text></g>
+      <g><rect x="520" y="24" width="180" height="56" rx="8" fill="var(--panel)" stroke="var(--report)"/><text x="610" y="50" class="n-sub" font-size="12.5" text-anchor="middle" fill="var(--ink)">Action taken</text><text x="610" y="68" class="n-sub" font-size="10.5" text-anchor="middle">contain · revert</text></g>
+      <g><rect x="750" y="24" width="190" height="56" rx="8" fill="var(--panel)" stroke="var(--vuln)"/><text x="845" y="50" class="n-sub" font-size="12.5" text-anchor="middle" fill="var(--ink)">Verdict / outcome</text><text x="845" y="68" class="n-sub" font-size="10.5" text-anchor="middle">resolved state</text></g>
+
+      <g stroke="var(--line-strong)" stroke-width="1.4" marker-end="url(#ar5)"><line x1="150" y1="80" x2="150" y2="186"/><line x1="380" y1="80" x2="380" y2="186"/><line x1="610" y1="80" x2="610" y2="186"/><line x1="845" y1="80" x2="845" y2="186"/></g>
+
+      <rect x="40" y="188" width="960" height="72" rx="10" fill="var(--panel)" stroke="var(--report)" stroke-width="1.8"/>
+      <text x="60" y="216" class="n-title" font-size="17" fill="var(--report)">EVENT STREAM</text>
+      <text x="60" y="240" class="n-sub" font-size="12">append-only · immutable · ordered · per-incident partition</text>
+      <g fill="var(--report)"><circle cx="430" cy="224" r="3.5"/><circle cx="470" cy="224" r="3.5"/><circle cx="510" cy="224" r="3.5"/><circle cx="550" cy="224" r="3.5"/><circle cx="590" cy="224" r="3.5"/><circle cx="630" cy="224" r="3.5"/><circle cx="670" cy="224" r="3.5"/><circle cx="710" cy="224" r="3.5"/><circle cx="750" cy="224" r="3.5"/><circle cx="790" cy="224" r="3.5"/><circle cx="830" cy="224" r="3.5"/><circle cx="870" cy="224" r="3.5"/></g>
+
+      <g stroke="var(--line-strong)" stroke-width="1.4" marker-end="url(#ar5)"><line x1="135" y1="260" x2="135" y2="318"/><line x1="325" y1="260" x2="325" y2="318"/><line x1="520" y1="260" x2="520" y2="318"/><line x1="710" y1="260" x2="710" y2="318"/><line x1="900" y1="260" x2="900" y2="318"/></g>
+
+      <g><rect x="40" y="322" width="190" height="120" rx="9" fill="var(--panel-2)" stroke="var(--line)"/><text x="56" y="348" class="n-title" font-size="13.5">Black-box Recorder</text><text x="56" y="370" class="n-sub" font-size="11">AI decision tree</text><text x="56" y="388" class="n-sub" font-size="11">why it acted</text><text x="56" y="404" class="n-sub" font-size="11">what it saw →</text><text x="56" y="420" class="n-sub" font-size="11">what it did</text></g>
+      <g><rect x="240" y="322" width="180" height="120" rx="9" fill="var(--panel-2)" stroke="var(--line)"/><text x="256" y="348" class="n-title" font-size="13.5">Chain of Custody</text><text x="256" y="370" class="n-sub" font-size="11">evidence</text><text x="256" y="388" class="n-sub" font-size="11">provenance</text><text x="256" y="406" class="n-sub" font-size="11">forensic-ready</text><text x="256" y="424" class="n-sub" font-size="11">tamper-evident</text></g>
+      <g><rect x="430" y="322" width="180" height="120" rx="9" fill="var(--panel-2)" stroke="var(--line)"/><text x="446" y="348" class="n-title" font-size="13.5">Timeline + Replay</text><text x="446" y="370" class="n-sub" font-size="11">incident timeline</text><text x="446" y="388" class="n-sub" font-size="11">replay</text><text x="446" y="406" class="n-sub" font-size="11">post-incident</text><text x="446" y="424" class="n-sub" font-size="11">review</text></g>
+      <g><rect x="620" y="322" width="180" height="120" rx="9" fill="var(--panel-2)" stroke="var(--line)"/><text x="636" y="348" class="n-title" font-size="13.5">Billing</text><text x="636" y="370" class="n-sub" font-size="11">per-second</text><text x="636" y="388" class="n-sub" font-size="11">from event</text><text x="636" y="406" class="n-sub" font-size="11">stream</text><text x="636" y="424" class="n-sub" font-size="11">usage-based</text></g>
+      <g><rect x="810" y="322" width="190" height="120" rx="9" fill="var(--panel-2)" stroke="var(--report)"/><text x="826" y="348" class="n-title" font-size="13.5" fill="var(--report)">Audit Log</text><text x="826" y="370" class="n-sub" font-size="11">SOC2 / PCI</text><text x="826" y="388" class="n-sub" font-size="11">MITRE ATLAS</text><text x="826" y="406" class="n-sub" font-size="11">OpenTelemetry</text><text x="826" y="424" class="n-sub" font-size="11">compliance</text></g>
+    </svg>
+    <div class="figcap mono"><b>FIG.5</b> — one source of truth. The decision tree behind every autonomous containment is reconstructable — which is what lets compliance teams trust the autonomy.</div>
+  </div>
+</div></section>
+
+<!-- ============ 6 · GUARDRAILS ============ -->
+<section id="guardrails"><div class="wrap reveal">
+  <div class="snum mono">06 · GUARDRAILS</div>
+  <h2>The policy gate sits between intent and action — and the defender hardens itself</h2>
+  <p class="section-lede">Because the defender acts on production, its guardrails are stricter than the red team’s. No agent can change state without passing the gate, every action must be reversible or escalated, and the defender treats itself as a high-value target.</p>
+
+  <div class="fig">
+    <svg viewBox="0 0 1040 460" role="img" aria-label="Defender guardrails diagram">
+      <defs>
+        <marker id="ar6" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="var(--report)"/></marker>
+        <marker id="ar6x" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="var(--crit)"/></marker>
+      </defs>
+      <rect x="30" y="150" width="190" height="150" rx="11" fill="var(--panel)" stroke="var(--line-strong)"/>
+      <text x="125" y="212" class="n-title" font-size="16" text-anchor="middle">Agent Farm</text>
+      <text x="125" y="236" class="n-sub" font-size="12" text-anchor="middle">proposed</text>
+      <text x="125" y="254" class="n-sub" font-size="12" text-anchor="middle">action</text>
+      <line x1="220" y1="225" x2="362" y2="225" stroke="var(--line-strong)" stroke-width="1.6" marker-end="url(#ar6)"/>
+
+      <rect x="370" y="40" width="300" height="380" rx="14" fill="var(--panel-2)" stroke="var(--crit)" stroke-width="2"/>
+      <text x="520" y="72" class="n-title" font-size="17" text-anchor="middle" fill="var(--crit)">POLICY &amp; SAFETY GATE</text>
+      <text x="520" y="94" class="n-sub" font-size="11.5" text-anchor="middle">policy-as-code · checked on every action</text>
+
+      <g><rect x="392" y="112" width="256" height="44" rx="8" fill="var(--panel)" stroke="var(--line)"/><text x="406" y="130" class="n-sub" font-size="12" fill="var(--ink)">1 · Scoped identity</text><text x="406" y="147" class="n-sub" font-size="10.5">agent ≠ user · least privilege</text></g>
+      <g><rect x="392" y="164" width="256" height="44" rx="8" fill="var(--panel)" stroke="var(--line)"/><text x="406" y="182" class="n-sub" font-size="12" fill="var(--ink)">2 · Reversibility</text><text x="406" y="199" class="n-sub" font-size="10.5">action must be revertible</text></g>
+      <g><rect x="392" y="216" width="256" height="44" rx="8" fill="var(--panel)" stroke="var(--line)"/><text x="406" y="234" class="n-sub" font-size="12" fill="var(--ink)">3 · Blast-radius</text><text x="406" y="251" class="n-sub" font-size="10.5">bounded containment scope</text></g>
+      <g><rect x="392" y="268" width="256" height="44" rx="8" fill="var(--panel)" stroke="var(--line)"/><text x="406" y="286" class="n-sub" font-size="12" fill="var(--ink)">4 · Human-in-the-loop</text><text x="406" y="303" class="n-sub" font-size="10.5">irreversible / critical → approval</text></g>
+      <g><rect x="392" y="320" width="256" height="44" rx="8" fill="var(--panel)" stroke="var(--crit)"/><text x="406" y="338" class="n-sub" font-size="12" fill="var(--crit)">5 · Self-hardening</text><text x="406" y="355" class="n-sub" font-size="10.5">anti prompt-injection · runtime monitor</text></g>
+      <text x="520" y="402" class="n-sub" font-size="11" text-anchor="middle">every gate event → Audit Log (05)</text>
+
+      <line x1="670" y1="180" x2="812" y2="180" stroke="var(--report)" stroke-width="1.8" marker-end="url(#ar6)"/>
+      <text x="742" y="170" class="lab" font-size="11.5" fill="var(--report)" text-anchor="middle">PASS</text>
+      <rect x="820" y="142" width="190" height="80" rx="11" fill="var(--panel)" stroke="var(--report)"/>
+      <text x="915" y="178" class="n-title" font-size="15" text-anchor="middle" fill="var(--report)">Protected estate</text>
+      <text x="915" y="200" class="n-sub" font-size="11" text-anchor="middle">authorized action</text>
+
+      <line x1="670" y1="290" x2="812" y2="290" stroke="var(--crit)" stroke-width="1.8" stroke-dasharray="6 5" marker-end="url(#ar6x)"/>
+      <text x="742" y="280" class="lab" font-size="11.5" fill="var(--crit)" text-anchor="middle">HOLD</text>
+      <rect x="820" y="252" width="190" height="80" rx="11" fill="none" stroke="var(--crit)" stroke-dasharray="5 4"/>
+      <text x="915" y="288" class="n-title" font-size="15" text-anchor="middle" fill="var(--crit)">Human review</text>
+      <text x="915" y="310" class="n-sub" font-size="11" text-anchor="middle">irreversible / out-of-policy</text>
+    </svg>
+    <div class="figcap mono"><b>FIG.6</b> — no state change bypasses the gate. Reversible, bounded actions run autonomously; irreversible or business-critical ones are held for a human.</div>
+  </div>
+
+  <div class="callout">
+    <h3><span class="badge mono">NON-NEGOTIABLE</span> The defender is itself a high-value target</h3>
+    <p>An always-on agent with privileged access is the perfect “autonomous insider”. Attackers will try to hijack it via prompt injection or poisoned input rather than attack humans directly — so the defender is threat-modelled (MITRE ATLAS, OWASP GenAI), runs under least-privilege scoped identities, and monitors its own runtime behaviour.</p>
+    <p>The design principle throughout: agents accelerate human judgement on reversible, bounded work — they never take irreversible action without accountability.</p>
+  </div>
+</div></section>
+
+<!-- ============ 7 · DEPLOYMENT ============ -->
+<section id="delivery"><div class="wrap reveal">
+  <div class="snum mono">07 · DEPLOYMENT & OUTCOMES</div>
+  <h2>Earn autonomy in phases — measured on time, not output</h2>
+  <p class="section-lede">Trust in autonomy is built, not assumed. The rollout starts where agents only recommend, expands to reversible auto-containment under a human-gate, and broadens as the track record proves out — matching how mature SOCs adopt agentic defence.</p>
+
+  <div class="cols" style="margin-bottom:34px">
+    <div class="roles" style="grid-template-columns:1fr">
+      <div class="role" style="border-left-color:var(--recon)"><span class="tag mono">PHASE 1</span><h4>Recommend, don’t act</h4><p>Ingest + Detect + Triage + Investigate. Agents cut alert noise and assemble evidence; humans still decide and act. Immediate value, near-zero operational risk.</p></div>
+      <div class="role" style="border-left-color:var(--enum)"><span class="tag mono">PHASE 2</span><h4>Reversible auto-containment</h4><p>Agents act autonomously on reversible, bounded responses; irreversible or business-critical actions pass the human-gate.</p></div>
+      <div class="role" style="border-left-color:var(--report)"><span class="tag mono">PHASE 3</span><h4>Broader autonomy under policy</h4><p>Scope of autonomous action widens as the audit trail and metrics prove the track record in your environment.</p></div>
+    </div>
+    <div>
+      <h3 style="font-size:18px;margin-bottom:16px">Metrics that define success</h3>
+      <div class="metrics">
+        <div class="metric"><div class="k">MTTD</div><div class="v">mean time to detect</div></div>
+        <div class="metric"><div class="k">MTTR</div><div class="v">mean time to respond / contain</div></div>
+        <div class="metric"><div class="k">False-positive<br>reduction</div><div class="v">noise removed from the queue</div></div>
+        <div class="metric"><div class="k">Dwell time</div><div class="v">attacker time inside before eviction</div></div>
+        <div class="metric"><div class="k">% auto-resolved</div><div class="v">handled without human touch</div></div>
+        <div class="metric"><div class="k">Time-to-contain</div><div class="v">detection → contained</div></div>
+      </div>
+      <p style="color:var(--muted);margin-top:18px;font-size:14.5px">The goal is not more output — it is whether real threats are caught and contained faster, with a defensible record of every action.</p>
+    </div>
+  </div>
+
+  <div class="callout" style="border-color:var(--report);background:linear-gradient(180deg,rgba(70,209,127,.06),rgba(70,209,127,.02))">
+    <h3 style="color:var(--ink)"><span class="badge" style="color:var(--report);border-color:var(--report)">COMBINED OFFERING</span> Red + Blue as one continuous purple-team</h3>
+    <p>Deployed alongside <b style="color:var(--ink)">SECVAL</b>, the defender becomes more than an autonomous SOC: validation proves what gets in, defence proves what gets caught, and the gap between them shrinks every cycle. One control plane, one event-sourced record, one governance model — and a measurable, auditable improvement in security posture over time.</p>
+  </div>
+</div></section>
+
+<!-- ============ 8 · RECURSIVE EVOLUTION ============ -->
+<section id="evolution"><div class="wrap reveal">
+  <div class="snum mono">08 · RECURSIVE EVOLUTION · R&amp;D</div>
+  <h2>The defender improves itself, generation over generation</h2>
+  <p class="section-lede">The sub-agents are not hand-tuned forever. The idea is to run the whole defender through a self-improving loop — <a href="https://github.com/hexo-ai/sia" target="_blank" rel="noopener">SIA</a> (Self-Improving AI, open-source, Hebbar et al. 2026) — that rewrites and retrains it across generations, using the purple-team loop as the benchmark and our event-sourced logs as the feedback signal. Each generation gets measurably better at catching attacks — while the safety layer stays frozen.</p>
+
+  <div class="fig">
+    <svg viewBox="0 0 1040 470" role="img" aria-label="Recursive evolution loop diagram">
+      <defs>
+        <marker id="ar8" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="var(--line-strong)"/></marker>
+        <marker id="ar8v" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="var(--vuln)"/></marker>
+        <marker id="ar8c" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="var(--crit)"/></marker>
+      </defs>
+
+      <!-- Meta-Agent -->
+      <rect x="40" y="30" width="250" height="80" rx="9" fill="var(--panel)" stroke="var(--recon)" stroke-width="1.5"/>
+      <text x="58" y="60" class="n-title" font-size="15">Meta-Agent</text>
+      <text x="58" y="82" class="n-sub" font-size="11.5">reads task →</text>
+      <text x="58" y="99" class="n-sub" font-size="11.5">bootstraps Gen-0 defender</text>
+      <path d="M120,110 L150,174" fill="none" stroke="var(--recon)" stroke-width="1.4" marker-end="url(#ar8)"/>
+      <text x="138" y="150" class="lab" font-size="10.5" fill="var(--recon)">bootstrap</text>
+
+      <!-- return arc: Gen N+1 -->
+      <path d="M890,178 C890,120 150,120 150,176" fill="none" stroke="var(--vuln)" stroke-width="1.8" marker-end="url(#ar8v)"/>
+      <text x="520" y="110" class="n-title" font-size="13.5" fill="var(--vuln)" text-anchor="middle">Gen N+1 — improved, higher-scoring defender</text>
+
+      <!-- loop row -->
+      <g><rect x="40" y="178" width="220" height="110" rx="9" fill="var(--panel-2)" stroke="var(--report)" stroke-width="1.5"/>
+        <text x="56" y="202" class="n-tag" font-size="10.5" fill="var(--report)">TARGET AGENT</text>
+        <text x="56" y="226" class="n-title" font-size="14.5">Defender farm · Gen N</text>
+        <text x="56" y="250" class="n-sub" font-size="11">detect · triage · hunt</text>
+        <text x="56" y="266" class="n-sub" font-size="11">decide · contain</text>
+        <text x="56" y="282" class="n-sub" font-size="11">records every action →</text></g>
+
+      <g><rect x="300" y="178" width="220" height="110" rx="9" fill="var(--panel-2)" stroke="var(--exploit)" stroke-width="1.5"/>
+        <text x="316" y="202" class="n-tag" font-size="10.5" fill="var(--exploit)">BENCHMARK</text>
+        <text x="316" y="226" class="n-title" font-size="14.5">SECVAL paths</text>
+        <text x="316" y="246" class="n-title" font-size="14.5">+ benign</text>
+        <text x="316" y="268" class="n-sub" font-size="11">held-out eval set</text>
+        <text x="316" y="284" class="n-sub" font-size="11">(rotating, novel)</text></g>
+
+      <g><rect x="560" y="178" width="180" height="110" rx="9" fill="var(--panel-2)" stroke="var(--enum)" stroke-width="1.5"/>
+        <text x="576" y="202" class="n-tag" font-size="10.5" fill="var(--enum)">MEASURE</text>
+        <text x="576" y="226" class="n-title" font-size="14.5">Logs + Score</text>
+        <text x="576" y="250" class="n-sub" font-size="11">coverage · FP</text>
+        <text x="576" y="266" class="n-sub" font-size="11">MTTD · MTTR</text>
+        <text x="576" y="282" class="n-sub" font-size="11">(event stream)</text></g>
+
+      <g><rect x="780" y="178" width="220" height="110" rx="9" fill="var(--panel-2)" stroke="var(--vuln)" stroke-width="1.5"/>
+        <text x="796" y="202" class="n-tag" font-size="10.5" fill="var(--vuln)">IMPROVE</text>
+        <text x="796" y="226" class="n-title" font-size="14.5">Feedback Agent</text>
+        <text x="796" y="250" class="n-sub" font-size="11">finds missed detects</text>
+        <text x="796" y="266" class="n-sub" font-size="11">updates harness</text>
+        <text x="796" y="282" class="n-sub" font-size="11">+ weights</text></g>
+
+      <!-- forward arrows -->
+      <g stroke="var(--line-strong)" stroke-width="1.6" marker-end="url(#ar8)">
+        <line x1="260" y1="233" x2="298" y2="233"/><line x1="520" y1="233" x2="558" y2="233"/><line x1="740" y1="233" x2="778" y2="233"/>
+      </g>
+
+      <!-- frozen safety band -->
+      <rect x="40" y="372" width="960" height="68" rx="10" fill="rgba(255,92,108,.06)" stroke="var(--crit)" stroke-width="1.6"/>
+      <!-- padlock -->
+      <path d="M67,392 v-6 a7,7 0 0 1 14,0 v6" fill="none" stroke="var(--crit)" stroke-width="1.6"/>
+      <rect x="61" y="392" width="26" height="20" rx="3" fill="none" stroke="var(--crit)" stroke-width="1.6"/>
+      <text x="104" y="400" class="n-title" font-size="14" fill="var(--crit)">SAFETY LAYER · FROZEN</text>
+      <text x="104" y="422" class="n-sub" font-size="11.5">policy gate · human-in-the-loop · reversibility · blast-radius — out of scope for the loop, re-verified every generation</text>
+
+      <!-- cannot-modify connector -->
+      <line x1="520" y1="288" x2="520" y2="370" stroke="var(--crit)" stroke-width="1.4" stroke-dasharray="5 4" marker-end="url(#ar8c)"/>
+      <text x="534" y="332" class="lab" font-size="11" fill="var(--crit)">✕ evolution cannot modify</text>
+
+      <!-- score sparkline -->
+      <text x="900" y="312" class="lab" font-size="10.5" fill="var(--report)" text-anchor="middle">score ↑ / generation</text>
+      <line x1="836" y1="354" x2="990" y2="354" stroke="var(--line)" stroke-width="1"/>
+      <g fill="var(--report)" opacity=".85">
+        <rect x="844" y="340" width="24" height="14" rx="2"/>
+        <rect x="880" y="332" width="24" height="22" rx="2"/>
+        <rect x="916" y="324" width="24" height="30" rx="2"/>
+        <rect x="952" y="316" width="24" height="38" rx="2"/>
+      </g>
+    </svg>
+    <div class="figcap mono"><b>FIG.7</b> — SIA’s three roles mapped onto the defender. Warm = the attack benchmark (SECVAL), green = measured outcome, violet = the evolutionary machinery, <b style="color:var(--crit)">red = the frozen safety layer the loop may never touch</b>.</div>
+  </div>
+
+  <div class="roles" style="margin-bottom:30px">
+    <div class="role" style="border-left-color:var(--recon)"><span class="tag mono">META</span><h4>Meta-Agent</h4><p>Reads the brief (“defend this estate against these threat classes”) and bootstraps the initial defender — sub-agent topology, detection rules, model choice.</p></div>
+    <div class="role" style="border-left-color:var(--report)"><span class="tag mono">TARGET</span><h4>Defender farm</h4><p>Runs against the benchmark and records every action — which is exactly the event-sourced stream we already emit (see 05).</p></div>
+    <div class="role" style="border-left-color:var(--vuln)"><span class="tag mono">FEEDBACK</span><h4>Improvement Agent</h4><p>Reads the logs, finds missed detections and noisy rules, and updates the defender’s harness (rules, correlation, prompts, wiring) and weights (fine-tuned models).</p></div>
+  </div>
+
+  <div class="cols">
+    <ul class="clean">
+      <li><b>Benchmark = the purple-team loop.</b> SECVAL’s proven attack-paths become the held-out eval; benign traffic is mixed in (see 03).</li>
+      <li><b>Feedback = the event stream.</b> The black-box recorder we already emit (see 05) is precisely what the Improvement Agent reads.</li>
+      <li><b>Two levers.</b> Harness (rules · prompts · topology — fast, cheap) and weights (fine-tuned detection models — slower, deeper). SIA updates both.</li>
+      <li><b>Versioned by design.</b> SIA emits a target agent plus an improvement rationale per generation — which fits the audit ethos exactly.</li>
+    </ul>
+    <div class="callout" style="border-color:var(--enum);background:linear-gradient(180deg,rgba(76,141,255,.07),rgba(76,141,255,.02))">
+      <h3 style="color:var(--ink)"><span class="badge" style="color:var(--enum);border-color:var(--enum)">WHY IT MAY WORK</span> External validation, with a caveat</h3>
+      <p>On other benchmarks SIA reports performance climbing generation over generation: +56.6% on LawBench, −91.9% GPU-kernel runtime, +502% on single-cell RNA denoising over baseline.</p>
+      <p>Caveat we hold honestly: security is adversarial and non-stationary, so gains won’t transfer one-to-one — and the red team must keep producing novel paths so the defender generalizes instead of memorizing.</p>
+    </div>
+  </div>
+
+  <div class="callout" style="margin-top:24px">
+    <h3><span class="badge mono">NON-NEGOTIABLE</span> Evolution optimizes detection — never the guardrails</h3>
+    <p>The policy gate, human-in-the-loop, reversibility and blast-radius limits are frozen and out of scope for the loop. A self-improving agent that can rewrite its own safety layer is exactly what must not be built.</p>
+    <p>Every generation is re-verified against the frozen guardrails before it is promoted — improvement is allowed only inside detection, triage and investigation, never in the autonomy of irreversible action.</p>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <div>SOFTTECO // DEFEND · Autonomous Defense · Solution Concept v0.1</div>
+  <div>reversible · auditable · human-governed</div>
+</div></footer>
+
+<script>
+  const obs=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('vis');obs.unobserve(e.target)}})},{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
