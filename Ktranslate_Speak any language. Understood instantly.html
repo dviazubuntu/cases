@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Real-Time Speech Translation — Flat Price, No Limits</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0A0E1A;
+    --bg2:#0E1424;
+    --panel:#121A2E;
+    --panel2:#0F1729;
+    --line:#22304E;
+    --ink:#F3F6FF;
+    --sub:#9BA9C6;
+    --muted:#6C7A9A;
+    --violet:#7C5CFF;
+    --cyan:#31E5E0;
+    --pink:#FF6FB5;
+    --paper:#FFFFFF;
+    --paper-ink:#0F1729;
+    --paper-sub:#54617C;
+    --paper-line:#E7ECF4;
+    --grad:linear-gradient(100deg,#7C5CFF 0%,#31E5E0 100%);
+    --display:"Space Grotesk",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);
+    line-height:1.6;-webkit-font-smoothing:antialiased}
+  h1,h2,h3,.display{font-family:var(--display)}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+  a{color:inherit}
+
+  /* nav */
+  nav{display:flex;align-items:center;justify-content:space-between;
+    max-width:1080px;margin:0 auto;padding:22px 24px}
+  .brand{display:flex;align-items:center;gap:10px;font-family:var(--display);
+    font-weight:700;font-size:18px;letter-spacing:-.01em}
+  .brand .dot{width:26px;height:26px;border-radius:8px;background:var(--grad);
+    display:grid;place-items:center;font-size:14px}
+  .navcta{font:600 14px/1 var(--sans);background:var(--grad);color:#0A0E1A;
+    padding:11px 18px;border-radius:10px;text-decoration:none}
+
+  /* hero */
+  .hero{position:relative;overflow:hidden;padding:56px 0 64px;text-align:center}
+  .hero::before{content:"";position:absolute;inset:-40% 0 auto;height:620px;
+    background:radial-gradient(60% 60% at 30% 0%,rgba(124,92,255,.35),transparent 70%),
+               radial-gradient(50% 55% at 78% 8%,rgba(49,229,224,.28),transparent 70%);
+    filter:blur(10px);z-index:0;animation:drift 14s ease-in-out infinite alternate}
+  @keyframes drift{to{transform:translateX(30px)}}
+  .hero > *{position:relative;z-index:1}
+  .tagpill{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);
+    background:rgba(255,255,255,.03);border-radius:999px;padding:7px 15px;
+    font:600 12.5px/1 var(--mono);color:var(--cyan);letter-spacing:.04em;margin-bottom:24px}
+  .tagpill .live{width:8px;height:8px;border-radius:50%;background:var(--cyan);
+    box-shadow:0 0 0 0 rgba(49,229,224,.6);animation:pulse 2s infinite}
+  @keyframes pulse{70%{box-shadow:0 0 0 8px rgba(49,229,224,0)}100%{box-shadow:0 0 0 0 rgba(49,229,224,0)}}
+  .hero h1{font-size:clamp(34px,6vw,60px);line-height:1.04;font-weight:700;
+    letter-spacing:-.02em;margin:0 auto 20px;max-width:16ch}
+  .hero h1 .g{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero p.lead{font-size:clamp(16px,2.2vw,20px);color:var(--sub);max-width:60ch;margin:0 auto 32px}
+  .cta-row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+  .btn{font:600 15px/1 var(--sans);padding:15px 26px;border-radius:12px;text-decoration:none;cursor:pointer;border:none}
+  .btn.primary{background:var(--grad);color:#0A0E1A}
+  .btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+  .hero .price-flash{margin-top:34px;font:600 14px/1 var(--mono);color:var(--muted)}
+  .hero .price-flash b{color:var(--ink);font-size:16px}
+
+  /* value strip */
+  .values{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:12px 0 8px}
+  .vcard{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px 20px}
+  .vcard .ic{font-size:22px;margin-bottom:12px}
+  .vcard h3{font-size:15.5px;margin:0 0 6px;font-weight:600}
+  .vcard p{font-size:13.5px;color:var(--sub);margin:0;line-height:1.5}
+
+  section{padding:70px 0}
+  .sec-eyebrow{font:700 12px/1 var(--mono);letter-spacing:.18em;text-transform:uppercase;
+    color:var(--cyan);text-align:center;margin:0 0 12px}
+  .sec-title{font-size:clamp(26px,4vw,40px);text-align:center;margin:0 auto 14px;
+    font-weight:700;letter-spacing:-.02em;max-width:18ch}
+  .sec-sub{text-align:center;color:var(--sub);max-width:56ch;margin:0 auto 46px;font-size:16px}
+
+  /* pricing */
+  .pricing{background:
+    radial-gradient(70% 120% at 50% -10%,rgba(124,92,255,.18),transparent 60%),var(--bg2)}
+  .price-card{max-width:620px;margin:0 auto;background:var(--panel);
+    border:1px solid var(--line);border-radius:24px;padding:38px 34px;position:relative;overflow:hidden}
+  .price-card::before{content:"";position:absolute;inset:0 0 auto;height:4px;background:var(--grad)}
+  .price-head{display:flex;align-items:baseline;justify-content:center;gap:8px;flex-wrap:wrap}
+  .price-big{font-family:var(--display);font-size:66px;font-weight:700;line-height:1;
+    background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .price-unit{font:600 16px/1 var(--sans);color:var(--sub)}
+  .price-tagline{text-align:center;color:var(--sub);margin:14px 0 0;font-size:15px}
+  .unlimited{display:inline-flex;align-items:center;gap:8px;margin-top:18px;
+    background:rgba(49,229,224,.1);border:1px solid rgba(49,229,224,.3);color:var(--cyan);
+    border-radius:999px;padding:9px 18px;font:600 13.5px/1 var(--mono)}
+
+  .calc{margin-top:30px;border-top:1px solid var(--line);padding-top:28px}
+  .calc-label{text-align:center;color:var(--muted);font:600 12px/1 var(--mono);
+    letter-spacing:.1em;text-transform:uppercase;margin-bottom:18px}
+  .stepper{display:flex;align-items:center;justify-content:center;gap:22px}
+  .step-btn{width:52px;height:52px;border-radius:14px;border:1px solid var(--line);
+    background:var(--panel2);color:var(--ink);font-size:26px;cursor:pointer;line-height:1;
+    display:grid;place-items:center;transition:border-color .15s,transform .1s}
+  .step-btn:hover{border-color:var(--violet)}
+  .step-btn:active{transform:scale(.94)}
+  .step-val{text-align:center;min-width:120px}
+  .step-val .n{font-family:var(--display);font-size:46px;font-weight:700;line-height:1}
+  .step-val .l{font:600 12px/1 var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-top:6px}
+  .calc-total{text-align:center;margin-top:26px}
+  .calc-total .t{font-family:var(--display);font-size:40px;font-weight:700}
+  .calc-total .t .cur{color:var(--cyan)}
+  .calc-total .per{color:var(--muted);font-size:15px;margin-top:4px}
+
+  .ladder{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;max-width:620px;margin:26px auto 0}
+  .lad{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 8px;text-align:center}
+  .lad .q{font:600 12px/1 var(--mono);color:var(--muted)}
+  .lad .p{font-family:var(--display);font-weight:700;font-size:19px;margin-top:6px}
+
+  /* protocols */
+  .proto-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:940px;margin:0 auto}
+  .proto-col{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:26px 26px}
+  .proto-col h3{margin:0 0 4px;font-size:18px;display:flex;align-items:center;gap:10px}
+  .proto-col h3 .badge{font:700 10px/1 var(--mono);letter-spacing:.1em;padding:5px 8px;border-radius:6px;
+    background:rgba(124,92,255,.16);color:#B7A6FF}
+  .proto-col .csub{color:var(--muted);font-size:13px;margin:0 0 18px}
+  .plist{list-style:none;margin:0;padding:0}
+  .plist li{padding:12px 0;border-bottom:1px solid var(--line);display:flex;gap:12px;align-items:flex-start}
+  .plist li:last-child{border-bottom:none}
+  .plist .tag{font:700 11px/1.4 var(--mono);color:var(--cyan);flex:0 0 92px;padding-top:2px}
+  .plist .txt{font-size:14px;color:var(--sub)}
+  .plist .txt b{color:var(--ink);font-weight:600}
+  .code{background:var(--panel2);border:1px solid var(--line);border-radius:16px;
+    padding:22px 22px;max-width:940px;margin:24px auto 0;font:500 13px/1.75 var(--mono);
+    color:var(--sub);overflow-x:auto}
+  .code .k{color:var(--pink)}.code .s{color:var(--cyan)}.code .c{color:var(--muted)}.code .w{color:#E8ECFF}
+
+  /* languages */
+  .langs{background:var(--bg2)}
+  .lang-count{text-align:center;margin:-24px auto 40px;font:600 14px/1 var(--mono);color:var(--muted)}
+  .lang-count b{color:var(--cyan);font-size:16px}
+  .flag-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;max-width:960px;margin:0 auto}
+  .flag{display:flex;align-items:center;gap:11px;background:var(--panel);border:1px solid var(--line);
+    border-radius:11px;padding:11px 14px;font-size:14px;transition:border-color .15s,transform .1s}
+  .flag:hover{border-color:var(--violet);transform:translateY(-1px)}
+  .flag .fi{font-size:22px;line-height:1;flex:0 0 auto}
+  .flag .nm{font-weight:500}
+  .anytoany{text-align:center;margin:40px auto 0;color:var(--sub);font-size:15px;max-width:52ch}
+  .anytoany b{color:var(--ink)}
+
+  /* final cta */
+  .final{background:radial-gradient(80% 140% at 50% 0%,rgba(124,92,255,.22),transparent 60%),var(--bg);
+    text-align:center}
+  .final h2{font-size:clamp(28px,4.5vw,46px);margin:0 auto 16px;max-width:16ch;letter-spacing:-.02em}
+  .final p{color:var(--sub);max-width:52ch;margin:0 auto 30px;font-size:17px}
+
+  footer{border-top:1px solid var(--line);padding:28px 0;color:var(--muted);font-size:13px}
+  footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+
+  .ph{background:rgba(255,111,181,.14);border-bottom:1.5px dashed var(--pink);color:#FF9BCC;padding:0 5px;border-radius:3px;font-weight:600}
+
+  @media (max-width:840px){
+    .values{grid-template-columns:1fr 1fr}
+    .proto-grid{grid-template-columns:1fr}
+    .ladder{grid-template-columns:repeat(3,1fr)}
+  }
+  @media (max-width:520px){
+    .values{grid-template-columns:1fr}
+    .ladder{grid-template-columns:repeat(2,1fr)}
+    section{padding:52px 0}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .hero::before{animation:none}.live{animation:none}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="brand"><span class="dot">🌐</span>Ktranslate</div>
+  <a class="navcta" href="#pricing">Get started</a>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="wrap">
+    <span class="tagpill"><span class="live"></span>REAL-TIME · LIVE STREAMING</span>
+    <h1>Speak any language. <span class="g">Understood instantly.</span></h1>
+    <p class="lead">A complete real-time speech translation layer — ASR, translation, natural voice, and live subtitles — running on our own low-latency inference. One flat price per instance. No minute meters, no monthly caps.</p>
+    <div class="cta-row">
+      <a class="btn primary" href="#pricing">See pricing</a>
+      <a class="btn ghost" href="#connect">How to connect</a>
+    </div>
+    <p class="price-flash">Starts at <b>$300 / instance / month</b> — unlimited translation.</p>
+  </div>
+</header>
+
+<!-- VALUES -->
+<section style="padding-top:20px">
+  <div class="wrap">
+    <div class="values">
+      <div class="vcard"><div class="ic">♾️</div><h3>Truly unlimited</h3><p>No per-minute billing and no monthly cap. One instance translates around the clock for a flat fee.</p></div>
+      <div class="vcard"><div class="ic">🌍</div><h3>47 languages</h3><p>Any-to-any pairing. Every session runs its own pair, all in parallel.</p></div>
+      <div class="vcard"><div class="ic">🎙️</div><h3>Full pipeline</h3><p>Speech-to-text, translation, text-to-speech, and live subtitles — end to end.</p></div>
+      <div class="vcard"><div class="ic">⚡</div><h3>Low latency</h3><p>Our own GPU inference, not a reseller. Sub-second partials, ~1–2.5s to spoken output.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing" id="pricing">
+  <div class="wrap">
+    <p class="sec-eyebrow">Pricing</p>
+    <h2 class="sec-title">One price. No limits. Scale by adding instances.</h2>
+    <p class="sec-sub">Each translation instance is a dedicated real-time channel with unlimited usage. Need more conversations at once? Add instances — the price scales linearly, nothing else changes.</p>
+
+    <div class="price-card">
+      <div class="price-head">
+        <span class="price-big">$300</span>
+        <span class="price-unit">/ instance / month</span>
+      </div>
+      <p class="price-tagline">Unlimited minutes · unlimited sessions on the channel · all 47 languages · full ASR→translation→TTS pipeline</p>
+      <div style="text-align:center"><span class="unlimited">♾️ NO MONTHLY LIMITS</span></div>
+
+      <div class="calc">
+        <div class="calc-label">Estimate your plan</div>
+        <div class="stepper">
+          <button class="step-btn" id="minus" aria-label="Fewer instances">−</button>
+          <div class="step-val">
+            <div class="n" id="count">1</div>
+            <div class="l" id="countLbl">instance</div>
+          </div>
+          <button class="step-btn" id="plus" aria-label="More instances">+</button>
+        </div>
+        <div class="calc-total">
+          <div class="t"><span class="cur">$</span><span id="total">300</span> <span style="font-size:20px;color:var(--sub);font-weight:600">/ mo</span></div>
+          <div class="per" id="breakdown">1 parallel instance × $300</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ladder">
+      <div class="lad"><div class="q">1 instance</div><div class="p">$300</div></div>
+      <div class="lad"><div class="q">2 parallel</div><div class="p">$600</div></div>
+      <div class="lad"><div class="q">3 parallel</div><div class="p">$900</div></div>
+      <div class="lad"><div class="q">5 parallel</div><div class="p">$1,450</div></div>
+      <div class="lad"><div class="q">10 parallel</div><div class="p">$2,800</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONNECT / PROTOCOLS -->
+<section id="connect">
+  <div class="wrap">
+    <p class="sec-eyebrow">Integration</p>
+    <h2 class="sec-title">Every protocol you need to connect and receive translation</h2>
+    <p class="sec-sub">Stream audio in over one connection; get transcripts, translations, live subtitles, and synthesized speech back on the same channel.</p>
+
+    <div class="proto-grid">
+      <div class="proto-col">
+        <h3>Connect &amp; send <span class="badge">OUTBOUND</span></h3>
+        <p class="csub">Open a session and stream audio to the service.</p>
+        <ul class="plist">
+          <li><span class="tag">WebSocket</span><span class="txt"><b>WSS</b> — the primary interface. One persistent, bidirectional connection per session for streaming.</span></li>
+          <li><span class="tag">REST</span><span class="txt"><b>HTTPS</b> — session lifecycle: create session, mint short-lived token, set language pair, read usage.</span></li>
+          <li><span class="tag">SDK</span><span class="txt"><b>JS / TS client SDK</b> — wraps mic capture, the WebSocket protocol, and audio playback. Optional; the raw protocol is fully documented.</span></li>
+          <li><span class="tag">Auth</span><span class="txt"><b>Token-based</b> — your backend mints a short-lived session token via REST; the client connects with it. API keys stay server-side.</span></li>
+          <li><span class="tag">Audio in</span><span class="txt"><b>PCM 16&nbsp;kHz mono</b> or <b>Opus</b>, streamed in small frames over the WebSocket.</span></li>
+        </ul>
+      </div>
+
+      <div class="proto-col">
+        <h3>Receive translation <span class="badge">INBOUND</span></h3>
+        <p class="csub">Streamed back on the same WebSocket as it's produced.</p>
+        <ul class="plist">
+          <li><span class="tag">partial</span><span class="txt"><b>Interim transcript</b> — live ASR text that updates as the speaker talks.</span></li>
+          <li><span class="tag">final</span><span class="txt"><b>Final transcript</b> — settled source text for each utterance.</span></li>
+          <li><span class="tag">translation</span><span class="txt"><b>Translated text</b> in the target language, streamed incrementally.</span></li>
+          <li><span class="tag">subtitle</span><span class="txt"><b>Live captions</b> — timed subtitle events (WebVTT-compatible) for both source and target.</span></li>
+          <li><span class="tag">audio</span><span class="txt"><b>TTS speech</b> — synthesized target-language audio streamed back as binary frames.</span></li>
+          <li><span class="tag">status</span><span class="txt"><b>JSON control</b> — session state, language detection result, and error events.</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LANGUAGES -->
+<section class="langs">
+  <div class="wrap">
+    <p class="sec-eyebrow">Coverage</p>
+    <h2 class="sec-title">47 languages, any-to-any</h2>
+    <p class="lang-count"><b>47</b>&nbsp; supported languages · every pair, both directions</p>
+
+    <div class="flag-grid">
+      <div class="flag"><span class="fi">🇬🇧</span><span class="nm">English</span></div>
+      <div class="flag"><span class="fi">🇪🇸</span><span class="nm">Spanish</span></div>
+      <div class="flag"><span class="fi">🇫🇷</span><span class="nm">French</span></div>
+      <div class="flag"><span class="fi">🇩🇪</span><span class="nm">German</span></div>
+      <div class="flag"><span class="fi">🇮🇹</span><span class="nm">Italian</span></div>
+      <div class="flag"><span class="fi">🇵🇹</span><span class="nm">Portuguese</span></div>
+      <div class="flag"><span class="fi">🇳🇱</span><span class="nm">Dutch</span></div>
+      <div class="flag"><span class="fi">🇷🇺</span><span class="nm">Russian</span></div>
+      <div class="flag"><span class="fi">🇺🇦</span><span class="nm">Ukrainian</span></div>
+      <div class="flag"><span class="fi">🇵🇱</span><span class="nm">Polish</span></div>
+      <div class="flag"><span class="fi">🇨🇿</span><span class="nm">Czech</span></div>
+      <div class="flag"><span class="fi">🇸🇰</span><span class="nm">Slovak</span></div>
+      <div class="flag"><span class="fi">🇷🇴</span><span class="nm">Romanian</span></div>
+      <div class="flag"><span class="fi">🇭🇺</span><span class="nm">Hungarian</span></div>
+      <div class="flag"><span class="fi">🇬🇷</span><span class="nm">Greek</span></div>
+      <div class="flag"><span class="fi">🇧🇬</span><span class="nm">Bulgarian</span></div>
+      <div class="flag"><span class="fi">🇭🇷</span><span class="nm">Croatian</span></div>
+      <div class="flag"><span class="fi">🇷🇸</span><span class="nm">Serbian</span></div>
+      <div class="flag"><span class="fi">🇸🇮</span><span class="nm">Slovenian</span></div>
+      <div class="flag"><span class="fi">🇸🇪</span><span class="nm">Swedish</span></div>
+      <div class="flag"><span class="fi">🇳🇴</span><span class="nm">Norwegian</span></div>
+      <div class="flag"><span class="fi">🇩🇰</span><span class="nm">Danish</span></div>
+      <div class="flag"><span class="fi">🇫🇮</span><span class="nm">Finnish</span></div>
+      <div class="flag"><span class="fi">🇮🇸</span><span class="nm">Icelandic</span></div>
+      <div class="flag"><span class="fi">🇪🇪</span><span class="nm">Estonian</span></div>
+      <div class="flag"><span class="fi">🇱🇻</span><span class="nm">Latvian</span></div>
+      <div class="flag"><span class="fi">🇱🇹</span><span class="nm">Lithuanian</span></div>
+      <div class="flag"><span class="fi">🇹🇷</span><span class="nm">Turkish</span></div>
+      <div class="flag"><span class="fi">🇸🇦</span><span class="nm">Arabic</span></div>
+      <div class="flag"><span class="fi">🇮🇱</span><span class="nm">Hebrew</span></div>
+      <div class="flag"><span class="fi">🇮🇷</span><span class="nm">Persian</span></div>
+      <div class="flag"><span class="fi">🇮🇳</span><span class="nm">Hindi</span></div>
+      <div class="flag"><span class="fi">🇧🇩</span><span class="nm">Bengali</span></div>
+      <div class="flag"><span class="fi">🇵🇰</span><span class="nm">Urdu</span></div>
+      <div class="flag"><span class="fi">🇱🇰</span><span class="nm">Tamil</span></div>
+      <div class="flag"><span class="fi">🇨🇳</span><span class="nm">Chinese</span></div>
+      <div class="flag"><span class="fi">🇭🇰</span><span class="nm">Cantonese</span></div>
+      <div class="flag"><span class="fi">🇯🇵</span><span class="nm">Japanese</span></div>
+      <div class="flag"><span class="fi">🇰🇷</span><span class="nm">Korean</span></div>
+      <div class="flag"><span class="fi">🇻🇳</span><span class="nm">Vietnamese</span></div>
+      <div class="flag"><span class="fi">🇹🇭</span><span class="nm">Thai</span></div>
+      <div class="flag"><span class="fi">🇮🇩</span><span class="nm">Indonesian</span></div>
+      <div class="flag"><span class="fi">🇲🇾</span><span class="nm">Malay</span></div>
+      <div class="flag"><span class="fi">🇵🇭</span><span class="nm">Filipino</span></div>
+      <div class="flag"><span class="fi">🇰🇪</span><span class="nm">Swahili</span></div>
+      <div class="flag"><span class="fi">🇿🇦</span><span class="nm">Afrikaans</span></div>
+      <div class="flag"><span class="fi">🇬🇪</span><span class="nm">Georgian</span></div>
+    </div>
+    <p class="anytoany"><b>Any language ↔ any language.</b> Spanish ↔ German, Russian ↔ French, Spanish ↔ Arabic — every pair works, both ways, with automatic source-language detection available.</p>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final">
+  <div class="wrap">
+    <h2>Turn on live translation this week.</h2>
+    <p>Get sandbox credentials and a sample app, wire up one WebSocket, and go live. Flat pricing, unlimited usage, no surprises.</p>
+    <div class="cta-row">
+      <a class="btn primary" href="#pricing">Start at $300/mo</a>
+      <a class="btn ghost" href="#connect">Read the protocol</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    Ktranslate
+    <span>Real-time speech translation · unlimited per-instance pricing</span>
+  </div>
+</footer>
+
+<script>
+  (function(){
+    // Pricing ladder taken from the price table below the calculator.
+    // Points in between are interpolated linearly along this same curve,
+    // and points past 10 continue at the last segment's per-instance rate.
+    var LADDER=[
+      {n:1,p:300},
+      {n:2,p:600},
+      {n:3,p:900},
+      {n:5,p:1450},
+      {n:10,p:2800}
+    ];
+
+    function priceFor(n){
+      if(n<=LADDER[0].n) return LADDER[0].p;
+      for(var i=0;i<LADDER.length-1;i++){
+        var a=LADDER[i], b=LADDER[i+1];
+        if(n>=a.n && n<=b.n){
+          var rate=(b.p-a.p)/(b.n-a.n);
+          return Math.round(a.p+rate*(n-a.n));
+        }
+      }
+      // beyond the last ladder point: extend at the last segment's rate
+      var last=LADDER[LADDER.length-1], prev=LADDER[LADDER.length-2];
+      var lastRate=(last.p-prev.p)/(last.n-prev.n);
+      return Math.round(last.p+lastRate*(n-last.n));
+    }
+
+    var count=1;
+    var el=document.getElementById('count'),
+        lbl=document.getElementById('countLbl'),
+        total=document.getElementById('total'),
+        bd=document.getElementById('breakdown');
+    function fmt(n){return n.toLocaleString('en-US');}
+    function render(){
+      var price=priceFor(count);
+      el.textContent=count;
+      lbl.textContent=count===1?'instance':'instances';
+      total.textContent=fmt(price);
+      if(count===1){
+        bd.textContent='1 instance × $300';
+      }else{
+        var perInstance=price/count;
+        bd.textContent=count+' parallel instances · ~$'+fmt(Math.round(perInstance))+' avg / instance';
+      }
+    }
+    document.getElementById('plus').addEventListener('click',function(){count++;render();});
+    document.getElementById('minus').addEventListener('click',function(){if(count>1){count--;render();}});
+    render();
+  })();
+</script>
+</body>
+</html>
