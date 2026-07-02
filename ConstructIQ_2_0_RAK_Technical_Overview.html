@@ -948,7 +948,7 @@ body{font-family:var(--sans);background:#F0F5FC;color:var(--text-1);line-height:
     <div class="section" id="sec-road">
       <div class="section-id">Section 10</div>
       <div class="section-title" data-num="10">Implementation Roadmap</div>
-      <p class="section-intro">Five phases from discovery through continuous optimisation. Effort/complexity is the primary sequencing lens: foundational, low-complexity capabilities ship first; AI-driven predictive analytics is deliberately staged for Release 1, once real tracking data exists; prescriptive AI and what-if simulation are scoped to Release 2, whose detailed estimate follows the Release 1 retrospective.</p>
+      <p class="section-intro">Four phases take the platform from POC through to continuous optimisation. Effort/complexity is the primary sequencing lens: foundational, low-complexity capabilities ship first; AI-driven predictive analytics is deliberately staged for Release 1, once real tracking data exists; prescriptive AI and what-if simulation are scoped to Release 2, whose detailed estimate follows the Release 1 retrospective.</p>
 
       <div class="phases">
         <div class="phase">
@@ -996,9 +996,72 @@ body{font-family:var(--sans);background:#F0F5FC;color:var(--text-1);line-height:
           </div>
         </div>
       </div>
+
+      <div class="subsection-title">Module-by-Release Breakdown</div>
+      <p class="section-intro" style="margin-top:-4px">The 19 functional modules introduced in Section 03 are delivered incrementally. The tables below show which modules ship in each release and the concrete value each module unlocks at that point — several modules ship a foundational slice in an earlier release and are deepened in a later one.</p>
+
+      <div class="subsection-title" style="margin-top:20px">POC (≤ 1.5 months) — 13 modules, foundational value</div>
+      <table class="spec-table">
+        <thead><tr><th style="width:230px">Module</th><th>Value delivered in the POC</th></tr></thead>
+        <tbody>
+          <tr><td>Portfolio &amp; Project List</td><td>Client sees every project in one searchable, filterable directory with status, health and budget at a glance — replacing scattered spreadsheets from day one.</td></tr>
+          <tr><td>Project Creation &amp; Setup</td><td>PMs can stand up a new project through a guided form in minutes, with client/contract/domain classification captured consistently across the portfolio.</td></tr>
+          <tr><td>Project Setup Wizard</td><td>A repeatable 4-step onboarding flow (Team, Stakeholders, Budget, Dependencies &amp; Risks) proves every new project starts with the same governance baseline.</td></tr>
+          <tr><td>Resource Management</td><td>Team &amp; Equipment registers give a first real answer to "who and what is assigned to this project" — the human and non-human resource base the client asked for.</td></tr>
+          <tr><td>Budget &amp; Cost Management</td><td>Aggregate budget vs spend is visible per project, giving PMs and management an immediate financial pulse before deeper cost-code detail arrives in Release 1.</td></tr>
+          <tr><td>Schedule Management</td><td>A working Gantt with phases, milestones and a critical-path toggle lets the client validate the core planning experience against real project data.</td></tr>
+          <tr><td>RAID &amp; Actions Management</td><td>Risks, Dependencies, Issues and Assumptions are all captured in one place from day one — directly answering the client's "what about issues... assumptions" gap.</td></tr>
+          <tr><td>Project Overview</td><td>A single project-level dashboard (KPIs, stage progress, summary table) gives every stakeholder one page to check before a status meeting.</td></tr>
+          <tr><td>Executive Dashboards</td><td>A first Director-General-style view (health, budget, milestones, top risks) proves the executive experience even before portfolio rollups exist.</td></tr>
+          <tr><td>Access Control &amp; User Mgmt</td><td>Basic per-member access levels and a persona preview let the client validate the RBAC concept before the full persona builder is built.</td></tr>
+          <tr><td>Document Management</td><td>The already-built document repository and version control (reused from the Aramco engagement) is live immediately — near-zero incremental effort, immediate value.</td></tr>
+          <tr><td>Reporting &amp; Analytics</td><td>Dashboards and Reports are reachable from the navigation, giving the client a concrete place to point to when asking "where will my reports live."</td></tr>
+          <tr><td>Settings &amp; Administration</td><td>A project settings page confirms every project is individually configurable, not hard-coded demo data.</td></tr>
+        </tbody>
+      </table>
+
+      <div class="subsection-title" style="margin-top:28px">Release 1 (≤ 3–4 months) — 17 modules, enterprise depth + AI foundation</div>
+      <table class="spec-table">
+        <thead><tr><th style="width:230px">Module</th><th>Value delivered in Release 1</th></tr></thead>
+        <tbody>
+          <tr><td>Portfolio &amp; Project List</td><td>Advanced multi-criteria filtering lets managers cut a growing portfolio by client, domain, PM or health band instead of scrolling a flat list.</td></tr>
+          <tr><td>Project Creation &amp; Setup</td><td>Multi-currency budgeting and a creation-approval workflow bring project setup up to government/PPP governance standards.</td></tr>
+          <tr><td>Resource Management</td><td>Non-human resource capacity planning and task-level workload drill-down (delayed/completed/overloaded) turn the POC's static registers into an actionable planning tool — the client's explicit ask.</td></tr>
+          <tr><td>Budget &amp; Cost Management</td><td>WBS/cost-code budget breakdown, variance analysis and change-order management give finance-grade budget control instead of one aggregate figure.</td></tr>
+          <tr><td>Schedule Management</td><td>Real task-level dependencies, task-level resource assignment and baseline-vs-actual comparison make the critical path and schedule variance figures trustworthy, not just visual.</td></tr>
+          <tr><td>RAID &amp; Actions Management</td><td>Actions (optionally linked to any RAID item), ownership/escalation workflow and risk-count rollup with drill-down close the governance loop the client asked for.</td></tr>
+          <tr><td>Executive Dashboards</td><td>Portfolio-wide rollup and the formalised 4-dimension (Schedule/Cost/Resources/Partners) health score give the Director General the program-level view requested in the feedback session.</td></tr>
+          <tr><td>Access Control &amp; User Mgmt</td><td>The custom persona builder, per-project access scoping, SSO and audit log deliver the self-service RBAC the client explicitly asked to configure himself.</td></tr>
+          <tr><td>Notifications &amp; Collaboration</td><td>Email/push alerts on milestones, risk escalations and budget thresholds mean stakeholders are notified proactively, not only when they open the dashboard.</td></tr>
+          <tr><td>Document Management</td><td>Permit/approval tracking linked to milestones and site-photo progress documentation connect the reused DMS into the live schedule and compliance picture.</td></tr>
+          <tr><td>Reporting &amp; Analytics</td><td>Exportable PDF/Excel status reports let the client distribute dashboards outside the tool for board packs and government reporting.</td></tr>
+          <tr><td>Oracle Fusion ERP Integration</td><td>Costing, GL, Procurement, AP, HCM, Customer and SSO sync mean every budget and resource figure on screen is reconciled truth, not manually re-keyed data.</td></tr>
+          <tr><td>Settings &amp; Administration</td><td>Workspace branding/locale and an in-app roadmap view give the client the "what's live vs. planned" transparency requested in the feedback session.</td></tr>
+          <tr><td>Mobile &amp; Field Access</td><td>Responsive web access extends the same dashboards and update flows to tablets on site, without waiting for a native app.</td></tr>
+          <tr><td>Platform &amp; Data</td><td>Bilingual EN/AR support, bulk data export/import and a system-wide audit trail bring the platform to enterprise/government compliance standard.</td></tr>
+          <tr><td>AI &amp; Predictive Analytics</td><td>The model training pipeline plus predictive schedule-delay and cost-overrun forecasting deliver real AI-driven data analysis — the client's stated top analytics priority, alongside current state.</td></tr>
+          <tr><td>Program Management</td><td>Programs, program-level rollup dashboards and Program → Project drill-down deliver the "multiple projects under one program" view the client asked for at the very start of the feedback session.</td></tr>
+        </tbody>
+      </table>
+
+      <div class="subsection-title" style="margin-top:28px">Release 2 (scope TBD) — 9 modules, prescriptive &amp; advanced value</div>
+      <table class="spec-table">
+        <thead><tr><th style="width:230px">Module</th><th>Value delivered in Release 2</th></tr></thead>
+        <tbody>
+          <tr><td>Portfolio &amp; Project List</td><td>Multi-workspace support, bulk actions and favourites/saved views streamline day-to-day use once the portfolio has scaled well beyond the POC size.</td></tr>
+          <tr><td>Schedule Management</td><td>MS Project / Primavera P6 import-export gives interoperability for contractors already standardised on those tools.</td></tr>
+          <tr><td>RAID &amp; Actions Management</td><td>Configurable drill-down filters (beyond the project-level breakdown) let the client cut risk counts by category, owner or severity, as explicitly requested for "later."</td></tr>
+          <tr><td>Executive Dashboards</td><td>A configurable KPI framework lets administrators tailor which strategic indicators appear per persona/role, beyond the fixed Release 1 set.</td></tr>
+          <tr><td>Notifications &amp; Collaboration</td><td>Threaded comments and @mentions turn the platform into a collaboration surface, not just a reporting one.</td></tr>
+          <tr><td>Reporting &amp; Analytics</td><td>A custom report builder and portfolio-wide analytics/benchmarking let the client define their own report layouts and compare programs against each other.</td></tr>
+          <tr><td>Settings &amp; Administration</td><td>Custom fields, workflow/status configuration and notification preferences let the client tailor the platform to process changes without a change request to SoftTeco.</td></tr>
+          <tr><td>Mobile &amp; Field Access</td><td>A native mobile app with offline capture supports site engineers working in low-connectivity locations.</td></tr>
+          <tr><td>AI &amp; Predictive Analytics</td><td>AI-generated corrective/preventive action recommendations, what-if scenario simulation and a confidence/explainability indicator complete the move from predictive to prescriptive intelligence — directly answering "does it suggest some corrective or preventive actions."</td></tr>
+          <tr><td>Program Management</td><td>Cross-project resource/equipment allocation view completes the program-level resource picture across all constituent projects.</td></tr>
+        </tbody>
+      </table>
     </div>
 
-    <!-- §12 RISKS -->
     <div class="section" id="sec-risk">
       <div class="section-id">Section 11</div>
       <div class="section-title" data-num="11">Risks &amp; Mitigations</div>
@@ -1008,7 +1071,7 @@ body{font-family:var(--sans);background:#F0F5FC;color:var(--text-1);line-height:
         <thead><tr><th>Risk</th><th style="width:80px">Severity</th><th>Mitigation</th></tr></thead>
         <tbody>
           <tr><td>Predictive AI reliability depends on data maturity</td><td><span class="risk-badge high">High</span></td><td>Predictive forecasting is deliberately scoped to Release 1, after POC and core tracking data (Epic E2) is live and generating real history. Accuracy targets and monitoring are defined in Section 13; rule-based alerts remain the fallback until models qualify.</td></tr>
-          <tr><td>Oracle Fusion integration complexity/timeline</td><td><span class="risk-badge high">High</span></td><td>Early Fusion API and Chart-of-Accounts discovery in Phase 0–1. Dedicated integration workstream in Release 1. Sandbox validation before production cutover.</td></tr>
+          <tr><td>Oracle Fusion integration complexity/timeline</td><td><span class="risk-badge high">High</span></td><td>Early Fusion API and Chart-of-Accounts discovery work at the start of Phase 1. Dedicated integration workstream in Release 1. Sandbox validation before production cutover.</td></tr>
           <tr><td>Adoption risk — perceived as "just a tracking tool"</td><td><span class="risk-badge med">Medium</span></td><td>Predictive and prescriptive AI capability is explicitly on the roadmap and communicated up front (Section 11). POC is scoped to demonstrate task-level drill-down and risk-count rollup value, not only CRUD screens.</td></tr>
           <tr><td>Persona/RBAC complexity for a multi-stakeholder government client</td><td><span class="risk-badge med">Medium</span></td><td>Custom persona builder and per-project access scoping ship in Release 1. POC validates a simplified access model with the client early, before the full builder is built.</td></tr>
           <tr><td>Data residency / hosting requirements</td><td><span class="risk-badge med">Medium</span></td><td>UAE sovereign cloud (ADG Cloud / G42 Core42) confirmed as the deployment target. Oracle Fusion integration scoped to the UAE region tenancy only.</td></tr>
