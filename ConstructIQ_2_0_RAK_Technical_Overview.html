@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ConstructIQ 2.0 — Technical Architecture & Deployment Specification | SoftTeco</title>
+<title>SoftTeco Project Management Module Technical Overview</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -354,8 +354,8 @@ body{font-family:var(--sans);background:#F0F5FC;color:var(--text-1);line-height:
   </div>
   <div class="sidebar-doc-label">Document</div>
   <div style="padding:0 10px 6px 20px">
-    <div style="font-size:12px;font-weight:600;color:rgba(255,255,255,.9);line-height:1.4">ConstructIQ 2.0</div>
-    <div style="font-size:11px;color:rgba(255,255,255,.4);margin-top:3px">Technical Architecture &amp; Deployment Specification — RAK Government Construction Programme</div>
+    <div style="font-size:12px;font-weight:600;color:rgba(255,255,255,.9);line-height:1.4">SoftTeco Project Management Module</div>
+    <div style="font-size:11px;color:rgba(255,255,255,.4);margin-top:3px">Technical Overview — RAK Government Construction Programme</div>
   </div>
   <div class="sidebar-doc-label" style="margin-top:10px">Contents</div>
   <nav class="nav-items">
@@ -389,7 +389,7 @@ body{font-family:var(--sans);background:#F0F5FC;color:var(--text-1);line-height:
 <!-- MAIN -->
 <div class="main">
   <header class="topbar">
-    <div class="topbar-title">ConstructIQ 2.0 — RAK Deployment Specification</div>
+    <div class="topbar-title">SoftTeco Project Management Module — Technical Overview</div>
     <div class="topbar-meta">
       <span class="meta-pill conf">Privileged &amp; Confidential</span>
       <span class="meta-pill v">v1.0</span>
@@ -401,7 +401,7 @@ body{font-family:var(--sans);background:#F0F5FC;color:var(--text-1);line-height:
 
     <!-- HERO -->
     <div class="hero">
-      <div class="hero-eyebrow">ConstructIQ 2.0 — AI-Native Construction Program Intelligence</div>
+      <div class="hero-eyebrow">SoftTeco Project Management Module — AI-Native Construction Program Intelligence</div>
       <div class="hero-title">From project tracking to<br>predictive <span>program intelligence</span></div>
       <div class="hero-sub">Prepared for the Ras Al Khaimah (RAK) government construction programme. Built on the validated interactive POC and the joint demo feedback session, and extended into a full AI-native, Oracle Fusion-integrated program management platform.</div>
       <div class="hero-tags">
@@ -424,7 +424,7 @@ body{font-family:var(--sans);background:#F0F5FC;color:var(--text-1);line-height:
     <div class="section" id="sec-exec">
       <div class="section-id">Section 01</div>
       <div class="section-title" data-num="1">Executive Summary</div>
-      <p class="section-intro">ConstructIQ 2.0 is an AI-native construction program management platform designed to take the RAK government construction portfolio from single-project tracking to predictive, portfolio-wide program intelligence. It supersedes the validated interactive POC by grouping related projects under Programs, extending the risk/dependency register into a full RAID log with Actions, broadening resource planning to any non-human resource (equipment, material, plant), integrating natively with Oracle Fusion Cloud ERP for financial and workforce truth, and layering a predictive-then-prescriptive AI analytics engine on top of real tracking data — all while keeping data resident within the UAE.</p>
+      <p class="section-intro">The SoftTeco Project Management Module is an AI-native construction program management platform designed to take the RAK government construction portfolio from single-project tracking to predictive, portfolio-wide program intelligence. It supersedes the validated interactive POC by grouping related projects under Programs, extending the risk/dependency register into a full RAID log with Actions, broadening resource planning to any non-human resource (equipment, material, plant), integrating natively with Oracle Fusion Cloud ERP for financial and workforce truth, and layering a predictive-then-prescriptive AI analytics engine on top of real tracking data — all while keeping data resident within the UAE.</p>
 
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:24px 0">
         <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:18px 20px;border-top:3px solid var(--blue)">
@@ -437,7 +437,7 @@ body{font-family:var(--sans);background:#F0F5FC;color:var(--text-1);line-height:
         </div>
         <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:18px 20px;border-top:3px solid #7A4700">
           <div style="font-size:11px;font-weight:700;color:#7A4700;text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px">Enterprise-Ready</div>
-          <div style="font-size:13px;color:var(--text-2);line-height:1.6">Custom persona builder, per-project access scoping, Oracle Fusion ERP sync (costing, GL, procurement, AP, HCM), and a reused, already-delivered document control system — all deployed on UAE sovereign cloud infrastructure.</div>
+          <div style="font-size:13px;color:var(--text-2);line-height:1.6">Custom persona builder, per-project access scoping, Oracle Fusion ERP sync (costing, GL, procurement, AP, HCM), and a reused, already-delivered document control system — all deployed on UAE-region cloud infrastructure (Azure or AWS).</div>
         </div>
       </div>
     </div>
@@ -446,7 +446,7 @@ body{font-family:var(--sans);background:#F0F5FC;color:var(--text-1);line-height:
     <div class="section" id="sec-arch">
       <div class="section-id">Section 02</div>
       <div class="section-title" data-num="2">System Architecture</div>
-      <p class="section-intro">ConstructIQ 2.0 is a four-layer logical architecture. Each layer is independently deployable and scalable within the Kubernetes platform. Structured project, schedule, resource, RAID and budget data flows upward through the stack — enriched at each layer — while financial and workforce truth is continuously reconciled against Oracle Fusion Cloud ERP.</p>
+      <p class="section-intro">The SoftTeco Project Management Module is a four-layer logical architecture. Each layer is independently deployable and scalable within the Kubernetes platform. Structured project, schedule, resource, RAID and budget data flows upward through the stack — enriched at each layer — while financial and workforce truth is continuously reconciled against Oracle Fusion Cloud ERP.</p>
 
       <div class="tier-flow">
         <div class="tier-block">
@@ -475,7 +475,7 @@ body{font-family:var(--sans);background:#F0F5FC;color:var(--text-1);line-height:
           <div class="tier-icon t4">🔗</div>
           <div class="tier-name">Data &amp; Integration Layer</div>
           <div class="tier-desc">Core relational database, reused document control system, and the Oracle Fusion ERP connector (Project Costing, GL, Procurement, AP, HCM, Customer, SSO).</div>
-          <span class="tier-tag t4">UAE sovereign</span>
+          <span class="tier-tag t4">UAE region</span>
         </div>
       </div>
 
@@ -483,7 +483,7 @@ body{font-family:var(--sans);background:#F0F5FC;color:var(--text-1);line-height:
         <span style="font-size:20px;margin-top:1px">🏗️</span>
         <div>
           <div style="font-size:13px;font-weight:700;color:#7A4700;margin-bottom:6px">Design rationale: Program as a first-class entity</div>
-          <div style="font-size:13px;color:#5A3A00;line-height:1.7">The original POC modelled a flat Workspace → Project hierarchy. Client feedback made clear that a Department Head or the Director General reasons in terms of <em>programs</em> — related projects sharing a client mandate or funding envelope — not a scrolling list of individual cards. ConstructIQ 2.0 therefore inserts <strong>Program</strong> as a first-class entity between Workspace and Project: <code>Workspace 1—N Program 1—N Project</code>. Every rollup dashboard, risk count, and 4-dimension health score aggregates first at the Program level, then drills down into its constituent Projects.</div>
+          <div style="font-size:13px;color:#5A3A00;line-height:1.7">The original POC modelled a flat Workspace → Project hierarchy. Client feedback made clear that a Department Head or the Director General reasons in terms of <em>programs</em> — related projects sharing a client mandate or funding envelope — not a scrolling list of individual cards. The SoftTeco Project Management Module therefore inserts <strong>Program</strong> as a first-class entity between Workspace and Project: <code>Workspace 1—N Program 1—N Project</code>. Every rollup dashboard, risk count, and 4-dimension health score aggregates first at the Program level, then drills down into its constituent Projects.</div>
         </div>
       </div>
 
@@ -520,7 +520,7 @@ body{font-family:var(--sans);background:#F0F5FC;color:var(--text-1);line-height:
 
       <div class="alert-box">
         <span class="alert-icon">🔒</span>
-        <div class="alert-text"><strong>Data residency:</strong> All application data, documents, and AI model artefacts are stored and processed within the UAE, on sovereign cloud infrastructure (Section 10). Oracle Fusion Cloud ERP integration is scoped to the UAE region tenancy; no operational project data leaves UAE borders.</div>
+        <div class="alert-text"><strong>Data residency:</strong> All application data, documents, and AI model artefacts are stored and processed within the UAE, on UAE-region cloud infrastructure (Section 10). Oracle Fusion Cloud ERP integration is scoped to the UAE region tenancy; no operational project data leaves UAE borders.</div>
       </div>
     </div>
 
@@ -635,7 +635,7 @@ body{font-family:var(--sans);background:#F0F5FC;color:var(--text-1);line-height:
     <div class="section" id="sec-erp">
       <div class="section-id">Section 05</div>
       <div class="section-title" data-num="5">Oracle Fusion ERP Integration</div>
-      <p class="section-intro">Oracle Fusion Cloud is the system of record for financial and workforce truth. ConstructIQ 2.0 does not duplicate ERP data entry — it reconciles against Oracle Fusion so that budget, procurement and workforce figures shown on any dashboard are trustworthy, not manually re-keyed.</p>
+      <p class="section-intro">Oracle Fusion Cloud is the system of record for financial and workforce truth. The SoftTeco Project Management Module does not duplicate ERP data entry — it reconciles against Oracle Fusion so that budget, procurement and workforce figures shown on any dashboard are trustworthy, not manually re-keyed.</p>
 
       <table class="spec-table">
         <thead><tr><th style="width:230px">Integration Touchpoint</th><th>Scope &amp; Direction</th></tr></thead>
@@ -742,7 +742,7 @@ body{font-family:var(--sans);background:#F0F5FC;color:var(--text-1);line-height:
           <ul class="sec-items">
             <li>All data processed and stored within UAE borders</li>
             <li>Oracle Fusion Cloud UAE region tenancy only</li>
-            <li>UAE sovereign cloud deployment (Section 10)</li>
+            <li>UAE-region cloud deployment — Azure or AWS (Section 10)</li>
             <li>Client retains full data ownership contractually</li>
           </ul>
         </div>
@@ -753,7 +753,7 @@ body{font-family:var(--sans);background:#F0F5FC;color:var(--text-1);line-height:
     <div class="section" id="sec-kpi">
       <div class="section-id">Section 08</div>
       <div class="section-title" data-num="8">KPI &amp; Metrics Framework</div>
-      <p class="section-intro">ConstructIQ 2.0 computes three tiers of metrics, each calibrated to a different stakeholder's decision cycle — directly reflecting the client's own framing of "current state across schedule, cost, resources and partners" plus predictive analytics. All metrics derive from the same underlying tracked data (Sections 04–06) and aggregate upward — no separate data collection is required per tier.</p>
+      <p class="section-intro">The SoftTeco Project Management Module computes three tiers of metrics, each calibrated to a different stakeholder's decision cycle — directly reflecting the client's own framing of "current state across schedule, cost, resources and partners" plus predictive analytics. All metrics derive from the same underlying tracked data (Sections 04–06) and aggregate upward — no separate data collection is required per tier.</p>
 
       <div class="audience-tier">
         <div class="audience-tier-head">
@@ -924,16 +924,15 @@ body{font-family:var(--sans);background:#F0F5FC;color:var(--text-1);line-height:
     <div class="section" id="sec-deploy">
       <div class="section-id">Section 09</div>
       <div class="section-title" data-num="9">Deployment Architecture</div>
-      <p class="section-intro">Cloud platform on UAE sovereign infrastructure, with a dedicated secure connection to the Oracle Fusion Cloud UAE region tenancy for ERP reconciliation.</p>
+      <p class="section-intro">Cloud platform on UAE-region infrastructure (Microsoft Azure or AWS), with a dedicated secure connection to the Oracle Fusion Cloud UAE region tenancy for ERP reconciliation.</p>
 
       <div class="subsection-title">Cloud infrastructure</div>
       <table class="spec-table">
         <thead><tr><th>Component</th><th>Specification</th></tr></thead>
         <tbody>
-          <tr><td>Cloud provider</td><td>ADG Cloud (Abu Dhabi Government Cloud) primary. G42 Core42 as alternative. Both certified for UAE government data classification.</td></tr>
+          <tr><td>Cloud provider</td><td>Microsoft Azure (UAE North region, Dubai) primary. Amazon Web Services (AWS Middle East — UAE region, Dubai) as alternative. Both provide in-country data residency and government-grade compliance certifications for the UAE.</td></tr>
           <tr><td>Orchestration</td><td>Kubernetes 1.30+. General-purpose node pool plus a dedicated GPU pool for AI/predictive workloads.</td></tr>
           <tr><td>Databases</td><td>PostgreSQL 16 for relational entities (Program/Project/RAID/Budget). TimescaleDB for KPI history and trend analysis.</td></tr>
-          <tr><td>Object storage</td><td>MinIO (S3-compatible, self-hosted) for the reused document management system, erasure-coded with multi-zone replication.</td></tr>
           <tr><td>Message broker</td><td>Apache Kafka. Event-driven sync between core services and the Oracle Fusion connector, with replay capability.</td></tr>
           <tr><td>API gateway</td><td>Kong Gateway (self-hosted). Rate limiting, RBAC enforcement, routing, observability.</td></tr>
           <tr><td>Observability</td><td>Prometheus + Grafana for metrics. Loki for logs. Jaeger for distributed tracing.</td></tr>
@@ -1074,7 +1073,7 @@ body{font-family:var(--sans);background:#F0F5FC;color:var(--text-1);line-height:
           <tr><td>Oracle Fusion integration complexity/timeline</td><td><span class="risk-badge high">High</span></td><td>Early Fusion API and Chart-of-Accounts discovery work at the start of Phase 1. Dedicated integration workstream in Release 1. Sandbox validation before production cutover.</td></tr>
           <tr><td>Adoption risk — perceived as "just a tracking tool"</td><td><span class="risk-badge med">Medium</span></td><td>Predictive and prescriptive AI capability is explicitly on the roadmap and communicated up front (Section 11). POC is scoped to demonstrate task-level drill-down and risk-count rollup value, not only CRUD screens.</td></tr>
           <tr><td>Persona/RBAC complexity for a multi-stakeholder government client</td><td><span class="risk-badge med">Medium</span></td><td>Custom persona builder and per-project access scoping ship in Release 1. POC validates a simplified access model with the client early, before the full builder is built.</td></tr>
-          <tr><td>Data residency / hosting requirements</td><td><span class="risk-badge med">Medium</span></td><td>UAE sovereign cloud (ADG Cloud / G42 Core42) confirmed as the deployment target. Oracle Fusion integration scoped to the UAE region tenancy only.</td></tr>
+          <tr><td>Data residency / hosting requirements</td><td><span class="risk-badge med">Medium</span></td><td>UAE-region cloud hosting (Microsoft Azure UAE North or AWS Middle East — UAE) confirmed as the deployment target. Oracle Fusion integration scoped to the UAE region tenancy only.</td></tr>
           <tr><td>Scope creep beyond agreed POC</td><td><span class="risk-badge low">Low</span></td><td>Release boundaries are explicitly documented and agreed with the client in this specification. What-if / prescriptive AI is explicitly excluded from POC and Release 1 scope.</td></tr>
           <tr><td>Task-level dependency &amp; critical-path accuracy</td><td><span class="risk-badge med">Medium</span></td><td>POC ships the critical-path toggle on existing data; the full dependency engine (finish-to-start and related link types) is built in Release 1 before critical-path output is relied on operationally.</td></tr>
         </tbody>
@@ -1127,7 +1126,7 @@ body{font-family:var(--sans);background:#F0F5FC;color:var(--text-1);line-height:
           <tr><td>Identity &amp; SSO</td><td><span class="stack-tech">OAuth 2.0 / OIDC + Oracle Identity Cloud</span></td><td>Federated auth aligned to Oracle Fusion; persona-based RBAC layered on top.</td></tr>
           <tr><td>AI — Predictive</td><td><span class="stack-tech">Python (Prophet / XGBoost / scikit-learn)</span></td><td>Proven time-series and gradient-boosted forecasting for schedule/cost prediction (Release 1).</td></tr>
           <tr><td>AI — Prescriptive / LLM</td><td><span class="stack-tech">Claude API (Anthropic)</span></td><td>Superior reasoning for recommendation generation. Native bilingual EN/AR output (Release 2).</td></tr>
-          <tr><td>Orchestration</td><td><span class="stack-tech">Kubernetes 1.30+</span></td><td>ADG Cloud native. Auto-scaling. GitOps via ArgoCD.</td></tr>
+          <tr><td>Orchestration</td><td><span class="stack-tech">Kubernetes 1.30+</span></td><td>Managed Kubernetes — Azure Kubernetes Service (AKS) or Amazon EKS — in the UAE region. Auto-scaling. GitOps via ArgoCD.</td></tr>
           <tr><td>API Gateway</td><td><span class="stack-tech">Kong Gateway</span></td><td>RBAC enforcement, rate limiting, routing, observability.</td></tr>
           <tr><td>Observability</td><td><span class="stack-tech">Prometheus · Grafana · Loki · Jaeger</span></td><td>Full-stack observability. Open-source. Self-hosted in UAE.</td></tr>
           <tr><td>CI/CD</td><td><span class="stack-tech">GitLab CI/CD + ArgoCD</span></td><td>GitOps deployment with automated container/security scanning.</td></tr>
@@ -1153,7 +1152,7 @@ body{font-family:var(--sans);background:#F0F5FC;color:var(--text-1);line-height:
     <div class="footer-left">
       <div class="footer-brand">SoftTeco<sup style="font-size:9px;opacity:.5">®</sup></div>
       <p>ISO 27001 Certified · Est. 2008 · 500+ Experts<br>
-      ConstructIQ 2.0 — Technical Architecture &amp; Deployment Specification<br>
+      SoftTeco Project Management Module — Technical Overview<br>
       Prepared for the RAK Government Construction Programme · Version 1.0 · July 2026</p>
     </div>
     <div class="footer-links">
