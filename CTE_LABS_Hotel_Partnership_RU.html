@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CATE LABS — Предложение о партнёрстве для отелей</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,450;9..144,560;9..144,650&family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#082623;
+    --ink-soft:#3E5C58;
+    --bg:#F4F9F7;
+    --surface:#FFFFFF;
+    --surface-tint:#EEF6F3;
+    --teal:#0C8F82;
+    --teal-deep:#075A53;
+    --teal-bright:#3FD8C4;
+    --coral:#FF6A45;
+    --violet:#6C5CE7;
+    --gold:#E7B24B;
+    --line:#DCEAE6;
+    --navy:#052E2B;
+    --navy-2:#0A423C;
+    --radius:16px;
+    --shadow: 0 20px 40px -24px rgba(5,46,43,0.25);
+    font-size:16px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.display{
+    font-family:'Fraunces',serif;
+    font-weight:560;
+    letter-spacing:-0.01em;
+    color:var(--ink);
+    margin:0;
+  }
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  a{color:inherit;text-decoration:none;}
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.72rem;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--teal);
+    display:flex;align-items:center;gap:10px;
+    margin-bottom:14px;
+  }
+  .eyebrow::before{content:"";width:22px;height:1px;background:var(--coral);}
+
+  /* ---------- Layout ---------- */
+  .app{display:flex;min-height:100vh;}
+
+  .sidebar{
+    width:272px;
+    flex-shrink:0;
+    position:fixed;
+    top:0;left:0;bottom:0;
+    background:linear-gradient(180deg,var(--navy) 0%, var(--navy-2) 100%);
+    color:#DCF3EE;
+    padding:34px 0 24px 0;
+    display:flex;
+    flex-direction:column;
+    z-index:100;
+    overflow-y:auto;
+  }
+  .brand{
+    padding:0 28px 26px 28px;
+    border-bottom:1px solid rgba(255,255,255,0.08);
+    margin-bottom:22px;
+  }
+  .brand-mark{
+    font-family:'Fraunces',serif;
+    font-weight:650;
+    font-size:1.32rem;
+    color:#fff;
+    letter-spacing:0.01em;
+  }
+  .brand-sub{
+    margin-top:6px;
+    font-size:0.72rem;
+    color:#8FC8BE;
+    font-family:'IBM Plex Mono',monospace;
+    letter-spacing:0.02em;
+  }
+  nav.routes{position:relative;padding:4px 0 4px 0;flex:1;}
+  nav.routes .route-line{
+    position:absolute;
+    left:38px;top:6px;bottom:6px;
+    width:1px;
+    background:repeating-linear-gradient(180deg, rgba(63,216,196,0.35) 0 4px, transparent 4px 9px);
+  }
+  .nav-item{
+    position:relative;
+    display:flex;
+    align-items:center;
+    gap:16px;
+    padding:11px 28px 11px 22px;
+    font-size:0.86rem;
+    color:#A9CFC8;
+    cursor:pointer;
+    transition:color .2s ease;
+  }
+  .nav-item .dot{
+    width:11px;height:11px;border-radius:50%;
+    background:var(--navy-2);
+    border:1.5px solid rgba(143,200,190,0.55);
+    flex-shrink:0;
+    z-index:1;
+    transition:all .25s ease;
+  }
+  .nav-item .num{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.68rem;
+    color:#5E8B83;
+    width:16px;
+  }
+  .nav-item:hover{color:#EAFBF7;}
+  .nav-item.active{color:#fff;}
+  .nav-item.active .dot{
+    background:var(--coral);
+    border-color:var(--coral);
+    box-shadow:0 0 0 4px rgba(255,106,69,0.18);
+  }
+  .sidebar-cta{
+    margin:20px 28px 0 28px;
+    padding:16px 16px;
+    background:rgba(63,216,196,0.08);
+    border:1px solid rgba(63,216,196,0.25);
+    border-radius:12px;
+  }
+  .sidebar-cta p{margin:0 0 10px 0;font-size:0.76rem;color:#B9E4DC;line-height:1.5;}
+  .sidebar-cta a.btn{
+    display:inline-block;
+    width:100%;
+    text-align:center;
+    background:var(--coral);
+    color:#fff;
+    font-size:0.78rem;
+    font-weight:600;
+    padding:10px 12px;
+    border-radius:8px;
+    box-shadow:0 8px 18px -8px rgba(255,106,69,0.6);
+  }
+
+  .main{
+    margin-left:272px;
+    flex:1;
+    min-width:0;
+  }
+  section{
+    padding:96px 64px;
+    max-width:1180px;
+    border-bottom:1px solid var(--line);
+  }
+  section:last-of-type{border-bottom:none;}
+  .section-head{max-width:660px;margin-bottom:48px;}
+  .section-head h2{font-size:2.1rem;line-height:1.15;}
+  .section-head .sub{margin-top:14px;color:var(--ink-soft);font-size:1.02rem;line-height:1.6;}
+
+  /* ---------- Hero ---------- */
+  .hero{
+    padding:0;
+    border-bottom:none;
+    position:relative;
+    min-height:92vh;
+    display:flex;
+    align-items:center;
+    background:radial-gradient(1200px 600px at 85% -10%, rgba(63,216,196,0.16), transparent 60%),
+               linear-gradient(180deg,#F4F9F7 0%, #EAF5F1 100%);
+    overflow:hidden;
+  }
+  .hero-inner{padding:0 64px;max-width:1180px;position:relative;z-index:2;}
+  .hero-wave{position:absolute;inset:0;z-index:1;opacity:0.9;pointer-events:none;}
+  .hero-badge{
+    display:inline-flex;align-items:center;gap:8px;
+    font-family:'IBM Plex Mono',monospace;font-size:0.7rem;letter-spacing:0.05em;
+    background:var(--surface);border:1px solid var(--line);
+    padding:7px 14px;border-radius:999px;color:var(--teal-deep);
+    margin-bottom:28px;
+    box-shadow:var(--shadow);
+  }
+  .hero-badge .pulse{width:7px;height:7px;border-radius:50%;background:var(--coral);animation:pulse 2s infinite;}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,106,69,0.5);}70%{box-shadow:0 0 0 8px rgba(255,106,69,0);}100%{box-shadow:0 0 0 0 rgba(255,106,69,0);}}
+  h1.hero-title{font-size:clamp(2.3rem,4.2vw,3.7rem);line-height:1.08;max-width:860px;}
+  h1.hero-title em{font-style:normal;color:var(--teal);}
+  .hero-desc{margin-top:24px;max-width:620px;font-size:1.1rem;line-height:1.65;color:var(--ink-soft);}
+  .hero-stats{
+    margin-top:52px;
+    display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
+    gap:0;
+    border-top:1px solid var(--line);
+    max-width:940px;
+  }
+  .hero-stat{padding:22px 26px 0 0;border-right:1px solid var(--line);}
+  .hero-stat:last-child{border-right:none;}
+  .hero-stat .val{font-family:'Fraunces',serif;font-weight:600;font-size:2rem;color:var(--teal-deep);}
+  .hero-stat .lbl{margin-top:6px;font-size:0.74rem;color:var(--ink-soft);letter-spacing:0.01em;}
+
+  /* ---------- Cards ---------- */
+  .grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;}
+  .grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;}
+  .card{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:30px 26px;
+  }
+  .card .icon{
+    width:44px;height:44px;border-radius:11px;
+    display:flex;align-items:center;justify-content:center;
+    background:var(--surface-tint);font-size:1.3rem;margin-bottom:18px;
+  }
+  .card h3{font-size:1.12rem;margin-bottom:10px;}
+  .card p{font-size:0.93rem;line-height:1.62;color:var(--ink-soft);margin:0;}
+  .tag{
+    display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:0.66rem;
+    padding:5px 10px;border-radius:999px;border:1px solid var(--line);
+    color:var(--teal-deep);margin:14px 6px 0 0;
+  }
+  .card.highlight{border-color:var(--violet);box-shadow:0 0 0 1px var(--violet), var(--shadow);}
+  .card.highlight .icon{background:rgba(108,92,231,0.1);}
+
+  /* ---------- Experiences ---------- */
+  .exp-card{
+    background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+    padding:26px;display:flex;flex-direction:column;gap:10px;
+  }
+  .exp-top{display:flex;justify-content:space-between;align-items:flex-start;}
+  .exp-top h3{font-size:1.02rem;}
+  .exp-price{font-family:'IBM Plex Mono',monospace;color:var(--coral);font-weight:600;font-size:0.9rem;white-space:nowrap;padding-left:12px;}
+  .exp-card p{font-size:0.89rem;color:var(--ink-soft);line-height:1.55;margin:0;}
+  .exp-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px;}
+  .exp-tags span{font-size:0.64rem;font-family:'IBM Plex Mono',monospace;background:var(--surface-tint);color:var(--teal-deep);padding:4px 9px;border-radius:999px;}
+
+  /* ---------- Models ---------- */
+  .model-card{
+    background:var(--surface);border:1px solid var(--line);border-radius:20px;
+    padding:36px 32px;position:relative;overflow:hidden;
+  }
+  .model-card.a{border-top:4px solid var(--teal);}
+  .model-card.b{border-top:4px solid var(--coral);}
+  .model-kicker{font-family:'IBM Plex Mono',monospace;font-size:0.7rem;letter-spacing:0.06em;color:var(--ink-soft);text-transform:uppercase;}
+  .model-card h3{font-size:1.4rem;margin-top:8px;}
+  .model-sub{color:var(--ink-soft);font-size:0.92rem;margin-top:6px;}
+  .model-hero-stat{display:flex;align-items:baseline;gap:10px;margin-top:26px;}
+  .model-hero-stat .big{font-family:'Fraunces',serif;font-weight:600;font-size:2.4rem;}
+  .model-card.a .big{color:var(--teal-deep);}
+  .model-card.b .big{color:var(--coral);}
+  .model-hero-stat .capt{font-size:0.8rem;color:var(--ink-soft);}
+  .model-list{list-style:none;margin:26px 0 0 0;padding:0;display:flex;flex-direction:column;gap:11px;}
+  .model-list li{font-size:0.87rem;color:var(--ink-soft);padding-left:22px;position:relative;line-height:1.5;}
+  .model-list li::before{content:"▸";position:absolute;left:0;color:var(--teal);}
+  .model-pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:24px;}
+  .pill{font-size:0.7rem;font-family:'IBM Plex Mono',monospace;padding:6px 12px;border-radius:999px;background:var(--surface-tint);color:var(--teal-deep);border:1px solid var(--line);}
+
+  /* ---------- Financials ---------- */
+  .roi-toggle{display:inline-flex;background:var(--surface-tint);padding:5px;border-radius:12px;margin-bottom:32px;border:1px solid var(--line);}
+  .roi-toggle button{
+    font-family:'Inter',sans-serif;font-weight:600;font-size:0.84rem;
+    padding:10px 20px;border-radius:9px;border:none;background:transparent;color:var(--ink-soft);cursor:pointer;
+    transition:all .2s ease;
+  }
+  .roi-toggle button.active{background:var(--surface);color:var(--teal-deep);box-shadow:var(--shadow);}
+  .roi-panel{
+    background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:38px;
+    display:grid;grid-template-columns:1.1fr 1fr;gap:40px;
+  }
+  .roi-stats{display:grid;grid-template-columns:1fr 1fr;gap:22px;align-content:start;}
+  .roi-stat .val{font-family:'Fraunces',serif;font-weight:600;font-size:2.15rem;color:var(--teal-deep);transition:all .2s ease;}
+  .roi-stat .lbl{font-size:0.76rem;color:var(--ink-soft);margin-top:4px;}
+  .roi-note{background:var(--surface-tint);border-radius:14px;padding:22px;font-size:0.87rem;color:var(--ink-soft);line-height:1.6;align-self:start;}
+  .roi-note strong{color:var(--ink);}
+  table.assump{width:100%;border-collapse:collapse;margin-top:36px;}
+  table.assump th,table.assump td{text-align:left;padding:13px 16px;border-bottom:1px solid var(--line);font-size:0.87rem;}
+  table.assump th{font-family:'IBM Plex Mono',monospace;font-size:0.66rem;letter-spacing:0.03em;text-transform:uppercase;color:var(--ink-soft);font-weight:500;}
+  table.assump td.num{font-family:'IBM Plex Mono',monospace;color:var(--teal-deep);font-weight:600;}
+
+  /* ---------- Scaling ---------- */
+  .scale-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;}
+  .scale-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:28px;}
+  .scale-card .big{font-family:'Fraunces',serif;font-weight:600;font-size:2.3rem;color:var(--coral);margin-top:16px;}
+  .scale-card .big-lbl{font-size:0.7rem;font-family:'IBM Plex Mono',monospace;color:var(--ink-soft);letter-spacing:0.03em;}
+  .network-banner{
+    margin-top:24px;background:linear-gradient(120deg,var(--navy),var(--navy-2));
+    color:#DCF3EE;border-radius:18px;padding:30px 34px;font-size:0.97rem;line-height:1.7;
+  }
+  .network-banner strong{color:var(--teal-bright);}
+
+  /* ---------- Roadmap ---------- */
+  .roadmap{display:flex;gap:0;position:relative;margin-top:10px;}
+  .rm-step{flex:1;position:relative;padding:0 18px 0 0;}
+  .rm-step .rm-dot{width:38px;height:38px;border-radius:50%;background:var(--surface);border:2px solid var(--teal);display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-weight:600;color:var(--teal-deep);position:relative;z-index:2;}
+  .rm-step:last-child .rm-dot{border-color:var(--coral);color:var(--coral);}
+  .rm-line{position:absolute;top:19px;left:0;right:0;height:1px;background:repeating-linear-gradient(90deg, var(--line) 0 6px, transparent 6px 11px);z-index:1;}
+  .rm-step .rm-week{margin-top:16px;font-family:'IBM Plex Mono',monospace;font-size:0.7rem;color:var(--coral);}
+  .rm-step .rm-title{margin-top:6px;font-size:0.89rem;color:var(--ink);font-weight:600;line-height:1.4;}
+
+  /* ---------- Contact / Footer ---------- */
+  .contact-wrap{
+    background:linear-gradient(135deg,var(--navy) 0%, var(--navy-2) 100%);
+    border-radius:24px;padding:56px;color:#DCF3EE;
+    display:grid;grid-template-columns:1.2fr 1fr;gap:40px;align-items:center;
+  }
+  .contact-wrap h2{color:#fff;font-size:1.9rem;}
+  .contact-wrap p{color:#A9CFC8;margin-top:14px;line-height:1.6;font-size:0.97rem;max-width:460px;}
+  .contact-grid{display:flex;flex-direction:column;gap:14px;}
+  .contact-row{display:flex;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.1);padding-bottom:12px;}
+  .contact-row .k{font-family:'IBM Plex Mono',monospace;font-size:0.7rem;color:#7FB6AC;text-transform:uppercase;letter-spacing:0.03em;}
+  .contact-row .v{font-size:0.92rem;color:#fff;}
+  .foot-note{max-width:1180px;margin:40px auto 60px 64px;color:var(--ink-soft);font-size:0.78rem;line-height:1.6;}
+
+  html,body{overflow-x:hidden;}
+  img,svg{max-width:100%;}
+
+  @media (max-width:980px){
+    .sidebar{position:fixed;width:100%;height:auto;flex-direction:row;top:0;left:0;padding:14px 18px;overflow-x:auto;overflow-y:visible;align-items:center;-webkit-overflow-scrolling:touch;}
+    .brand{border-bottom:none;padding:0 16px 0 0;margin:0;border-right:1px solid rgba(255,255,255,0.1);flex-shrink:0;}
+    nav.routes{display:flex;flex:none;}
+    nav.routes .route-line{display:none;}
+    .nav-item{padding:8px 14px;white-space:nowrap;flex-shrink:0;}
+    .sidebar-cta{display:none;}
+    .main{margin-left:0;padding-top:64px;}
+    section{padding:56px 22px;}
+    .hero{min-height:auto;padding-top:40px;}
+    .hero-inner{padding:0 22px;}
+    .hero-stats{grid-template-columns:repeat(2,1fr);row-gap:20px;}
+    .grid3,.grid2,.scale-row{grid-template-columns:1fr;}
+    .roi-panel{grid-template-columns:1fr;}
+    .roadmap{flex-direction:column;gap:26px;}
+    .rm-line{display:none;}
+    .contact-wrap{grid-template-columns:1fr;padding:34px;}
+    .foot-note{margin-left:22px;}
+  }
+
+  /* ---------- Phone refinements ---------- */
+  @media (max-width:640px){
+    :root{font-size:15px;}
+    .sidebar{padding:12px 14px;gap:2px;}
+    .brand-mark{font-size:1.08rem;}
+    .brand-sub{font-size:0.62rem;}
+    .brand{padding-right:12px;}
+    .nav-item{padding:7px 11px;font-size:0.76rem;gap:10px;}
+    .nav-item .num{display:none;}
+    .nav-item .dot{width:8px;height:8px;}
+    .main{padding-top:58px;}
+    section{padding:44px 18px;}
+    .section-head{margin-bottom:34px;}
+    .section-head h2{font-size:1.5rem;}
+    .section-head .sub{font-size:0.9rem;}
+    .eyebrow{font-size:0.62rem;margin-bottom:10px;}
+
+    .hero{padding-top:28px;}
+    .hero-inner{padding:0 18px;}
+    .hero-badge{font-size:0.6rem;padding:6px 11px;margin-bottom:20px;}
+    h1.hero-title{font-size:1.72rem;line-height:1.2;}
+    .hero-desc{font-size:0.94rem;margin-top:18px;}
+    .hero-stats{grid-template-columns:repeat(2,1fr);gap:18px 14px;margin-top:34px;}
+    .hero-stat{padding:16px 10px 0 0;}
+    .hero-stat .val{font-size:1.45rem;}
+    .hero-stat .lbl{font-size:0.66rem;}
+
+    .card{padding:22px 20px;}
+    .card .icon{width:38px;height:38px;font-size:1.1rem;margin-bottom:14px;}
+    .card h3{font-size:0.98rem;}
+    .card p{font-size:0.86rem;}
+
+    .exp-card{padding:20px;}
+    .exp-top h3{font-size:0.9rem;}
+    .exp-price{font-size:0.8rem;}
+
+    .model-card{padding:26px 20px;}
+    .model-card h3{font-size:1.16rem;}
+    .model-hero-stat .big{font-size:1.9rem;}
+
+    .roi-toggle{width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+    .roi-toggle button{padding:9px 13px;font-size:0.74rem;white-space:nowrap;}
+    .roi-panel{padding:24px 20px;gap:26px;}
+    .roi-stats{grid-template-columns:1fr 1fr;gap:16px;}
+    .roi-stat .val{font-size:1.4rem;}
+    .roi-note{padding:18px;font-size:0.82rem;}
+
+    table.assump{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch;white-space:nowrap;}
+    table.assump th,table.assump td{padding:11px 12px;font-size:0.8rem;}
+
+    .scale-card{padding:22px;}
+    .scale-card .big{font-size:1.9rem;}
+    .network-banner{padding:22px 20px;font-size:0.87rem;border-radius:14px;}
+
+    .rm-step .rm-dot{width:34px;height:34px;font-size:0.85rem;}
+    .rm-step .rm-title{font-size:0.84rem;}
+
+    .contact-wrap{padding:26px;border-radius:18px;}
+    .contact-wrap h2{font-size:1.4rem;}
+    .contact-wrap p{font-size:0.87rem;}
+    .contact-row .v{font-size:0.83rem;text-align:right;}
+    .foot-note{margin-left:18px;margin-right:18px;font-size:0.72rem;}
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark">CATE LABS</div>
+      <div class="brand-sub">Партнёрство с отелями · ОАЭ</div>
+    </div>
+    <nav class="routes" id="routes">
+      <div class="route-line"></div>
+      <a class="nav-item" data-target="overview"><span class="dot"></span><span class="num">01</span>Обзор</a>
+      <a class="nav-item" data-target="ecosystem"><span class="dot"></span><span class="num">02</span>Экосистема</a>
+      <a class="nav-item" data-target="why-hotels"><span class="dot"></span><span class="num">03</span>Почему отели выбирают нас</a>
+      <a class="nav-item" data-target="experiences"><span class="dot"></span><span class="num">04</span>Опыт гостей</a>
+      <a class="nav-item" data-target="models"><span class="dot"></span><span class="num">05</span>Модели партнёрства</a>
+      <a class="nav-item" data-target="financials"><span class="dot"></span><span class="num">06</span>ROI и финансы</a>
+      <a class="nav-item" data-target="scaling"><span class="dot"></span><span class="num">07</span>Масштабирование</a>
+      <a class="nav-item" data-target="advantages"><span class="dot"></span><span class="num">08</span>Преимущества</a>
+      <a class="nav-item" data-target="roadmap"><span class="dot"></span><span class="num">09</span>Дорожная карта</a>
+      <a class="nav-item" data-target="contact"><span class="dot"></span><span class="num">10</span>Контакты</a>
+    </nav>
+    <div class="sidebar-cta">
+      <p>Хотите увидеть расчёт для вашего объекта?</p>
+      <a class="btn" href="#contact">Запросить брифинг</a>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- HERO / OVERVIEW -->
+    <section class="hero" id="overview">
+      <svg class="hero-wave" viewBox="0 0 1200 800" preserveAspectRatio="none">
+        <path d="M0,620 C250,560 350,700 620,650 C880,600 950,520 1200,560 L1200,800 L0,800 Z" fill="#DFF2EC"/>
+        <path id="routepath" d="M60,300 C260,180 420,420 620,300 C840,170 980,340 1150,220" fill="none" stroke="#3FD8C4" stroke-width="2" stroke-dasharray="4 10" opacity="0.55"/>
+      </svg>
+      <div class="hero-inner">
+        <div class="hero-badge"><span class="pulse"></span>ПРЕДЛОЖЕНИЕ О ПАРТНЁРСТВЕ — ДЛЯ ОТЕЛЬНЫХ СЕТЕЙ ОАЭ</div>
+        <h1 class="hero-title">Превратите набережную отеля в <em>центр прибыли</em>, а не статью расходов.</h1>
+        <p class="hero-desc">Электрические катамараны с нулевым выбросом, SaaS-платформа управления флотом и white-label мобильное приложение — единая экосистема, которую вашей команде не нужно обслуживать самостоятельно. Права на управление не требуются — ни гостям, ни персоналу.</p>
+        <div class="hero-stats">
+          <div class="hero-stat"><div class="val">2</div><div class="lbl">катамарана для старта</div></div>
+          <div class="hero-stat"><div class="val">$60K</div><div class="lbl">стартовый пакет</div></div>
+          <div class="hero-stat"><div class="val">11 мес</div><div class="lbl">срок окупаемости</div></div>
+          <div class="hero-stat"><div class="val">0</div><div class="lbl">требуется прав</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ECOSYSTEM -->
+    <section id="ecosystem">
+      <div class="section-head">
+        <div class="eyebrow">02 — Продукт</div>
+        <h2>Не катамаран. Флот, который работает за вас.</h2>
+        <p class="sub">CATE LABS — не производитель катамаранов, а экосистема. Оборудование, программное обеспечение и приложение для гостей построены как единая система: отель не покупает судно, он подключается к уже работающему бизнесу.</p>
+      </div>
+      <div class="grid3">
+        <div class="card">
+          <div class="icon">🚤</div>
+          <h3>Электрические катамараны</h3>
+          <p>Бесшумные, экологичные суда с двойным корпусом и умной телеметрией. Вместимость 2 взрослых + 2 детей, премиальная отделка под бренд-стандарты вашего отеля.</p>
+          <span class="tag">48V Electric</span><span class="tag">IoT Connected</span><span class="tag">2+2 мест</span>
+        </div>
+        <div class="card">
+          <div class="icon">☁️</div>
+          <h3>SaaS-платформа флота</h3>
+          <p>Мониторинг флота в реальном времени, предиктивное обслуживание, динамическое ценообразование и аналитика выручки — полный контроль с одной панели, которой действительно удобно пользоваться.</p>
+          <span class="tag">Облачная</span><span class="tag">AI-ценообразование</span>
+        </div>
+        <div class="card">
+          <div class="icon">📱</div>
+          <h3>White-label приложение</h3>
+          <p>Бронирование под брендом вашего отеля. Мгновенное резервирование, цифровой доступ, рекомендации маршрутов и оплата в приложении — без звонков на ресепшн.</p>
+          <span class="tag">iOS и Android</span><span class="tag">Ваш бренд</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHY HOTELS -->
+    <section id="why-hotels">
+      <div class="section-head">
+        <div class="eyebrow">03 — Почему именно отели</div>
+        <h2>Почему отели выбирают CATE LABS</h2>
+        <p class="sub">В отличие от переговоров с госструктурами — где решения принимаются медленно и требуется уже готовый продукт на столе — отели готовы работать уже на этапе рендеров и стартовых условий. Именно поэтому мы приходим сначала к вам.</p>
+      </div>
+      <div class="grid3">
+        <div class="card">
+          <div class="icon">💰</div>
+          <h3>Новый источник дохода</h3>
+          <p>Превратите неиспользуемую береговую линию или причал в высокомаржинальный центр прибыли без значительных капитальных вложений в инфраструктуру.</p>
+        </div>
+        <div class="card highlight">
+          <div class="icon">🎓</div>
+          <h3>Без прав на управление</h3>
+          <p><strong>Мотор 3 кВт, длина 3,9 м</strong> — ниже порога лицензирования в ОАЭ. Гости управляют судном сами, персоналу не нужна морская квалификация. Ни одного лицензированного шкипера в штате.</p>
+        </div>
+        <div class="card">
+          <div class="icon">🌿</div>
+          <h3>ESG и устойчивое развитие</h3>
+          <p>Флот с нулевым выбросом усиливает «зелёный» имидж отеля и соответствует стратегии UAE Net Zero 2050 — реальный аргумент для экологически осознанных гостей.</p>
+        </div>
+        <div class="card">
+          <div class="icon">⭐</div>
+          <h3>Настоящее отличие от конкурентов</h3>
+          <p>Тихое, самостоятельное и приватное время на воде — а не шумная экскурсия на моторной лодке. Это повышает удовлетворённость гостей, увеличивает длительность пребывания и отражается в отзывах.</p>
+        </div>
+        <div class="card">
+          <div class="icon">📊</div>
+          <h3>Операционная простота</h3>
+          <p>Автоматическое бронирование, цифровое заселение, удалённая диагностика. Минимум персонала, никакого найма и обучения лицензированных капитанов.</p>
+        </div>
+        <div class="card">
+          <div class="icon">🔄</div>
+          <h3>Высокая тиражируемость</h3>
+          <p>После успешного запуска на одном объекте модель легко масштабируется на весь портфель отелей — с общим маркетингом и эффектом масштаба.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXPERIENCES -->
+    <section id="experiences">
+      <div class="section-head">
+        <div class="eyebrow">04 — Опыт гостей</div>
+        <h2>Продуманные впечатления, а не просто прокат</h2>
+        <p class="sub">Каждый сценарий — самостоятельное управление: без прав, без капитана на борту, с полной приватностью для пар и семей. Это и есть продукт, а не второстепенная деталь.</p>
+      </div>
+      <div class="grid3">
+        <div class="exp-card">
+          <div class="exp-top"><h3>🌅 Рассветный wellness-круиз</h3><span class="exp-price">$150/пара</span></div>
+          <p>90-минутный тихий круиз для йоги и медитации на воде. Включает набор здорового завтрака.</p>
+          <div class="exp-tags"><span>Wellness</span><span>Высокая маржа</span><span>Самоуправление</span></div>
+        </div>
+        <div class="exp-card">
+          <div class="exp-top"><h3>🧭 Семейное прибрежное приключение</h3><span class="exp-price">$120/выезд</span></div>
+          <p>Самостоятельный 2-часовой маршрут с GPS-квестом для детей. Родители сами управляют судном — вместимость 2 взрослых + 2 ребёнка.</p>
+          <div class="exp-tags"><span>Семейный</span><span>Высокая частота</span><span>Без прав</span></div>
+        </div>
+        <div class="exp-card">
+          <div class="exp-top"><h3>🏝 Семейный тур по островам</h3><span class="exp-price">$350/день</span></div>
+          <p>Аренда на целый день с заранее заданными маршрутами. Родители полностью контролируют судно — сторонний шкипер не нужен.</p>
+          <div class="exp-tags"><span>Приключения</span><span>Долгая аренда</span><span>Самоуправление</span></div>
+        </div>
+        <div class="exp-card">
+          <div class="exp-top"><h3>🎣 Спортивная рыбалка</h3><span class="exp-price">$200/сессия</span></div>
+          <p>Утренняя рыбалка с сопровождением и арендой снаряжения. Гости самостоятельно управляют судном на протяжении всей сессии.</p>
+          <div class="exp-tags"><span>Нишевый</span><span>Корпоративный</span><span>Без капитана</span></div>
+        </div>
+        <div class="exp-card">
+          <div class="exp-top"><h3>🍾 Закатный чартер с шампанским</h3><span class="exp-price">$400</span></div>
+          <p>Приватный 2-часовой вечерний круиз по заранее заданному романтичному маршруту, самостоятельное управление. Капитана на борту нет.</p>
+          <div class="exp-tags"><span>Люкс</span><span>VIP-апселл</span><span>Приватность</span></div>
+        </div>
+        <div class="exp-card">
+          <div class="exp-top"><h3>📸 Пакет для соцсетей</h3><span class="exp-price">$180</span></div>
+          <p>1-часовой круиз с дрон-съёмкой, оптимизированный под Instagram. Полная приватность — только пара и открытая вода.</p>
+          <div class="exp-tags"><span>Инфлюенсеры</span><span>Органический маркетинг</span><span>Приватно</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MODELS -->
+    <section id="models">
+      <div class="section-head">
+        <div class="eyebrow">05 — Форматы партнёрства</div>
+        <h2>Два пути входа — выбираете структуру капитала вы</h2>
+        <p class="sub">Владейте активом полностью и оставляйте себе всю выручку — или войдите без вложений и делите прибыль с нами 50/50. В обоих случаях — одна и та же технология, обучение и поддержка.</p>
+      </div>
+      <div class="grid2">
+        <div class="model-card a">
+          <div class="model-kicker">Модель 01</div>
+          <h3>Франшизный пакет</h3>
+          <p class="model-sub">Полное владение — максимальная доходность, полный контроль, без капитанов в штате.</p>
+          <div class="model-hero-stat"><span class="big">$60 000</span><span class="capt">общие инвестиции</span></div>
+          <ul class="model-list">
+            <li>2 × электрических катамарана сертификации CATE LABS (2+2, 3кВт/3,9м)</li>
+            <li>SaaS-платформа управления флотом — бессрочная лицензия</li>
+            <li>White-label мобильное приложение для бронирования</li>
+            <li>Инфраструктура точки проката: зарядка, причал, навигация</li>
+            <li>Обучение и сертификация персонала — без морской лицензии</li>
+            <li>Стартовый маркетинговый пакет и цифровые материалы</li>
+            <li>12 месяцев технической поддержки и запчастей</li>
+            <li>Страховой пакет и юридические шаблоны</li>
+          </ul>
+          <div class="model-pills"><span class="pill">100% выручки себе</span><span class="pill">Полное владение активом</span><span class="pill">Без капитанов в штате</span></div>
+        </div>
+        <div class="model-card b">
+          <div class="model-kicker">Модель 02</div>
+          <h3>Совместная точка проката</h3>
+          <p class="model-sub">Партнёрство без капитальных вложений — равное разделение выручки, без лицензированного персонала.</p>
+          <div class="model-hero-stat"><span class="big">$0</span><span class="capt">вложений со стороны отеля</span></div>
+          <ul class="model-list">
+            <li>CATE LABS владеет и обслуживает все катамараны и технику</li>
+            <li>Отель предоставляет пространство на воде + базовые коммуникации</li>
+            <li>Разделение выручки: отель 50% / CATE LABS 50%</li>
+            <li>Отель отвечает за работу с гостями и поддержку на месте</li>
+            <li>CATE LABS отвечает за техническую эксплуатацию, обслуживание, страхование</li>
+            <li>Ежемесячная прозрачная отчётность и автоматическая выплата</li>
+            <li>Гарантированный минимальный доход после 3-го месяца</li>
+            <li>Партнёрство на 3 года с возможностью продления</li>
+          </ul>
+          <div class="model-pills"><span class="pill">Без капвложений</span><span class="pill">Равное партнёрство</span><span class="pill">Без лицензированного персонала</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FINANCIALS -->
+    <section id="financials">
+      <div class="section-head">
+        <div class="eyebrow">06 — Цифры</div>
+        <h2>ROI и финансовый анализ</h2>
+        <p class="sub">Консервативный прогноз, основанный на 220 операционных днях в году и ставке аренды $100/час. Переключайтесь между моделями ниже.</p>
+      </div>
+
+      <div class="roi-toggle" id="roiToggle">
+        <button class="active" data-model="franchise">Франшизный пакет</button>
+        <button data-model="joint">Совместная точка проката</button>
+      </div>
+
+      <div class="roi-panel">
+        <div class="roi-stats" id="roiStats">
+          <div class="roi-stat"><div class="val" id="s-invest">$60 000</div><div class="lbl">Инвестиции отеля</div></div>
+          <div class="roi-stat"><div class="val" id="s-payback">11 месяцев</div><div class="lbl">Срок окупаемости</div></div>
+          <div class="roi-stat"><div class="val" id="s-annual">$65 000</div><div class="lbl">Чистая годовая прибыль отеля</div></div>
+          <div class="roi-stat"><div class="val" id="s-5yr">442%</div><div class="lbl">ROI за 5 лет</div></div>
+        </div>
+        <div class="roi-note" id="roiNote">
+          Модель полного владения. Годовая выручка <strong>$100 000</strong> с 2 катамаранов, за вычетом <strong>$35 000</strong> операционных расходов (35%), даёт <strong>$65 000</strong> чистой прибыли — 100% остаётся у отеля. При инвестициях $60 000 окупаемость наступает менее чем за год, а чистая прибыль за 5 лет превышает <strong>$265 000</strong>.
+        </div>
+      </div>
+
+      <table class="assump">
+        <tr><th>Допущение (2 катамарана)</th><th>Значение</th></tr>
+        <tr><td>Средняя ставка аренды</td><td class="num">$100/час</td></tr>
+        <tr><td>Загрузка в высокий сезон (окт–апр)</td><td class="num">3 ч/день</td></tr>
+        <tr><td>Загрузка в низкий сезон (май–сен)</td><td class="num">1 ч/день</td></tr>
+        <tr><td>Операционные расходы</td><td class="num">35% от выручки</td></tr>
+        <tr><td>Операционных дней в году</td><td class="num">220 дней</td></tr>
+        <tr><td>Высокий / низкий сезон</td><td class="num">140 / 80 дней</td></tr>
+        <tr><td>Расходы на капитана / лицензию</td><td class="num">$0</td></tr>
+      </table>
+    </section>
+
+    <!-- SCALING -->
+    <section id="scaling">
+      <div class="section-head">
+        <div class="eyebrow">07 — После пилота</div>
+        <h2>Масштабирование по вашей сети</h2>
+        <p class="sub">От одного объекта до регионального флота — с ростом улучшается не только выручка, но и экономика проекта.</p>
+      </div>
+      <div class="scale-row">
+        <div class="scale-card">
+          <h3>Масштаб одного объекта</h3>
+          <p style="color:var(--ink-soft);font-size:0.9rem;line-height:1.6;margin-top:10px;">Расширение с 2 до 4–6 катамаранов в одном отеле. Общая инфраструктура снижает удельные операционные расходы на 25%. Тот же причал, тот же персонал — и по-прежнему без лицензий на капитана.</p>
+          <div class="big">2x → 4x</div><div class="big-lbl">РОСТ ВЫРУЧКИ</div>
+        </div>
+        <div class="scale-card">
+          <h3>Прибрежная сеть</h3>
+          <p style="color:var(--ink-soft);font-size:0.9rem;line-height:1.6;margin-top:10px;">Объединение 3–5 отелей вдоль побережья. Гости стартуют в отеле А, финишируют в отеле Б — с кросс-маркетингом и маршрутными пакетами между объектами.</p>
+          <div class="big">3–5</div><div class="big-lbl">СВЯЗАННЫХ ОБЪЕКТОВ</div>
+        </div>
+        <div class="scale-card">
+          <h3>Региональный хаб</h3>
+          <p style="color:var(--ink-soft);font-size:0.9rem;line-height:1.6;margin-top:10px;">Централизованное обслуживание, общий склад запчастей, единое присутствие бренда. Каждый новый объект получает выгоду от сетевого маркетинга.</p>
+          <div class="big">30%+</div><div class="big-lbl">СНИЖЕНИЕ OPEX ПРИ МАСШТАБЕ</div>
+        </div>
+      </div>
+      <div class="network-banner">
+        При <strong>4 отелях × 4 катамарана (16 единиц)</strong> общая выручка сети достигает <strong>$800K в год</strong> при совокупных операционных расходах ниже 30%. Централизованная SaaS-платформа означает нулевые дополнительные затраты на ПО для каждого нового объекта — а white-label приложение превращается в <strong>единую экосистему направления</strong>, где гости бронируют впечатления по всему вашему портфелю.
+      </div>
+    </section>
+
+    <!-- ADVANTAGES -->
+    <section id="advantages">
+      <div class="section-head">
+        <div class="eyebrow">08 — Почему мы победим</div>
+        <h2>Конкурентные преимущества</h2>
+        <p class="sub">На рынке гостеприимства ОАЭ пока нет интегрированного конкурента без требования прав на управление такого уровня — мы предлагаем вам место в этой нише на раннем этапе.</p>
+      </div>
+      <div class="grid3">
+        <div class="card highlight">
+          <div class="icon">🎓</div>
+          <h3>Работа без прав</h3>
+          <p>Мотор 3 кВт + длина 3,9 м = морская лицензия не требуется ни гостям, ни персоналу. Это снимает главный барьер для проката водного транспорта — стоимость и дефицит лицензированных капитанов.</p>
+        </div>
+        <div class="card">
+          <div class="icon">⚡</div>
+          <h3>Преимущество первопроходца</h3>
+          <p>Прокат электрических катамаранов без требования прав сегодня практически отсутствует в гостиничном секторе ОАЭ. Первые игроки получают премиальное позиционирование и внимание СМИ.</p>
+        </div>
+        <div class="card">
+          <div class="icon">🤖</div>
+          <h3>Технологическое преимущество</h3>
+          <p>Собственная SaaS-платформа с AI-ценообразованием, предиктивным обслуживанием и IoT-телеметрией. Ни один конкурент не предлагает интегрированный технологический стек.</p>
+        </div>
+        <div class="card">
+          <div class="icon">💎</div>
+          <h3>Гибкие варианты капитала</h3>
+          <p>Единственный поставщик, предлагающий и полную франшизу, и партнёрство 50/50 без капвложений. Выбор зависит от вашей стратегии распределения капитала.</p>
+        </div>
+        <div class="card">
+          <div class="icon">📈</div>
+          <h3>Владение данными</h3>
+          <p>Поведенческие данные гостей — паттерны бронирования, предпочтения маршрутов, расходы — напрямую питают CRM отеля и оптимизацию допродаж.</p>
+        </div>
+        <div class="card">
+          <div class="icon">🌐</div>
+          <h3>Регуляторное соответствие</h3>
+          <p>Изначально спроектировано под морское и гостиничное регулирование ОАЭ. Ограничение скорости, геозонирование, страхование и сертификация для курортных вод.</p>
+        </div>
+      </div>
+      <div style="margin-top:22px;display:flex;flex-wrap:wrap;gap:10px;">
+        <span class="pill">Без прав на управление</span><span class="pill">Морская сертификация ОАЭ</span><span class="pill">Соответствие ISO 14001</span><span class="pill">GDPR / PDPL</span><span class="pill">Банковское шифрование</span>
+      </div>
+    </section>
+
+    <!-- ROADMAP -->
+    <section id="roadmap">
+      <div class="section-head">
+        <div class="eyebrow">09 — С чего начать</div>
+        <h2>От идеи до первого гостя на воде — за 90 дней</h2>
+        <p class="sub">Лицензированный капитан не требуется ни на одном этапе. Рекомендуем начать переговоры уже сейчас, чтобы запуститься к зимнему сезону — самому активному периоду для водной активности отелей ОАЭ.</p>
+      </div>
+      <div class="roadmap">
+        <div class="rm-line"></div>
+        <div class="rm-step"><div class="rm-dot">1</div><div class="rm-week">НЕДЕЛЯ 1–2</div><div class="rm-title">NDA и оценка целесообразности</div></div>
+        <div class="rm-step"><div class="rm-dot">2</div><div class="rm-week">НЕДЕЛЯ 3–4</div><div class="rm-title">Соглашение и осмотр площадки</div></div>
+        <div class="rm-step"><div class="rm-dot">3</div><div class="rm-week">НЕДЕЛЯ 5–8</div><div class="rm-title">Поставка и монтаж оборудования</div></div>
+        <div class="rm-step"><div class="rm-dot">4</div><div class="rm-week">НЕДЕЛЯ 9–10</div><div class="rm-title">Обучение персонала и мягкий запуск</div></div>
+        <div class="rm-step"><div class="rm-dot">5</div><div class="rm-week">НЕДЕЛЯ 12</div><div class="rm-title">Официальный запуск и маркетинг</div></div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" style="border-bottom:none;">
+      <div class="contact-wrap">
+        <div>
+          <div class="eyebrow" style="color:var(--teal-bright);">10 — Свяжемся</div>
+          <h2>Построим будущее гостиничного бизнеса на воде вместе</h2>
+          <p>Это предложение конфиденциально и подготовлено для указанной отельной сети. Запросите индивидуальный расчёт целесообразности для вашего объекта — без обязательств.</p>
+        </div>
+        <div class="contact-grid">
+          <div class="contact-row"><span class="k">Email</span><span class="v">partnerships@cate.ae</span></div>
+          <div class="contact-row"><span class="k">Телефон</span><span class="v">+971-4-XXX-XXXX</span></div>
+          <div class="contact-row"><span class="k">Офис</span><span class="v">RAKEZ Business Zone, Ras Al Khaimah, ОАЭ</span></div>
+          <div class="contact-row"><span class="k">Сайт</span><span class="v">www.cate.ae</span></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="foot-note">Данная презентация конфиденциальна и предназначена исключительно для указанной отельной сети. CATE LABS — технологическая компания, лицензированная RAKEZ © 2026.</div>
+  </main>
+</div>
+
+<script>
+  // Sticky nav active state via IntersectionObserver
+  const items = document.querySelectorAll('.nav-item');
+  const sections = [...items].map(i => document.getElementById(i.dataset.target));
+
+  items.forEach(item=>{
+    item.addEventListener('click', (e)=>{
+      e.preventDefault();
+      document.getElementById(item.dataset.target).scrollIntoView({behavior:'smooth', block:'start'});
+    });
+  });
+
+  const observer = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        const id = entry.target.id;
+        items.forEach(i=>i.classList.toggle('active', i.dataset.target===id));
+      }
+    });
+  }, {rootMargin:'-40% 0px -50% 0px', threshold:0});
+
+  sections.forEach(s=>{ if(s) observer.observe(s); });
+
+  // ROI toggle
+  const data = {
+    franchise:{
+      invest:'$60 000', payback:'11 месяцев', annual:'$65 000', fiveYr:'442%',
+      note:'Модель полного владения. Годовая выручка <strong>$100 000</strong> с 2 катамаранов, за вычетом <strong>$35 000</strong> операционных расходов (35%), даёт <strong>$65 000</strong> чистой прибыли — 100% остаётся у отеля. При инвестициях $60 000 окупаемость наступает менее чем за год, а чистая прибыль за 5 лет превышает <strong>$265 000</strong>.'
+    },
+    joint:{
+      invest:'$0', payback:'Сразу', annual:'$32 500', fiveYr:'$162 500+',
+      note:'Партнёрство без капвложений. Та же чистая прибыль $65 000 делится 50/50 — отель зарабатывает <strong>$32 500 в год</strong> без первоначальных вложений и без необходимости вести техническую эксплуатацию. Поскольку вложений возвращать не нужно, окупаемость наступает сразу, а доход отеля за 5 лет достигает <strong>$162 500+</strong>.'
+    }
+  };
+  const btns = document.querySelectorAll('#roiToggle button');
+  btns.forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      btns.forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      const d = data[btn.dataset.model];
+      document.getElementById('s-invest').textContent = d.invest;
+      document.getElementById('s-payback').textContent = d.payback;
+      document.getElementById('s-annual').textContent = d.annual;
+      document.getElementById('s-5yr').textContent = d.fiveYr;
+      document.getElementById('roiNote').innerHTML = d.note;
+    });
+  });
+
+  // Animate hero route line
+  const path = document.getElementById('routepath');
+  if(path){
+    const len = path.getTotalLength();
+    path.style.strokeDasharray = len;
+    path.style.strokeDashoffset = len;
+    path.animate([{strokeDashoffset:len},{strokeDashoffset:0}], {duration:2600, easing:'ease-out', fill:'forwards'});
+  }
+</script>
+</body>
+</html>
