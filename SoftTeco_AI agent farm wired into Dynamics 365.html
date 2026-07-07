@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Agent Farm × Dynamics 365 — Integration Architecture</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#08131c;
+    --bg-alt:#0b1e2b;
+    --panel:#0f2839;
+    --panel-2:#123147;
+    --line:#1c3f56;
+    --edge:rgba(130,185,205,.14);
+    --cyan:#34e5de;      /* inbound: events & data (read) */
+    --cyan-soft:rgba(52,229,222,.13);
+    --amber:#ff9d5c;     /* outbound: agent results (write-back) */
+    --amber-soft:rgba(255,157,92,.13);
+    --blue:#5aa9e6;      /* dynamics 365 system tint */
+    --text:#e7f2f6;
+    --muted:#8aa9b8;
+    --muted-2:#5f8395;
+    --radius:14px;
+    --maxw:1180px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;background:var(--bg);color:var(--text);
+    font-family:"IBM Plex Sans",system-ui,sans-serif;
+    -webkit-font-smoothing:antialiased;line-height:1.5;
+    overflow-x:hidden;
+  }
+  .mono{font-family:"IBM Plex Mono",monospace}
+  .display{font-family:"Space Grotesk",sans-serif}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+  a{color:inherit}
+
+  /* ---------- header ---------- */
+  header.site{
+    position:sticky;top:0;z-index:40;
+    backdrop-filter:blur(10px);
+    background:linear-gradient(180deg,rgba(8,19,28,.92),rgba(8,19,28,.6));
+    border-bottom:1px solid var(--edge);
+  }
+  .site .wrap{display:flex;align-items:center;justify-content:space-between;height:60px}
+  .brand{display:flex;align-items:center;gap:10px;font-family:"Space Grotesk";font-weight:700;letter-spacing:.14em;font-size:14px}
+  .brand .dot{width:9px;height:9px;border-radius:2px;background:var(--cyan);box-shadow:0 0 10px var(--cyan)}
+  .htag{font-family:"IBM Plex Mono";font-size:11px;color:var(--muted-2);letter-spacing:.12em}
+  @media(max-width:640px){.htag{display:none}}
+
+  /* ---------- hero ---------- */
+  .hero{position:relative;padding:76px 0 40px;overflow:hidden}
+  .hero::before{
+    content:"";position:absolute;inset:0;
+    background:
+      radial-gradient(700px 340px at 78% 8%,rgba(52,229,222,.10),transparent 60%),
+      radial-gradient(620px 320px at 12% 34%,rgba(255,157,92,.08),transparent 60%);
+    pointer-events:none;
+  }
+  .eyebrow{font-family:"IBM Plex Mono";font-size:12px;letter-spacing:.28em;color:var(--cyan);text-transform:uppercase}
+  h1{
+    font-family:"Space Grotesk";font-weight:700;
+    font-size:clamp(30px,5.4vw,58px);line-height:1.02;letter-spacing:-.02em;
+    margin:16px 0 0;max-width:16ch;
+  }
+  h1 .hl{color:var(--cyan)}
+  .lede{color:var(--muted);font-size:clamp(15px,1.7vw,18px);max-width:60ch;margin:22px 0 0}
+
+  .controls{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin-top:30px}
+  .seg{display:inline-flex;background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:4px;gap:4px}
+  .seg button{
+    font-family:"IBM Plex Mono";font-size:12.5px;letter-spacing:.04em;
+    color:var(--muted);background:transparent;border:0;cursor:pointer;
+    padding:9px 15px;border-radius:8px;transition:.22s;white-space:nowrap;
+  }
+  .seg button .loc{color:var(--muted-2);font-size:11px}
+  .seg button.on{background:linear-gradient(180deg,var(--panel-2),#0e2637);color:var(--text);box-shadow:0 0 0 1px var(--cyan) inset}
+  .seg button.on .loc{color:var(--cyan)}
+  .seg-label{font-family:"IBM Plex Mono";font-size:11px;color:var(--muted-2);letter-spacing:.1em}
+
+  .chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
+  .chip{
+    font-family:"IBM Plex Mono";font-size:12px;color:var(--muted);
+    border:1px solid var(--line);border-radius:999px;padding:7px 13px;background:rgba(18,49,71,.35);
+  }
+  .chip b{color:var(--text);font-weight:500}
+
+  /* ---------- section frame ---------- */
+  section.blk{padding:58px 0;border-top:1px solid var(--edge)}
+  .kick{display:flex;align-items:baseline;gap:14px;margin-bottom:8px}
+  .kick .num{font-family:"IBM Plex Mono";font-size:12px;color:var(--amber);letter-spacing:.1em}
+  .kick .lab{font-family:"IBM Plex Mono";font-size:12px;color:var(--muted-2);letter-spacing:.22em;text-transform:uppercase}
+  h2{font-family:"Space Grotesk";font-weight:600;font-size:clamp(22px,3vw,32px);letter-spacing:-.01em;margin:2px 0 0}
+  .sub{color:var(--muted);max-width:64ch;margin:12px 0 0;font-size:15px}
+
+  /* ---------- diagram ---------- */
+  .diagram-card{
+    margin-top:30px;background:linear-gradient(180deg,#0b1e2c,#091722);
+    border:1px solid var(--line);border-radius:18px;padding:16px 16px 8px;
+    box-shadow:0 24px 60px -30px rgba(0,0,0,.8);
+  }
+  .legend{display:flex;flex-wrap:wrap;gap:18px;padding:6px 8px 14px}
+  .lg{display:flex;align-items:center;gap:9px;font-family:"IBM Plex Mono";font-size:12px;color:var(--muted)}
+  .lg .sw{width:26px;height:0;border-top:2px solid}
+  .lg.cy .sw{border-color:var(--cyan)}
+  .lg.am .sw{border-color:var(--amber)}
+  svg.arch{width:100%;height:auto;display:block}
+  .n-title{font-family:"Space Grotesk";font-weight:600;fill:var(--text)}
+  .n-sub{font-family:"IBM Plex Mono";fill:var(--muted)}
+  .n-chip{font-family:"IBM Plex Mono";fill:var(--muted-2)}
+  .pod-label{font-family:"IBM Plex Mono";fill:var(--text)}
+
+  @keyframes seg{0%,100%{opacity:.25}50%{opacity:1}}
+  @keyframes podpulse{0%,100%{opacity:.55}50%{opacity:1}}
+  .rp-seg{animation:seg 1.8s ease-in-out infinite}
+  .pod{animation:podpulse 3s ease-in-out infinite}
+  @media(prefers-reduced-motion:reduce){.rp-seg,.pod{animation:none;opacity:.8}}
+
+  /* ---------- agent grid ---------- */
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:30px}
+  @media(max-width:900px){.grid{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:600px){.grid{grid-template-columns:1fr}}
+  .agent{
+    position:relative;background:var(--panel);border:1px solid var(--line);
+    border-radius:var(--radius);padding:20px 18px;overflow:hidden;transition:.3s;
+  }
+  .agent::after{content:"";position:absolute;left:0;top:0;height:2px;width:0;background:var(--cyan);transition:.4s}
+  .agent:hover{border-color:var(--cyan);transform:translateY(-3px)}
+  .agent:hover::after{width:100%}
+  .agent .ico{width:42px;height:42px;border-radius:10px;display:grid;place-items:center;background:var(--cyan-soft);border:1px solid rgba(52,229,222,.28);margin-bottom:14px}
+  .agent .ico svg{width:22px;height:22px;stroke:var(--cyan);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+  .agent h3{font-family:"Space Grotesk";font-weight:600;font-size:16px;margin:0 0 6px}
+  .agent p{color:var(--muted);font-size:13.5px;margin:0}
+  .agent .tag{font-family:"IBM Plex Mono";font-size:10.5px;color:var(--muted-2);letter-spacing:.08em;margin-top:12px;display:block}
+
+  /* ---------- flows ---------- */
+  .flows{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:30px}
+  @media(max-width:860px){.flows{grid-template-columns:1fr}}
+  .flow{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px}
+  .flow .fh{display:flex;align-items:center;gap:10px;margin-bottom:4px}
+  .flow .fdir{font-family:"IBM Plex Mono";font-size:11px;padding:4px 9px;border-radius:999px;letter-spacing:.06em}
+  .fdir.inb{color:var(--cyan);background:var(--cyan-soft);border:1px solid rgba(52,229,222,.3)}
+  .fdir.out{color:var(--amber);background:var(--amber-soft);border:1px solid rgba(255,157,92,.3)}
+  .flow h3{font-family:"Space Grotesk";font-weight:600;font-size:17px;margin:0}
+  .steps{margin-top:18px;position:relative}
+  .step{display:flex;gap:14px;padding:12px 0;position:relative;opacity:.42;transition:.35s}
+  .step.act{opacity:1}
+  .step .bullet{
+    flex:0 0 auto;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;
+    border:1px solid var(--line);background:var(--bg-alt);font-family:"IBM Plex Mono";font-size:12px;color:var(--muted);transition:.35s;
+  }
+  .step.act .bullet{border-color:var(--cyan);color:var(--cyan);box-shadow:0 0 12px rgba(52,229,222,.4)}
+  .flow.out .step.act .bullet{border-color:var(--amber);color:var(--amber);box-shadow:0 0 12px rgba(255,157,92,.4)}
+  .step .line{position:absolute;left:13px;top:32px;bottom:-6px;width:1px;background:var(--line)}
+  .step:last-child .line{display:none}
+  .step .body h4{font-family:"Space Grotesk";font-weight:500;font-size:14.5px;margin:2px 0 3px}
+  .step .body p{margin:0;color:var(--muted);font-size:13px}
+  .step .body .who{font-family:"IBM Plex Mono";font-size:10.5px;color:var(--muted-2);letter-spacing:.05em}
+
+  /* ---------- security strip ---------- */
+  .sec{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:28px}
+  @media(max-width:800px){.sec{grid-template-columns:1fr}}
+  .scard{background:linear-gradient(180deg,var(--panel),#0c2333);border:1px solid var(--line);border-radius:14px;padding:20px}
+  .scard .st{font-family:"IBM Plex Mono";font-size:11px;letter-spacing:.16em;color:var(--amber);text-transform:uppercase}
+  .scard h4{font-family:"Space Grotesk";font-weight:600;font-size:16px;margin:10px 0 8px}
+  .scard p{color:var(--muted);font-size:13.5px;margin:0}
+  .scard code{font-family:"IBM Plex Mono";font-size:12px;color:var(--cyan);background:var(--cyan-soft);padding:1px 6px;border-radius:5px}
+
+  footer{border-top:1px solid var(--edge);padding:30px 0 50px;color:var(--muted-2);font-family:"IBM Plex Mono";font-size:12px}
+  footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+
+  /* ---------- mandate / dimensions ---------- */
+  .pillar{display:flex;align-items:baseline;gap:12px;margin:36px 0 14px}
+  .pillar-idx{width:24px;height:24px;flex:0 0 auto;border-radius:6px;display:inline-grid;place-items:center;background:var(--amber-soft);border:1px solid rgba(255,157,92,.35);color:var(--amber);font-size:12px}
+  .pillar h3{font-family:"Space Grotesk";font-weight:600;font-size:19px;margin:0}
+  .pillar-meta{color:var(--muted-2);font-size:11px;letter-spacing:.14em}
+  .dims{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+  .dim{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 16px 15px;transition:.28s}
+  .dim:hover{border-color:var(--cyan);transform:translateY(-2px)}
+  .dim-top{display:flex;align-items:center;gap:9px;margin-bottom:9px}
+  .dim-num{font-size:12px;color:var(--amber)}
+  .dim-focus{font-size:9.5px;color:var(--muted-2);letter-spacing:.12em}
+  .dim h4{font-family:"Space Grotesk";font-weight:600;font-size:15px;margin:0 0 8px;line-height:1.2}
+  .dim-problem{color:var(--muted);font-size:12.5px;margin:0 0 11px;line-height:1.45}
+  .dim-sol{color:var(--text);font-size:12.5px;margin:0;line-height:1.5}
+  .dim-sol .arrow{color:var(--cyan);font-weight:700;margin-right:5px}
+  .dim-tag{display:block;margin-top:12px;font-size:9.5px;color:var(--cyan);letter-spacing:.08em}
+
+  /* reveal */
+  [data-reveal]{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
+  [data-reveal].in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){[data-reveal]{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+<script type="text/babel">
+const {useState,useEffect,useRef} = React;
+
+/* ---------------- icons ---------------- */
+function Icon({name}){
+  const p = {
+    scan:<><path d="M4 8V5a1 1 0 0 1 1-1h3M20 8V5a1 1 0 0 0-1-1h-3M4 16v3a1 1 0 0 0 1 1h3M20 16v3a1 1 0 0 1-1 1h-3"/><path d="M4 12h16"/></>,
+    verify:<><path d="M12 3l7 3v5c0 4.2-2.9 7.6-7 9-4.1-1.4-7-4.8-7-9V6l7-3z"/><path d="M9 12l2 2 4-4"/></>,
+    legal:<><path d="M12 3v18M6 8l-3 6h6l-3-6zM18 8l-3 6h6l-3-6z"/><path d="M4 21h16M8 6h8"/></>,
+    translate:<><path d="M4 5h8M8 3v2M6 5c0 4-2 7-3 8M5 8c1 2 3 4 5 5"/><path d="M13 21l4-9 4 9M14.5 17h5"/></>,
+    dilig:<><circle cx="10.5" cy="10.5" r="6"/><path d="M20 20l-5.2-5.2"/><path d="M8 10.5h5M10.5 8v5"/></>,
+    enrich:<><path d="M4 7c0-1.7 3.6-3 8-3s8 1.3 8 3-3.6 3-8 3-8-1.3-8-3z"/><path d="M4 7v5c0 1.7 3.6 3 8 3M20 7v4"/><path d="M18 14v6M15 17h6"/></>
+  }[name];
+  return <svg viewBox="0 0 24 24">{p}</svg>;
+}
+
+const AGENTS = [
+  {i:"scan",t:"Document Recognition",d:"Reads scanned files and photos attached to any record and turns them into structured, searchable fields.",tag:"OCR · LAYOUT · KV-EXTRACT"},
+  {i:"verify",t:"Document Verification",d:"Checks that submitted documents are complete, authentic, and actually match the record they belong to.",tag:"AUTHENTICITY · COMPLETENESS"},
+  {i:"legal",t:"Legal Status Check",d:"Confirms a document's legal validity — expiry, jurisdiction, registry and sanctions lookups.",tag:"EXPIRY · REGISTRY · SANCTIONS"},
+  {i:"translate",t:"Translation",d:"Produces accurate localized copies of documents and record fields while preserving legal terminology.",tag:"47 LANGUAGES · TERMINOLOGY"},
+  {i:"dilig",t:"Due Diligence",d:"Runs background and risk checks on a lead or account, then compiles a fully sourced report.",tag:"KYC · KYB · RISK SCORE"},
+  {i:"enrich",t:"Data Enrichment",d:"Fills in missing details on leads, accounts and contacts from trusted external sources.",tag:"FIRMOGRAPHICS · DEDUPE"}
+];
+
+const FLOW_A = {
+  title:"Inbound lead enrichment", dir:"inb", tag:"D365 → FARM → D365",
+  steps:[
+    {h:"A lead is created in Dynamics 365",p:"A sales rep or a web form adds a new lead in the client's CRM.",w:"DYNAMICS 365 · LEADS"},
+    {h:"The change is streamed to the farm",p:"A Dataverse event is published to Service Bus and lands on the Redpanda topic crm.leads.",w:"SERVICE BUS → REDPANDA"},
+    {h:"Agents act in parallel",p:"The Enrichment agent adds firmographics; the Due Diligence agent runs risk and sanctions checks.",w:"ENRICH + DILIGENCE PODS"},
+    {h:"Results are written back",p:"Verified fields and a risk score are written to the lead via the MCP gateway, and the owner is notified.",w:"MCP WRITE-BACK · LEADS"}
+  ]
+};
+const FLOW_B = {
+  title:"Document intake & compliance", dir:"out", tag:"D365 → FARM → D365",
+  steps:[
+    {h:"A document is attached to a record",p:"A contract or ID is uploaded against an account in Dynamics 365.",w:"DYNAMICS 365 · DOCUMENTS"},
+    {h:"Recognition extracts the content",p:"The OCR agent pulls text and key fields into a structured object.",w:"OCR POD"},
+    {h:"Compliance & language run next",p:"The Legal Status agent validates the document; the Translation agent generates a localized copy.",w:"LEGAL + TRANSLATE PODS"},
+    {h:"Structured output returns to the record",p:"Extracted data, a validity flag and the translation are attached back to the account.",w:"MCP WRITE-BACK · DOCUMENTS"}
+  ]
+};
+
+/* ---------------- 12-dimension mandate ---------------- */
+const PILLARS = [
+  {idx:"V", name:"Vision Realisation", meta:"DIMENSIONS 1–5", dims:[
+    {n:"01",focus:"ANTICIPATE NEEDS",name:"Human-Centric Strategy",problem:"Use data insights to anticipate investor, partner and employee needs.",sol:"Insight & Enrichment agents mine journey data to surface unmet needs and pain points, feeding a living view of the effortless investor experience.",tag:"ENRICHMENT · INSIGHT"},
+    {n:"02",focus:"FORESIGHT",name:"Future Readiness & Strategic Alignment",problem:"Use foresight and predictive analytics to anticipate change.",sol:"Foresight agents ingest market and deal signals from Bloomberg, Capital IQ and PitchBook and raise early-warning dashboards of emerging expectations, risks and opportunities.",tag:"FORESIGHT · PREDICTIVE"},
+    {n:"03",focus:"AI IN DAILY WORK",name:"Human Capability & HR",problem:"Embed AI literacy and tools into everyday work.",sol:"Assistant agents sit beside staff to draft, summarize, report and analyze on demand — cutting manual effort while usage and productivity gains are tracked automatically.",tag:"ASSISTANT · PRODUCTIVITY"},
+    {n:"04",focus:"OPS, NOT PILOTS",name:"Digital Capability & Technology",problem:"Move AI from pilots into operational processes.",sol:"Process-automation agents run inside workflows and decision engines for straight-through processing on repetitive, end-to-end journeys.",tag:"AUTOMATION · STP"},
+    {n:"05",focus:"PROACTIVE SERVICE",name:"Service Delivery",problem:"Provide personalized and proactive services.",sol:"Recommendation & notification agents personalize by profile and history, proactively alert users to required actions, and power smart routing and virtual assistants.",tag:"RECOMMEND · NOTIFY"}
+  ]},
+  {idx:"O", name:"Operational Excellence", meta:"DIMENSIONS 6–11", dims:[
+    {n:"06",focus:"DECISION GOVERNANCE",name:"Governance",problem:"Support faster, data-driven governance decisions.",sol:"Governance agents apply decision rules to auto-clear low-risk approvals, recommend delegation levels, and feed leadership dashboards on approvals, delays and risks.",tag:"DECISION · APPROVALS"},
+    {n:"07",focus:"SHARED DATA",name:"Collaboration",problem:"Share data across the ecosystem for a one-government experience.",sol:"Integration agents connect insights across entities and touchpoints and detect hand-off delays, duplication and gaps between departments.",tag:"INTEGRATION · CROSS-ENTITY"},
+    {n:"08",focus:"PERFORMANCE INSIGHT",name:"Organisational Learning",problem:"Use analytics to find recurring delays and inefficiencies.",sol:"Analytics agents mine complaints, feedback and service data for recurring issues and recommend corrective actions in a continuous learning loop.",tag:"ANALYTICS · IMPROVEMENT"},
+    {n:"09",focus:"SENTIMENT",name:"Communications",problem:"Use AI for stakeholder insight and sentiment.",sol:"Sentiment agents read channels to gauge perception, spot confusion points, and draft personalized, proactive messaging and FAQs per stakeholder group.",tag:"SENTIMENT · COMMS"},
+    {n:"10",focus:"PREDICT RISK",name:"Risk Management",problem:"Predict operational, financial and compliance risks from data.",sol:"Risk agents classify risk levels, drive risk-based approvals, auto-clear low-risk and escalate high-risk cases, and maintain early-warning risk dashboards.",tag:"RISK · EARLY-WARNING"},
+    {n:"11",focus:"FINANCIAL OPTIMIZATION",name:"Financial & Asset Management",problem:"Use analytics for better resource allocation.",sol:"Optimization agents rank initiatives by cost, benefit, speed and CX impact and run forecasting for budget planning, demand and investment prioritization.",tag:"OPTIMIZE · FORECAST"}
+  ]},
+  {idx:"A", name:"Accelerator", meta:"DIMENSION 12", dims:[
+    {n:"12",focus:"AI INNOVATION",name:"Adaptability & Innovation",problem:"Build a continuous pipeline of AI-driven innovation use cases.",sol:"An orchestration layer spins up rapid agent pilots against real pain points, scores them on speed, CX impact, feasibility and value, and scales the winners into operations.",tag:"ORCHESTRATION · PILOTS"}
+  ]}
+];
+
+function Mandate(){
+  return (
+    <section className="blk" style={{background:"var(--bg-alt)"}}>
+      <div className="wrap">
+        <div className="kick"><span className="num">01</span><span className="lab">The mandate</span></div>
+        <h2 className="display">Your 12-dimension accelerator, delivered by agents</h2>
+        <p className="sub">Each dimension of the Government Excellence AI Accelerator maps to a class of agents on the farm — running on top of your Microsoft data platform (Dynamics 365, Fabric, Purview, Copilot) rather than replacing it. Here is how the farm turns each focus area into a working capability.</p>
+        {PILLARS.map(p=>(
+          <div key={p.idx}>
+            <div className="pillar">
+              <span className="pillar-idx mono">{p.idx}</span>
+              <h3 className="display">{p.name}</h3>
+              <span className="pillar-meta mono">{p.meta}</span>
+            </div>
+            <div className="dims">
+              {p.dims.map(d=>(
+                <div className="dim" data-reveal key={d.n}>
+                  <div className="dim-top"><span className="dim-num mono">{d.n}</span><span className="dim-focus mono">{d.focus}</span></div>
+                  <h4 className="display">{d.name}</h4>
+                  <p className="dim-problem">Focus — {d.problem}</p>
+                  <p className="dim-sol"><span className="arrow">→</span>{d.sol}</p>
+                  <span className="dim-tag mono">{d.tag}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+/* ---------------- animated diagram ---------------- */
+function Arch({deploy}){
+  const inRef = useRef(null), outRef = useRef(null);
+  const cy = useRef([]), am = useRef([]);
+  const N = 5;
+
+  useEffect(()=>{
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const ip = inRef.current, op = outRef.current;
+    if(!ip||!op) return;
+    const il = ip.getTotalLength(), ol = op.getTotalLength();
+    const fade = p => Math.max(.12, Math.min(1, p/0.07, (1-p)/0.07));
+
+    if(reduce){
+      [[cy.current,ip,il],[am.current,op,ol]].forEach(([arr,path,len])=>{
+        arr.forEach((c,i)=>{ if(!c)return; const p=(i+0.5)/N; const pt=path.getPointAtLength(p*len); c.setAttribute("cx",pt.x); c.setAttribute("cy",pt.y); c.setAttribute("opacity",.85); });
+      });
+      return;
+    }
+    let raf; const speed = 0.000052;
+    const frame = t => {
+      cy.current.forEach((c,i)=>{ if(!c)return; const p=((t*speed)+i/N)%1; const pt=ip.getPointAtLength(p*il); c.setAttribute("cx",pt.x); c.setAttribute("cy",pt.y); c.setAttribute("opacity",fade(p)); });
+      am.current.forEach((c,i)=>{ if(!c)return; const p=((t*speed)+i/N)%1; const pt=op.getPointAtLength(p*ol); c.setAttribute("cx",pt.x); c.setAttribute("cy",pt.y); c.setAttribute("opacity",fade(p)); });
+      raf=requestAnimationFrame(frame);
+    };
+    raf=requestAnimationFrame(frame);
+    return ()=>cancelAnimationFrame(raf);
+  },[]);
+
+  const home = deploy==="aws"
+    ? {a:"AWS", b:"eu / me region"}
+    : {a:"Core42", b:"sovereign · Dubai"};
+
+  const pods = [["OCR",0],["VERIFY",1],["LEGAL",2],["XLATE",3],["DILIG.",4],["ENRICH",5]];
+
+  return (
+    <svg className="arch" viewBox="0 0 1040 600" role="img" aria-label="Bidirectional integration diagram between Dynamics 365 and the agent farm">
+      <defs>
+        <marker id="arrCy" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto">
+          <path d="M0 0 L6 3 L0 6 Z" fill="var(--cyan)"/>
+        </marker>
+        <marker id="arrAm" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto">
+          <path d="M0 0 L6 3 L0 6 Z" fill="var(--amber)"/>
+        </marker>
+        <radialGradient id="glowFarm" cx="50%" cy="40%" r="60%">
+          <stop offset="0%" stopColor="rgba(52,229,222,.10)"/><stop offset="100%" stopColor="transparent"/>
+        </radialGradient>
+      </defs>
+
+      {/* ambient glows */}
+      <rect x="700" y="70" width="330" height="470" fill="url(#glowFarm)"/>
+
+      {/* ---- conduits (behind boxes' connectors but over bg) ---- */}
+      <path ref={inRef} d="M300 236 C 360 236 386 252 430 256 L 588 256 C 640 256 664 214 740 204"
+            fill="none" stroke="var(--cyan)" strokeWidth="1.6" strokeOpacity=".38" markerEnd="url(#arrCy)"/>
+      <path ref={outRef} d="M740 396 C 664 396 640 358 588 350 L 430 350 C 386 350 360 366 300 402"
+            fill="none" stroke="var(--amber)" strokeWidth="1.6" strokeOpacity=".38" markerEnd="url(#arrAm)"/>
+
+      {/* flowing packets */}
+      {Array.from({length:N}).map((_,i)=>(<circle key={"c"+i} ref={el=>cy.current[i]=el} r="3.6" fill="var(--cyan)"><title>data</title></circle>))}
+      {Array.from({length:N}).map((_,i)=>(<circle key={"a"+i} ref={el=>am.current[i]=el} r="3.6" fill="var(--amber)"><title>result</title></circle>))}
+
+      {/* ---------- Dynamics 365 panel ---------- */}
+      <g>
+        <rect x="40" y="112" width="260" height="378" rx="14" fill="var(--panel)" stroke="var(--line)"/>
+        <rect x="40" y="112" width="260" height="34" rx="14" fill="rgba(90,169,230,.10)"/>
+        <circle cx="62" cy="129" r="4" fill="var(--blue)"/>
+        <text x="76" y="133" className="n-title" fontSize="14">Dynamics 365</text>
+        <text x="58" y="167" className="n-chip" fontSize="10.5">CLIENT ENVIRONMENT · DATAVERSE</text>
+        {[["Leads",188],["Accounts",258],["Contacts",328],["Documents",398]].map(([lab,y])=>(
+          <g key={lab}>
+            <rect x="58" y={y} width="224" height="52" rx="9" fill="var(--bg-alt)" stroke="var(--line)"/>
+            <rect x="58" y={y} width="4" height="52" rx="2" fill="var(--blue)"/>
+            <text x="76" y={y+31} className="n-title" fontSize="14">{lab}</text>
+          </g>
+        ))}
+      </g>
+
+      {/* ---------- gateway ---------- */}
+      <g>
+        <rect x="430" y="216" width="180" height="172" rx="12" fill="var(--panel-2)" stroke="var(--line)"/>
+        <text x="520" y="205" textAnchor="middle" className="n-title" fontSize="13.5">Integration Gateway</text>
+        <text x="520" y="245" textAnchor="middle" className="n-chip" fontSize="10">EVENTS · Service Bus</text>
+        <line x1="450" y1="256" x2="590" y2="256" stroke="var(--cyan)" strokeOpacity=".3" strokeWidth="1"/>
+        <text x="520" y="292" textAnchor="middle" className="n-chip" fontSize="10">READ · Dataverse MCP</text>
+        <text x="520" y="312" textAnchor="middle" className="n-chip" fontSize="10">/ Web API (OData)</text>
+        <line x1="450" y1="350" x2="590" y2="350" stroke="var(--amber)" strokeOpacity=".3" strokeWidth="1"/>
+        <text x="520" y="374" textAnchor="middle" className="n-chip" fontSize="10">WRITE-BACK · MCP</text>
+      </g>
+
+      {/* ---------- agent farm ---------- */}
+      <g>
+        <rect x="700" y="92" width="300" height="416" rx="16" fill="none" stroke="var(--edge)" strokeDasharray="6 6"/>
+        <text x="722" y="82" className="n-chip" fontSize="10.5">KUBERNETES CLUSTER</text>
+        {/* home badge */}
+        <rect x="856" y="66" width="144" height="30" rx="8" fill="var(--panel)" stroke="var(--cyan)" strokeOpacity=".5"/>
+        <circle cx="874" cy="81" r="4" fill="var(--cyan)"/>
+        <text x="886" y="79" className="n-title" fontSize="12">{home.a}</text>
+        <text x="886" y="90" className="n-chip" fontSize="8.5">{home.b}</text>
+
+        {/* redpanda bus */}
+        <rect x="724" y="120" width="252" height="46" rx="9" fill="var(--panel)" stroke="var(--line)"/>
+        <text x="738" y="139" className="n-title" fontSize="12">Event Stream</text>
+        <text x="738" y="156" className="n-chip" fontSize="9.5">REDPANDA · TOPICS</text>
+        {Array.from({length:9}).map((_,i)=>(
+          <rect key={i} className="rp-seg" style={{animationDelay:(i*0.18)+"s"}} x={862+i*12} y="132" width="7" height="22" rx="2" fill="var(--cyan)"/>
+        ))}
+
+        {/* agent pods */}
+        {pods.map(([lab,i])=>{
+          const col=i%2, row=Math.floor(i/2);
+          const x=724+col*130, y=200+row*98;
+          return (
+            <g key={lab}>
+              <rect className="pod" style={{animationDelay:(i*0.4)+"s"}} x={x} y={y} width="122" height="80" rx="10" fill="var(--panel)" stroke="var(--line)"/>
+              <circle cx={x+16} cy={y+20} r="4" fill="var(--amber)"/>
+              <text x={x+16} y={y+50} className="pod-label" fontSize="13">{lab}</text>
+              <text x={x+16} y={y+67} className="n-chip" fontSize="8.5">agent pod</text>
+            </g>
+          );
+        })}
+      </g>
+    </svg>
+  );
+}
+
+/* ---------------- flow stepper ---------------- */
+function Flow({flow}){
+  const [act,setAct]=useState(0);
+  useEffect(()=>{
+    const reduce=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if(reduce){setAct(flow.steps.length-1);return;}
+    const id=setInterval(()=>setAct(a=>(a+1)%flow.steps.length),2400);
+    return ()=>clearInterval(id);
+  },[]);
+  return (
+    <div className={"flow "+(flow.dir==="out"?"out":"")} data-reveal>
+      <div className="fh">
+        <span className={"fdir "+(flow.dir==="out"?"out":"inb")}>{flow.tag}</span>
+      </div>
+      <h3 className="display">{flow.title}</h3>
+      <div className="steps">
+        {flow.steps.map((s,i)=>(
+          <div key={i} className={"step "+(i===act?"act":"")} onClick={()=>setAct(i)} style={{cursor:"pointer"}}>
+            <div className="bullet mono">{i+1}</div>
+            <div className="line"></div>
+            <div className="body">
+              <h4 className="display">{s.h}</h4>
+              <p>{s.p}</p>
+              <span className="who">{s.w}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ---------------- app ---------------- */
+function App(){
+  const [deploy,setDeploy]=useState("core42");
+
+  useEffect(()=>{
+    const els=document.querySelectorAll("[data-reveal]");
+    const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target);}}),{threshold:.12});
+    els.forEach(el=>io.observe(el));
+    return ()=>io.disconnect();
+  },[]);
+
+  return (
+    <>
+      <header className="site">
+        <div className="wrap">
+          <div className="brand"><span className="dot"></span>SOFTTECO</div>
+          <div className="htag">AGENT&nbsp;FARM&nbsp;↔&nbsp;DYNAMICS&nbsp;365</div>
+        </div>
+      </header>
+
+      {/* hero */}
+      <div className="hero">
+        <div className="wrap">
+          <div className="eyebrow">Integration Architecture</div>
+          <h1 className="display">Your AI agent farm, wired into <span className="hl">Dynamics 365</span>.</h1>
+          <p className="lede">A bidirectional bridge. Dynamics streams work to a Kubernetes agent farm, agents act on the data, and the results flow straight back into the CRM — deployed in AWS or on Core42's sovereign cloud in Dubai.</p>
+
+          <div className="controls">
+            <span className="seg-label">DEPLOY THE FARM ON</span>
+            <div className="seg" role="tablist">
+              <button className={deploy==="aws"?"on":""} onClick={()=>setDeploy("aws")}>AWS Cloud <span className="loc">eu / me region</span></button>
+              <button className={deploy==="core42"?"on":""} onClick={()=>setDeploy("core42")}>Core42 <span className="loc">on-prem · Dubai</span></button>
+            </div>
+          </div>
+
+          <div className="chips">
+            <div className="chip"><b>6</b> agent classes</div>
+            <div className="chip"><b>2-way</b> sync</div>
+            <div className="chip">MCP <b>+</b> Web API</div>
+            <div className="chip">events via <b>Redpanda</b></div>
+            <div className="chip">data stays <b>in-region</b></div>
+          </div>
+        </div>
+      </div>
+
+      <Mandate/>
+
+      {/* diagram */}
+      <section className="blk">
+        <div className="wrap">
+          <div className="kick"><span className="num">02</span><span className="lab">The bridge</span></div>
+          <h2 className="display">How the farm talks to Dynamics 365</h2>
+          <p className="sub">Two clearly separated directions. Dynamics pushes events and lets agents read data; agents push their finished results back. The gateway is the only surface that crosses the client boundary — everything else stays inside the cluster.</p>
+
+          <div className="diagram-card" data-reveal>
+            <div className="legend">
+              <div className="lg cy"><span className="sw"></span> Inbound — events &amp; data the agents read</div>
+              <div className="lg am"><span className="sw"></span> Outbound — results the agents write back</div>
+            </div>
+            <Arch deploy={deploy} />
+          </div>
+        </div>
+      </section>
+
+      {/* agents */}
+      <section className="blk" style={{background:"var(--bg-alt)"}}>
+        <div className="wrap">
+          <div className="kick"><span className="num">03</span><span className="lab">What the agents do</span></div>
+          <h2 className="display">Agent classes you can run on the farm</h2>
+          <p className="sub">Each class is a pool of stateless pods that scale independently. They pick work off Redpanda topics, act on Dynamics records, and return structured output through the gateway.</p>
+          <div className="grid">
+            {AGENTS.map((a,i)=>(
+              <div className="agent" data-reveal key={a.t} style={{transitionDelay:(i*40)+"ms"}}>
+                <div className="ico"><Icon name={a.i}/></div>
+                <h3 className="display">{a.t}</h3>
+                <p>{a.d}</p>
+                <span className="tag mono">{a.tag}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* flows */}
+      <section className="blk">
+        <div className="wrap">
+          <div className="kick"><span className="num">04</span><span className="lab">In motion</span></div>
+          <h2 className="display">Two end-to-end examples</h2>
+          <p className="sub">The same round-trip pattern, two jobs. Tap any step to inspect it.</p>
+          <div className="flows">
+            <Flow flow={FLOW_A}/>
+            <Flow flow={FLOW_B}/>
+          </div>
+        </div>
+      </section>
+
+      {/* security / deployment */}
+      <section className="blk" style={{background:"var(--bg-alt)"}}>
+        <div className="wrap">
+          <div className="kick"><span className="num">05</span><span className="lab">Trust &amp; residency</span></div>
+          <h2 className="display">Secure by inheritance, hosted where you need it</h2>
+          <div className="sec">
+            <div className="scard" data-reveal>
+              <div className="st">Access</div>
+              <h4 className="display">Entra ID service principal</h4>
+              <p>The farm authenticates with OAuth2 client-credentials and inherits Dataverse security roles and row-level security — no parallel permission model to maintain. Every agent call is logged for audit.</p>
+            </div>
+            <div className="scard" data-reveal style={{transitionDelay:"60ms"}}>
+              <div className="st">Interfaces</div>
+              <h4 className="display">MCP, Web API &amp; events</h4>
+              <p>Reads and write-backs go through <code>/api/mcp</code> or the OData Web API; change events arrive over Service Bus or webhooks and land on <code>Redpanda</code> topics inside the cluster.</p>
+            </div>
+            <div className="scard" data-reveal style={{transitionDelay:"120ms"}}>
+              <div className="st">Residency</div>
+              <h4 className="display">AWS or Core42 · Dubai</h4>
+              <p>Run the farm in an AWS region of choice or on Core42's sovereign infrastructure in Dubai. Client data stays in-jurisdiction — only scoped, authenticated API calls cross the boundary.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer>
+        <div className="wrap">
+          <span>SOFTTECO · Sovereign Agent Farm × Dynamics 365</span>
+          <span>Kubernetes · Redpanda · Dataverse MCP · Web API</span>
+        </div>
+      </footer>
+    </>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+</script>
+</body>
+</html>
