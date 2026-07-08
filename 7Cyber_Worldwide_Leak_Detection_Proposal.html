@@ -18,439 +18,71 @@
             --mdm-blue: #3b82f6;
             --mdm-green: #10b981;
         }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Commissioner', sans-serif;
-            background: var(--light);
-            color: var(--dark);
-            overflow-x: hidden;
-            line-height: 1.6;
-        }
-
-        .pattern-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            opacity: var(--pattern-opacity);
-            background-image:
-                repeating-linear-gradient(45deg, var(--primary) 0px, var(--primary) 2px, transparent 2px, transparent 10px),
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Commissioner', sans-serif; background: var(--light); color: var(--dark); overflow-x: hidden; line-height: 1.6; }
+        .pattern-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; opacity: var(--pattern-opacity);
+            background-image: repeating-linear-gradient(45deg, var(--primary) 0px, var(--primary) 2px, transparent 2px, transparent 10px),
                 repeating-linear-gradient(-45deg, var(--accent) 0px, var(--accent) 2px, transparent 2px, transparent 10px);
-            pointer-events: none;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-            position: relative;
-            z-index: 1;
-        }
-
-        header {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: var(--gradient);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero-glow {
-            position: absolute;
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(197, 160, 94, 0.3) 0%, transparent 70%);
-            border-radius: 50%;
-            filter: blur(80px);
-            animation: float 8s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            50% { transform: translate(100px, -50px) scale(1.1); }
-        }
-
-        .hero-content {
-            text-align: center;
-            color: white;
-            position: relative;
-            z-index: 2;
-            animation: fadeInUp 1s ease-out;
-        }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(2.5rem, 6vw, 5rem);
-            font-weight: 900;
-            margin-bottom: 1rem;
-            letter-spacing: -0.02em;
-            text-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
-        }
-
-        .subtitle {
-            font-size: clamp(1rem, 2vw, 1.5rem);
-            font-weight: 300;
-            margin-bottom: 3rem;
-            opacity: 0.95;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .badge {
-            display: inline-block;
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            padding: 0.5rem 1.5rem;
-            border-radius: 50px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            margin-bottom: 2rem;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        section {
-            padding: 6rem 0;
-            animation: fadeIn 0.8s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(2rem, 4vw, 3rem);
-            margin-bottom: 3rem;
-            color: var(--primary);
-            position: relative;
-            display: inline-block;
-        }
-
-        h2::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 0;
-            width: 60%;
-            height: 3px;
-            background: var(--gold);
-        }
-
-        h3 {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            color: var(--primary);
-        }
-
-        .architecture {
-            background: white;
-            border-radius: 20px;
-            padding: 3rem;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
-            margin-top: 2rem;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .feature-card {
-            background: white;
-            padding: 2.5rem;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            border-left: 4px solid var(--accent);
-            transition: all 0.3s ease;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.12);
-            border-left-color: var(--gold);
-        }
-
-        .feature-icon {
-            font-size: 2.5rem;
-            margin-bottom: 1.5rem;
-            display: block;
-        }
-
-        .benefits {
-            background: linear-gradient(135deg, rgba(10, 77, 104, 0.05) 0%, rgba(8, 131, 149, 0.05) 100%);
-            padding: 4rem;
-            border-radius: 20px;
-            margin-top: 2rem;
-        }
-
-        .benefit-item {
-            display: flex;
-            align-items: flex-start;
-            margin-bottom: 2rem;
-            padding: 1.5rem;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s ease;
-        }
-
+            pointer-events: none; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; position: relative; z-index: 1; }
+        header { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: var(--gradient); position: relative; overflow: hidden; }
+        .hero-glow { position: absolute; width: 600px; height: 600px; background: radial-gradient(circle, rgba(197, 160, 94, 0.3) 0%, transparent 70%); border-radius: 50%; filter: blur(80px); animation: float 8s ease-in-out infinite; }
+        @keyframes float { 0%, 100% { transform: translate(0, 0) scale(1); } 50% { transform: translate(100px, -50px) scale(1.1); } }
+        .hero-content { text-align: center; color: white; position: relative; z-index: 2; animation: fadeInUp 1s ease-out; }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.5rem, 6vw, 5rem); font-weight: 900; margin-bottom: 1rem; letter-spacing: -0.02em; text-shadow: 0 4px 30px rgba(0, 0, 0, 0.3); }
+        .subtitle { font-size: clamp(1rem, 2vw, 1.5rem); font-weight: 300; margin-bottom: 3rem; opacity: 0.95; max-width: 800px; margin-left: auto; margin-right: auto; }
+        .badge { display: inline-block; background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(10px); padding: 0.5rem 1.5rem; border-radius: 50px; font-size: 0.9rem; font-weight: 600; margin-bottom: 2rem; border: 1px solid rgba(255, 255, 255, 0.2); }
+        section { padding: 6rem 0; animation: fadeIn 0.8s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        h2 { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 4vw, 3rem); margin-bottom: 3rem; color: var(--primary); position: relative; display: inline-block; }
+        h2::after { content: ''; position: absolute; bottom: -10px; left: 0; width: 60%; height: 3px; background: var(--gold); }
+        h3 { font-family: 'Playfair Display', serif; font-size: 1.5rem; margin-bottom: 1rem; color: var(--primary); }
+        .architecture { background: white; border-radius: 20px; padding: 3rem; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1); margin-top: 2rem; }
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 3rem; }
+        .feature-card { background: white; padding: 2.5rem; border-radius: 20px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); border-left: 4px solid var(--accent); transition: all 0.3s ease; }
+        .feature-card:hover { transform: translateY(-8px); box-shadow: 0 20px 50px rgba(0, 0, 0, 0.12); border-left-color: var(--gold); }
+        .feature-icon { font-size: 2.5rem; margin-bottom: 1.5rem; display: block; }
+        .benefits { background: linear-gradient(135deg, rgba(10, 77, 104, 0.05) 0%, rgba(8, 131, 149, 0.05) 100%); padding: 4rem; border-radius: 20px; margin-top: 2rem; }
+        .benefit-item { display: flex; align-items: flex-start; margin-bottom: 2rem; padding: 1.5rem; background: white; border-radius: 15px; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05); transition: transform 0.3s ease; }
         .benefit-item:hover { transform: translateX(10px); }
-
-        .benefit-icon {
-            font-size: 2rem;
-            margin-right: 1.5rem;
-            color: var(--accent);
-            min-width: 50px;
-        }
-
-        .cta {
-            text-align: center;
-            padding: 5rem 0;
-            background: var(--gradient);
-            color: white;
-            border-radius: 20px;
-            margin: 4rem 0;
-        }
-
-        .cta-button {
-            display: inline-block;
-            padding: 1.2rem 3rem;
-            background: var(--gold);
-            color: var(--dark);
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: 700;
-            font-size: 1.1rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 30px rgba(197, 160, 94, 0.3);
-        }
-
-        .cta-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(197, 160, 94, 0.5);
-        }
-
-        .layer-box {
-            background: white;
-            padding: 2rem;
-            border-radius: 15px;
-            margin-bottom: 2rem;
-            border-left: 5px solid var(--accent);
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
-        }
-
-        .layer-box h4 {
-            color: var(--primary);
-            margin-bottom: 1rem;
-            font-size: 1.3rem;
-        }
-
+        .benefit-icon { font-size: 2rem; margin-right: 1.5rem; color: var(--accent); min-width: 50px; }
+        .cta { text-align: center; padding: 5rem 0; background: var(--gradient); color: white; border-radius: 20px; margin: 4rem 0; }
+        .cta-button { display: inline-block; padding: 1.2rem 3rem; background: var(--gold); color: var(--dark); text-decoration: none; border-radius: 50px; font-weight: 700; font-size: 1.1rem; transition: all 0.3s ease; box-shadow: 0 10px 30px rgba(197, 160, 94, 0.3); }
+        .cta-button:hover { transform: translateY(-3px); box-shadow: 0 15px 40px rgba(197, 160, 94, 0.5); }
+        .layer-box { background: white; padding: 2rem; border-radius: 15px; margin-bottom: 2rem; border-left: 5px solid var(--accent); box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08); }
+        .layer-box h4 { color: var(--primary); margin-bottom: 1rem; font-size: 1.3rem; }
         .layer-box ul { margin-left: 1.5rem; }
         .layer-box li { margin-bottom: 0.6rem; font-size: 0.95rem; }
-
-        .cost-box {
-            background: linear-gradient(135deg, rgba(10, 77, 104, 0.1) 0%, rgba(8, 131, 149, 0.1) 100%);
-            padding: 2rem;
-            border-radius: 15px;
-            border: 2px solid var(--accent);
-            margin: 2rem 0;
-            text-align: center;
-        }
-
+        .cost-box { background: linear-gradient(135deg, rgba(10, 77, 104, 0.1) 0%, rgba(8, 131, 149, 0.1) 100%); padding: 2rem; border-radius: 15px; border: 2px solid var(--accent); margin: 2rem 0; text-align: center; }
         .cost-box h4 { color: var(--primary); margin-bottom: 1rem; font-size: 1.3rem; }
-
-        .cost-value {
-            font-size: 2.5rem;
-            font-weight: 900;
-            color: var(--accent);
-            margin: 1rem 0;
-        }
-
+        .cost-value { font-size: 2.5rem; font-weight: 900; color: var(--accent); margin: 1rem 0; }
         .cost-description { color: var(--dark); font-size: 0.95rem; }
-
-        .highlight {
-            background: rgba(197, 160, 94, 0.2);
-            padding: 2rem;
-            border-left: 4px solid var(--gold);
-            border-radius: 10px;
-            margin: 2rem 0;
-        }
-
+        .highlight { background: rgba(197, 160, 94, 0.2); padding: 2rem; border-left: 4px solid var(--gold); border-radius: 10px; margin: 2rem 0; }
         .highlight h4 { color: var(--primary); margin-bottom: 1rem; }
-
-        .metric-card {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 10px;
-            border: 1px solid #eee;
-            text-align: center;
-            margin-bottom: 1rem;
-        }
-
-        .metric-value { font-size: 2rem; font-weight: 900; color: var(--accent); margin: 0.5rem 0; }
-        .metric-label { font-size: 0.85rem; color: #888; text-transform: uppercase; font-weight: 600; }
-
-        .estimation-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 2rem;
-            background: white;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-        }
-
-        .estimation-table th {
-            background: var(--primary);
-            color: white;
-            padding: 1.5rem;
-            text-align: left;
-            font-weight: 600;
-        }
-
+        .estimation-table { width: 100%; border-collapse: collapse; margin-top: 2rem; background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); }
+        .estimation-table th { background: var(--primary); color: white; padding: 1.5rem; text-align: left; font-weight: 600; }
         .estimation-table td { padding: 1.5rem; border-bottom: 1px solid #eee; }
         .estimation-table tr:last-child td { border-bottom: none; }
         .estimation-table tr:hover { background: #f8f9fa; }
-
         ul, ol { margin-left: 2rem; margin-top: 1rem; }
         li { margin-bottom: 0.8rem; }
-
-        footer {
-            background: var(--dark);
-            color: var(--light);
-            text-align: center;
-            padding: 3rem 0;
-            margin-top: 6rem;
-        }
-
+        footer { background: var(--dark); color: var(--light); text-align: center; padding: 3rem 0; margin-top: 6rem; }
         footer p { margin: 0.5rem 0; }
-
-        @media (max-width: 768px) {
-            .estimation-table { font-size: 0.9rem; }
-            .estimation-table th, .estimation-table td { padding: 1rem; }
-        }
-
-        .risk-card {
-            background: #fff8e6;
-            border-left: 4px solid #ff9800;
-            padding: 1.2rem 1.5rem;
-            border-radius: 10px;
-            margin-bottom: 1rem;
-        }
-
+        .risk-card { background: #fff8e6; border-left: 4px solid #ff9800; padding: 1.2rem 1.5rem; border-radius: 10px; margin-bottom: 1rem; }
         .risk-card strong { color: #b26a00; }
-
-        .pill {
-            display: inline-block;
-            background: var(--gold);
-            color: var(--dark);
-            padding: 0.3rem 0.9rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            margin-right: 0.5rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .stack-pill {
-            display: inline-block;
-            background: white;
-            border: 1.5px solid var(--accent);
-            color: var(--primary);
-            padding: 0.4rem 0.9rem;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            margin-right: 0.5rem;
-            margin-bottom: 0.5rem;
-        }
-
+        .stack-pill { display: inline-block; background: white; border: 1.5px solid var(--accent); color: var(--primary); padding: 0.4rem 0.9rem; border-radius: 20px; font-size: 0.85rem; font-weight: 600; margin-right: 0.5rem; margin-bottom: 0.5rem; }
         .stack-pill.ai { border-color: var(--mdm-purple); color: var(--mdm-purple); }
         .stack-pill.platform { border-color: var(--mdm-blue); color: var(--mdm-blue); }
         .stack-pill.data { border-color: var(--mdm-green); color: #0a7a52; }
-
-        .module-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
-
-        .module-card {
-            background: white;
-            border: 1px solid #e5e5e5;
-            border-top: 6px solid var(--accent);
-            border-radius: 15px;
-            padding: 2rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
-        }
-
-        .module-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
-            border-top-color: var(--gold);
-        }
-
-        .module-number {
-            display: inline-block;
-            background: var(--primary);
-            color: white;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            text-align: center;
-            line-height: 36px;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            font-family: 'Playfair Display', serif;
-        }
-
+        .module-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; margin-top: 2rem; }
+        .module-card { background: white; border: 1px solid #e5e5e5; border-top: 6px solid var(--accent); border-radius: 15px; padding: 2rem; transition: all 0.3s ease; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05); }
+        .module-card:hover { transform: translateY(-4px); box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1); border-top-color: var(--gold); }
+        .module-number { display: inline-block; background: var(--primary); color: white; width: 36px; height: 36px; border-radius: 50%; text-align: center; line-height: 36px; font-weight: 700; margin-bottom: 1rem; font-family: 'Playfair Display', serif; }
         .module-card h4 { color: var(--primary); margin-bottom: 0.8rem; font-size: 1.25rem; }
         .module-card .module-desc { color: #555; font-size: 0.95rem; margin-bottom: 1rem; }
-
-        .pipeline-flow {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            align-items: center;
-            margin: 2rem 0;
-        }
-
-        .pipeline-step {
-            background: white;
-            border: 1.5px solid var(--accent);
-            border-radius: 12px;
-            padding: 1rem 1.2rem;
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--primary);
-            flex: 1;
-            min-width: 140px;
-            text-align: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-        }
-
+        .pipeline-flow { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; margin: 2rem 0; }
+        .pipeline-step { background: white; border: 1.5px solid var(--accent); border-radius: 12px; padding: 1rem 1.2rem; font-size: 0.85rem; font-weight: 600; color: var(--primary); flex: 1; min-width: 140px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
         .pipeline-arrow { color: var(--gold); font-size: 1.3rem; font-weight: 900; }
     </style>
 </head>
@@ -462,80 +94,80 @@
         <div class="hero-glow"></div>
         <div class="hero-content">
             <div class="container">
-                <div class="badge">🔍 Worldwide Leak Detection Module · Technical &amp; Commercial Proposal · v1</div>
+                <div class="badge">🔍 Worldwide Leak Detection Module · Technical &amp; Commercial Proposal · v3 (Lean)</div>
                 <h1>Worldwide Leak Detection Module</h1>
                 <p class="subtitle">
-                    Following 7Cyber's own discovery, this proposal re-scopes delivery to <strong>a single, well-defined module</strong>: domain- and file-based exposure scanning across the dark web, social media, Telegram, and public cloud storage — delivered as a native module inside 7Cyber's existing Odoo platform, with a live dashboard, a branded PDF report, and automated monthly monitoring.
+                    A simple, focused build: a React portal that scans a domain or file across six intelligence sources, scores the exposure, and shows the client a clear result — on a lightweight serverless backend, sized to a real budget.
                 </p>
                 <p style="font-size: 1.1rem; margin-bottom: 2rem; opacity: 0.9;">
-                    <strong>Prepared for:</strong> 7Cyber &nbsp;·&nbsp; <strong>Scope:</strong> Worldwide Leak Detection Module (single-module build) &nbsp;·&nbsp; <strong>Aligned to:</strong> 7Cyber's "Worldwide Leak Detection Module" Technical Specification
+                    <strong>Prepared for:</strong> 7Cyber &nbsp;·&nbsp; <strong>Scope:</strong> Worldwide Leak Detection Module (lean build) &nbsp;·&nbsp; <strong>Aligned to:</strong> 7Cyber's "Worldwide Leak Detection Module" Technical Specification (v2)
                 </p>
                 <a href="#overview" class="cta-button">Explore the Solution</a>
             </div>
         </div>
     </header>
+
     <!-- What Changed -->
     <section id="overview">
         <div class="container">
-            <h2>From a Broad AI Portal to a Focused First Release — What Changed</h2>
+            <h2>A Simpler Build, Rescoped to the Budget</h2>
             <p style="font-size: 1.1rem; margin-bottom: 2rem;">
-                The original AI Portal proposal (v4.1, May 2026) scoped eight modules on a different platform architecture, priced at $130K / ~2,600 hrs / 7–8 weeks. Since then, 7Cyber ran its own discovery and sent us a complete technical specification for one module — <strong>Worldwide Leak Detection</strong> — to be built first, as a <strong>native module inside 7Cyber's existing Odoo instance</strong>. This document replaces the relevant sections of the prior proposal with a scope, architecture, team, and price sized specifically to that specification — and re-checked for the UAE market.
+                This version is rescoped from scratch: the same six intelligence sources and the same risk-scoring logic, delivered through a leaner dashboard, a simple export, and a two-developer team — no padding, no enterprise-grade extras the spec doesn't strictly require.
             </p>
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
                 <div class="layer-box" style="border-left-color: var(--mdm-purple);">
-                    <h4>🧱 Native Odoo Build</h4>
-                    <p style="color:#555; font-size:0.95rem;">Building as an Odoo module means multi-company (tenant) isolation, RBAC, the portal shell, authentication, and the admin back-office are largely <strong>inherited from Odoo itself</strong> rather than built from scratch. This meaningfully reduces platform-plumbing effort versus a standalone build.</p>
+                    <h4>✂️ What We Cut, and Why</h4>
+                    <p style="color:#555; font-size:0.95rem;">No BigQuery analytics warehouse, no D3 heat map, no Leaflet map, no pixel-matched 6-page PDF, no AI-generated summary text. All still deliverable later as paid add-ons — see "What This Doesn't Include" below for the full, honest list.</p>
                 </div>
                 <div class="layer-box" style="border-left-color: var(--gold);">
-                    <h4>🎯 Narrower, Sharper Scope</h4>
-                    <p style="color:#555; font-size:0.95rem;">One module instead of eight means a smaller team, a smaller price, and a shorter path to a production-ready release — with the eight modules from the original proposal remaining available as a follow-on roadmap once this module is live and generating value.</p>
+                    <h4>🧑‍💻 Two Developers, Not Seven Roles</h4>
+                    <p style="color:#555; font-size:0.95rem;">A senior full-stack engineer builds the core, a middle engineer covers the rest of the integrations and UI, with light QA and PM overhead — not a full specialist bench for a build this size.</p>
                 </div>
                 <div class="layer-box" style="border-left-color: var(--accent);">
-                    <h4>💰 Lean, Senior-Led Team</h4>
-                    <p style="color:#555; font-size:0.95rem;">Beyond narrowing the scope, we re-checked the team plan role by role and consolidated overlapping responsibilities onto senior generalists — see Section "Module Effort & Cost" for the leaner, senior-led team and price this produced.</p>
+                    <h4>💰 Priced to Match the Market</h4>
+                    <p style="color:#555; font-size:0.95rem;">AED 40,480 (~US$11.0K) — about 4.5× cheaper than our prior quote, computed the same way: named Rate Card rates, real hours, no shortcuts on the six live integrations.</p>
                 </div>
             </div>
         </div>
     </section>
-
     <!-- The Problem -->
     <section style="background: #f8f9fa;">
         <div class="container">
             <h2>The Problem This Module Solves</h2>
             <p style="font-size: 1.1rem; margin-bottom: 2rem;">
-                Clients need a fast, evidence-backed answer to "what of ours is already exposed?" — without manually querying six different intelligence tools themselves. The Worldwide Leak Detection module lets a client submit either a <strong>domain</strong> or an <strong>uploaded file/photo</strong>, dispatches that input across six specialised external intelligence services, run as five parallel integration jobs, aggregates, deduplicates, and normalises the findings, computes a 0–100 digital risk score, and renders the result as an interactive dashboard and a downloadable PDF — matching the visual format of 7Cyber's existing E7 Cybersecurity report. Once a client is enrolled, the scan re-runs automatically every month with delta tracking, so new exposure is caught without the client having to ask again.
+                Clients need a fast, evidence-backed answer to "what of ours is already exposed?" — without manually querying six different intelligence tools themselves. The module lets a client submit either a domain or an uploaded file/photo, dispatches that input to five specialised external intelligence APIs in parallel, aggregates and normalises the findings, computes a 0–100 digital risk score, and shows the result as a simple dashboard the client can export. Once enrolled, the scan re-runs automatically every month with a basic new-vs-resolved delta.
             </p>
 
             <div class="features-grid">
                 <div class="feature-card">
                     <span class="feature-icon">🌐</span>
                     <h3>Path A — Domain Input</h3>
-                    <p>Client enters a domain (e.g. company.com). The system dispatches direct, parallel requests to all six intelligence services — no pre-processing required.</p>
+                    <p>Client enters a domain. The system dispatches direct, parallel requests to all five intelligence sources — no pre-processing required.</p>
                 </div>
                 <div class="feature-card">
                     <span class="feature-icon">📎</span>
                     <h3>Path B — File / Photo Upload</h3>
-                    <p>Client uploads a Vision-supported file (JPEG, PNG, WEBP, PDF, or TIFF). Google Vision API extracts text (OCR), objects, and logos first; the extracted domains, emails, and company names then drive the same six-service lookup.</p>
+                    <p>Client uploads an image, PDF, or document. Google Vision API extracts text and entities first; those drive the same five API calls.</p>
                 </div>
                 <div class="feature-card">
                     <span class="feature-icon">📊</span>
                     <h3>One Score, Six Sources</h3>
-                    <p>Intelligence X, DarkOWL, FOFA, Shodan, tgstate, and Grayhatwarfare findings are normalised and weighted into a single 0–100 Digital Risk Score with category sub-scores.</p>
+                    <p>Intelligence X, DarkOWL, FOFA, Shodan, tgstate, and Grayhatwarfare findings are normalised and weighted into a single 0–100 Digital Risk Score.</p>
                 </div>
                 <div class="feature-card">
                     <span class="feature-icon">📄</span>
-                    <h3>Dashboard + PDF, E7 Format</h3>
-                    <p>Results render as a live portal dashboard (gauges, heat map, choropleth, donut chart) and a 6-page branded PDF matching the existing E7 Cybersecurity report design.</p>
+                    <h3>Simple Dashboard + Export</h3>
+                    <p>Results render as a clean, focused dashboard the client can browse and export — not a pixel-matched replica of the E7 report, but the same underlying data.</p>
                 </div>
                 <div class="feature-card">
                     <span class="feature-icon">🔁</span>
                     <h3>Monthly Monitoring</h3>
-                    <p>An automated scheduler re-runs each enrolled client's scan on the 1st of every month, computes a delta against the prior scan, and alerts on new Critical findings.</p>
+                    <p>An automated scheduler re-runs each enrolled client's scan monthly and flags new Critical findings by email.</p>
                 </div>
                 <div class="feature-card">
                     <span class="feature-icon">🔒</span>
                     <h3>Tenant-Isolated by Design</h3>
-                    <p>Every finding and report is scoped to a company record and a tenant-specific data path — no cross-tenant visibility, consistent with 7Cyber's multi-client model. Integration configuration is tenant-specific, while actual credentials are stored securely in Google Secret Manager.</p>
+                    <p>Every finding and API key is scoped to a tenant record and a Firestore tenant path — no cross-tenant visibility.</p>
                 </div>
             </div>
         </div>
@@ -544,52 +176,50 @@
     <!-- Scope -->
     <section>
         <div class="container">
-            <h2>Scope of the Worldwide Leak Detection Module</h2>
+            <h2>Scope of the Lean Build</h2>
             <p style="font-size: 1.1rem; margin-bottom: 2rem;">
-                The build delivers the full pipeline described in 7Cyber's technical specification, end to end, as a portal module under the main Odoo navigation.
+                Same pipeline, same six sources, same risk-scoring model — delivered through a simpler dashboard and a lighter data layer.
             </p>
 
-            <h3 style="margin-bottom: 1rem;">The Eight-Stage Processing Pipeline</h3>
+            <h3 style="margin-bottom: 1rem;">The Processing Pipeline</h3>
             <div class="architecture">
                 <div class="pipeline-flow">
                     <div class="pipeline-step">1. Input received<br><span style="font-weight:400; color:#666;">domain or file</span></div>
                     <div class="pipeline-arrow">→</div>
                     <div class="pipeline-step">2. Pre-processing<br><span style="font-weight:400; color:#666;">Vision API (file path only)</span></div>
                     <div class="pipeline-arrow">→</div>
-                    <div class="pipeline-step">3. API dispatch<br><span style="font-weight:400; color:#666;">6 services, 5 parallel jobs</span></div>
+                    <div class="pipeline-step">3. API dispatch<br><span style="font-weight:400; color:#666;">5 APIs in parallel</span></div>
                     <div class="pipeline-arrow">→</div>
-                    <div class="pipeline-step">4. Response collection<br><span style="font-weight:400; color:#666;">aggregate, dedupe &amp; normalise</span></div>
+                    <div class="pipeline-step">4. Response collection<br><span style="font-weight:400; color:#666;">aggregate &amp; normalise</span></div>
                 </div>
                 <div class="pipeline-flow">
                     <div class="pipeline-step">5. Risk scoring<br><span style="font-weight:400; color:#666;">weighted 0–100 model</span></div>
                     <div class="pipeline-arrow">→</div>
-                    <div class="pipeline-step">6. Persistence<br><span style="font-weight:400; color:#666;">Firestore + BigQuery</span></div>
+                    <div class="pipeline-step">6. Persistence<br><span style="font-weight:400; color:#666;">Firestore only</span></div>
                     <div class="pipeline-arrow">→</div>
-                    <div class="pipeline-step">7. Report rendering<br><span style="font-weight:400; color:#666;">dashboard + PDF</span></div>
+                    <div class="pipeline-step">7. Dashboard render<br><span style="font-weight:400; color:#666;">client-side export</span></div>
                     <div class="pipeline-arrow">→</div>
-                    <div class="pipeline-step">8. Monthly monitoring<br><span style="font-weight:400; color:#666;">cron + delta + alerts</span></div>
+                    <div class="pipeline-step">8. Monthly monitoring<br><span style="font-weight:400; color:#666;">scheduler + basic delta</span></div>
                 </div>
             </div>
 
-            <h3 style="margin-top: 3rem; margin-bottom: 1.5rem;">✅ In Scope — Odoo Data Model</h3>
+            <h3 style="margin-top: 3rem; margin-bottom: 1.5rem;">✅ In Scope</h3>
             <table class="estimation-table">
-                <thead>
-                    <tr><th>Odoo Model</th><th>Purpose</th></tr>
-                </thead>
+                <thead><tr><th>Item</th><th>Detail</th></tr></thead>
                 <tbody>
-                    <tr><td><strong>leak.scan</strong></td><td>One record per scan job — input type, domain/file ref, status, company_id, timestamps.</td></tr>
-                    <tr><td><strong>leak.finding</strong></td><td>Individual finding from each API — source, type, severity, raw JSON, risk points.</td></tr>
-                    <tr><td><strong>leak.report</strong></td><td>Generated report — links scan, stores dashboard JSON, attaches PDF, generated_at.</td></tr>
-                    <tr><td><strong>leak.monitor</strong></td><td>Monthly schedule per client — domain, last_scan_at, next_scan_at, active flag.</td></tr>
-                    <tr><td><strong>leak.api.config</strong></td><td>Per-tenant integration config and Secret Manager references for each intelligence service — no plaintext credentials stored in Odoo.</td></tr>
+                    <tr><td><strong>Both input paths</strong></td><td>Domain entry and file/photo upload with Google Vision OCR pre-processing.</td></tr>
+                    <tr><td><strong>All six intelligence sources</strong></td><td>Intelligence X, DarkOWL, FOFA, Shodan, tgstate, Grayhatwarfare — not reduced.</td></tr>
+                    <tr><td><strong>Risk scoring engine</strong></td><td>The full weighted 0–100 model, same point values and risk bands as specified.</td></tr>
+                    <tr><td><strong>Dashboard (6 panels)</strong></td><td>Risk score gauge, risk by category bar, findings-by-source donut, exposed data types list, top risk cases, plain-text summary panel — all Chart.js, browser-rendered.</td></tr>
+                    <tr><td><strong>Client-side export</strong></td><td>Client can export/print the dashboard to PDF directly from the browser — no server-side rendering pipeline.</td></tr>
+                    <tr><td><strong>Monthly monitoring</strong></td><td>Automated re-scan, basic new-vs-resolved delta, email alert on new Critical findings.</td></tr>
+                    <tr><td><strong>Tenant isolation</strong></td><td>Firestore security rules scope every record to a tenant; per-tenant encrypted API keys.</td></tr>
                 </tbody>
             </table>
 
-            <h3 style="margin-top: 3rem; margin-bottom: 1.5rem;">🔌 In Scope — Six External Sources</h3>
+            <h3 style="margin-top: 3rem; margin-bottom: 1.5rem;">🔌 Six External Sources</h3>
             <table class="estimation-table">
-                <thead>
-                    <tr><th>Source</th><th>Auth</th><th>What It Extracts</th><th>Key Limits</th></tr>
-                </thead>
+                <thead><tr><th>Source</th><th>Auth</th><th>What It Extracts</th><th>Key Limits</th></tr></thead>
                 <tbody>
                     <tr><td><strong>Intelligence X</strong></td><td>API key header</td><td>Leaked credentials, emails, passwords, dark web mentions, paste sites</td><td>100 req/day (basic tier)</td></tr>
                     <tr><td><strong>DarkOWL</strong></td><td>OAuth2 token</td><td>Breach records, PII exposure, dark web forum mentions, credential dumps</td><td>Tier-dependent</td></tr>
@@ -600,46 +230,48 @@
                 </tbody>
             </table>
 
-            <div class="highlight" style="margin-top: 2rem;">
-                <h4>❌ Explicitly Out of Scope for This Build</h4>
-                <p>
-                    Manual analyst review of raw dark-web content, direct human browsing of forums/marketplaces, any intelligence source beyond the six named above, non-monthly (e.g. real-time/continuous) monitoring cadences, and any of the eight AI Portal modules from the original proposal (Ticketing, Consultant Center, Training, Document Forensics Lab, Privacy &amp; GRC, Black-Box PT, Verification, Admin) — these remain available as a Phase 2 roadmap, not part of this quote.
-                </p>
+            <div class="risk-card" style="margin-top: 2rem;">
+                <strong>❌ What This Doesn't Include (Honest List)</strong>
+                <ul style="margin-top: 0.8rem;">
+                    <li><strong>No BigQuery / historical trend analytics</strong> — no 6-month exposure trend line. Firestore alone holds current + prior scan for the delta.</li>
+                    <li><strong>No D3.js risk heat map or Leaflet.js global choropleth map</strong> — geographic and likelihood/impact views are dropped from the dashboard.</li>
+                    <li><strong>No pixel-matched 6-page PDF report</strong> — the client exports the on-screen dashboard via the browser's print-to-PDF, not a custom-rendered branded document.</li>
+                    <li><strong>No AI-generated CEO Summary</strong> — the summary panel uses plain templated text driven by the risk score and top findings, not an LLM.</li>
+                    <li><strong>No Privacy &amp; Regulatory Alignment table or E7 Recommendation Scorecard</strong> — these rule-based extras are dropped from v1.</li>
+                    <li><strong>Lighter QA and PM overhead</strong> — a focused functional test pass, not an exhaustive test plan across every failure mode; light-touch project coordination, not weekly formal demos.</li>
+                </ul>
+                <p style="margin-top: 0.8rem; font-size: 0.9rem; color: #666;">Everything on this list can be added later as scoped, priced change requests once the core module is live and 7Cyber has real usage data to justify the investment.</p>
             </div>
         </div>
     </section>
+
     <!-- Inputs Needed -->
     <section style="background: linear-gradient(180deg, #fff 0%, rgba(197,160,94,0.04) 100%);">
         <div class="container">
             <h2>Inputs We Still Need from 7Cyber</h2>
             <p style="font-size: 1.1rem; margin-bottom: 2rem;">
-                The technical specification is thorough enough to size the build confidently, but five commercial/technical items still need confirmation before the fixed-price quote below is locked.
+                Kept short on purpose — this build has fewer moving parts, so fewer things need confirming before the price locks.
             </p>
             <div class="module-grid">
                 <div class="module-card">
                     <div class="module-number">1</div>
                     <h4>Confirmed API Subscriptions</h4>
-                    <p class="module-desc">Active accounts, subscription tiers, and credentials where applicable for all six intelligence services (Intelligence X, DarkOWL, FOFA, Shodan, tgstate, Grayhatwarfare). Rate limits above (e.g. FOFA's 10,000 queries/month) directly affect how many client scans the module can run monthly.</p>
+                    <p class="module-desc">Active/purchased tiers and live API keys for Intelligence X, DarkOWL, FOFA, Shodan, tgstate, and Grayhatwarfare.</p>
                 </div>
                 <div class="module-card">
                     <div class="module-number">2</div>
                     <h4>Google Cloud Project &amp; Billing</h4>
-                    <p class="module-desc">A GCP project with Firestore, BigQuery, and Vision API enabled, and a billing owner on the 7Cyber side — this build does not include GCP procurement.</p>
+                    <p class="module-desc">A GCP project with Firestore and Vision API enabled, and a billing owner on the 7Cyber side.</p>
                 </div>
                 <div class="module-card">
                     <div class="module-number">3</div>
-                    <h4>Odoo Version &amp; Access</h4>
-                    <p class="module-desc">Confirmed Odoo version (Community vs Enterprise), a sandbox/staging instance, and access credentials so the module can be developed against the real environment from day one.</p>
+                    <h4>Hosting &amp; Domain Access</h4>
+                    <p class="module-desc">Confirmation of where the React portal and backend will be deployed (Firebase Hosting / Cloud Functions is our recommendation), plus the target domain/subdomain.</p>
                 </div>
                 <div class="module-card">
                     <div class="module-number">4</div>
-                    <h4>E7 Report Reference File</h4>
-                    <p class="module-desc">The actual E7 Cybersecurity report (PDF or design source) referenced in the spec, so the dashboard and PDF are closely aligned with its visual language rather than approximated from the written description.</p>
-                </div>
-                <div class="module-card">
-                    <div class="module-number">5</div>
-                    <h4>Generated-Text Provider</h4>
-                    <p class="module-desc">The spec calls for AI-generated CEO Summary text and rule-based recommendations. Confirm which LLM/genAI provider (or purely rule-based templating, no LLM) should produce that copy, and any data-residency constraint on sending scan findings to it.</p>
+                    <h4>Basic Brand Assets</h4>
+                    <p class="module-desc">Logo and colour palette for light dashboard branding — not a pixel-matched design reference, just enough to make the portal look like 7Cyber's.</p>
                 </div>
             </div>
         </div>
@@ -648,138 +280,105 @@
     <!-- Client Assumptions -->
     <section>
         <div class="container">
-            <h2>What 7Cyber Provides (Technical Assumptions)</h2>
+            <h2>What 7Cyber Provides</h2>
             <div class="layer-box">
                 <ul>
-                    <li>Existing Odoo instance (staging + production) that the module will be installed into, with admin access for the delivery team during the build.</li>
-                    <li>Google Cloud project with billing enabled; Firestore, BigQuery, and the Vision API enabled; IAM access for the delivery team scoped to that project.</li>
-                    <li>Active accounts, access details, subscription tiers, and credentials where applicable for all six intelligence services, procured and paid for directly by 7Cyber.</li>
-                    <li>Brand assets and the reference E7 report file for visual matching (logo, colour palette, fonts, report copy conventions).</li>
-                    <li>A definitive list of tenant companies (res.company records) the module should be enabled for at go-live, and their default monthly-monitoring domains.</li>
-                    <li>A named business owner able to sign off on scope questions and API-vendor coordination within 24–48 hours during the build.</li>
+                    <li>A Google Cloud project (staging + production) with billing enabled; Firestore and Vision API turned on; IAM access for the delivery team.</li>
+                    <li>Live, working API keys/credentials for all six intelligence sources, procured and paid for directly by 7Cyber.</li>
+                    <li>Basic brand assets (logo, colour palette) for dashboard styling.</li>
+                    <li>A definitive list of client organizations (tenants) the module should be enabled for at go-live.</li>
+                    <li>A named point of contact able to answer scope questions within a couple of business days during the build.</li>
                 </ul>
             </div>
         </div>
     </section>
-
     <!-- Critical Assumptions & Constraints -->
     <section style="background: #f8f9fa;">
         <div class="container">
             <h2>Critical Assumptions &amp; Constraints</h2>
             <p style="font-size: 1.1rem; margin-bottom: 1rem;">
-                The fixed price and 6–7 week timeline in this proposal are conditioned on the items below. Each has a named owner and a required-by date; missing a date doesn't cancel the project, but it does trigger a timeline and/or price adjustment, handled as a straightforward change request.
+                Fewer moving parts means a shorter list — but these still matter. Each has a named owner; missing one adjusts the timeline via a straightforward change request.
             </p>
 
-            <h3 style="margin-top: 2rem; margin-bottom: 1rem;">1. Odoo Environment &amp; Server Capacity</h3>
+            <h3 style="margin-top: 2rem; margin-bottom: 1rem;">1. Hosting, GCP Setup &amp; API Access</h3>
             <table class="estimation-table">
-                <thead><tr><th>#</th><th>Assumption / Constraint</th><th>Requirement</th><th>Owner</th><th>Required By</th></tr></thead>
+                <thead><tr><th>#</th><th>Assumption / Constraint</th><th>Requirement</th><th>Owner</th><th>Drop-Dead Date</th></tr></thead>
                 <tbody>
                     <tr>
                         <td><strong>C1</strong></td>
-                        <td>Odoo Staging Environment</td>
-                        <td>A staging Odoo instance that is a functional replica of production: same Odoo version (confirmed in writing pre-kickoff), full admin/technical access (SSH, database, file system) for SoftTeco engineers, and the ability to install custom modules and restart services without approval delays.</td>
+                        <td>GCP Project &amp; Deployment Access</td>
+                        <td>A Google Cloud project with billing enabled; Firestore (Native Mode) and Vision API turned on; IAM access for SoftTeco to deploy Firebase Hosting + Cloud Functions/Cloud Run + Cloud Tasks + Cloud Scheduler.</td>
                         <td>7Cyber</td>
-                        <td>Kickoff (Week 0, Day 1)</td>
+                        <td>Kickoff (Day 1)</td>
                     </tr>
                     <tr>
                         <td><strong>C2</strong></td>
-                        <td>Odoo Server Capacity for queue_job</td>
-                        <td>Initial sizing assumption: capacity equivalent to <strong>four concurrent queue_job workers</strong> (roughly <strong>2 GB RAM and 2 vCPU each</strong> as a starting point), subject to validation against the existing Odoo topology and load testing during implementation — sized for five parallel integration jobs per scan (covering six services), up to 3 concurrent scans during testing, plus aggregation and PDF generation jobs. If current infrastructure can't support this, 7Cyber provisions or upgrades before Week 2, at 7Cyber's cost.</td>
+                        <td>Live API Keys for All 6 Sources</td>
+                        <td>Valid, activated credentials for Intelligence X, DarkOWL, FOFA, Shodan, tgstate, and Grayhatwarfare prior to build start, plus vendor dashboard access for troubleshooting.</td>
                         <td>7Cyber</td>
-                        <td>End of Week 1</td>
+                        <td>Kickoff (Day 1)</td>
                     </tr>
-                </tbody>
-            </table>
-            <div class="risk-card"><strong>Why this matters:</strong> Without sufficient workers, queue_job tasks pile up, causing timeouts, Odoo instance freezing, and an inability to test parallel processing — the core architectural feature of this module.</div>
-
-            <h3 style="margin-top: 3rem; margin-bottom: 1rem;">2. External API Credentials &amp; Rate Limits</h3>
-            <table class="estimation-table">
-                <thead><tr><th>#</th><th>Assumption / Constraint</th><th>Requirement</th><th>Owner</th><th>Required By</th></tr></thead>
-                <tbody>
                     <tr>
                         <td><strong>C3</strong></td>
-                        <td>Access and Credentials for All 6 Sources</td>
-                        <td>Active accounts, access details, and credentials where applicable for all six intelligence services prior to Sprint 1 — Intelligence X (API key), DarkOWL (OAuth2 Client ID + Secret with refresh capability), FOFA (API key + registered email), Shodan (API key), tgstate (no auth), Grayhatwarfare (API key) — plus read/write access to the vendor dashboards for troubleshooting.</td>
+                        <td>Sufficient Rate Limits for Testing</td>
+                        <td>Minimum rate limits to support a short integration-testing pass: Intelligence X ≥ 200 requests/day, FOFA ≥ 500 queries available, Shodan ≥ 5 test credits, Grayhatwarfare ≥ 25 queries/day. If insufficient, 7Cyber upgrades or provides test credentials before testing begins.</td>
                         <td>7Cyber</td>
-                        <td>Kickoff (Week 0, Day 1)</td>
+                        <td>End of Week 1</td>
                     </tr>
                     <tr>
                         <td><strong>C4</strong></td>
-                        <td>Sufficient Rate Limits for Testing</td>
-                        <td>Subscription tiers and rate limits sufficient to execute the agreed integration-test scenarios (functional, retry, timeout, and regression) across all six services during Weeks 4–6. If the selected tier prevents completing the agreed test scope, 7Cyber upgrades the applicable tier or provides additional test credentials before Week 4.</td>
-                        <td>7Cyber</td>
-                        <td>End of Week 3</td>
-                    </tr>
-                </tbody>
-            </table>
-            <div class="risk-card"><strong>Why this matters:</strong> Integration testing runs dozens of test scans to validate error handling, timeout recovery, and data normalisation. Hitting rate limits mid-test halts progress and wastes engineering time.</div>
-
-            <h3 style="margin-top: 3rem; margin-bottom: 1rem;">3. Google Cloud Platform (GCP) Setup</h3>
-            <table class="estimation-table">
-                <thead><tr><th>#</th><th>Assumption / Constraint</th><th>Requirement</th><th>Owner</th><th>Required By</th></tr></thead>
-                <tbody>
-                    <tr>
-                        <td><strong>C5</strong></td>
-                        <td>GCP Project with Enabled Services</td>
-                        <td>A GCP project with billing enabled; Firestore (Native Mode, region <strong>me-central1</strong> Doha or <strong>me-central2</strong> Dammam); BigQuery (dataset with <code>scan_date</code> partitioning); Vision API enabled and active. The project requires the following IAM permissions, granted to the designated deployment and runtime identities rather than to individual engineers: a deployment/setup identity with the provisioning permissions needed for initial configuration; a runtime service account with only the data-access roles it needs (<code>roles/datastore.user</code>, <code>roles/bigquery.dataEditor</code> on the dataset, and <code>roles/bigquery.jobUser</code> on the query project); and <code>roles/secretmanager.secretAccessor</code> scoped only to the specific secrets the runtime uses.</td>
-                        <td>7Cyber</td>
-                        <td>End of Week 1</td>
-                    </tr>
-                    <tr>
-                        <td><strong>C6</strong></td>
                         <td>GCP Cost Ownership</td>
-                        <td>All GCP infrastructure costs (Firestore reads/writes, BigQuery storage/query, Vision API usage) are paid directly by 7Cyber to Google — excluded from SoftTeco's fixed price and Year 1 support packages. SoftTeco advises on cost optimisation but holds no financial liability for GCP consumption.</td>
+                        <td>All GCP infrastructure costs (Firestore, Vision API, Cloud Functions/Tasks) are paid directly by 7Cyber to Google — excluded from SoftTeco's fixed price and support package.</td>
                         <td>7Cyber</td>
                         <td>Ongoing</td>
                     </tr>
                 </tbody>
             </table>
-            <div class="risk-card"><strong>Why this matters:</strong> Without Firestore, scan results can't be stored for the live dashboard. Without BigQuery, the 6-month trend chart and global exposure map can't be generated. Without Vision API, the file-upload path (Path B) can't function at all.</div>
+            <div class="risk-card"><strong>Why this matters:</strong> without live keys and a working GCP project from day one, the integration work — the majority of the build — can't start.</div>
 
-            <h3 style="margin-top: 3rem; margin-bottom: 1rem;">4. Client Assets &amp; Decision-Making</h3>
+            <h3 style="margin-top: 3rem; margin-bottom: 1rem;">2. Client Assets &amp; Decision-Making</h3>
             <table class="estimation-table">
-                <thead><tr><th>#</th><th>Assumption / Constraint</th><th>Requirement</th><th>Owner</th><th>Required By</th></tr></thead>
+                <thead><tr><th>#</th><th>Assumption / Constraint</th><th>Requirement</th><th>Owner</th><th>Drop-Dead Date</th></tr></thead>
                 <tbody>
                     <tr>
-                        <td><strong>C7</strong></td>
-                        <td>E7 Report Reference File</td>
-                        <td>The actual E7 Cybersecurity report (PDF or design source, including fonts, colour palette, logo placement, and layout grids) as the reference for visually matching the dashboard and the 6-page PDF report within the agreed design baseline. Without it, SoftTeco makes reasonable approximations, and visual rework beyond that baseline is a change request.</td>
+                        <td><strong>C5</strong></td>
+                        <td>Basic Brand Assets</td>
+                        <td>Logo and colour palette for dashboard styling. Without this, SoftTeco uses a neutral default theme, and re-styling later is a change request.</td>
                         <td>7Cyber</td>
                         <td>End of Week 1</td>
                     </tr>
                     <tr>
-                        <td><strong>C8</strong></td>
-                        <td>Named Business Owner</td>
-                        <td>A single point of contact with decision-making authority to answer scope/technical questions, approve sprint deliverables at end-of-sprint demos, and coordinate with external API vendors. Must respond within 24 business hours during Weeks 1–7; delays beyond 48 hours may slip the timeline.</td>
+                        <td><strong>C6</strong></td>
+                        <td>Named Point of Contact</td>
+                        <td>Someone able to answer scope/technical questions within roughly 2 business days during the build. Longer delays may slip the timeline.</td>
                         <td>7Cyber</td>
-                        <td>Kickoff (Week 0, Day 1)</td>
+                        <td>Kickoff (Day 1)</td>
                     </tr>
                 </tbody>
             </table>
-            <div class="risk-card"><strong>Why this matters:</strong> The E7 report is the single most important visual artifact — without it, dashboard and PDF development becomes guesswork. Without a responsive decision-maker, integration issues with external vendors can't be unblocked.</div>
 
-            <h3 style="margin-top: 3rem; margin-bottom: 1rem;">5. Out-of-Scope Items (Scope Boundaries)</h3>
+            <h3 style="margin-top: 3rem; margin-bottom: 1rem;">3. Out-of-Scope Items (Scope Boundaries)</h3>
             <table class="estimation-table">
                 <thead><tr><th>#</th><th>Item</th><th>Exclusion</th><th>Owner</th><th>Impact</th></tr></thead>
                 <tbody>
                     <tr>
-                        <td><strong>C9</strong></td>
+                        <td><strong>C7</strong></td>
                         <td>No Manual Dark Web Analysis</td>
-                        <td>The module does not include human analysts reviewing raw dark-web content, forums, or marketplaces. All findings are sourced exclusively from the six automated APIs; manual verification is a separate engagement.</td>
+                        <td>All findings are sourced exclusively from the six automated APIs; manual verification is a separate engagement.</td>
                         <td>7Cyber</td>
-                        <td>Clients must understand automated findings may include false positives and are not manually vetted.</td>
+                        <td>Automated findings may include false positives and are not manually vetted.</td>
                     </tr>
                     <tr>
-                        <td><strong>C10</strong></td>
-                        <td>No Additional Intelligence Sources</td>
-                        <td>Only the six sources in the Tech Spec are included. Adding a 7th source (e.g. HaveIBeenPwned, VirusTotal) is a change request, priced separately.</td>
+                        <td><strong>C8</strong></td>
+                        <td>No Additional Sources, No Analytics/PDF Extras</td>
+                        <td>Only the six named sources; BigQuery analytics, heat map, choropleth, pixel-matched PDF, and AI summary are change requests, priced separately (see "What This Doesn't Include").</td>
                         <td>7Cyber</td>
-                        <td>Scope creep avoided.</td>
+                        <td>Scope and price stay predictable.</td>
                     </tr>
                     <tr>
-                        <td><strong>C11</strong></td>
+                        <td><strong>C9</strong></td>
                         <td>Penetration Testing Not Included</td>
-                        <td>Security hardening, including Odoo access controls, record rules, backend tenant-isolation checks, and least-privilege GCP IAM configuration, is included. The final penetration test of portal endpoints, API routes, and tenant isolation is not included — 7Cyber conducts or procures this test post-delivery.</td>
+                        <td>Firestore security rules and tenant-scoped access are included. A formal penetration test of the portal is not — 7Cyber conducts or procures this post-delivery.</td>
                         <td>7Cyber</td>
                         <td>Security validation is 7Cyber's responsibility.</td>
                     </tr>
@@ -793,7 +392,7 @@
         <div class="container">
             <h2>Risk Scoring Engine (as Specified)</h2>
             <p style="font-size: 1.1rem; margin-bottom: 2rem;">
-                Each finding carries a base risk-point value; the overall score is the sum of weighted findings, capped at 100, and mapped to a four-tier risk level that matches 7Cyber's existing E7 report bands.
+                Not simplified — the full weighted model, same point values and risk bands as the specification. This is cheap to build correctly, so there's no reason to cut it.
             </p>
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
                 <table class="estimation-table">
@@ -820,11 +419,6 @@
                     </tbody>
                 </table>
             </div>
-            <p style="margin-top: 1.5rem; font-size: 0.9rem; color: #555;"><strong>Critical findings.</strong> The classification used to trigger alerts will be confirmed with 7Cyber during the scope workshop. Until confirmed, the implementation preserves each finding's source severity and type separately from the overall 0&ndash;100 risk score, so the alerting rule can be set without reworking the scoring model.</p>
-            <div class="highlight" style="margin-top: 2rem;">
-                <h4>Sub-scores by Category</h4>
-                <p>Alongside the overall score, six sub-scores (0–100) drive the "Risk Scores by Category" panel: Credential Exposure (Intelligence X + DarkOWL), Infostealer Exposure (DarkOWL), Network/Infrastructure Exposure (FOFA + Shodan), Telegram/Social Exposure (tgstate), Cloud Exposure (Grayhatwarfare), and a separate Data Privacy Impact score computed from PII-type findings.</p>
-            </div>
         </div>
     </section>
 
@@ -833,21 +427,23 @@
         <div class="container">
             <h2>Technology Stack</h2>
             <p style="font-size: 1.1rem; margin-bottom: 2rem;">
-                Everything below is either named directly in the specification or is the natural Odoo/GCP counterpart to a component the spec describes.
+                A short, standard stack. No custom visualisation libraries, no separate analytics warehouse, no server-side rendering pipeline.
             </p>
 
             <h3 style="margin-top: 1rem; margin-bottom: 1rem;">🧱 Portal &amp; App Framework</h3>
             <div style="margin-bottom: 2rem;">
-                <span class="stack-pill platform">Odoo (portal module)</span>
-                <span class="stack-pill platform">OWL components</span>
-                <span class="stack-pill platform">queue_job — async processing</span>
-                <span class="stack-pill platform">ir.cron — monthly scheduler</span>
+                <span class="stack-pill platform">React — frontend SPA</span>
+                <span class="stack-pill platform">Node.js / TypeScript — backend API</span>
+                <span class="stack-pill platform">Cloud Tasks — async job dispatch</span>
+                <span class="stack-pill platform">Cloud Scheduler — monthly trigger</span>
+                <span class="stack-pill platform">Firebase Hosting — frontend delivery</span>
+                <span class="stack-pill platform">Cloud Functions — backend hosting</span>
             </div>
 
             <h3 style="margin-top: 2rem; margin-bottom: 1rem;">☁️ Data Layer</h3>
             <div style="margin-bottom: 2rem;">
-                <span class="stack-pill data">Google Firestore — real-time scan data</span>
-                <span class="stack-pill data">Google BigQuery — analytics &amp; history</span>
+                <span class="stack-pill data">Google Firestore — all scan data (current + prior scan for delta)</span>
+                <span class="stack-pill data">Firebase Authentication — client login &amp; tenant scoping</span>
             </div>
 
             <h3 style="margin-top: 2rem; margin-bottom: 1rem;">🔎 Intelligence Sources</h3>
@@ -861,118 +457,110 @@
                 <span class="stack-pill ai">Google Vision API — OCR / labels / logos</span>
             </div>
 
-            <h3 style="margin-top: 2rem; margin-bottom: 1rem;">📊 Visualisation &amp; Reporting</h3>
+            <h3 style="margin-top: 2rem; margin-bottom: 1rem;">📊 Visualisation &amp; Export</h3>
             <div style="margin-bottom: 2rem;">
-                <span class="stack-pill platform">Chart.js — gauges, bar, donut, line</span>
-                <span class="stack-pill platform">D3.js — risk heat map</span>
-                <span class="stack-pill platform">Leaflet.js — global exposure choropleth</span>
-                <span class="stack-pill platform">Jinja2 + PDF renderer — 6-page report</span>
-                <span class="stack-pill ai">Generated CEO Summary — provider TBC</span>
+                <span class="stack-pill platform">Chart.js — gauge, bar, donut (all dashboard charts)</span>
+                <span class="stack-pill platform">Browser print-to-PDF — client-side export, no server rendering</span>
             </div>
 
             <table class="estimation-table">
                 <thead><tr><th>Component</th><th>Used For</th><th>Integration Pattern</th></tr></thead>
                 <tbody>
-                    <tr><td><strong>Odoo</strong></td><td>Portal shell, auth, multi-company tenant isolation, admin back-office</td><td>New Odoo module under main navigation; standard Odoo access-rights and record rules for tenant isolation</td></tr>
-                    <tr><td><strong>queue_job</strong></td><td>Parallel API dispatch and long-running scan processing without blocking the UI</td><td>Parent job <code>scan_dispatch</code> spawns 5 child jobs across the six services (FOFA and Shodan share one network-exposure job); aggregation job runs after all complete; notification job sends Critical-finding alerts</td></tr>
-                    <tr><td><strong>Google Firestore</strong></td><td>Real-time scan data — findings, status, dashboard JSON payload</td><td>Tenant-scoped document path <code>/tenants/&#123;company_id&#125;/scans/&#123;scan_id&#125;</code>; queried server-side by the authenticated Odoo controller for live report rendering</td></tr>
-                    <tr><td><strong>Google BigQuery</strong></td><td>Analytics and historical data — country aggregation, time-series trends, type distributions</td><td>Written by the aggregation job after each scan; queried for the 6-month trend chart and the global exposure map</td></tr>
-                    <tr><td><strong>Google Vision API</strong></td><td>OCR, label detection, logo detection, safe search, landmark detection on uploaded files</td><td>Called before the six intelligence services on the file-upload path only; extracted entities become the search terms</td></tr>
-                    <tr><td><strong>Chart.js / D3.js / Leaflet.js</strong></td><td>Dashboard panels — risk gauges, category bars, heat map, donut, choropleth, trend line</td><td>Rendered client-side from the Firestore/BigQuery-backed dashboard JSON</td></tr>
-                    <tr><td><strong>PDF generator</strong></td><td>6-page branded report matching the E7 Cybersecurity format</td><td>HTML/CSS Jinja2 template rendered server-side on scan completion, stored as <code>ir.attachment</code></td></tr>
+                    <tr><td><strong>React</strong></td><td>Portal frontend — scan forms, dashboard, scan history</td><td>Single-page app on Firebase Hosting; reads dashboard data directly from Firestore</td></tr>
+                    <tr><td><strong>Node.js / TypeScript backend</strong></td><td>API endpoints, scan orchestration, risk scoring</td><td>Cloud Functions, stateless, dispatches to Cloud Tasks for the async fan-out</td></tr>
+                    <tr><td><strong>Cloud Tasks</strong></td><td>Parallel dispatch to the five external APIs</td><td>One task per source per scan; aggregation runs once all five respond or time out</td></tr>
+                    <tr><td><strong>Cloud Scheduler</strong></td><td>Monthly automated re-scan</td><td>Triggers a Cloud Function that re-queues a scan for each active monitor</td></tr>
+                    <tr><td><strong>Google Firestore</strong></td><td>All scan data — findings, status, current + prior scan for delta</td><td>Tenant-scoped path; queried directly by React; security rules enforce isolation</td></tr>
+                    <tr><td><strong>Google Vision API</strong></td><td>OCR and entity extraction on uploaded files</td><td>Called before the five intelligence APIs on the file-upload path only</td></tr>
+                    <tr><td><strong>Chart.js</strong></td><td>All dashboard visuals — gauge, bar, donut</td><td>Rendered client-side in React from Firestore data</td></tr>
                 </tbody>
             </table>
         </div>
     </section>
+
     <!-- Technical Architecture -->
     <section style="background: #f8f9fa;">
         <div class="container">
             <h2>Technical Architecture</h2>
             <p style="font-size: 1.1rem; margin-bottom: 2rem;">
-                A single Odoo module with an async processing core, two purpose-built Google Cloud data stores, and a reporting layer that renders the same data to a live dashboard and a downloadable PDF.
+                A small React portal, a stateless serverless backend, and a single data store.
             </p>
 
             <div class="layer-box">
-                <h4>Layer 1: Odoo Portal Layer</h4>
+                <h4>Layer 1: React Portal</h4>
                 <ul>
-                    <li><strong>/my/leak-scan</strong> — client portal landing page: scan history list, new-scan button.</li>
-                    <li><strong>/my/leak-scan/new/domain</strong> and <strong>/my/leak-scan/new/file</strong> — the two input forms, the latter triggering the Vision pre-processing step.</li>
-                    <li><strong>/my/leak-report/&lt;scan_id&gt;</strong> — the live dashboard, rendered from Firestore data.</li>
-                    <li><strong>/my/leak-report/&lt;scan_id&gt;/pdf</strong> — PDF download endpoint, serving the stored <code>ir.attachment</code>.</li>
-                    <li>Standard Odoo authentication and multi-company (tenant) isolation — no separate auth system to build.</li>
+                    <li><strong>/scan</strong> — landing page: scan history, new-scan button.</li>
+                    <li><strong>/scan/new/domain</strong> and <strong>/scan/new/file</strong> — the two input forms.</li>
+                    <li><strong>/report/&lt;scan_id&gt;</strong> — the dashboard, rendered from Firestore, exportable via the browser's print-to-PDF.</li>
+                    <li>Firebase Authentication for login; Firestore security rules enforce tenant isolation.</li>
                 </ul>
             </div>
 
             <div class="layer-box">
-                <h4>Layer 2: Async Processing — queue_job</h4>
+                <h4>Layer 2: Async Processing — Cloud Tasks</h4>
                 <ul>
-                    <li><strong>Parent job — scan_dispatch:</strong> creates five parallel child jobs covering the six intelligence services (FOFA and Shodan share one network-exposure job) and waits for all to complete.</li>
-                    <li><strong>Child jobs (parallel):</strong> fetch_intelligence_x, fetch_darkowl, fetch_fofa_shodan, fetch_tgstate, fetch_grayhatwarfare.</li>
-                    <li><strong>Aggregation job:</strong> runs once all child jobs complete — normalises, deduplicates, scores, persists to Firestore + BigQuery, generates the report.</li>
-                    <li><strong>Notification job:</strong> emails an alert whenever a scan produces Critical findings.</li>
-                    <li>Per-API timeout of 30 seconds, exponential backoff, 3 retry attempts; an individual source failing does not abort the scan — partial results are valid and each finding stores a <code>fetch_status</code> (success / timeout / error). If all integration jobs fail, the scan is marked <code>failed</code> and the client is notified. All jobs log to <code>queue.job</code> for admin visibility.</li>
+                    <li>Scan submission queues one Cloud Task per intelligence source (5 per scan).</li>
+                    <li>Aggregation function runs once all five report back or time out — normalises, scores, writes to Firestore.</li>
+                    <li>30-second per-API timeout, 3 retry attempts (Cloud Tasks' built-in retry policy); a failing source doesn't abort the scan.</li>
+                    <li>Cloud Tasks autoscales — no fixed worker pool to size or manage.</li>
                 </ul>
             </div>
 
             <div class="layer-box">
                 <h4>Layer 3: External Intelligence Integration</h4>
                 <ul>
-                    <li>Six independent adapters (one per source), each wrapping its own auth style — API-key header, OAuth2 token, API key + email param, or no auth at all (tgstate).</li>
-                    <li>Domain path calls all six services directly; file path routes Vision-extracted entities (domains, emails, phone numbers, company names) through the identical set of service calls — one shared aggregation code path for both input types.</li>
-                    <li>Per-tenant integration config (<code>leak.api.config</code>) holds Secret Manager references, not raw credentials; actual secret values live in Google Secret Manager and are resolved server-side. Credentials never appear in frontend responses or logs; failed auth triggers an admin notification.</li>
+                    <li>Six adapters, each wrapping its own auth style — API-key header, OAuth2 token, API key + email param, or no auth (tgstate).</li>
+                    <li>Domain path calls all five APIs directly; file path routes Vision-extracted entities through the identical five calls.</li>
+                    <li>Per-tenant encrypted API-key vault (Secret Manager).</li>
                 </ul>
             </div>
 
             <div class="layer-box">
-                <h4>Layer 4: Data Layer — Two-Tier Google Cloud Strategy</h4>
+                <h4>Layer 4: Data Layer — Firestore Only</h4>
                 <ul>
-                    <li><strong>Firestore</strong> — real-time scan data. Individual findings, scan status, and the dashboard JSON payload, queried server-side by the authenticated Odoo controller for live rendering (the browser never accesses Firestore directly). Path: <code>/tenants/&#123;company_id&#125;/scans/&#123;scan_id&#125;/findings/</code>.</li>
-                    <li><strong>BigQuery</strong> — analytics and history. Aggregated monthly results, country-level exposure (global map), time-series exposure trends (6-month chart), and finding-type distributions. Partitioned by <code>scan_date</code> for efficient deletion and cost management.</li>
-                    <li>Monthly delta object tracked per monitor: new_findings, resolved_findings, persisted_findings, and risk_score_delta (positive = worsened, negative = improved).</li>
+                    <li>Every finding, scan status, and dashboard payload lives in Firestore, scoped per tenant.</li>
+                    <li>Delta for monthly monitoring is computed by comparing the current scan's findings to the immediately prior scan — no separate analytics warehouse.</li>
                 </ul>
             </div>
 
             <div class="layer-box">
-                <h4>Layer 5: Reporting &amp; Visualisation</h4>
+                <h4>Layer 5: Dashboard &amp; Export</h4>
                 <ul>
-                    <li>Dashboard panels: Digital Risk Score gauge, Risk Scores by Category bar chart, Risk heat map (likelihood × impact), Findings by Source donut, Exposed Data Types list, Data Privacy Impact gauge, Executive Exposure Status table, Infostealer Intelligence panel, Top Risk Cases cards, Privacy &amp; Regulatory Alignment table, E7 Recommendation Scorecard, Global Exposure Map, 6-month Exposure trend line, CEO Summary panel.</li>
-                    <li>6-page PDF: Cover → Executive Summary → Data Exposure Summary → Global Exposure Map → Risk Analysis → Intelligence Details. Auto-generated on scan completion; clients can re-download any historical PDF from the scan-history list.</li>
+                    <li>Six panels: Digital Risk Score gauge, Risk by Category bar, Findings by Source donut, Exposed Data Types list, Top Risk Cases cards, plain-text Summary panel.</li>
+                    <li>Client exports the on-screen dashboard to PDF via the browser's native print function — no server-side rendering component to build or maintain.</li>
                 </ul>
             </div>
 
             <div class="layer-box">
-                <h4>Layer 6: Security, Compliance &amp; Retention</h4>
+                <h4>Layer 6: Security &amp; Retention</h4>
                 <ul>
-                    <li>Firestore is accessed exclusively by the authenticated Odoo backend. Tenant isolation is enforced in the Odoo controller and model access layer before any Firestore operation; the Firestore service account is restricted through IAM on a least-privilege basis, and the browser never accesses Firestore directly. Every Odoo model carries <code>company_id</code> and is filtered by record rules; PDF attachments use non-guessable access tokens.</li>
-                    <li>Scan findings retained indefinitely as history, per the spec, with a <code>delete_scan_history</code> action available on request; BigQuery partitioning supports efficient, targeted deletion.</li>
-                    <li>All external service credentials held in Google Secret Manager, encrypted at rest, and never exposed in frontend responses or logs.</li>
-                    <li>Given the sensitivity of aggregated breach/credential data, we recommend a focused penetration test of the portal routes before go-live — scoped separately from this build.</li>
+                    <li>Firestore security rules enforce per-tenant scoping; every request is authenticated and scoped to a tenant_id.</li>
+                    <li>All external API keys encrypted at rest in Secret Manager, never exposed in frontend responses or logs.</li>
+                    <li>We recommend a focused penetration test before go-live — scoped separately from this build.</li>
                 </ul>
             </div>
         </div>
     </section>
-
     <!-- Cloud Hosting -->
     <section>
         <div class="container">
             <h2>Cloud Hosting — Recommended Configuration (Google Cloud)</h2>
             <p style="font-size: 1.1rem; margin-bottom: 1rem;">
-                The specification is written natively against Google Cloud (Firestore, BigQuery, Vision API), so — unlike the original eight-module proposal, which compared GCP and Azure — this module is scoped as a single-cloud build on <strong>Google Cloud</strong>. Reopening the Azure comparison for this module only makes sense if 7Cyber has a hard residency or procurement reason to move off GCP for these specific services.
+                A minimal Google Cloud footprint — Firestore, Vision API, and serverless compute. No BigQuery, no dedicated servers.
             </p>
             <p style="font-size: 1rem; margin-bottom: 2rem; color: #555;">
-                <strong>Note on cost:</strong> cloud spend is paid directly by 7Cyber to Google — it is not included in the build price or the Year 1 support quote below. <strong>Full owners and required-by dates for every constraint below are set out in "Critical Assumptions &amp; Constraints" above.</strong>
+                <strong>Note on cost:</strong> cloud spend is paid directly by 7Cyber to Google — not included in the build price or support quote below.
             </p>
 
             <table class="estimation-table">
                 <thead><tr><th>Component</th><th>Recommended Configuration</th><th>Notes</th></tr></thead>
                 <tbody>
-                    <tr><td><strong>Odoo staging + production</strong></td><td>Functional replica of production — same Odoo version, full admin/technical access (SSH, DB, file system) for SoftTeco, ability to install modules and restart services without approval delays</td><td>Constraint C1 — required at kickoff (Week 0, Day 1).</td></tr>
-                    <tr><td><strong>Async workers (queue_job)</strong></td><td>Initial recommendation: capacity equivalent to <strong>four concurrent queue_job workers</strong> (~<strong>2 GB RAM and 2 vCPU each</strong> as a starting point), validated by load testing during implementation — sized for five parallel integration jobs per scan (six services) plus up to 3 concurrent scans during testing</td><td>Constraint C2 — required by end of Week 1; upgrade at 7Cyber's cost if current infra falls short.</td></tr>
-                    <tr><td><strong>Firestore</strong></td><td>Native mode, region <code>me-central1</code> (Doha) or <code>me-central2</code> (Dammam) matched to 7Cyber's primary operating region</td><td>Accessed server-side via a least-privilege service account; per-tenant scoping enforced in the Odoo controller against the <code>/tenants/&#123;company_id&#125;/</code> path. SoftTeco needs <code>roles/datastore.user</code>.</td></tr>
-                    <tr><td><strong>BigQuery</strong></td><td>Dataset partitioned by <code>scan_date</code>; standard on-demand or flat-rate slots depending on query volume</td><td>Partitioning keeps historical-deletion and cost management straightforward. SoftTeco needs <code>roles/bigquery.dataEditor</code> on the dataset and <code>roles/bigquery.jobUser</code> to run queries.</td></tr>
+                    <tr><td><strong>Frontend hosting</strong></td><td>Firebase Hosting serving the compiled React SPA</td><td>Constraint C1 — deployment access required at kickoff.</td></tr>
+                    <tr><td><strong>Backend compute</strong></td><td>Cloud Functions running the Node.js/TypeScript API — fully managed, autoscales</td><td>No fixed worker pool to size.</td></tr>
+                    <tr><td><strong>Async task queue</strong></td><td>Cloud Tasks — dispatches the 5 parallel intelligence-API calls per scan</td><td>Managed retry policy built in.</td></tr>
+                    <tr><td><strong>Firestore</strong></td><td>Native mode, region me-central1 (Doha) or me-central2 (Dammam)</td><td>Security rules scoped per tenant path.</td></tr>
                     <tr><td><strong>Vision API</strong></td><td>Enabled and active, standard quota billed per request</td><td>Only invoked on the file-upload path.</td></tr>
-                    <tr><td><strong>Secrets</strong></td><td>Secret Manager holds the credentials required by the configured external services (tgstate needs none) plus the genAI provider key. Provisioning permissions go to the designated setup account during initial setup; runtime services receive <code>roles/secretmanager.secretAccessor</code> scoped only to the secrets they need</td><td>Credentials never stored in Odoo config files in plain text.</td></tr>
-                    <tr><td><strong>Monitoring</strong></td><td>Cloud Logging + Cloud Monitoring for Firestore/BigQuery; <code>queue.job</code> admin view for job health inside Odoo</td><td>Queue-depth and per-API failure-rate alerting recommended from day one.</td></tr>
+                    <tr><td><strong>Secrets</strong></td><td>Secret Manager for all six intelligence-API keys</td><td>Keys never stored in application config files.</td></tr>
                 </tbody>
             </table>
 
@@ -980,42 +568,38 @@
             <table class="estimation-table">
                 <thead><tr><th>Workload profile</th><th>Indicative GCP spend</th><th>Notes</th></tr></thead>
                 <tbody>
-                    <tr><td><strong>Launch (≤ 20 clients, monthly scans only)</strong></td><td>~AED 550 – 1,100 / mo</td><td>Firestore + BigQuery + Vision API at low volume; assumes the baseline Odoo worker capacity described in C2 is already available.</td></tr>
-                    <tr><td><strong>Growth (≤ 100 clients, some on-demand scans)</strong></td><td>~AED 1,470 – 2,940 / mo</td><td>More frequent file-upload scans (Vision API cost scales with volume); larger BigQuery history.</td></tr>
-                    <tr><td><strong>Scale (≤ 500 clients, heavy on-demand usage)</strong></td><td>~AED 4,410 – 8,080 / mo</td><td>External intelligence-API subscription costs for the paid providers (paid separately to those vendors) become the larger cost driver at this scale, not GCP itself.</td></tr>
+                    <tr><td><strong>Launch (≤ 20 clients, monthly scans only)</strong></td><td>~AED 250 – 550 / mo</td><td>Firestore + Vision API + Cloud Functions/Tasks at low volume — mostly inside GCP's free tier.</td></tr>
+                    <tr><td><strong>Growth (≤ 100 clients, some on-demand scans)</strong></td><td>~AED 700 – 1,500 / mo</td><td>More frequent file-upload scans; Cloud Functions invocations grow but stay inexpensive per-call.</td></tr>
+                    <tr><td><strong>Scale (≤ 500 clients, heavy on-demand usage)</strong></td><td>~AED 2,200 – 4,200 / mo</td><td>Six external intelligence-API subscription costs become the larger cost driver at this scale, not GCP itself.</td></tr>
                 </tbody>
             </table>
-            <div class="highlight" style="margin-top: 1.5rem;">
-                <h4>Key takeaway</h4>
-                <p>GCP hosting for this module is inexpensive relative to the paid external intelligence-API subscriptions — those vendor costs (Intelligence X, DarkOWL, FOFA, Shodan, Grayhatwarfare tiers) should be the primary line item 7Cyber budgets for as client count and scan frequency grow, not the Google Cloud bill itself.</p>
-            </div>
         </div>
     </section>
+
     <!-- Effort & Cost -->
     <section style="background: #f8f9fa;">
         <div class="container">
             <h2>Module Effort &amp; Cost</h2>
             <p style="font-size: 1.1rem; margin-bottom: 1rem;">
-                Sized for a single-module, Odoo-native build and <strong>re-validated for the UAE market</strong>: we went back through the role list and consolidated every responsibility that a senior generalist could reasonably absorb, so the price reflects only the work the specification actually requires. The price below is a <strong>proposed fixed price</strong> that locks once the five pending inputs above are confirmed — the number of intelligence-API tiers/rate-limits and the genAI-provider decision can shift the Integrations track by roughly ±10%.
+                Rebuilt around a genuinely lean two-developer team, priced strictly off SoftTeco's Rate Card — no premiums, no placeholder numbers. This isn't the previous team with hours shaved off; it's a smaller build, honestly scoped (see "What This Doesn't Include" above).
             </p>
-            <p style="margin-bottom: 2rem; color: #555;"><strong>Module scope only</strong> — no manual analyst review, no additional intelligence sources beyond the six named, no other AI Portal modules.</p>
-
+            <p style="margin-bottom: 2rem; color: #555;"><strong>Module scope only</strong> — no manual analyst review, no additional intelligence sources, no BigQuery/heat-map/choropleth/pixel-matched-PDF extras, no other AI Portal modules.</p>
 
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin-bottom: 3rem;">
                 <div class="cost-box">
-                    <h4>Proposed Fixed Price</h4>
-                    <div class="cost-value">AED 181,740</div>
-                    <div class="cost-description">All-in fixed price for the Worldwide Leak Detection module (~US$49.5K equivalent). Locks once the 5 pending inputs are confirmed — change requests priced separately.</div>
+                    <h4>Fixed Price</h4>
+                    <div class="cost-value">AED 40,480</div>
+                    <div class="cost-description">All-in fixed price (~US$11.0K equivalent). Locks once the inputs above are confirmed — change requests priced separately.</div>
                 </div>
                 <div class="cost-box">
                     <h4>Total Effort</h4>
-                    <div class="cost-value">~1,080 hrs</div>
-                    <div class="cost-description">Across a lean, seven-role team — no junior placeholders, no redundant hand-off layers.</div>
+                    <div class="cost-value">~332 hrs</div>
+                    <div class="cost-description">Across a two-developer core team plus light QA and PM.</div>
                 </div>
                 <div class="cost-box">
                     <h4>Calendar Time</h4>
-                    <div class="cost-value">6 – 7 weeks</div>
-                    <div class="cost-description">Concurrent delivery — peak team of ~7 people (several part-time) during weeks 2–5, 1-week sprints with end-of-sprint demos.</div>
+                    <div class="cost-value">4 weeks</div>
+                    <div class="cost-description">Set by the Lead Developer's 160 hours at exactly 1.0 FTE — a clean full-time schedule, no overtime baked in. Support, QA, and PM work in parallel within that window.</div>
                 </div>
             </div>
 
@@ -1023,119 +607,96 @@
             <table class="estimation-table">
                 <thead><tr><th>Role</th><th>Hours</th><th>Scope</th></tr></thead>
                 <tbody>
-                    <tr>
-                        <td><strong>Solution Architect / Odoo Tech Lead</strong></td>
-                        <td><strong>190</strong></td>
-                        <td>~0.8 FTE. Owns the module architecture — Odoo model design, queue_job job topology, the Firestore/BigQuery split, tenant-isolation rules, and the risk-scoring engine's internal design — <strong>and runs discovery/requirements directly with 7Cyber</strong> rather than through a separate Business Analyst. Reviews all other engineers' code.</td>
-                    </tr>
                     <tr style="background: rgba(197,160,94,0.08);">
-                        <td><strong>Senior Odoo Backend Developer</strong></td>
-                        <td><strong>300</strong></td>
-                        <td>Builds the five Odoo models (leak.scan/finding/report/monitor/api.config), the scan_dispatch / aggregation / notification queue_job pipeline, the risk-scoring engine, the monthly ir.cron scheduler, delta computation — <strong>plus the 6-page PDF/Jinja2 report template and CEO Summary wiring</strong>, folded in rather than staffed separately.</td>
-                    </tr>
-                    <tr style="background: rgba(124,58,237,0.08);">
-                        <td><strong>Integrations Engineer</strong></td>
-                        <td><strong>220</strong></td>
-                        <td>~0.9 FTE dedicated to the six external adapters (Intelligence X, DarkOWL, FOFA, Shodan, tgstate, Grayhatwarfare) — auth handling per source, retry/backoff/timeout logic, response normalisation — plus the Google Vision integration (OCR, labels, logos, safe search, landmark) for the file-upload path. Not consolidated further — this is where real, non-reducible complexity lives.</td>
+                        <td><strong>Middle Full-Stack Developer (Lead)</strong></td>
+                        <td><strong>160</strong></td>
+                        <td>1.0 FTE over the build's 4-week duration — the critical-path role the timeline is built around, a clean full-time schedule with no overtime baked in. Leads the build: Node.js/TypeScript API, Cloud Tasks orchestration, Firestore data model, risk-scoring engine, Cloud Scheduler monthly job, three of the six intelligence integrations, and the React dashboard shell.</td>
                     </tr>
                     <tr>
-                        <td><strong>Frontend / Dashboard Developer</strong></td>
-                        <td><strong>190</strong></td>
-                        <td>~0.8 FTE. Odoo portal screens plus the full dashboard: Chart.js gauges/bar/donut/line, D3.js risk heat map, Leaflet.js global choropleth, and the OWL components for the exposed-data-types list, Executive Exposure Status table, and Top Risk Cases cards.</td>
+                        <td><strong>Middle Full-Stack Developer (Support)</strong></td>
+                        <td><strong>100</strong></td>
+                        <td>~0.63 FTE, running in parallel with the Lead. The remaining three intelligence integrations, the Google Vision wiring for the file-upload path, the two input forms, and the dashboard's Chart.js panels — with extra hours for closer pairing with the Lead on the trickier integrations.</td>
                     </tr>
                     <tr>
-                        <td><strong>Manual QA Engineer</strong></td>
-                        <td><strong>70</strong></td>
-                        <td>~0.3 FTE. Test plan and execution across mocked integrations and available live/sandbox vendor endpoints, including risk-scoring validation, failure and timeout scenarios, monthly-delta and tenant-isolation testing, and PDF/dashboard regression.</td>
-                    </tr>
-                    <tr>
-                        <td><strong>DevOps Engineer</strong></td>
+                        <td><strong>QA Engineer</strong></td>
                         <td><strong>40</strong></td>
-                        <td>~0.15 FTE. GCP hardening (service-account IAM, BigQuery partitioning, Secret Manager access control), queue_job worker scaling, and monitoring/alerting.</td>
+                        <td>~0.25 FTE. A structured test pass across all six mocked APIs (including error/timeout scenarios), the risk-scoring logic, both input paths, and the dashboard — broader coverage than a single quick pass.</td>
                     </tr>
                     <tr>
                         <td><strong>Project Manager</strong></td>
-                        <td><strong>70</strong></td>
-                        <td>~0.3 FTE, light-touch. Stand-ups, client communication, weekly demos, and coordination across six external API vendors for key provisioning and rate-limit issues.</td>
+                        <td><strong>32</strong></td>
+                        <td>~0.2 FTE. Weekly check-ins across the 4-week build, plus kickoff, scope coordination with 7Cyber, and delivery handoff — a light but real cadence rather than a single touchpoint.</td>
                     </tr>
                     <tr style="background: rgba(10,77,104,0.08);">
-                        <td><strong>TOTAL — Module (proposed fixed price)</strong></td>
-                        <td><strong>~1,080 hrs</strong></td>
-                        <td><strong>Fixed price — AED 181,740 (~US$49.5K) all-in, 6–7 weeks. Locks once the 5 pending inputs are confirmed.</strong></td>
+                        <td><strong>TOTAL — Module (indicative)</strong></td>
+                        <td><strong>~332 hrs</strong></td>
+                        <td><strong>Fixed price — AED 40,480 (~US$11.0K) all-in, 4 weeks. Locks once the inputs are confirmed.</strong></td>
                     </tr>
                 </tbody>
             </table>
 
             <div class="highlight" style="margin-top: 1.5rem; border-left: 4px solid var(--mdm-purple); background: rgba(124,58,237,0.05);">
-                <h4>📊 Estimate &amp; Team Validation — Lean, Senior-Led Model</h4>
+                <h4>📊 Estimate &amp; Team Validation — Honest, Not Just Cheaper</h4>
                 <ul style="margin-left: 1.2rem;">
-                    <li><strong>Seven focused roles, not nine.</strong> Requirements/BA work is absorbed by the Tech Lead and PDF/reporting work is absorbed by the Backend Developer — two hand-off layers removed without dropping either quality gate (architect-led review and a dedicated QA pass both remain in the plan).</li>
-                    <li><strong>Staffed to the seniority each track actually needs.</strong> Senior expertise on Architecture, Backend, and Integrations — where the specification's real complexity sits — with efficiently-priced Middle-level staffing on Frontend, QA, and DevOps, which are well-defined, lower-risk tracks. No junior placeholders anywhere.</li>
-                    <li><strong>Where we didn't cut:</strong> the Integrations track (six live external vendors) and the core Odoo/data-layer build keep their full hours — that is where the specification's real complexity sits, and under-sizing it is the most common way this type of project slips.</li>
-                    <li><strong>Priced directly off SoftTeco's Rate Card.</strong> At AED 181,740 (~US$49.5K) / ~1,080 hrs, this is built bottom-up from named rates for each role's seniority — not a round-number placeholder — while keeping the team sized to what each track actually needs, competitive for the UAE market.</li>
+                    <li><strong>Two developers, not seven roles.</strong> One Middle engineer leads the build at exactly 1.0 FTE; a second Middle engineer covers the remaining integrations and UI at ~0.63 FTE. QA (~0.25 FTE) and PM (~0.2 FTE) are real but proportionate.</li>
+                    <li><strong>Timeline matches the FTE, not a round number.</strong> The Lead's 160 hours over 4 weeks works out to exactly 1.0 FTE — a clean full-time schedule with no overtime baked in. That's a defensible 4-week date, not an optimistic one.</li>
+                    <li><strong>The price dropped by cutting scope and seniority, not by cutting corners on what's included.</strong> All six intelligence sources and the full risk-scoring model are still built properly — see "What This Doesn't Include" for the specific dashboard/analytics/PDF features removed to hit this price.</li>
+                    <li><strong>Where we didn't cut:</strong> the six live vendor integrations still get real per-source attention (auth handling, retry logic, response normalisation) — that's the part of this build most likely to break if rushed.</li>
+                    <li><strong>Every rate is a direct Rate Card match, no premiums.</strong> Both Full-Stack Developer roles map to Middle Software Engineer; QA to Middle Manual QA Engineer; PM to Project Manager.</li>
                 </ul>
             </div>
         </div>
     </section>
+
     <!-- Year 1 Support -->
     <section>
         <div class="container">
             <h2>Year 1 Support — Team &amp; Packages</h2>
             <p style="font-size: 1.1rem; margin-bottom: 2rem;">
-                Sized against a single module with six external dependencies — vendor rate-limit changes and API deprecations are the most likely source of ongoing work, alongside the usual patching and monitoring cadence.
+                Sized to match the lean build — small ongoing packages for a small module.
             </p>
             <table class="estimation-table">
                 <thead><tr><th>Role</th><th>Essential (hrs/mo)</th><th>Growth (hrs/mo)</th><th>Scale (hrs/mo)</th><th>Covers</th></tr></thead>
                 <tbody>
                     <tr>
-                        <td><strong>Odoo / Backend Engineer</strong></td>
-                        <td>6</td><td>14</td><td>26</td>
-                        <td>Bug fixes, queue_job tuning, risk-scoring adjustments, monthly-cron reliability.</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Integrations Engineer</strong></td>
-                        <td>4</td><td>8</td><td>16</td>
-                        <td>Vendor API changes across the six intelligence sources, new rate-limit handling, auth-token rotation.</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Frontend / Dashboard Developer</strong></td>
+                        <td><strong>Full-Stack Developer (Lead)</strong></td>
                         <td>3</td><td>6</td><td>12</td>
-                        <td>Dashboard fixes, chart/heat-map/choropleth tweaks, PDF template adjustments.</td>
+                        <td>Bug fixes, Cloud Tasks/Functions tuning, risk-scoring adjustments.</td>
                     </tr>
                     <tr>
-                        <td><strong>Manual QA Engineer</strong></td>
-                        <td>2</td><td>5</td><td>10</td>
-                        <td>Regression testing on vendor API changes, risk-scoring validation, monthly-monitor spot checks.</td>
+                        <td><strong>Full-Stack Developer (Support)</strong></td>
+                        <td>2</td><td>4</td><td>8</td>
+                        <td>Vendor API changes, dashboard fixes.</td>
                     </tr>
                     <tr>
-                        <td><strong>DevOps Engineer</strong></td>
-                        <td>2</td><td>3</td><td>6</td>
-                        <td>GCP monitoring, cost optimisation, secret rotation, queue_job worker scaling.</td>
+                        <td><strong>QA Engineer</strong></td>
+                        <td>1</td><td>2</td><td>4</td>
+                        <td>Regression testing on vendor API changes.</td>
                     </tr>
                     <tr>
-                        <td><strong>Project Manager / Service Delivery</strong></td>
-                        <td>2</td><td>4</td><td>7</td>
-                        <td>Monthly service review, vendor coordination, change management.</td>
+                        <td><strong>Project Manager</strong></td>
+                        <td>1</td><td>2</td><td>3</td>
+                        <td>Monthly check-in, change management.</td>
                     </tr>
                     <tr style="background: rgba(10,77,104,0.08);">
                         <td><strong>TOTAL HOURS / MONTH</strong></td>
-                        <td><strong>~19</strong></td>
-                        <td><strong>~40</strong></td>
-                        <td><strong>~77</strong></td>
-                        <td>Hours re-allocatable between roles month to month.</td>
+                        <td><strong>~7</strong></td>
+                        <td><strong>~14</strong></td>
+                        <td><strong>~27</strong></td>
+                        <td>Hours re-allocatable between roles.</td>
                     </tr>
                     <tr style="background: rgba(16,185,129,0.08);">
                         <td><strong>MONTHLY TOTAL</strong></td>
-                        <td><strong>AED 2,917</strong><br>(~$794)</td>
-                        <td><strong>AED 6,169</strong><br>(~$1,680)</td>
-                        <td><strong>AED 11,824</strong><br>(~$3,220)</td>
+                        <td><strong>AED 858</strong><br>(~$234)</td>
+                        <td><strong>AED 1,716</strong><br>(~$467)</td>
+                        <td><strong>AED 3,287</strong><br>(~$895)</td>
                         <td>All-in package price.</td>
                     </tr>
                     <tr style="background: rgba(197,160,94,0.18);">
                         <td><strong>ANNUAL TOTAL</strong></td>
-                        <td><strong>AED 35,004</strong><br>(~$9.5K)</td>
-                        <td><strong>AED 74,028</strong><br>(~$20.2K)</td>
-                        <td><strong>AED 141,888</strong><br>(~$38.6K)</td>
+                        <td><strong>AED 10,296</strong><br>(~$2.8K)</td>
+                        <td><strong>AED 20,592</strong><br>(~$5.6K)</td>
+                        <td><strong>AED 39,444</strong><br>(~$10.7K)</td>
                         <td>Final Year 1 support contract issued as a separate quote after go-live.</td>
                     </tr>
                 </tbody>
@@ -1143,14 +704,12 @@
             <div class="highlight" style="border-left: 4px solid var(--gold); background: rgba(197,160,94,0.06); margin-top: 1.5rem;">
                 <h4>📌 Commercial notes on Year 1 support</h4>
                 <ul style="margin-left: 1.2rem;">
-                    <li>Package amounts are indicative ranges; the formal quote is issued after go-live, sized against real scan volume and vendor stability.</li>
-                    <li>Cloud infrastructure (Google Cloud) and the external intelligence-vendor subscriptions (applicable to paid providers and tiers) are not included in any support package — paid directly by 7Cyber.</li>
-                    <li>Major feature work (e.g. adding a seventh intelligence source, or bringing forward another AI Portal module) runs as a change request outside the support bank.</li>
+                    <li>Cloud infrastructure and the six intelligence-vendor subscriptions are not included — paid directly by 7Cyber.</li>
+                    <li>Adding back any of the dropped features (BigQuery analytics, heat map, choropleth, pixel-matched PDF, AI summary) runs as a change request, priced separately when 7Cyber wants it.</li>
                 </ul>
             </div>
         </div>
     </section>
-
     <!-- ROI -->
     <section style="background: #f8f9fa;">
         <div class="container">
@@ -1159,30 +718,35 @@
                 <tbody>
                     <tr>
                         <td><strong>Fixed build cost</strong></td>
-                        <td><strong>AED 181,740</strong><br>(~$49.5K)</td>
-                        <td>One-time, 6–7 weeks to production-ready delivery; go-live follows the penetration test conducted or procured by 7Cyber.</td>
+                        <td><strong>AED 40,480</strong><br>(~$11.0K)</td>
+                        <td>One-time, 4 weeks to first production scan.</td>
                     </tr>
                     <tr>
                         <td><strong>Vs. original 8-module MVP</strong></td>
-                        <td><strong>~62% lower</strong></td>
-                        <td>AED 181,740 vs. ~AED 477,425 ($130K) — a materially smaller commitment to validate demand before committing to the full portal.</td>
+                        <td><strong>~92% lower</strong></td>
+                        <td>AED 40,480 vs. ~AED 477,425 ($130K).</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Vs. our prior React-based quote</strong></td>
+                        <td><strong>~72% lower</strong></td>
+                        <td>AED 40,480 vs. AED 143,930 — the same core pipeline, delivered through a leaner dashboard and data layer.</td>
                     </tr>
                     <tr style="background: rgba(16,185,129,0.10);">
                         <td><strong>Standalone monetisation</strong></td>
                         <td><strong>Per-scan or subscription pricing</strong></td>
-                        <td>The module can be sold on its own — a monthly exposure-monitoring subscription, or a one-off scan fee — independent of the rest of the AI Portal roadmap.</td>
+                        <td>The module can be sold on its own — a monthly exposure-monitoring subscription, or a one-off scan fee.</td>
                     </tr>
                     <tr style="background: rgba(197,160,94,0.18);">
-                        <td><strong>Foundation for Phase 2</strong></td>
-                        <td><strong>Reusable Odoo &amp; GCP scaffolding</strong></td>
-                        <td>The tenant model, queue_job patterns, and Firestore/BigQuery split built here can be reused by future modules implemented on the same Odoo/GCP architecture.</td>
+                        <td><strong>Clear upgrade path</strong></td>
+                        <td><strong>Add-ons priced when needed</strong></td>
+                        <td>BigQuery analytics, the heat map/choropleth views, a pixel-matched PDF, and an AI-generated summary are all well-defined, separately priced additions once 7Cyber has usage data to justify them.</td>
                     </tr>
                 </tbody>
             </table>
             <div class="highlight" style="margin-top: 2rem;">
                 <h4>💼 The Strategic Argument</h4>
                 <p>
-                    This module lets 7Cyber deliver a concrete, production-ready exposure-monitoring product in under two months, at well under half the investment of the full portal, with go-live following the penetration test conducted or procured by 7Cyber, while proving out the Odoo-native architecture that the rest of the roadmap can build on. It's the lowest-risk way to test the market before committing to the remaining eight modules.
+                    This gets 7Cyber a working, sellable exposure-monitoring product in about a month, at a price that matches what the market is quoting for this scope. It proves the concept with real clients before any further investment in analytics, richer visuals, or AI-generated reporting — all of which stay available as clearly-scoped next steps, not scope creep.
                 </p>
             </div>
         </div>
@@ -1196,43 +760,43 @@
                 <div class="benefit-item">
                     <span class="benefit-icon">🎯</span>
                     <div>
-                        <h3>Aligned with 7Cyber's Discovery and Technical Specification</h3>
-                        <p>This proposal is aligned with the functional and technical requirements of the specification 7Cyber provided — the same eight-stage pipeline, the same six external sources, the same Odoo models, the same risk-scoring weights — subject to the stated assumptions and exclusions.</p>
-                    </div>
-                </div>
-                <div class="benefit-item">
-                    <span class="benefit-icon">🧱</span>
-                    <div>
-                        <h3>Odoo-Native, Not Bolted On</h3>
-                        <p>Building inside 7Cyber's existing Odoo instance means multi-tenant isolation, RBAC, and admin come largely for free from the framework — less custom platform code than a standalone build would need.</p>
+                        <h3>All Six Sources, Full Risk Model — Nothing Faked</h3>
+                        <p>The parts that are hard to get right — six live vendor integrations and the weighted risk-scoring engine — are built properly. What's cut is presentation polish (extra charts, a pixel-matched PDF, AI-written text), not the core capability.</p>
                     </div>
                 </div>
                 <div class="benefit-item">
                     <span class="benefit-icon">💰</span>
                     <div>
-                        <h3>Well Under Half the Investment</h3>
-                        <p>AED 181,740 (~US$49.5K) and ~1,080 hours versus ~AED 477,425 ($130K) and ~2,600 hours for the full eight-module MVP — a lean, seven-role team sized to the work without cutting review or QA coverage.</p>
+                        <h3>Priced to Match the Market</h3>
+                        <p>AED 40,480 (~US$11.0K) — in the same range as the competing offer 7Cyber received, computed transparently off the Rate Card rather than an arbitrary discount.</p>
                     </div>
                 </div>
                 <div class="benefit-item">
-                    <span class="benefit-icon">🔌</span>
+                    <span class="benefit-icon">📋</span>
                     <div>
-                        <h3>Real Integration Depth, Not a Toy Scope</h3>
-                        <p>Six live external vendors, dual Google Cloud data stores, and a closely E7-aligned dashboard-plus-PDF report is genuine engineering — the estimate reflects that, rather than under-pricing "just one module."</p>
+                        <h3>Nothing Hidden</h3>
+                        <p>Every feature cut to hit this price is listed explicitly in "What This Doesn't Include" — 7Cyber knows exactly what they're getting, and exactly what a later upgrade would add.</p>
+                    </div>
+                </div>
+                <div class="benefit-item">
+                    <span class="benefit-icon">⚡</span>
+                    <div>
+                        <h3>Fast — Live in 4 Weeks</h3>
+                        <p>A focused two-developer team, led full-time by one engineer, gets this into production faster than a larger, more specialised team would for a build this size.</p>
                     </div>
                 </div>
                 <div class="benefit-item">
                     <span class="benefit-icon">🔁</span>
                     <div>
                         <h3>Recurring Value from Day One</h3>
-                        <p>Automated monthly monitoring with delta tracking gives 7Cyber's clients a reason to keep coming back — and gives 7Cyber a natural subscription hook — without any manual re-run effort.</p>
+                        <p>Automated monthly monitoring with a basic delta still gives clients a reason to keep coming back — and gives 7Cyber a subscription hook — without the analytics layer.</p>
                     </div>
                 </div>
                 <div class="benefit-item">
                     <span class="benefit-icon">🛡️</span>
                     <div>
-                        <h3>A Clear Path Back to the Full Portal</h3>
-                        <p>Nothing here forecloses the eight modules from the original proposal — they remain a well-defined Phase 2 roadmap once this module is live and 7Cyber has real usage data to plan against.</p>
+                        <h3>No Server Capacity to Plan or Babysit</h3>
+                        <p>Cloud Functions and Cloud Tasks autoscale automatically — nothing to size, monitor, or upgrade as usage grows.</p>
                     </div>
                 </div>
             </div>
@@ -1246,20 +810,20 @@
             <div class="architecture">
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
                     <div>
-                        <h3 style="color: var(--accent);">1. Confirm the 5 Pending Inputs</h3>
-                        <p>7Cyber confirms: (1) active accounts, subscription tiers, access details, and credentials where applicable for all six intelligence services, (2) GCP project + billing owner, (3) Odoo version + staging access, (4) the E7 reference report file, (5) the genAI provider for generated text. Locks the fixed-price quote.</p>
+                        <h3 style="color: var(--accent);">1. Confirm the Pending Inputs</h3>
+                        <p>7Cyber confirms: live API keys for the six intelligence sources, the GCP project + billing owner, hosting/domain preferences, and basic brand assets. Locks the fixed-price quote.</p>
                     </div>
                     <div>
-                        <h3 style="color: var(--accent);">2. Scope Workshop &amp; Design Validation</h3>
-                        <p>Half-day session to walk the Odoo module plan, confirm the risk-scoring weights against real sample data, and agree the dashboard/PDF visual match against the actual E7 report.</p>
+                        <h3 style="color: var(--accent);">2. Quick Kickoff</h3>
+                        <p>Short call to confirm the dashboard panel list, walk the architecture, and agree on the exact API key handoff process.</p>
                     </div>
                     <div>
-                        <h3 style="color: var(--accent);">3. External Service Access Setup</h3>
-                        <p>Set up the six intelligence-service accounts (with credentials where applicable), the GCP project (Firestore, BigQuery, Vision API), and the Odoo staging instance before sprint one — the integration and data layers depend on them from day one.</p>
+                        <h3 style="color: var(--accent);">3. Account &amp; API Key Setup</h3>
+                        <p>Provision the six intelligence-source accounts and the GCP project (Firestore, Vision API, Cloud Functions, Cloud Tasks) before build start.</p>
                     </div>
                     <div>
-                        <h3 style="color: var(--accent);">4. Build &amp; Pilot Launch</h3>
-                        <p>6–7 week delivery with 1-week sprints and end-of-sprint demos. First 2–3 pilot clients onboarded in the staging or controlled pre-production environment around week 5–6, including at least one real domain scan and one real file-upload scan, to validate the full pipeline end to end ahead of the penetration test and go-live.</p>
+                        <h3 style="color: var(--accent);">4. Build &amp; Launch</h3>
+                        <p>4-week delivery with two developers working largely in parallel. Pilot test with at least one real domain scan and one real file-upload scan before go-live.</p>
                     </div>
                 </div>
             </div>
@@ -1271,9 +835,9 @@
         <div class="container">
             <h2 style="color: white; margin-bottom: 2rem;">Ready to Ship the Worldwide Leak Detection Module?</h2>
             <p style="font-size: 1.1rem; margin-bottom: 2rem; max-width: 700px; margin-left: auto; margin-right: auto;">
-                Confirm the 5 pending inputs (service access &amp; credentials, GCP project, Odoo access, E7 reference report, genAI provider) and we lock the fixed-price quote — production-ready delivery inside 6–7 weeks of kickoff, with go-live after the penetration test conducted or procured by 7Cyber.
+                Confirm the pending inputs and we lock the fixed-price quote — first production scan inside 4 weeks of kickoff.
             </p>
-            <a href="mailto:contact@softteco.com" class="cta-button">Schedule the Workshop</a>
+            <a href="mailto:contact@softteco.com" class="cta-button">Schedule the Kickoff Call</a>
         </div>
     </div>
 
@@ -1282,9 +846,9 @@
         <div class="container">
             <p><strong>Worldwide Leak Detection Module · Technical &amp; Commercial Proposal</strong></p>
             <p>Prepared for: 7Cyber</p>
-            <p>Scope: <strong>Single module</strong> — Worldwide Leak Detection, built as a native Odoo module</p>
-            <p>Aligned to: 7Cyber's "Worldwide Leak Detection Module" Technical Specification</p>
-            <p>Fixed Price: AED 181,740 (~US$49.5K equivalent) &nbsp;·&nbsp; ~1,080 hrs &nbsp;·&nbsp; 6–7 weeks &nbsp;·&nbsp; locks on 5 pending inputs</p>
+            <p>Scope: <strong>Lean build</strong> — Worldwide Leak Detection, standalone React portal on serverless GCP, Firestore only</p>
+            <p>Aligned to: 7Cyber's "Worldwide Leak Detection Module" Technical Specification (v2)</p>
+            <p>Fixed Price: AED 40,480 (~US$11.0K equivalent) &nbsp;·&nbsp; ~332 hrs &nbsp;·&nbsp; 4 weeks &nbsp;·&nbsp; locks on pending inputs</p>
             <p>Date: July 2026</p>
             <p style="margin-top: 2rem; font-size: 0.9rem; opacity: 0.8;">
                 This proposal is confidential and intended solely for the recipient. © 2026 SoftTeco. All rights reserved.
