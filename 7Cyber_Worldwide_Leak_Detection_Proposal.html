@@ -94,13 +94,13 @@
         <div class="hero-glow"></div>
         <div class="hero-content">
             <div class="container">
-                <div class="badge">🔍 Worldwide Leak Detection Module · Technical &amp; Commercial Proposal · v3 (Lean)</div>
+                <div class="badge">🔍 Worldwide Leak Detection Module · Technical &amp; Commercial Proposal</div>
                 <h1>Worldwide Leak Detection Module</h1>
                 <p class="subtitle">
-                    A simple, focused build: a React portal that scans a domain or file across six intelligence sources, scores the exposure, and shows the client a clear result — on a lightweight serverless backend, sized to a real budget.
+                    A React portal that scans a domain or file across six intelligence sources, presents the results in dashboard views aligned with 7Cyber's report examples, lets a client subscribe to a plan directly, and gives 7Cyber's team an admin panel to run the service. Built on the same lightweight serverless backend as the previous version.
                 </p>
                 <p style="font-size: 1.1rem; margin-bottom: 2rem; opacity: 0.9;">
-                    <strong>Prepared for:</strong> 7Cyber &nbsp;·&nbsp; <strong>Scope:</strong> Worldwide Leak Detection Module (lean build) &nbsp;·&nbsp; <strong>Aligned to:</strong> 7Cyber's "Worldwide Leak Detection Module" Technical Specification (v2)
+                    <strong>Prepared for:</strong> 7Cyber &nbsp;·&nbsp; <strong>Scope:</strong> Worldwide Leak Detection Module (report-aligned build) &nbsp;·&nbsp; <strong>Aligned to:</strong> 7Cyber's "Worldwide Leak Detection Module" Technical Specification (v2) and the two report examples provided by 7Cyber
                 </p>
                 <a href="#overview" class="cta-button">Explore the Solution</a>
             </div>
@@ -110,22 +110,26 @@
     <!-- What Changed -->
     <section id="overview">
         <div class="container">
-            <h2>A Simpler Build, Rescoped to the Budget</h2>
+            <h2>Rescoped Around 7Cyber's Feedback</h2>
             <p style="font-size: 1.1rem; margin-bottom: 2rem;">
-                This version is rescoped from scratch: the same six intelligence sources and the same risk-scoring logic, delivered through a leaner dashboard, a simple export, and a two-developer team — no padding, no enterprise-grade extras the spec doesn't strictly require.
+                7Cyber reviewed the previous version and raised four points: the platform's dashboards should follow the structure of 7Cyber's existing reports, 7Cyber's own team needs an admin panel, scan history and technical logs must live in a cloud database with a JSON export path, and a client should be able to choose a plan and subscribe to it directly rather than waiting on manual admin setup. The follow-up call clarified an important boundary on the first three: the platform does not need to build its own analytical or classification engine. Findings arrive already classified from the intelligence services; the platform receives, stores, and visualises them. On the fourth, the boundary is different: the purchase flow itself is straightforward to build, but it depends entirely on 7Cyber providing a working payment service to integrate against.
             </p>
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
                 <div class="layer-box" style="border-left-color: var(--mdm-purple);">
-                    <h4>✂️ What We Cut, and Why</h4>
-                    <p style="color:#555; font-size:0.95rem;">No BigQuery analytics warehouse, no D3 heat map, no Leaflet map, no pixel-matched 6-page PDF, no AI-generated summary text. All still deliverable later as paid add-ons — see "What This Doesn't Include" below for the full, honest list.</p>
+                    <h4>📊 Dashboards Aligned to Your Reports</h4>
+                    <p style="color:#555; font-size:0.95rem;">Thirteen panels mapped against the two report examples 7Cyber provided, including the global exposure map, the risk heat map, and the exposure-over-time trend. Built from stored scan history, without an analytics warehouse.</p>
                 </div>
                 <div class="layer-box" style="border-left-color: var(--gold);">
-                    <h4>🧑‍💻 Two Developers, Not Seven Roles</h4>
-                    <p style="color:#555; font-size:0.95rem;">A senior full-stack engineer builds the core, a middle engineer covers the rest of the integrations and UI, with light QA and PM overhead — not a full specialist bench for a build this size.</p>
+                    <h4>🛠️ A Lightweight Admin Panel</h4>
+                    <p style="color:#555; font-size:0.95rem;">A compact admin area for 7Cyber's team: clients and their plans, subscription end dates, monitored domains and remaining scan quota, next scan date, scan history, and JSON export. A few screens, not an operations centre.</p>
+                </div>
+                <div class="layer-box" style="border-left-color: var(--mdm-green);">
+                    <h4>💳 A Bounded Subscription Purchase</h4>
+                    <p style="color:#555; font-size:0.95rem;">A client can pick a plan and pay for it through the payment service 7Cyber provides. No invoicing, self-service changes, or renewal automation — and the whole item depends on that payment service being ready by end of Week 1 (C9).</p>
                 </div>
                 <div class="layer-box" style="border-left-color: var(--accent);">
-                    <h4>💰 Priced to Match the Market</h4>
-                    <p style="color:#555; font-size:0.95rem;">AED 40,480 (~US$11.0K) — about 4.5× cheaper than our prior quote, computed the same way: named Rate Card rates, real hours, no shortcuts on the six live integrations.</p>
+                    <h4>💰 A Contained Increase</h4>
+                    <p style="color:#555; font-size:0.95rem;">AED 57,748 (~US$15.7K), computed off the same named Rate Card rates and the same two-developer core team. AED 17,268 above the original lean version, for the reporting, administration, history, and purchase flow that version did not contain.</p>
                 </div>
             </div>
         </div>
@@ -135,19 +139,19 @@
         <div class="container">
             <h2>The Problem This Module Solves</h2>
             <p style="font-size: 1.1rem; margin-bottom: 2rem;">
-                Clients need a fast, evidence-backed answer to "what of ours is already exposed?" — without manually querying six different intelligence tools themselves. The module lets a client submit either a domain or an uploaded file/photo, dispatches that input to five specialised external intelligence APIs in parallel, aggregates and normalises the findings, computes a 0–100 digital risk score, and shows the result as a simple dashboard the client can export. Once enrolled, the scan re-runs automatically every month with a basic new-vs-resolved delta.
+                Clients need a fast, evidence-backed answer to "what of ours is already exposed?", without manually querying six different intelligence tools themselves. The module lets a client submit either a domain or an uploaded file, dispatches that input across six specialised external intelligence services running as five parallel jobs, aggregates, deduplicates and normalises the findings as the services classify them, applies the specified 0–100 weighting, and presents the result as a report-aligned dashboard the client can export. Once enrolled, the scan re-runs automatically every month with a new-vs-resolved delta, and every run is retained with its execution record.
             </p>
 
             <div class="features-grid">
                 <div class="feature-card">
                     <span class="feature-icon">🌐</span>
                     <h3>Path A — Domain Input</h3>
-                    <p>Client enters a domain. The system dispatches direct, parallel requests to all five intelligence sources — no pre-processing required.</p>
+                    <p>Client enters a domain. The system dispatches direct, parallel requests to all six intelligence services, with no pre-processing required.</p>
                 </div>
                 <div class="feature-card">
                     <span class="feature-icon">📎</span>
                     <h3>Path B — File / Photo Upload</h3>
-                    <p>Client uploads an image, PDF, or document. Google Vision API extracts text and entities first; those drive the same five API calls.</p>
+                    <p>Client uploads a Vision-supported file (JPEG, PNG, WEBP, PDF, or TIFF). Google Vision API extracts text and entities first; those drive the same six-service lookup.</p>
                 </div>
                 <div class="feature-card">
                     <span class="feature-icon">📊</span>
@@ -156,18 +160,23 @@
                 </div>
                 <div class="feature-card">
                     <span class="feature-icon">📄</span>
-                    <h3>Simple Dashboard + Export</h3>
-                    <p>Results render as a clean, focused dashboard the client can browse and export — not a pixel-matched replica of the E7 report, but the same underlying data.</p>
+                    <h3>Report-Aligned Dashboard</h3>
+                    <p>Results render across thirteen panels mapped to 7Cyber's own report examples, including the global exposure map, risk heat map, and exposure trend. Exportable from the browser.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🛠️</span>
+                    <h3>7Cyber Admin Panel</h3>
+                    <p>A compact admin area for 7Cyber's team: clients, plans, monitored domains and remaining scan quota, next scan date, scan history, logs, and JSON export.</p>
                 </div>
                 <div class="feature-card">
                     <span class="feature-icon">🔁</span>
                     <h3>Monthly Monitoring</h3>
-                    <p>An automated scheduler re-runs each enrolled client's scan monthly and flags new Critical findings by email.</p>
+                    <p>An automated scheduler re-runs each enrolled client's scan monthly, computes the delta against the prior run, and raises email alerts for new findings meeting the agreed critical-alert criteria. Every run is retained with its execution log.</p>
                 </div>
                 <div class="feature-card">
                     <span class="feature-icon">🔒</span>
                     <h3>Tenant-Isolated by Design</h3>
-                    <p>Every finding and API key is scoped to a tenant record and a Firestore tenant path — no cross-tenant visibility.</p>
+                    <p>Every finding, scan, and log entry is scoped to a tenant record and a tenant data path, with no cross-tenant visibility. Integration configuration is tenant-specific; actual credentials live in Secret Manager.</p>
                 </div>
             </div>
         </div>
@@ -176,9 +185,9 @@
     <!-- Scope -->
     <section>
         <div class="container">
-            <h2>Scope of the Lean Build</h2>
+            <h2>Scope of the Build</h2>
             <p style="font-size: 1.1rem; margin-bottom: 2rem;">
-                Same pipeline, same six sources, same risk-scoring model — delivered through a simpler dashboard and a lighter data layer.
+                The same pipeline, the same six sources, and the same risk-scoring model, now delivered with report-aligned dashboards, a 7Cyber admin panel, and a retained scan history.
             </p>
 
             <h3 style="margin-bottom: 1rem;">The Processing Pipeline</h3>
@@ -188,18 +197,18 @@
                     <div class="pipeline-arrow">→</div>
                     <div class="pipeline-step">2. Pre-processing<br><span style="font-weight:400; color:#666;">Vision API (file path only)</span></div>
                     <div class="pipeline-arrow">→</div>
-                    <div class="pipeline-step">3. API dispatch<br><span style="font-weight:400; color:#666;">5 APIs in parallel</span></div>
+                    <div class="pipeline-step">3. API dispatch<br><span style="font-weight:400; color:#666;">6 services, 5 parallel jobs</span></div>
                     <div class="pipeline-arrow">→</div>
-                    <div class="pipeline-step">4. Response collection<br><span style="font-weight:400; color:#666;">aggregate &amp; normalise</span></div>
+                    <div class="pipeline-step">4. Response collection<br><span style="font-weight:400; color:#666;">aggregate, dedupe &amp; normalise</span></div>
                 </div>
                 <div class="pipeline-flow">
                     <div class="pipeline-step">5. Risk scoring<br><span style="font-weight:400; color:#666;">weighted 0–100 model</span></div>
                     <div class="pipeline-arrow">→</div>
-                    <div class="pipeline-step">6. Persistence<br><span style="font-weight:400; color:#666;">Firestore only</span></div>
+                    <div class="pipeline-step">6. Persistence<br><span style="font-weight:400; color:#666;">Firestore + Cloud Storage</span></div>
                     <div class="pipeline-arrow">→</div>
                     <div class="pipeline-step">7. Dashboard render<br><span style="font-weight:400; color:#666;">client-side export</span></div>
                     <div class="pipeline-arrow">→</div>
-                    <div class="pipeline-step">8. Monthly monitoring<br><span style="font-weight:400; color:#666;">scheduler + basic delta</span></div>
+                    <div class="pipeline-step">8. Monthly monitoring<br><span style="font-weight:400; color:#666;">scheduler + delta + audit log</span></div>
                 </div>
             </div>
 
@@ -210,12 +219,74 @@
                     <tr><td><strong>Both input paths</strong></td><td>Domain entry and file/photo upload with Google Vision OCR pre-processing.</td></tr>
                     <tr><td><strong>All six intelligence sources</strong></td><td>Intelligence X, DarkOWL, FOFA, Shodan, tgstate, Grayhatwarfare — not reduced.</td></tr>
                     <tr><td><strong>Risk scoring engine</strong></td><td>The full weighted 0–100 model, same point values and risk bands as specified.</td></tr>
-                    <tr><td><strong>Dashboard (6 panels)</strong></td><td>Risk score gauge, risk by category bar, findings-by-source donut, exposed data types list, top risk cases, plain-text summary panel — all Chart.js, browser-rendered.</td></tr>
-                    <tr><td><strong>Client-side export</strong></td><td>Client can export/print the dashboard to PDF directly from the browser — no server-side rendering pipeline.</td></tr>
-                    <tr><td><strong>Monthly monitoring</strong></td><td>Automated re-scan, basic new-vs-resolved delta, email alert on new Critical findings.</td></tr>
-                    <tr><td><strong>Tenant isolation</strong></td><td>Firestore security rules scope every record to a tenant; per-tenant encrypted API keys.</td></tr>
+                    <tr><td><strong>Report-aligned dashboard (13 panels)</strong></td><td>Mapped against the two report examples 7Cyber provided. Full panel list in the table below.</td></tr>
+                    <tr><td><strong>7Cyber admin panel</strong></td><td>A compact admin area under <code>/admin</code>, restricted by role. Full capability list in the table below.</td></tr>
+                    <tr><td><strong>Scan history &amp; technical logs</strong></td><td>Every scan run and its per-source execution result retained in the cloud data layer and reviewable in the panel, so any prior month's result can be reopened.</td></tr>
+                    <tr><td><strong>Scheduling &amp; quota rules</strong></td><td>Next-scan date per monitored domain, the number of monitored domains and remaining scan quota allowed under the client's plan, and a guard preventing a re-run before the scheduled date.</td></tr>
+                    <tr><td><strong>JSON export</strong></td><td>Scan results and technical logs downloadable as JSON from the panel, and retrievable through an authenticated API endpoint.</td></tr>
+                    <tr><td><strong>Client-side export</strong></td><td>Client can export/print the dashboard to PDF directly from the browser, with no server-side rendering pipeline.</td></tr>
+                    <tr><td><strong>Monthly monitoring</strong></td><td>Automated re-scan, new-vs-resolved delta, email alerts for new findings meeting the agreed critical-alert criteria, and a guarded manual re-run from the admin panel.</td></tr>
+                    <tr><td><strong>Tenant isolation</strong></td><td>Firebase Authentication plus Firestore security rules scope every record to a tenant. Integration credentials held in Secret Manager, never in client-visible records.</td></tr>
+                    <tr style="background: rgba(197,160,94,0.10);"><td><strong>Subscription purchase flow</strong></td><td>Client selects a plan from a fixed set of packages and pays through the payment service 7Cyber provides. On confirmed payment, the platform activates the plan, sets the subscription end date, and applies the quota — bounded scope, see C9 and C10.</td></tr>
                 </tbody>
             </table>
+
+            <h3 style="margin-top: 3rem; margin-bottom: 1.5rem;">📊 Dashboard Panels, Mapped to 7Cyber's Reports</h3>
+            <p style="margin-bottom: 1.5rem; color: #555;">Each panel below corresponds to a block in the two report examples 7Cyber provided. All panels are browser-rendered from stored scan data, with no server-side rendering pipeline and no analytics warehouse.</p>
+            <div class="risk-card" style="margin-bottom: 1.5rem;">
+                <strong>Executive identifiers are provided, not discovered</strong>
+                <p style="margin-top: 0.6rem;">Where executive-specific views are required, 7Cyber or the relevant client provides the names, roles, email addresses, domains, or other identifiers used for matching. Automated discovery of an organisation's executive roster is outside scope.</p>
+            </div>
+
+            <div class="risk-card" style="margin-bottom: 1.5rem;">
+                <strong>How the derived panels are produced</strong>
+                <p style="margin-top: 0.6rem;">All derived dashboard views, including the risk heat map, the category sub-scores, data privacy impact, exposure concentration, data sensitivity level, and the key-insights text, use deterministic mappings based on the service-provided classifications and the weighting rules already agreed in the specification. Defining new analytical, sensitivity-classification, correlation, or regulatory-mapping logic is outside scope. If a panel requires a rule that the specification does not already define, that rule is agreed in the scope workshop before build, or the panel is deferred.</p>
+            </div>
+            <table class="estimation-table">
+                <thead><tr><th>#</th><th>Panel</th><th>Source of the Data</th></tr></thead>
+                <tbody>
+                    <tr><td>1</td><td><strong>Digital Risk Score</strong> gauge</td><td>Weighted 0–100 model across all findings.</td></tr>
+                    <tr><td>2</td><td><strong>Risk Scores by Category</strong></td><td>Six sub-scores: credential, infostealer, network, Telegram/social, cloud, data-privacy impact.</td></tr>
+                    <tr><td>3</td><td><strong>Risk Heat Map</strong> (likelihood × impact)</td><td>Finding type and severity plotted on a fixed matrix.</td></tr>
+                    <tr><td>4</td><td><strong>Findings by Source</strong></td><td>Counts per intelligence service for the current scan.</td></tr>
+                    <tr><td>5</td><td><strong>Exposed Data Types</strong></td><td>Normalised finding types with counts and weights.</td></tr>
+                    <tr><td>6</td><td><strong>Data Privacy Impact</strong></td><td>Sub-score computed from PII-type findings.</td></tr>
+                    <tr><td>7</td><td><strong>Executive Exposure Status</strong></td><td>Findings matched against executive identifiers supplied by 7Cyber or the client (see note above).</td></tr>
+                    <tr><td>8</td><td><strong>Infostealer Intelligence</strong></td><td>DarkOWL infostealer records for the target.</td></tr>
+                    <tr><td>9</td><td><strong>Top Risk Cases</strong></td><td>Highest-weight findings, ranked.</td></tr>
+                    <tr><td>10</td><td><strong>Global Data Exposure Map</strong>, with Top Countries and Findings by Region</td><td>Geolocation fields from Shodan and FOFA, aggregated by country.</td></tr>
+                    <tr><td>11</td><td><strong>Exposure Over Time</strong></td><td>Trend built from the retained scan history, not from a separate warehouse.</td></tr>
+                    <tr><td>12</td><td><strong>Data Exposure Concentration</strong> and <strong>Data Sensitivity Level</strong></td><td>Distribution of findings across sources and sensitivity tiers.</td></tr>
+                    <tr><td>13</td><td><strong>Key Insights &amp; Summary</strong></td><td>Templated text driven by the score, bands, and top findings. Not LLM-generated.</td></tr>
+                </tbody>
+            </table>
+
+            <h3 style="margin-top: 3rem; margin-bottom: 1.5rem;">🛠️ 7Cyber Admin Panel</h3>
+            <p style="margin-bottom: 1.5rem; color: #555;">A compact set of role-restricted screens inside the same React application, not a separate product and not an operations centre. Scoped to the operational needs reflected in 7Cyber's feedback, subject to final confirmation before kickoff.</p>
+            <table class="estimation-table">
+                <thead><tr><th>Capability</th><th>What 7Cyber's Team Can Do</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>Client list &amp; management</strong></td><td>Create, view, and deactivate client organisations, and manage the users attached to each.</td></tr>
+                    <tr><td><strong>Client plans &amp; quota</strong></td><td>See each client's plan, subscription type, subscription end date, the monitoring targets it allows, and the scan quota still remaining under it. Plans arrive either from a client's self-service purchase (see below) or from manual admin assignment. "Quota" refers to monitored domains and scans, not to the number of intelligence services, which is always all six.</td></tr>
+                    <tr><td><strong>Manual deactivation</strong></td><td>Deactivate a client whose subscription has lapsed or should be revoked. v1 deactivation is a manual admin action; there is no automatic enforcement when a subscription end date passes.</td></tr>
+                    <tr><td><strong>Monitored domains</strong></td><td>Add and remove the domains monitored for each client, and switch monthly monitoring on or off.</td></tr>
+                    <tr><td><strong>Next scan date</strong></td><td>See when each monitored domain is scheduled to run next.</td></tr>
+                    <tr><td><strong>Re-run guard</strong></td><td>Trigger a scan on demand, with a rule preventing a re-run before the scheduled date or beyond the client's remaining scan quota.</td></tr>
+                    <tr><td><strong>Scan history</strong></td><td>Every prior run per client, with its score, delta, and status. Any earlier month's result can be reopened.</td></tr>
+                    <tr><td><strong>Per-source result</strong></td><td>For each run, which services returned data and which timed out or errored.</td></tr>
+                    <tr><td><strong>Logs &amp; JSON export</strong></td><td>Review the technical log for a run and export results or logs as JSON, by download or authenticated API.</td></tr>
+                </tbody>
+            </table>
+            <div class="risk-card" style="margin-top: 1.5rem;">
+                <strong>Deliberately not in the admin panel</strong>
+                <p style="margin-top: 0.6rem;">No source-health observability dashboard, no alert-rule designer, no retry-management console, and no full audit-trail search. These belong to an operations platform, not to the first release of this module, and none were requested. Each can be added later as a scoped change request.</p>
+            </div>
+
+            <div class="risk-card" style="margin-top: 1.5rem; border-left-color: var(--gold);">
+                <strong>Subscriptions in v1: a bounded self-service purchase, not a billing platform</strong>
+                <p style="margin-top: 0.6rem;">A client can select a plan from a fixed set of packages and pay for it directly, through the payment service 7Cyber provides (C9). On confirmed payment, the platform activates the plan, sets the subscription end date, and applies the quota — no admin step required for a successful purchase. <strong>What's still excluded: invoicing and receipts, proration, refunds, self-service upgrade, downgrade or cancellation, automatic renewal, failed-payment retry or dunning, and a plan-catalogue management screen</strong> (see C10). The admin panel shows each client's plan and subscription end date and can deactivate a client manually; it does not enforce expiry automatically.</p>
+                <p style="margin-top: 0.6rem; font-size: 0.9rem; color: #666;">This entire item depends on 7Cyber providing a ready-to-integrate payment service by the end of Week 1 (C9). SoftTeco integrates with that service; SoftTeco does not select, configure, or take PCI responsibility for a payment gateway. If the service isn't ready in time, this item drops from the build at no change to the rest of the price or timeline, and v1 reverts to admin-only plan assignment.</p>
+            </div>
 
             <h3 style="margin-top: 3rem; margin-bottom: 1.5rem;">🔌 Six External Sources</h3>
             <table class="estimation-table">
@@ -233,14 +304,17 @@
             <div class="risk-card" style="margin-top: 2rem;">
                 <strong>❌ What This Doesn't Include (Honest List)</strong>
                 <ul style="margin-top: 0.8rem;">
-                    <li><strong>No BigQuery / historical trend analytics</strong> — no 6-month exposure trend line. Firestore alone holds current + prior scan for the delta.</li>
-                    <li><strong>No D3.js risk heat map or Leaflet.js global choropleth map</strong> — geographic and likelihood/impact views are dropped from the dashboard.</li>
-                    <li><strong>No pixel-matched 6-page PDF report</strong> — the client exports the on-screen dashboard via the browser's print-to-PDF, not a custom-rendered branded document.</li>
-                    <li><strong>No AI-generated CEO Summary</strong> — the summary panel uses plain templated text driven by the risk score and top findings, not an LLM.</li>
-                    <li><strong>No Privacy &amp; Regulatory Alignment table or E7 Recommendation Scorecard</strong> — these rule-based extras are dropped from v1.</li>
-                    <li><strong>Lighter QA and PM overhead</strong> — a focused functional test pass, not an exhaustive test plan across every failure mode; light-touch project coordination, not weekly formal demos.</li>
+                    <li><strong>No BigQuery analytics warehouse.</strong> The exposure-over-time trend is computed from retained scan history in Firestore. A warehouse becomes worthwhile only at higher client volumes, and can be added later without changing the data model.</li>
+                    <li><strong>No server-rendered, pixel-matched 6-page PDF.</strong> The client exports the on-screen dashboard through the browser's print-to-PDF. A custom-rendered branded document remains a priced add-on.</li>
+                    <li><strong>No AI-generated CEO Summary.</strong> The summary panel uses templated text driven by the risk score and top findings, not an LLM.</li>
+                    <li><strong>No Privacy &amp; Regulatory Alignment table and no E7 Recommendation Scorecard.</strong> These two panels appear in 7Cyber's report examples but require a rules engine mapping findings to regulatory obligations. We propose scoping them separately once the mapping logic is agreed.</li>
+                    <li><strong>No automatic log forwarding to a SIEM, SOC platform, or webhook.</strong> JSON export and authenticated API retrieval are included. Automatic delivery to an external endpoint, with authentication, retries, and delivery status, is a separate integration.</li>
+                    <li><strong>No manual analyst review of findings.</strong> All findings come from the six automated services.</li>
+                    <li><strong>No in-house classification or correlation engine.</strong> Severity and classification arrive from the intelligence services. The platform maps, normalises, deduplicates, and applies the weighting already defined in the specification. It does not derive severity from raw data or correlate findings across sources beyond that model. This was confirmed with 7Cyber and is the single largest reason the increase over the previous version is modest.</li>
+                    <li><strong>No operations console.</strong> No source-health dashboard, alert-rule designer, retry-management screen, or audit-trail search in the admin panel.</li>
+                    <li><strong>No billing platform beyond a bounded purchase.</strong> A client can select a plan and pay through 7Cyber's payment service (see above). Invoicing, receipts, proration, refunds, self-service upgrade/downgrade or cancellation, automatic renewal, failed-payment retry, and a plan-catalogue management screen are excluded and quoted separately (see C10).</li>
                 </ul>
-                <p style="margin-top: 0.8rem; font-size: 0.9rem; color: #666;">Everything on this list can be added later as scoped, priced change requests once the core module is live and 7Cyber has real usage data to justify the investment.</p>
+                <p style="margin-top: 0.8rem; font-size: 0.9rem; color: #666;">Everything on this list is well defined and separately priceable. Nothing here blocks delivery of the core module as scoped, subject to confirmation of the assumptions listed below.</p>
             </div>
         </div>
     </section>
@@ -250,18 +324,18 @@
         <div class="container">
             <h2>Inputs We Still Need from 7Cyber</h2>
             <p style="font-size: 1.1rem; margin-bottom: 2rem;">
-                Kept short on purpose — this build has fewer moving parts, so fewer things need confirming before the price locks.
+                A short list. These, together with the scope assumptions set out later in this document, need confirming before the price locks.
             </p>
             <div class="module-grid">
                 <div class="module-card">
                     <div class="module-number">1</div>
-                    <h4>Confirmed API Subscriptions</h4>
-                    <p class="module-desc">Active/purchased tiers and live API keys for Intelligence X, DarkOWL, FOFA, Shodan, tgstate, and Grayhatwarfare.</p>
+                    <h4>Confirmed Service Subscriptions</h4>
+                    <p class="module-desc">Active accounts, subscription tiers, access details, and credentials where applicable for all six intelligence services (tgstate requires none).</p>
                 </div>
                 <div class="module-card">
                     <div class="module-number">2</div>
                     <h4>Google Cloud Project &amp; Billing</h4>
-                    <p class="module-desc">A GCP project with Firestore and Vision API enabled, and a billing owner on the 7Cyber side.</p>
+                    <p class="module-desc">A GCP project with Firestore, Cloud Storage, and the Vision API enabled, and a billing owner on the 7Cyber side.</p>
                 </div>
                 <div class="module-card">
                     <div class="module-number">3</div>
@@ -270,8 +344,18 @@
                 </div>
                 <div class="module-card">
                     <div class="module-number">4</div>
-                    <h4>Basic Brand Assets</h4>
-                    <p class="module-desc">Logo and colour palette for light dashboard branding — not a pixel-matched design reference, just enough to make the portal look like 7Cyber's.</p>
+                    <h4>Report Examples &amp; Brand Assets</h4>
+                    <p class="module-desc">The two report examples already shared, ideally as source files rather than screenshots, plus logo and colour palette. These are the visual and content baseline for the dashboard panels.</p>
+                </div>
+                <div class="module-card">
+                    <div class="module-number">5</div>
+                    <h4>Log Delivery Preference</h4>
+                    <p class="module-desc">Confirmation of what "forward logs as JSON" means in practice: manual download and authenticated API retrieval, which this proposal includes, or automatic forwarding to a named SIEM, SOC platform, or webhook endpoint, which is a separate integration.</p>
+                </div>
+                <div class="module-card" style="border-top-color: var(--mdm-green);">
+                    <div class="module-number" style="background: var(--mdm-green);">6</div>
+                    <h4>Payment Integration Service</h4>
+                    <p class="module-desc">A ready-to-integrate payment service (hosted checkout, API, or SDK) able to charge for a plan and confirm payment status, plus its API/SDK documentation and access. Needed by end of Week 1 (C9) — this is the one item on this list that can remove an already-priced feature if it's late.</p>
                 </div>
             </div>
         </div>
@@ -283,10 +367,12 @@
             <h2>What 7Cyber Provides</h2>
             <div class="layer-box">
                 <ul>
-                    <li>A Google Cloud project (staging + production) with billing enabled; Firestore and Vision API turned on; IAM access for the delivery team.</li>
-                    <li>Live, working API keys/credentials for all six intelligence sources, procured and paid for directly by 7Cyber.</li>
-                    <li>Basic brand assets (logo, colour palette) for dashboard styling.</li>
-                    <li>A definitive list of client organizations (tenants) the module should be enabled for at go-live.</li>
+                    <li>A Google Cloud project (staging + production) with billing enabled; Firestore, Cloud Storage, and the Vision API turned on; IAM access for the designated deployment and runtime identities.</li>
+                    <li>Active accounts, subscription tiers, access details, and credentials where applicable for all six intelligence services, procured and paid for directly by 7Cyber.</li>
+                    <li>The two report examples and basic brand assets (logo, colour palette) as the dashboard baseline.</li>
+                    <li>A definitive list of client organizations (tenants) the module should be enabled for at go-live, and the list of 7Cyber staff who should hold admin-console access.</li>
+                    <li>A decision on log delivery: JSON export and API retrieval, or automatic forwarding to a named external endpoint.</li>
+                    <li>A ready-to-integrate payment service, with its API/SDK documentation and access, by end of Week 1 (C9) — without it, the subscription purchase flow drops from the build.</li>
                     <li>A named point of contact able to answer scope questions within a couple of business days during the build.</li>
                 </ul>
             </div>
@@ -297,90 +383,141 @@
         <div class="container">
             <h2>Critical Assumptions &amp; Constraints</h2>
             <p style="font-size: 1.1rem; margin-bottom: 1rem;">
-                Fewer moving parts means a shorter list — but these still matter. Each has a named owner; missing one adjusts the timeline via a straightforward change request.
+                Each has a named owner and a required-by date. Missing one adjusts the timeline or price through a straightforward change request.
             </p>
 
             <h3 style="margin-top: 2rem; margin-bottom: 1rem;">1. Hosting, GCP Setup &amp; API Access</h3>
             <table class="estimation-table">
-                <thead><tr><th>#</th><th>Assumption / Constraint</th><th>Requirement</th><th>Owner</th><th>Drop-Dead Date</th></tr></thead>
+                <thead><tr><th>#</th><th>Assumption / Constraint</th><th>Requirement</th><th>Owner</th><th>Required By</th></tr></thead>
                 <tbody>
                     <tr>
                         <td><strong>C1</strong></td>
                         <td>GCP Project &amp; Deployment Access</td>
-                        <td>A Google Cloud project with billing enabled; Firestore (Native Mode) and Vision API turned on; IAM access for SoftTeco to deploy Firebase Hosting + Cloud Functions/Cloud Run + Cloud Tasks + Cloud Scheduler.</td>
+                        <td>A Google Cloud project with billing enabled; Firestore (Native Mode), Cloud Storage, and the Vision API enabled. The project requires IAM permissions granted to the designated deployment and runtime identities rather than to individual engineers: a deployment identity able to provision Firebase Hosting, Cloud Functions/Cloud Run, Cloud Tasks, and Cloud Scheduler, and a runtime service account holding only the data-access roles it needs.</td>
                         <td>7Cyber</td>
                         <td>Kickoff (Day 1)</td>
                     </tr>
                     <tr>
                         <td><strong>C2</strong></td>
-                        <td>Live API Keys for All 6 Sources</td>
-                        <td>Valid, activated credentials for Intelligence X, DarkOWL, FOFA, Shodan, tgstate, and Grayhatwarfare prior to build start, plus vendor dashboard access for troubleshooting.</td>
+                        <td>Access and Credentials for All 6 Services</td>
+                        <td>Active accounts and access details for Intelligence X (API key), DarkOWL (OAuth2 Client ID and Secret), FOFA (API key and registered email), Shodan (API key), tgstate (no auth), and Grayhatwarfare (API key), prior to build start, plus vendor dashboard access for troubleshooting.</td>
                         <td>7Cyber</td>
                         <td>Kickoff (Day 1)</td>
                     </tr>
                     <tr>
                         <td><strong>C3</strong></td>
                         <td>Sufficient Rate Limits for Testing</td>
-                        <td>Minimum rate limits to support a short integration-testing pass: Intelligence X ≥ 200 requests/day, FOFA ≥ 500 queries available, Shodan ≥ 5 test credits, Grayhatwarfare ≥ 25 queries/day. If insufficient, 7Cyber upgrades or provides test credentials before testing begins.</td>
+                        <td>Subscription tiers and rate limits sufficient to execute the agreed integration-test scenarios (functional, retry, timeout, and regression) across all six services. If the selected tier prevents completing the agreed test scope, 7Cyber upgrades the applicable tier or provides additional test credentials before testing begins.</td>
                         <td>7Cyber</td>
                         <td>End of Week 1</td>
                     </tr>
                     <tr>
                         <td><strong>C4</strong></td>
                         <td>GCP Cost Ownership</td>
-                        <td>All GCP infrastructure costs (Firestore, Vision API, Cloud Functions/Tasks) are paid directly by 7Cyber to Google — excluded from SoftTeco's fixed price and support package.</td>
+                        <td>All GCP infrastructure costs (Firestore, Cloud Storage, Vision API, Cloud Functions and Cloud Tasks) are paid directly by 7Cyber to Google, and are excluded from SoftTeco's fixed price and support package.</td>
                         <td>7Cyber</td>
                         <td>Ongoing</td>
                     </tr>
                 </tbody>
             </table>
-            <div class="risk-card"><strong>Why this matters:</strong> without live keys and a working GCP project from day one, the integration work — the majority of the build — can't start.</div>
+            <div class="risk-card"><strong>Why this matters:</strong> without working service access and a working GCP project from day one, the integration work, which is the majority of the build, cannot start.</div>
 
             <h3 style="margin-top: 3rem; margin-bottom: 1rem;">2. Client Assets &amp; Decision-Making</h3>
             <table class="estimation-table">
-                <thead><tr><th>#</th><th>Assumption / Constraint</th><th>Requirement</th><th>Owner</th><th>Drop-Dead Date</th></tr></thead>
+                <thead><tr><th>#</th><th>Assumption / Constraint</th><th>Requirement</th><th>Owner</th><th>Required By</th></tr></thead>
                 <tbody>
                     <tr>
                         <td><strong>C5</strong></td>
-                        <td>Basic Brand Assets</td>
-                        <td>Logo and colour palette for dashboard styling. Without this, SoftTeco uses a neutral default theme, and re-styling later is a change request.</td>
+                        <td>Report Examples &amp; Brand Assets</td>
+                        <td>The two report examples, ideally as source files, plus logo and colour palette. These define the dashboard's visual language and panel content. Without them, SoftTeco builds against the screenshots already provided and a neutral theme, and re-styling beyond that baseline is a change request.</td>
                         <td>7Cyber</td>
                         <td>End of Week 1</td>
                     </tr>
                     <tr>
                         <td><strong>C6</strong></td>
                         <td>Named Point of Contact</td>
-                        <td>Someone able to answer scope/technical questions within roughly 2 business days during the build. Longer delays may slip the timeline.</td>
+                        <td>Someone able to answer scope and technical questions within roughly 2 business days during the build. Longer delays may slip the timeline.</td>
                         <td>7Cyber</td>
                         <td>Kickoff (Day 1)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>C7</strong></td>
+                        <td>Admin Panel Users &amp; Roles</td>
+                        <td>The list of 7Cyber staff who need admin-panel access, and confirmation that two roles (client user and 7Cyber admin) are sufficient for v1. Additional role tiers are a change request. Confirmation is also needed that plan assignment follows the bounded self-service purchase flow described in C10, with manual admin assignment available as a fallback.</td>
+                        <td>7Cyber</td>
+                        <td>End of Week 2</td>
+                    </tr>
+                    <tr>
+                        <td><strong>C8</strong></td>
+                        <td>Log Delivery Model</td>
+                        <td>Confirmation that JSON download and authenticated API retrieval satisfy the log requirement. Automatic forwarding to a SIEM, SOC platform, or webhook endpoint is excluded from this price and quoted separately once the target endpoint is named.</td>
+                        <td>7Cyber</td>
+                        <td>End of Week 1</td>
                     </tr>
                 </tbody>
             </table>
 
-            <h3 style="margin-top: 3rem; margin-bottom: 1rem;">3. Out-of-Scope Items (Scope Boundaries)</h3>
+            <h3 style="margin-top: 3rem; margin-bottom: 1rem;">3. Payment Integration</h3>
+            <p style="margin-bottom: 1rem; color: #555;">A bounded client-facing subscription purchase is in scope for this price, conditioned entirely on 7Cyber providing a ready payment service. This is the single most consequential dependency in this proposal — please read C9 carefully.</p>
+            <table class="estimation-table">
+                <thead><tr><th>#</th><th>Assumption / Constraint</th><th>Requirement</th><th>Owner</th><th>Required By</th></tr></thead>
+                <tbody>
+                    <tr style="background: rgba(197,160,94,0.14);">
+                        <td><strong>C9</strong></td>
+                        <td>Client-Provided Payment Integration Service</td>
+                        <td>7Cyber provides a ready-to-integrate payment service (a hosted checkout, API, or SDK) capable of processing a charge for a selected plan and confirming payment status back to the platform, by webhook or polling. SoftTeco integrates with this service; SoftTeco does not select, configure, build, or take PCI responsibility for a payment gateway.</td>
+                        <td>7Cyber</td>
+                        <td>End of Week 1</td>
+                    </tr>
+                    <tr>
+                        <td><strong>C10</strong></td>
+                        <td>Subscription Purchase Flow — Bounded Scope</td>
+                        <td>A client-facing plan-selection and purchase flow is included: the client picks a plan from a fixed set of packages defined by 7Cyber and pays through the service in C9. On confirmed payment, the platform activates the plan, sets the subscription end date, and applies the quota. Invoicing, receipts, proration, refunds, self-service upgrade/downgrade or cancellation, automatic renewal, failed-payment retry, and plan-catalogue management remain out of scope and are quoted separately if required.</td>
+                        <td>7Cyber</td>
+                        <td>Depends on C9. If the payment service is not provided by end of Week 1, this item is dropped from the build and v1 reverts to admin-only plan assignment, at no change to the rest of the price or timeline.</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="risk-card"><strong>Why this matters:</strong> the purchase flow calls out to 7Cyber's payment service at build time — it cannot be developed against a service that doesn't exist yet, and cannot be retrofitted for free once the rest of the build is underway. This is the one dependency in this proposal that can remove a priced, already-scoped feature if it slips.</div>
+
+            <h3 style="margin-top: 3rem; margin-bottom: 1rem;">4. Out-of-Scope Items (Scope Boundaries)</h3>
             <table class="estimation-table">
                 <thead><tr><th>#</th><th>Item</th><th>Exclusion</th><th>Owner</th><th>Impact</th></tr></thead>
                 <tbody>
                     <tr>
-                        <td><strong>C7</strong></td>
+                        <td><strong>C11</strong></td>
                         <td>No Manual Dark Web Analysis</td>
-                        <td>All findings are sourced exclusively from the six automated APIs; manual verification is a separate engagement.</td>
+                        <td>All findings are sourced exclusively from the six automated services. Manual verification is a separate engagement.</td>
                         <td>7Cyber</td>
                         <td>Automated findings may include false positives and are not manually vetted.</td>
                     </tr>
                     <tr>
-                        <td><strong>C8</strong></td>
-                        <td>No Additional Sources, No Analytics/PDF Extras</td>
-                        <td>Only the six named sources; BigQuery analytics, heat map, choropleth, pixel-matched PDF, and AI summary are change requests, priced separately (see "What This Doesn't Include").</td>
+                        <td><strong>C12</strong></td>
+                        <td>No Additional Sources; Named Reporting Extras Excluded</td>
+                        <td>Only the six named services. A BigQuery warehouse, a server-rendered pixel-matched PDF, an LLM-generated summary, the Privacy &amp; Regulatory Alignment table, and the E7 Recommendation Scorecard are change requests, priced separately (see "What This Doesn't Include").</td>
                         <td>7Cyber</td>
                         <td>Scope and price stay predictable.</td>
                     </tr>
                     <tr>
-                        <td><strong>C9</strong></td>
-                        <td>Penetration Testing Not Included</td>
-                        <td>Firestore security rules and tenant-scoped access are included. A formal penetration test of the portal is not — 7Cyber conducts or procures this post-delivery.</td>
+                        <td><strong>C13</strong></td>
+                        <td>No Automatic Log Forwarding</td>
+                        <td>JSON export and authenticated API retrieval are included. Automatic delivery to a SIEM, SOC platform, or webhook, including authentication, retries, delivery status, and dead-letter handling, is a separate integration.</td>
                         <td>7Cyber</td>
-                        <td>Security validation is 7Cyber's responsibility.</td>
+                        <td>Quoted once the target endpoint is named.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>C14</strong></td>
+                        <td>Penetration Testing Not Included</td>
+                        <td>Security hardening, including Firebase Authentication, Firestore security rules, tenant-scoped access, and least-privilege GCP IAM configuration, is included. A formal penetration test of the portal is not. 7Cyber conducts or procures this post-delivery.</td>
+                        <td>7Cyber</td>
+                        <td>Production go-live follows successful completion of the test.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>C15</strong></td>
+                        <td>Data Retention Period</td>
+                        <td>Structured scan history and execution records are retained for the agreed operational period. Raw vendor payload retention is configurable through Cloud Storage lifecycle rules and will be confirmed before go-live. Storage cost scales with the retention period chosen and is paid directly by 7Cyber to Google (C4).</td>
+                        <td>7Cyber</td>
+                        <td>Retention period agreed before go-live; no data is deleted without 7Cyber's instruction.</td>
                     </tr>
                 </tbody>
             </table>
@@ -392,7 +529,7 @@
         <div class="container">
             <h2>Risk Scoring Engine (as Specified)</h2>
             <p style="font-size: 1.1rem; margin-bottom: 2rem;">
-                Not simplified — the full weighted model, same point values and risk bands as the specification. This is cheap to build correctly, so there's no reason to cut it.
+                Not simplified: the full weighted model, with the same point values and risk bands as the specification. The scoring model remains fully in scope because it is central to the product and is already well defined in the specification.
             </p>
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
                 <table class="estimation-table">
@@ -427,7 +564,7 @@
         <div class="container">
             <h2>Technology Stack</h2>
             <p style="font-size: 1.1rem; margin-bottom: 2rem;">
-                A short, standard stack. No custom visualisation libraries, no separate analytics warehouse, no server-side rendering pipeline.
+                A short, standard stack. No separate analytics warehouse, no server-side rendering pipeline, and no dedicated server capacity to provision or maintain.
             </p>
 
             <h3 style="margin-top: 1rem; margin-bottom: 1rem;">🧱 Portal &amp; App Framework</h3>
@@ -442,8 +579,10 @@
 
             <h3 style="margin-top: 2rem; margin-bottom: 1rem;">☁️ Data Layer</h3>
             <div style="margin-bottom: 2rem;">
-                <span class="stack-pill data">Google Firestore — all scan data (current + prior scan for delta)</span>
-                <span class="stack-pill data">Firebase Authentication — client login &amp; tenant scoping</span>
+                <span class="stack-pill data">Google Firestore — tenants, monitors, scans, source runs, findings, audit events</span>
+                <span class="stack-pill data">Cloud Storage — large raw source payloads, referenced from the scan record</span>
+                <span class="stack-pill data">Firebase Authentication — login, roles, tenant scoping</span>
+                <span class="stack-pill data">Secret Manager — external service credentials</span>
             </div>
 
             <h3 style="margin-top: 2rem; margin-bottom: 1rem;">🔎 Intelligence Sources</h3>
@@ -459,20 +598,24 @@
 
             <h3 style="margin-top: 2rem; margin-bottom: 1rem;">📊 Visualisation &amp; Export</h3>
             <div style="margin-bottom: 2rem;">
-                <span class="stack-pill platform">Chart.js — gauge, bar, donut (all dashboard charts)</span>
+                <span class="stack-pill platform">Chart.js — gauge, bar, donut, trend line</span>
+                <span class="stack-pill platform">D3.js — risk heat map</span>
+                <span class="stack-pill platform">Leaflet.js — global exposure map</span>
                 <span class="stack-pill platform">Browser print-to-PDF — client-side export, no server rendering</span>
+                <span class="stack-pill platform">JSON export — download and authenticated API endpoint</span>
             </div>
 
             <table class="estimation-table">
                 <thead><tr><th>Component</th><th>Used For</th><th>Integration Pattern</th></tr></thead>
                 <tbody>
-                    <tr><td><strong>React</strong></td><td>Portal frontend — scan forms, dashboard, scan history</td><td>Single-page app on Firebase Hosting; reads dashboard data directly from Firestore</td></tr>
-                    <tr><td><strong>Node.js / TypeScript backend</strong></td><td>API endpoints, scan orchestration, risk scoring</td><td>Cloud Functions, stateless, dispatches to Cloud Tasks for the async fan-out</td></tr>
-                    <tr><td><strong>Cloud Tasks</strong></td><td>Parallel dispatch to the five external APIs</td><td>One task per source per scan; aggregation runs once all five respond or time out</td></tr>
+                    <tr><td><strong>React</strong></td><td>Portal frontend and the <code>/admin</code> console: scan forms, dashboard, scan history, administration</td><td>Single-page app on Firebase Hosting; reads data from Firestore under authenticated, role-scoped security rules</td></tr>
+                    <tr><td><strong>Node.js / TypeScript backend</strong></td><td>API endpoints, scan orchestration, risk scoring, JSON export</td><td>Cloud Functions, stateless, dispatches to Cloud Tasks for the async fan-out</td></tr>
+                    <tr><td><strong>Cloud Tasks</strong></td><td>Parallel dispatch across the six external services</td><td>Five tasks per scan (FOFA and Shodan share one network-exposure task); aggregation runs once all report back or time out</td></tr>
                     <tr><td><strong>Cloud Scheduler</strong></td><td>Monthly automated re-scan</td><td>Triggers a Cloud Function that re-queues a scan for each active monitor</td></tr>
-                    <tr><td><strong>Google Firestore</strong></td><td>All scan data — findings, status, current + prior scan for delta</td><td>Tenant-scoped path; queried directly by React; security rules enforce isolation</td></tr>
-                    <tr><td><strong>Google Vision API</strong></td><td>OCR and entity extraction on uploaded files</td><td>Called before the five intelligence APIs on the file-upload path only</td></tr>
-                    <tr><td><strong>Chart.js</strong></td><td>All dashboard visuals — gauge, bar, donut</td><td>Rendered client-side in React from Firestore data</td></tr>
+                    <tr><td><strong>Google Firestore</strong></td><td>Tenants, monitors, scans, per-source runs, findings, audit events</td><td>Tenant-scoped paths; queried from React; Firebase Authentication plus security rules enforce isolation and admin roles</td></tr>
+                    <tr><td><strong>Cloud Storage</strong></td><td>Large raw vendor payloads, where retention is required</td><td>Written by the aggregation function; referenced by object path from the corresponding source-run record</td></tr>
+                    <tr><td><strong>Google Vision API</strong></td><td>OCR and entity extraction on uploaded files</td><td>Called before the six intelligence services on the file-upload path only</td></tr>
+                    <tr><td><strong>Chart.js / D3.js / Leaflet.js</strong></td><td>Dashboard visuals: gauge, bar, donut, trend line, heat map, global map</td><td>Rendered client-side in React from the stored scan data</td></tr>
                 </tbody>
             </table>
         </div>
@@ -483,60 +626,87 @@
         <div class="container">
             <h2>Technical Architecture</h2>
             <p style="font-size: 1.1rem; margin-bottom: 2rem;">
-                A small React portal, a stateless serverless backend, and a single data store.
+                A React portal with a role-restricted admin panel, a stateless serverless backend, a document store, and an object store for raw payloads.
             </p>
 
             <div class="layer-box">
-                <h4>Layer 1: React Portal</h4>
+                <h4>Layer 1: React Portal (Client-Facing)</h4>
                 <ul>
-                    <li><strong>/scan</strong> — landing page: scan history, new-scan button.</li>
-                    <li><strong>/scan/new/domain</strong> and <strong>/scan/new/file</strong> — the two input forms.</li>
-                    <li><strong>/report/&lt;scan_id&gt;</strong> — the dashboard, rendered from Firestore, exportable via the browser's print-to-PDF.</li>
-                    <li>Firebase Authentication for login; Firestore security rules enforce tenant isolation.</li>
+                    <li><strong>/scan</strong>: landing page with the client's scan history and a new-scan button.</li>
+                    <li><strong>/scan/new/domain</strong> and <strong>/scan/new/file</strong>: the two input forms.</li>
+                    <li><strong>/report/&lt;scan_id&gt;</strong>: the thirteen-panel dashboard, rendered from stored scan data, exportable via the browser's print-to-PDF.</li>
+                    <li>Firebase Authentication for login. Firestore security rules enforce tenant isolation on every read, and the client SDK operates strictly under those rules.</li>
                 </ul>
             </div>
 
             <div class="layer-box">
-                <h4>Layer 2: Async Processing — Cloud Tasks</h4>
+                <h4>Layer 2: Async Processing (Cloud Tasks)</h4>
                 <ul>
-                    <li>Scan submission queues one Cloud Task per intelligence source (5 per scan).</li>
-                    <li>Aggregation function runs once all five report back or time out — normalises, scores, writes to Firestore.</li>
-                    <li>30-second per-API timeout, 3 retry attempts (Cloud Tasks' built-in retry policy); a failing source doesn't abort the scan.</li>
-                    <li>Cloud Tasks autoscales — no fixed worker pool to size or manage.</li>
+                    <li>Scan submission queues five parallel Cloud Tasks covering the six intelligence services. FOFA and Shodan share one network-exposure task.</li>
+                    <li>The aggregation function runs once all tasks report back or time out. It normalises, deduplicates, scores, and persists the results.</li>
+                    <li>30-second per-service timeout, 3 retry attempts through Cloud Tasks' built-in retry policy. An individual service failing does not abort the scan; partial results are valid, and each source run records its own status.</li>
+                    <li>If all five tasks fail, the scan is marked <code>failed</code> and the client is notified.</li>
+                    <li>Cloud Tasks autoscales, so there is no fixed worker pool to size or manage.</li>
                 </ul>
             </div>
 
             <div class="layer-box">
                 <h4>Layer 3: External Intelligence Integration</h4>
                 <ul>
-                    <li>Six adapters, each wrapping its own auth style — API-key header, OAuth2 token, API key + email param, or no auth (tgstate).</li>
-                    <li>Domain path calls all five APIs directly; file path routes Vision-extracted entities through the identical five calls.</li>
-                    <li>Per-tenant encrypted API-key vault (Secret Manager).</li>
+                    <li>Six adapters, each wrapping its own auth style: API-key header, OAuth2 token, API key plus email parameter, or no auth at all (tgstate).</li>
+                    <li>The domain path calls all six services directly. The file path routes Vision-extracted entities through the identical set of calls, sharing one aggregation code path.</li>
+                    <li>Each adapter maps the service's response into the shared finding model, preserving the severity and classification the service returns. No classification, correlation, or severity-derivation logic is built on top of it beyond the weighting defined in the specification.</li>
+                    <li>Integration configuration is tenant-specific and stored in Firestore as Secret Manager references. Actual credential values live in Secret Manager and are resolved server-side, never exposed to the browser or written to logs.</li>
                 </ul>
             </div>
 
             <div class="layer-box">
-                <h4>Layer 4: Data Layer — Firestore Only</h4>
-                <ul>
-                    <li>Every finding, scan status, and dashboard payload lives in Firestore, scoped per tenant.</li>
-                    <li>Delta for monthly monitoring is computed by comparing the current scan's findings to the immediately prior scan — no separate analytics warehouse.</li>
+                <h4>Layer 4: Data Layer (Firestore + Cloud Storage)</h4>
+                <p style="margin-bottom: 0.8rem; color:#555;">Everything runs inside 7Cyber's own GCP project. Structured scan data and execution metadata live in Firestore; large raw vendor payloads, where retention is required, go to Cloud Storage and are referenced from the corresponding source-run record.</p>
+                <table class="estimation-table" style="margin-top: 0.5rem;">
+                    <thead><tr><th>Collection</th><th>Holds</th></tr></thead>
+                    <tbody>
+                        <tr><td><code>tenants</code></td><td>Client organisations and their settings.</td></tr>
+                        <tr><td><code>monitors</code></td><td>Tenant, monitored domain, active flag, frequency, next and last scan timestamps.</td></tr>
+                        <tr><td><code>scans</code></td><td>Scan ID, input, start and end times, status, overall score, delta against the prior scan.</td></tr>
+                        <tr><td><code>source_runs</code></td><td>Per-service execution record: service, start and end, status, error, retry count, findings returned, raw-payload reference.</td></tr>
+                        <tr><td><code>findings</code></td><td>Normalised, deduplicated findings with type, severity, weight, and source attribution.</td></tr>
+                        <tr><td><code>audit_events</code></td><td>A basic action log: manual scan triggered, monitoring setting changed, export performed. Not a searchable audit-trail system.</td></tr>
+                    </tbody>
+                </table>
+                <ul style="margin-top: 1rem;">
+                    <li>The monthly delta is computed by comparing the current scan's findings against the immediately prior scan. The exposure-over-time trend is computed from the retained scan history, with no separate analytics warehouse.</li>
+                    <li>Structured scan history and execution records are retained for the operational period agreed with 7Cyber. Raw vendor payload retention is set through a Cloud Storage lifecycle rule and confirmed before go-live (C15).</li>
                 </ul>
             </div>
 
             <div class="layer-box">
-                <h4>Layer 5: Dashboard &amp; Export</h4>
+                <h4>Layer 5: 7Cyber Admin Panel</h4>
                 <ul>
-                    <li>Six panels: Digital Risk Score gauge, Risk by Category bar, Findings by Source donut, Exposed Data Types list, Top Risk Cases cards, plain-text Summary panel.</li>
-                    <li>Client exports the on-screen dashboard to PDF via the browser's native print function — no server-side rendering component to build or maintain.</li>
+                    <li>Role-restricted routes under <strong>/admin</strong> inside the same React application, visible only to accounts holding the 7Cyber admin role.</li>
+                    <li>Client list and users, the client's plan with its allowed monitoring targets and remaining scan quota, monitored domains, and monthly-monitoring on/off per client.</li>
+                    <li>Next-scan date per domain, an on-demand re-run guarded against running before the scheduled date or beyond the remaining quota.</li>
+                    <li>Scan history per client with score, delta, and status. Any prior run can be reopened. Per-source results show which services returned data and which timed out or errored.</li>
+                    <li>Technical log review per run, and JSON export of results and logs as a download or through an authenticated API endpoint. Automatic forwarding to an external SIEM or webhook is not included (see C13).</li>
                 </ul>
             </div>
 
             <div class="layer-box">
-                <h4>Layer 6: Security &amp; Retention</h4>
+                <h4>Layer 6: Dashboard &amp; Export</h4>
                 <ul>
-                    <li>Firestore security rules enforce per-tenant scoping; every request is authenticated and scoped to a tenant_id.</li>
-                    <li>All external API keys encrypted at rest in Secret Manager, never exposed in frontend responses or logs.</li>
-                    <li>We recommend a focused penetration test before go-live — scoped separately from this build.</li>
+                    <li>Thirteen panels mapped to 7Cyber's report examples, listed in full in the Scope section.</li>
+                    <li>Chart.js for the gauge, bars, donut, and trend line; D3.js for the risk heat map; Leaflet.js for the global exposure map.</li>
+                    <li>The client exports the on-screen dashboard to PDF via the browser's native print function. There is no server-side rendering component to build or maintain.</li>
+                </ul>
+            </div>
+
+            <div class="layer-box">
+                <h4>Layer 7: Security, Logging &amp; Retention</h4>
+                <ul>
+                    <li>Firebase Authentication issues the identity; Firestore security rules enforce per-tenant scoping and separate the client-user role from the 7Cyber admin role. Every request is authenticated and scoped to a tenant.</li>
+                    <li>External service credentials are held in Secret Manager and resolved server-side. The runtime service account receives only the roles it needs, and secret access is scoped to the specific secrets used.</li>
+                    <li>Scan runs, per-source execution results, and admin actions are retained as structured records, giving 7Cyber a retained operational and execution history per client. This is a retained operational history, not a searchable audit-trail system, as stated in the scope exclusions above.</li>
+                    <li>We recommend a focused penetration test before go-live, scoped separately from this build. Production go-live follows its successful completion.</li>
                 </ul>
             </div>
         </div>
@@ -546,7 +716,7 @@
         <div class="container">
             <h2>Cloud Hosting — Recommended Configuration (Google Cloud)</h2>
             <p style="font-size: 1.1rem; margin-bottom: 1rem;">
-                A minimal Google Cloud footprint — Firestore, Vision API, and serverless compute. No BigQuery, no dedicated servers.
+                A small Google Cloud footprint: Firestore, Cloud Storage, the Vision API, and serverless compute. No BigQuery, no dedicated servers.
             </p>
             <p style="font-size: 1rem; margin-bottom: 2rem; color: #555;">
                 <strong>Note on cost:</strong> cloud spend is paid directly by 7Cyber to Google — not included in the build price or support quote below.
@@ -557,10 +727,11 @@
                 <tbody>
                     <tr><td><strong>Frontend hosting</strong></td><td>Firebase Hosting serving the compiled React SPA</td><td>Constraint C1 — deployment access required at kickoff.</td></tr>
                     <tr><td><strong>Backend compute</strong></td><td>Cloud Functions running the Node.js/TypeScript API — fully managed, autoscales</td><td>No fixed worker pool to size.</td></tr>
-                    <tr><td><strong>Async task queue</strong></td><td>Cloud Tasks — dispatches the 5 parallel intelligence-API calls per scan</td><td>Managed retry policy built in.</td></tr>
-                    <tr><td><strong>Firestore</strong></td><td>Native mode, region me-central1 (Doha) or me-central2 (Dammam)</td><td>Security rules scoped per tenant path.</td></tr>
+                    <tr><td><strong>Async task queue</strong></td><td>Cloud Tasks dispatching five parallel jobs per scan across the six services</td><td>Managed retry policy built in.</td></tr>
+                    <tr><td><strong>Firestore</strong></td><td>Native mode, region me-central1 (Doha) or me-central2 (Dammam)</td><td>Security rules scoped per tenant path and role. Google has no UAE region; if UAE data residency is required, confirm before kickoff.</td></tr>
+                    <tr><td><strong>Cloud Storage</strong></td><td>Standard bucket in the same region, lifecycle rule for raw-payload retention</td><td>Only used where 7Cyber requires raw vendor payloads to be retained.</td></tr>
                     <tr><td><strong>Vision API</strong></td><td>Enabled and active, standard quota billed per request</td><td>Only invoked on the file-upload path.</td></tr>
-                    <tr><td><strong>Secrets</strong></td><td>Secret Manager for all six intelligence-API keys</td><td>Keys never stored in application config files.</td></tr>
+                    <tr><td><strong>Secrets</strong></td><td>Secret Manager holding the credentials required by the configured services (tgstate needs none)</td><td>Credentials never stored in application config files. Runtime access scoped to the specific secrets used.</td></tr>
                 </tbody>
             </table>
 
@@ -568,9 +739,9 @@
             <table class="estimation-table">
                 <thead><tr><th>Workload profile</th><th>Indicative GCP spend</th><th>Notes</th></tr></thead>
                 <tbody>
-                    <tr><td><strong>Launch (≤ 20 clients, monthly scans only)</strong></td><td>~AED 250 – 550 / mo</td><td>Firestore + Vision API + Cloud Functions/Tasks at low volume — mostly inside GCP's free tier.</td></tr>
-                    <tr><td><strong>Growth (≤ 100 clients, some on-demand scans)</strong></td><td>~AED 700 – 1,500 / mo</td><td>More frequent file-upload scans; Cloud Functions invocations grow but stay inexpensive per-call.</td></tr>
-                    <tr><td><strong>Scale (≤ 500 clients, heavy on-demand usage)</strong></td><td>~AED 2,200 – 4,200 / mo</td><td>Six external intelligence-API subscription costs become the larger cost driver at this scale, not GCP itself.</td></tr>
+                    <tr><td><strong>Launch (≤ 20 clients, monthly scans only)</strong></td><td>~AED 300 – 650 / mo</td><td>Firestore, Cloud Storage, Vision API, and Cloud Functions/Tasks at low volume, mostly inside GCP's free tier.</td></tr>
+                    <tr><td><strong>Growth (≤ 100 clients, some on-demand scans)</strong></td><td>~AED 850 – 1,700 / mo</td><td>More frequent file-upload scans and a larger retained history. Cloud Functions invocations grow but stay inexpensive per call.</td></tr>
+                    <tr><td><strong>Scale (≤ 500 clients, heavy on-demand usage)</strong></td><td>~AED 2,500 – 4,700 / mo</td><td>External intelligence-service subscription costs for the paid providers become the larger cost driver at this scale, not GCP itself.</td></tr>
                 </tbody>
             </table>
         </div>
@@ -579,27 +750,139 @@
     <!-- Effort & Cost -->
     <section style="background: #f8f9fa;">
         <div class="container">
-            <h2>Module Effort &amp; Cost</h2>
+            <h2>Why the Price Moved from AED 40,480</h2>
             <p style="font-size: 1.1rem; margin-bottom: 1rem;">
-                Rebuilt around a genuinely lean two-developer team, priced strictly off SoftTeco's Rate Card — no premiums, no placeholder numbers. This isn't the previous team with hours shaved off; it's a smaller build, honestly scoped (see "What This Doesn't Include" above).
+                The AED 40,480 version priced a scanning engine with a minimal front end. It did not contain a report-aligned dashboard, an admin panel, a retained scan history, or a subscription purchase flow. Those were confirmed as required, so they are priced here. The core scanning engine is unchanged and carries no additional hours.
             </p>
-            <p style="margin-bottom: 2rem; color: #555;"><strong>Module scope only</strong> — no manual analyst review, no additional intelligence sources, no BigQuery/heat-map/choropleth/pixel-matched-PDF extras, no other AI Portal modules.</p>
+            <p style="margin-bottom: 2rem; color: #555;">
+                Every added hour below maps to one of the three areas raised in 7Cyber's feedback. Monthly monitoring is shown separately to make clear that it was already included in the previous scope and is not charged twice. The same named Rate Card rates apply; nothing has been re-rated.
+            </p>
+
+            <h3 style="margin-bottom: 1rem;">What This Price Buys</h3>
+            <table class="estimation-table" style="margin-bottom: 3rem;">
+                <thead><tr><th>Capability</th><th>AED 40,480 (lean version)</th><th>This AED 57,748 version</th></tr></thead>
+                <tbody>
+                    <tr><td>Six live intelligence integrations</td><td>✅ Included</td><td>✅ Unchanged, no added hours</td></tr>
+                    <tr><td>Weighted 0–100 scoring model</td><td>✅ Included</td><td>✅ Unchanged, no added hours</td></tr>
+                    <tr><td>Both input paths (domain, file + Vision OCR)</td><td>✅ Included</td><td>✅ Unchanged, no added hours</td></tr>
+                    <tr><td>Monthly scheduled re-scan and delta</td><td>✅ Included</td><td>✅ Unchanged, no added hours</td></tr>
+                    <tr><td>Retries and partial-result handling</td><td>✅ Included</td><td>✅ Unchanged, no added hours</td></tr>
+                    <tr><td>Deduplication of findings across sources</td><td>Not described</td><td>✅ Included, no added hours</td></tr>
+                    <tr><td>Dashboard panels</td><td>6 panels</td><td><strong>13 panels</strong>, aligned to the report examples</td></tr>
+                    <tr><td>Global exposure map, risk heat map, exposure trend</td><td>❌ Not included</td><td><strong>✅ Included</strong></td></tr>
+                    <tr><td>Admin panel for 7Cyber's team</td><td>❌ Not included</td><td><strong>✅ Included</strong> (9 capability areas, including plan and subscription visibility)</td></tr>
+                    <tr><td>Retained scan history</td><td>Current + previous only</td><td><strong>Full history</strong>, any prior month reopenable</td></tr>
+                    <tr><td>Per-source execution records</td><td>❌ Not included</td><td><strong>✅ Included</strong></td></tr>
+                    <tr><td>Subscription quota, next-scan date, re-run guard</td><td>❌ Not included</td><td><strong>✅ Included</strong></td></tr>
+                    <tr><td>Technical logs and JSON export / API</td><td>❌ Not included</td><td><strong>✅ Included</strong></td></tr>
+                    <tr style="background: rgba(197,160,94,0.14);"><td>Client-facing subscription purchase</td><td>❌ Not included</td><td><strong>✅ Included, bounded</strong> — depends on 7Cyber's payment service (C9)</td></tr>
+                    <tr><td>BigQuery warehouse, server-rendered PDF, LLM summary, operations console, invoicing &amp; self-service billing</td><td>❌ Not included</td><td>❌ Still not included</td></tr>
+                </tbody>
+            </table>
+
+            <h3 style="margin-bottom: 1rem;">Where the Additional AED 17,268 Goes</h3>
+            <table class="estimation-table">
+                <thead><tr><th>7Cyber's request</th><th>Dev</th><th>QA</th><th>PM</th><th>Added hours</th><th>Added cost</th></tr></thead>
+                <tbody>
+                    <tr>
+                        <td><strong>1. Dashboards &amp; report-aligned views</strong><br><span style="color:#666; font-size:0.9rem;">Seven additional panels beyond the original six: global exposure map with top countries and regions, risk heat map, exposure-over-time trend, data privacy impact, executive exposure status, infostealer intelligence, and exposure concentration with sensitivity level. Chart.js extended, D3.js and Leaflet.js added. Visualisation of data the services already classify, not new analytics.</span></td>
+                        <td>38</td><td>7</td><td>3</td>
+                        <td><strong>48</strong></td>
+                        <td><strong>AED 5,853</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>2. Lightweight admin panel</strong><br><span style="color:#666; font-size:0.9rem;">Role-restricted <code>/admin</code> screens: client list and users, plans with allowed monitoring targets and remaining scan quota, monitored domains, next-scan date, guarded re-run, scan history, per-source result, log review, JSON export. Standard CRUD over the existing data model, not an operations console.</span></td>
+                        <td>26</td><td>5</td><td>3</td>
+                        <td><strong>34</strong></td>
+                        <td><strong>AED 4,146</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>3. Scan history, scheduling &amp; quota</strong><br><span style="color:#666; font-size:0.9rem;">Extending the data layer from current-plus-previous scan to a full retained history: the <code>scans</code> and <code>source_runs</code> collections, next-scan date, subscription quota, the re-run guard, and JSON export through download and authenticated API.</span></td>
+                        <td>16</td><td>3</td><td>4</td>
+                        <td><strong>23</strong></td>
+                        <td><strong>AED 2,804</strong></td>
+                    </tr>
+                    <tr style="background: rgba(16,185,129,0.08);">
+                        <td><strong>4. Monthly monitoring</strong><br><span style="color:#666; font-size:0.9rem;">The scheduled monthly re-scan and the new-vs-resolved delta were already in the AED 40,480 scope and are unchanged. What 7Cyber asked to add here (retained history, schedule visibility, saved logs) is delivered by items 2 and 3 and is counted there, not twice.</span></td>
+                        <td>0</td><td>0</td><td>0</td>
+                        <td><strong>0</strong></td>
+                        <td><strong>AED 0</strong></td>
+                    </tr>
+                    <tr style="background: rgba(197,160,94,0.14);">
+                        <td><strong>5. Subscription purchase flow &amp; payment integration</strong><br><span style="color:#666; font-size:0.9rem;">Client-facing plan-selection screen; backend integration with 7Cyber's payment service, including the confirmation webhook, idempotency, and subscription activation logic; the admin-panel extension to show subscription type and end date and to deactivate manually. Kept to the happy path only — no extended failure-mode testing or multi-session PM overhead. Entirely dependent on C9 — see Critical Assumptions.</span></td>
+                        <td>30</td><td>5</td><td>2</td>
+                        <td><strong>37</strong></td>
+                        <td><strong>AED 4,465</strong></td>
+                    </tr>
+                    <tr style="background: rgba(10,77,104,0.08);">
+                        <td><strong>TOTAL ADDED</strong></td>
+                        <td><strong>110</strong></td><td><strong>20</strong></td><td><strong>12</strong></td>
+                        <td><strong>142 hrs</strong></td>
+                        <td><strong>AED 17,268</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="highlight" style="margin-top: 1.5rem;">
+                <h4>🧮 The Arithmetic, End to End</h4>
+                <ul style="margin-left: 1.2rem;">
+                    <li><strong>AED 40,480</strong> (332 hrs) + <strong>AED 17,268</strong> (142 added hrs) = <strong>AED 57,748</strong> (474 hrs). An increase of roughly 43%.</li>
+                    <li><strong>The added hours reconcile against the team table.</strong> Development rises by 110 hours (Lead 160 → 200, unchanged since the reporting/admin addition; Support 100 → 140 → 170), QA by 20 (40 → 55 → 60), PM by 12 (32 → 42 → 44). Nothing is unaccounted for.</li>
+                    <li><strong>Nothing was re-rated.</strong> The same two Middle Full-Stack engineers, the same Middle QA Engineer, the same Project Manager, at the same Rate Card rates. The increase is hours, not price per hour.</li>
+                    <li><strong>The scanning engine is untouched.</strong> Six intelligence services, five parallel jobs, retry and partial-result handling, the weighted 0–100 model, and the monthly scheduler were all in the AED 40,480 scope and are carried forward without additional hours. Deduplication of findings across sources was not described in that version; it is included here, absorbed within the aggregation work rather than charged separately.</li>
+                    <li><strong>The single biggest saving is what we agreed not to build.</strong> Because classification and severity arrive from the intelligence services, no in-house analytical, correlation, or severity-derivation engine is required. The dashboard displays classified data rather than producing it, which is why item 1 costs 48 hours instead of several hundred. The same logic applies to item 5: integrating a payment service 7Cyber provides costs 37 hours, kept to the happy path; building a payment gateway from scratch would not.</li>
+                    <li><strong>The timeline still follows the hours, not the reverse.</strong> All 37 hours added for item 5 landed on the Support Developer, QA, and PM. The Lead's 200 hours at 1.0 FTE is still exactly 5 weeks, unchanged from the reporting/admin addition.</li>
+                </ul>
+            </div>
+
+            <div class="highlight" style="margin-top: 1.5rem; border-left: 4px solid var(--gold); background: rgba(197,160,94,0.06);">
+                <h4>🔒 The Scope Assumptions This Price Is Based On</h4>
+                <p style="margin-bottom: 0.8rem; color:#555;">AED 57,748 is based on the following scope assumptions. The classification boundary was confirmed during the follow-up discussion; the remaining commercial and operational assumptions will be confirmed before the fixed price is locked. If any of them changes, the estimate changes, and we will say so before work starts rather than after.</p>
+                <table class="estimation-table">
+                    <thead><tr><th>Assumption</th><th>What AED 57,748 assumes</th><th>Status</th></tr></thead>
+                    <tbody>
+                        <tr><td>Classification &amp; severity</td><td>Arrive from the external intelligence services. The platform does not derive them.</td><td>✅ Confirmed on the follow-up call</td></tr>
+                        <tr><td>Derived panels</td><td>Use deterministic mappings from service classifications and the agreed weighting rules only.</td><td>Follows from the above; rules confirmed in the scope workshop</td></tr>
+                        <tr style="background: rgba(197,160,94,0.10);"><td>Subscription billing</td><td>A bounded client-facing purchase flow, via the payment service 7Cyber provides. No invoicing, refunds, self-service changes, or automatic renewal (C10).</td><td>⚠️ Depends on C9 — payment service due end of Week 1</td></tr>
+                        <tr><td>Admin panel</td><td>Lightweight CRUD over the existing data model, not an operations console.</td><td>⚠️ To be confirmed</td></tr>
+                        <tr><td>Executive identifiers</td><td>Supplied by 7Cyber or the client, not discovered by the platform.</td><td>⚠️ To be confirmed</td></tr>
+                        <tr><td>Logs</td><td>JSON export and authenticated API. No SIEM or webhook forwarding (C11).</td><td>⚠️ To be confirmed (C8)</td></tr>
+                        <tr><td>History</td><td>Firestore-based retained history. No BigQuery warehouse.</td><td>SoftTeco recommendation</td></tr>
+                        <tr><td>Retention period</td><td>Scan history and execution records retained for an agreed operational period; raw-payload retention set by lifecycle rule (C15).</td><td>⚠️ To be confirmed before go-live</td></tr>
+                        <tr><td>Report export</td><td>Browser print-to-PDF. No server-rendered branded document.</td><td>SoftTeco recommendation</td></tr>
+                        <tr><td>Roles</td><td>Two only: client user and 7Cyber admin (C7).</td><td>⚠️ To be confirmed</td></tr>
+                        <tr><td>QA</td><td>Structured but bounded: mocked integrations plus available live or sandbox endpoints.</td><td>SoftTeco recommendation</td></tr>
+                    </tbody>
+                </table>
+                <p style="margin-top: 0.8rem; font-size: 0.9rem; color: #666;">The assumptions marked "to be confirmed" are the ones worth a few minutes at kickoff. The subscription assumption is the most consequential: the purchase flow itself is now priced in, but it only ships if 7Cyber's payment service is ready by end of Week 1 (C9) — otherwise this item drops from the build.</p>
+            </div>
+
+            <div class="risk-card" style="margin-top: 1.5rem;">
+                <strong>What we did not add back</strong>
+                <p style="margin-top: 0.6rem;">The AED 181,740 architecture is not being restored, and neither is the AED 143,930 one. There is no BigQuery warehouse, no server-rendered branded PDF, no LLM-generated summary, no operations console, and no seven-role specialist bench. The purchase flow added here is bounded: a plan selection and a payment through 7Cyber's own service, not a billing platform — no invoicing, refunds, self-service changes, or renewal automation. The exposure trend is computed from retained scan history rather than a warehouse, and the report is exported from the browser rather than rendered server-side. Those choices are what keep this at AED 57,748.</p>
+            </div>
+
+            <h2 style="margin-top: 4rem;">Module Effort &amp; Cost</h2>
+            <p style="font-size: 1.1rem; margin-bottom: 1rem;">
+                The same two-developer core team as the previous version, priced off the same named SoftTeco Rate Card rates, with hours added for the four things 7Cyber asked for: report-aligned dashboards, the admin panel, the retained scan history, and a bounded subscription purchase flow.
+            </p>
+            <p style="margin-bottom: 2rem; color: #555;"><strong>Module scope only.</strong> No manual analyst review, no in-house classification engine, no additional intelligence services, no BigQuery warehouse, no server-rendered PDF, no LLM summary, no billing platform beyond the bounded purchase, no other AI Portal modules.</p>
 
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin-bottom: 3rem;">
                 <div class="cost-box">
-                    <h4>Fixed Price</h4>
-                    <div class="cost-value">AED 40,480</div>
-                    <div class="cost-description">All-in fixed price (~US$11.0K equivalent). Locks once the inputs above are confirmed — change requests priced separately.</div>
+                    <h4>Proposed Fixed Price</h4>
+                    <div class="cost-value">AED 57,748</div>
+                    <div class="cost-description">All-in (~US$15.7K equivalent). Locks once the pending inputs and scope assumptions are confirmed, including C9. Change requests priced separately.</div>
                 </div>
                 <div class="cost-box">
                     <h4>Total Effort</h4>
-                    <div class="cost-value">~332 hrs</div>
-                    <div class="cost-description">Across a two-developer core team plus light QA and PM.</div>
+                    <div class="cost-value">~474 hrs</div>
+                    <div class="cost-description">Across a two-developer core team plus proportionate QA and PM.</div>
                 </div>
                 <div class="cost-box">
                     <h4>Calendar Time</h4>
-                    <div class="cost-value">4 weeks</div>
-                    <div class="cost-description">Set by the Lead Developer's 160 hours at exactly 1.0 FTE — a clean full-time schedule, no overtime baked in. Support, QA, and PM work in parallel within that window.</div>
+                    <div class="cost-value">5 weeks</div>
+                    <div class="cost-description">Set by the Lead Developer's 200 hours at exactly 1.0 FTE, unchanged from the previous version. All hours added for the purchase flow landed on Support, QA, and PM, within the same window.</div>
                 </div>
             </div>
 
@@ -609,40 +892,41 @@
                 <tbody>
                     <tr style="background: rgba(197,160,94,0.08);">
                         <td><strong>Middle Full-Stack Developer (Lead)</strong></td>
-                        <td><strong>160</strong></td>
-                        <td>1.0 FTE over the build's 4-week duration — the critical-path role the timeline is built around, a clean full-time schedule with no overtime baked in. Leads the build: Node.js/TypeScript API, Cloud Tasks orchestration, Firestore data model, risk-scoring engine, Cloud Scheduler monthly job, three of the six intelligence integrations, and the React dashboard shell.</td>
+                        <td><strong>200</strong></td>
+                        <td>1.0 FTE over the build's 5-week duration, the critical-path role the timeline is built around, unchanged from the previous version. Leads the build: Node.js/TypeScript API, Cloud Tasks orchestration, the Firestore data model including scan history and source runs, the weighted scoring model, the Cloud Scheduler monthly job with its next-run and quota rules, the aggregation and deduplication logic, three of the six intelligence integrations, and the JSON export endpoint.</td>
                     </tr>
                     <tr>
                         <td><strong>Middle Full-Stack Developer (Support)</strong></td>
-                        <td><strong>100</strong></td>
-                        <td>~0.63 FTE, running in parallel with the Lead. The remaining three intelligence integrations, the Google Vision wiring for the file-upload path, the two input forms, and the dashboard's Chart.js panels — with extra hours for closer pairing with the Lead on the trickier integrations.</td>
+                        <td><strong>170</strong></td>
+                        <td>~0.85 FTE, running in parallel with the Lead. The remaining three intelligence integrations, the Google Vision wiring for the file-upload path, the input forms, the thirteen dashboard panels (Chart.js, D3.js heat map, Leaflet.js map), the admin panel screens, the plan-selection screen, and the backend integration with 7Cyber's payment service.</td>
                     </tr>
                     <tr>
                         <td><strong>QA Engineer</strong></td>
-                        <td><strong>40</strong></td>
-                        <td>~0.25 FTE. A structured test pass across all six mocked APIs (including error/timeout scenarios), the risk-scoring logic, both input paths, and the dashboard — broader coverage than a single quick pass.</td>
+                        <td><strong>60</strong></td>
+                        <td>~0.30 FTE. Test plan and execution across mocked integrations and available live or sandbox vendor endpoints, including failure and timeout scenarios, scoring validation, both input paths, the monthly delta and re-run guard, tenant and role isolation, the admin panel, dashboard regression, and the subscribe-and-pay happy path against 7Cyber's payment service.</td>
                     </tr>
                     <tr>
                         <td><strong>Project Manager</strong></td>
-                        <td><strong>32</strong></td>
-                        <td>~0.2 FTE. Weekly check-ins across the 4-week build, plus kickoff, scope coordination with 7Cyber, and delivery handoff — a light but real cadence rather than a single touchpoint.</td>
+                        <td><strong>44</strong></td>
+                        <td>~0.22 FTE. Weekly check-ins across the 5-week build, plus kickoff, the dashboard panel walkthrough against 7Cyber's report examples, coordination with 7Cyber on the payment service integration, scope coordination, and delivery handoff.</td>
                     </tr>
                     <tr style="background: rgba(10,77,104,0.08);">
-                        <td><strong>TOTAL — Module (indicative)</strong></td>
-                        <td><strong>~332 hrs</strong></td>
-                        <td><strong>Fixed price — AED 40,480 (~US$11.0K) all-in, 4 weeks. Locks once the inputs are confirmed.</strong></td>
+                        <td><strong>TOTAL — Module (proposed fixed price)</strong></td>
+                        <td><strong>~474 hrs</strong></td>
+                        <td><strong>AED 57,748 (~US$15.7K) all-in, 5 weeks. Locks once the pending inputs and scope assumptions are confirmed, including C9.</strong></td>
                     </tr>
                 </tbody>
             </table>
 
             <div class="highlight" style="margin-top: 1.5rem; border-left: 4px solid var(--mdm-purple); background: rgba(124,58,237,0.05);">
-                <h4>📊 Estimate &amp; Team Validation — Honest, Not Just Cheaper</h4>
+                <h4>📊 Estimate &amp; Team Validation — What the Added Hours Buy</h4>
                 <ul style="margin-left: 1.2rem;">
-                    <li><strong>Two developers, not seven roles.</strong> One Middle engineer leads the build at exactly 1.0 FTE; a second Middle engineer covers the remaining integrations and UI at ~0.63 FTE. QA (~0.25 FTE) and PM (~0.2 FTE) are real but proportionate.</li>
-                    <li><strong>Timeline matches the FTE, not a round number.</strong> The Lead's 160 hours over 4 weeks works out to exactly 1.0 FTE — a clean full-time schedule with no overtime baked in. That's a defensible 4-week date, not an optimistic one.</li>
-                    <li><strong>The price dropped by cutting scope and seniority, not by cutting corners on what's included.</strong> All six intelligence sources and the full risk-scoring model are still built properly — see "What This Doesn't Include" for the specific dashboard/analytics/PDF features removed to hit this price.</li>
-                    <li><strong>Where we didn't cut:</strong> the six live vendor integrations still get real per-source attention (auth handling, retry logic, response normalisation) — that's the part of this build most likely to break if rushed.</li>
-                    <li><strong>Every rate is a direct Rate Card match, no premiums.</strong> Both Full-Stack Developer roles map to Middle Software Engineer; QA to Middle Manual QA Engineer; PM to Project Manager.</li>
+                    <li><strong>Where the additional 142 hours go.</strong> 110 development hours (Lead +40, unchanged since the reporting/admin addition; Support +70 across all three later additions), 20 QA hours, and 12 PM hours, allocated across the four requested additions. The full reconciliation is in the section above, "Why the Price Moved from AED 40,480".</li>
+                    <li><strong>Still two developers, not seven roles.</strong> One Middle engineer leads at exactly 1.0 FTE, unchanged since the reporting/admin addition; a second Middle engineer covers the remaining integrations, the dashboard, the admin screens, and now the payment integration, at ~0.85 FTE. QA (~0.30 FTE) and PM (~0.22 FTE) scale with the wider surface area, kept as lean as the scope allows.</li>
+                    <li><strong>Timeline matches the FTE, not a round number.</strong> The Lead's 200 hours over 5 weeks is still exactly 1.0 FTE. The subscription purchase flow added 37 hours entirely to Support, QA, and PM, so it did not push the date out.</li>
+                    <li><strong>The added work is where delivery is most efficient.</strong> Dashboard panels, CRUD admin screens, Firestore queries, and scheduling rules are well-trodden patterns, and SoftTeco's engineers use AI-assisted development on exactly this kind of code. The payment integration follows the same logic: it calls a service 7Cyber already provides rather than building one, which is why a client-facing purchase flow costs 37 hours instead of several hundred.</li>
+                    <li><strong>Where we didn't cut.</strong> The six live vendor integrations still get real per-service attention: auth handling, retry logic, deduplication, and response normalisation. That is the part of this build most likely to break if rushed.</li>
+                    <li><strong>Every rate is a direct Rate Card match, no premiums.</strong> Both Full-Stack Developer roles map to Middle Software Engineer, QA to Middle Manual QA Engineer, and PM to Project Manager.</li>
                 </ul>
             </div>
         </div>
@@ -653,25 +937,25 @@
         <div class="container">
             <h2>Year 1 Support — Team &amp; Packages</h2>
             <p style="font-size: 1.1rem; margin-bottom: 2rem;">
-                Sized to match the lean build — small ongoing packages for a small module.
+                Sized to match the delivered surface area: the scan pipeline, the dashboards, the admin panel, and the subscription purchase flow.
             </p>
             <table class="estimation-table">
                 <thead><tr><th>Role</th><th>Essential (hrs/mo)</th><th>Growth (hrs/mo)</th><th>Scale (hrs/mo)</th><th>Covers</th></tr></thead>
                 <tbody>
                     <tr>
                         <td><strong>Full-Stack Developer (Lead)</strong></td>
-                        <td>3</td><td>6</td><td>12</td>
-                        <td>Bug fixes, Cloud Tasks/Functions tuning, risk-scoring adjustments.</td>
+                        <td>4</td><td>7</td><td>13</td>
+                        <td>Bug fixes, Cloud Tasks and Functions tuning, scoring adjustments.</td>
                     </tr>
                     <tr>
                         <td><strong>Full-Stack Developer (Support)</strong></td>
-                        <td>2</td><td>4</td><td>8</td>
-                        <td>Vendor API changes, dashboard fixes.</td>
+                        <td>3</td><td>7</td><td>12</td>
+                        <td>Minor vendor API compatibility updates, dashboard and admin-panel fixes, and payment-service compatibility (webhook and integration monitoring).</td>
                     </tr>
                     <tr>
                         <td><strong>QA Engineer</strong></td>
-                        <td>1</td><td>2</td><td>4</td>
-                        <td>Regression testing on vendor API changes.</td>
+                        <td>2</td><td>4</td><td>6</td>
+                        <td>Regression testing on vendor API changes, admin-panel releases, and the subscribe-and-pay flow.</td>
                     </tr>
                     <tr>
                         <td><strong>Project Manager</strong></td>
@@ -680,23 +964,23 @@
                     </tr>
                     <tr style="background: rgba(10,77,104,0.08);">
                         <td><strong>TOTAL HOURS / MONTH</strong></td>
-                        <td><strong>~7</strong></td>
-                        <td><strong>~14</strong></td>
-                        <td><strong>~27</strong></td>
+                        <td><strong>~10</strong></td>
+                        <td><strong>~20</strong></td>
+                        <td><strong>~34</strong></td>
                         <td>Hours re-allocatable between roles.</td>
                     </tr>
                     <tr style="background: rgba(16,185,129,0.08);">
                         <td><strong>MONTHLY TOTAL</strong></td>
-                        <td><strong>AED 858</strong><br>(~$234)</td>
-                        <td><strong>AED 1,716</strong><br>(~$467)</td>
-                        <td><strong>AED 3,287</strong><br>(~$895)</td>
+                        <td><strong>AED 1,205</strong><br>(~$328)</td>
+                        <td><strong>AED 2,410</strong><br>(~$656)</td>
+                        <td><strong>AED 4,103</strong><br>(~$1,117)</td>
                         <td>All-in package price.</td>
                     </tr>
                     <tr style="background: rgba(197,160,94,0.18);">
                         <td><strong>ANNUAL TOTAL</strong></td>
-                        <td><strong>AED 10,296</strong><br>(~$2.8K)</td>
-                        <td><strong>AED 20,592</strong><br>(~$5.6K)</td>
-                        <td><strong>AED 39,444</strong><br>(~$10.7K)</td>
+                        <td><strong>AED 14,460</strong><br>(~$3.9K)</td>
+                        <td><strong>AED 28,920</strong><br>(~$7.9K)</td>
+                        <td><strong>AED 49,236</strong><br>(~$13.4K)</td>
                         <td>Final Year 1 support contract issued as a separate quote after go-live.</td>
                     </tr>
                 </tbody>
@@ -704,8 +988,9 @@
             <div class="highlight" style="border-left: 4px solid var(--gold); background: rgba(197,160,94,0.06); margin-top: 1.5rem;">
                 <h4>📌 Commercial notes on Year 1 support</h4>
                 <ul style="margin-left: 1.2rem;">
-                    <li>Cloud infrastructure and the six intelligence-vendor subscriptions are not included — paid directly by 7Cyber.</li>
-                    <li>Adding back any of the dropped features (BigQuery analytics, heat map, choropleth, pixel-matched PDF, AI summary) runs as a change request, priced separately when 7Cyber wants it.</li>
+                    <li>Cloud infrastructure, the external intelligence-service subscriptions, and any fees charged by 7Cyber's payment service are not included. All are paid directly by 7Cyber.</li>
+                    <li>Adding any of the excluded items (BigQuery warehouse, server-rendered PDF, LLM summary, Privacy &amp; Regulatory Alignment, Recommendation Scorecard, automatic log forwarding, invoicing, self-service plan changes) runs as a change request, priced separately when 7Cyber wants it.</li>
+                    <li>Support covers minor vendor API and payment-service compatibility updates within the package hours. A breaking change, such as a new authentication scheme, a redesigned response format, or a replacement endpoint, is scoped and quoted as a change request.</li>
                 </ul>
             </div>
         </div>
@@ -717,36 +1002,41 @@
             <table class="estimation-table">
                 <tbody>
                     <tr>
-                        <td><strong>Fixed build cost</strong></td>
-                        <td><strong>AED 40,480</strong><br>(~$11.0K)</td>
-                        <td>One-time, 4 weeks to first production scan.</td>
+                        <td><strong>Proposed fixed build cost</strong></td>
+                        <td><strong>AED 57,748</strong><br>(~$15.7K)</td>
+                        <td>One-time, 5 weeks to production-ready delivery. Go-live follows the penetration test conducted or procured by 7Cyber.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Vs. the original lean quote</strong></td>
+                        <td><strong>+AED 17,268</strong></td>
+                        <td>A 43% increase, buying the report-aligned dashboard, the admin panel, the retained scan history, and the subscription purchase flow that quote did not contain.</td>
                     </tr>
                     <tr>
                         <td><strong>Vs. original 8-module MVP</strong></td>
-                        <td><strong>~92% lower</strong></td>
-                        <td>AED 40,480 vs. ~AED 477,425 ($130K).</td>
+                        <td><strong>~88% lower</strong></td>
+                        <td>AED 57,748 vs. ~AED 477,425 ($130K).</td>
                     </tr>
                     <tr>
                         <td><strong>Vs. our prior React-based quote</strong></td>
-                        <td><strong>~72% lower</strong></td>
-                        <td>AED 40,480 vs. AED 143,930 — the same core pipeline, delivered through a leaner dashboard and data layer.</td>
+                        <td><strong>~60% lower</strong></td>
+                        <td>AED 57,748 vs. AED 143,930, with the reporting parity, admin panel, history, and subscription purchase that quote implied, on a leaner serverless data layer.</td>
                     </tr>
                     <tr style="background: rgba(16,185,129,0.10);">
                         <td><strong>Standalone monetisation</strong></td>
-                        <td><strong>Per-scan or subscription pricing</strong></td>
-                        <td>The module can be sold on its own — a monthly exposure-monitoring subscription, or a one-off scan fee.</td>
+                        <td><strong>Client-facing subscription, built in</strong></td>
+                        <td>The module now sells itself: a client can pick a plan and pay for it directly, subject to 7Cyber's payment service being ready (C9).</td>
                     </tr>
                     <tr style="background: rgba(197,160,94,0.18);">
                         <td><strong>Clear upgrade path</strong></td>
                         <td><strong>Add-ons priced when needed</strong></td>
-                        <td>BigQuery analytics, the heat map/choropleth views, a pixel-matched PDF, and an AI-generated summary are all well-defined, separately priced additions once 7Cyber has usage data to justify them.</td>
+                        <td>A BigQuery warehouse, a server-rendered branded PDF, an LLM-generated summary, the regulatory alignment and scorecard panels, automatic log forwarding, and a full billing platform (invoicing, self-service changes, renewals) are all well-defined, separately priced additions once 7Cyber has usage data to justify them.</td>
                     </tr>
                 </tbody>
             </table>
             <div class="highlight" style="margin-top: 2rem;">
                 <h4>💼 The Strategic Argument</h4>
                 <p>
-                    This gets 7Cyber a working, sellable exposure-monitoring product in about a month, at a price that matches what the market is quoting for this scope. It proves the concept with real clients before any further investment in analytics, richer visuals, or AI-generated reporting — all of which stay available as clearly-scoped next steps, not scope creep.
+                    This gets 7Cyber a production-ready exposure-monitoring product in five weeks: one that presents the core dashboard views aligned with 7Cyber's report examples, subject to the explicit exclusions above, that 7Cyber's team can operate without SoftTeco in the loop, that retains an exportable record of every scan, and that a client can subscribe to and pay for directly. Go-live follows the penetration test conducted or procured by 7Cyber. The increase over the original lean quote is 43%, not a return to the earlier heavy architecture, because the platform consumes the classification the intelligence services already provide instead of building an analytical engine of its own, and because the payment flow integrates a service 7Cyber provides instead of building a payment gateway from scratch.
                 </p>
             </div>
         </div>
@@ -760,43 +1050,50 @@
                 <div class="benefit-item">
                     <span class="benefit-icon">🎯</span>
                     <div>
-                        <h3>All Six Sources, Full Risk Model — Nothing Faked</h3>
-                        <p>The parts that are hard to get right — six live vendor integrations and the weighted risk-scoring engine — are built properly. What's cut is presentation polish (extra charts, a pixel-matched PDF, AI-written text), not the core capability.</p>
+                        <h3>All Six Services, Full Risk Model, Nothing Faked</h3>
+                        <p>The parts that are hard to get right, six live vendor integrations and the weighted risk-scoring engine, are built properly. What remains excluded is named explicitly and priced separately.</p>
                     </div>
                 </div>
                 <div class="benefit-item">
                     <span class="benefit-icon">💰</span>
                     <div>
-                        <h3>Priced to Match the Market</h3>
-                        <p>AED 40,480 (~US$11.0K) — in the same range as the competing offer 7Cyber received, computed transparently off the Rate Card rather than an arbitrary discount.</p>
+                        <h3>A Product 7Cyber Can Operate</h3>
+                        <p>The admin panel means 7Cyber's team can onboard clients, see each client's plan and subscription end date, configure monitored domains, see the next scan date, reopen any past run, and export logs without a developer in the loop.</p>
+                    </div>
+                </div>
+                <div class="benefit-item">
+                    <span class="benefit-icon">💳</span>
+                    <div>
+                        <h3>Clients Can Subscribe Directly</h3>
+                        <p>A client picks a plan and pays for it themselves, through the payment service 7Cyber provides. No admin step is needed for a successful purchase — bounded scope, but a real self-service moment, not just an internal admin tool.</p>
                     </div>
                 </div>
                 <div class="benefit-item">
                     <span class="benefit-icon">📋</span>
                     <div>
                         <h3>Nothing Hidden</h3>
-                        <p>Every feature cut to hit this price is listed explicitly in "What This Doesn't Include" — 7Cyber knows exactly what they're getting, and exactly what a later upgrade would add.</p>
+                        <p>Every excluded feature is listed explicitly in "What This Doesn't Include", with the reason. 7Cyber knows exactly what this price buys, and exactly what a later upgrade would add.</p>
                     </div>
                 </div>
                 <div class="benefit-item">
                     <span class="benefit-icon">⚡</span>
                     <div>
-                        <h3>Fast — Live in 4 Weeks</h3>
-                        <p>A focused two-developer team, led full-time by one engineer, gets this into production faster than a larger, more specialised team would for a build this size.</p>
+                        <h3>Production-Ready in 5 Weeks</h3>
+                        <p>A focused two-developer team, led full-time by one engineer, delivers this faster than a larger, more specialised bench would for a build this size. The subscription purchase flow added 37 hours without adding a week.</p>
                     </div>
                 </div>
                 <div class="benefit-item">
                     <span class="benefit-icon">🔁</span>
                     <div>
-                        <h3>Recurring Value from Day One</h3>
-                        <p>Automated monthly monitoring with a basic delta still gives clients a reason to keep coming back — and gives 7Cyber a subscription hook — without the analytics layer.</p>
+                        <h3>Recurring Revenue from Day One</h3>
+                        <p>Automated monthly monitoring, a new-vs-resolved delta, an exposure trend built from retained history, and a working subscribe-and-pay flow give clients a reason to keep coming back, and give 7Cyber an actual revenue mechanism, not just a hook.</p>
                     </div>
                 </div>
                 <div class="benefit-item">
                     <span class="benefit-icon">🛡️</span>
                     <div>
-                        <h3>No Server Capacity to Plan or Babysit</h3>
-                        <p>Cloud Functions and Cloud Tasks autoscale automatically — nothing to size, monitor, or upgrade as usage grows.</p>
+                        <h3>No Dedicated Server Capacity to Provision or Maintain</h3>
+                        <p>Cloud Functions and Cloud Tasks autoscale automatically. There is nothing to size, monitor, or upgrade as usage grows.</p>
                     </div>
                 </div>
             </div>
@@ -811,19 +1108,19 @@
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
                     <div>
                         <h3 style="color: var(--accent);">1. Confirm the Pending Inputs</h3>
-                        <p>7Cyber confirms: live API keys for the six intelligence sources, the GCP project + billing owner, hosting/domain preferences, and basic brand assets. Locks the fixed-price quote.</p>
+                        <p>7Cyber confirms: service access and credentials where applicable for the six intelligence services, the GCP project and billing owner, hosting and domain preferences, the report examples and brand assets, the log delivery model, and the payment service for the subscription purchase flow (C9). Together with the scope assumptions listed above, this locks the fixed-price quote.</p>
                     </div>
                     <div>
-                        <h3 style="color: var(--accent);">2. Quick Kickoff</h3>
-                        <p>Short call to confirm the dashboard panel list, walk the architecture, and agree on the exact API key handoff process.</p>
+                        <h3 style="color: var(--accent);">2. Scope Workshop</h3>
+                        <p>One working session to walk the thirteen dashboard panels against 7Cyber's report examples, confirm the admin-panel screens and roles, agree how the services' severity classification maps to the alerting rule, settle the log delivery model, and review the payment service's API or SDK documentation.</p>
                     </div>
                     <div>
-                        <h3 style="color: var(--accent);">3. Account &amp; API Key Setup</h3>
-                        <p>Provision the six intelligence-source accounts and the GCP project (Firestore, Vision API, Cloud Functions, Cloud Tasks) before build start.</p>
+                        <h3 style="color: var(--accent);">3. External Service Access Setup</h3>
+                        <p>Set up the six intelligence-service accounts, the GCP project (Firestore, Cloud Storage, Vision API, Cloud Functions, Cloud Tasks), and access to 7Cyber's payment service, before build start.</p>
                     </div>
                     <div>
-                        <h3 style="color: var(--accent);">4. Build &amp; Launch</h3>
-                        <p>4-week delivery with two developers working largely in parallel. Pilot test with at least one real domain scan and one real file-upload scan before go-live.</p>
+                        <h3 style="color: var(--accent);">4. Build, Pilot &amp; Launch</h3>
+                        <p>5-week delivery with two developers working largely in parallel. Pilot in a controlled pre-production environment with at least one real domain scan, one real file-upload scan, and one real subscribe-and-pay transaction, ahead of the penetration test and go-live.</p>
                     </div>
                 </div>
             </div>
@@ -835,7 +1132,7 @@
         <div class="container">
             <h2 style="color: white; margin-bottom: 2rem;">Ready to Ship the Worldwide Leak Detection Module?</h2>
             <p style="font-size: 1.1rem; margin-bottom: 2rem; max-width: 700px; margin-left: auto; margin-right: auto;">
-                Confirm the pending inputs and we lock the fixed-price quote — first production scan inside 4 weeks of kickoff.
+                Confirm the pending inputs and scope assumptions, including a ready payment service for the subscription purchase flow, and we lock the fixed-price quote: production-ready delivery inside 5 weeks of kickoff, with go-live after the penetration test conducted or procured by 7Cyber.
             </p>
             <a href="mailto:contact@softteco.com" class="cta-button">Schedule the Kickoff Call</a>
         </div>
@@ -846,9 +1143,9 @@
         <div class="container">
             <p><strong>Worldwide Leak Detection Module · Technical &amp; Commercial Proposal</strong></p>
             <p>Prepared for: 7Cyber</p>
-            <p>Scope: <strong>Lean build</strong> — Worldwide Leak Detection, standalone React portal on serverless GCP, Firestore only</p>
-            <p>Aligned to: 7Cyber's "Worldwide Leak Detection Module" Technical Specification (v2)</p>
-            <p>Fixed Price: AED 40,480 (~US$11.0K equivalent) &nbsp;·&nbsp; ~332 hrs &nbsp;·&nbsp; 4 weeks &nbsp;·&nbsp; locks on pending inputs</p>
+            <p>Scope: <strong>Balanced build</strong> — Worldwide Leak Detection, React portal, 7Cyber admin panel, and a bounded subscription purchase flow, on serverless GCP</p>
+            <p>Aligned to: 7Cyber's "Worldwide Leak Detection Module" Technical Specification (v2) and the two report examples provided by 7Cyber</p>
+            <p>Proposed Fixed Price: AED 57,748 (~US$15.7K equivalent) &nbsp;·&nbsp; ~474 hrs &nbsp;·&nbsp; 5 weeks &nbsp;·&nbsp; locks on pending inputs and scope assumptions, including C9</p>
             <p>Date: July 2026</p>
             <p style="margin-top: 2rem; font-size: 0.9rem; opacity: 0.8;">
                 This proposal is confidential and intended solely for the recipient. © 2026 SoftTeco. All rights reserved.
