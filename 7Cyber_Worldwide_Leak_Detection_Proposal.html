@@ -129,7 +129,7 @@
                 </div>
                 <div class="layer-box" style="border-left-color: var(--accent);">
                     <h4>💰 A Contained Increase</h4>
-                    <p style="color:#555; font-size:0.95rem;">AED 57,748 (~US$15.7K), computed off the same named Rate Card rates and the same two-developer core team. AED 17,268 above the original lean version, for the reporting, administration, history, and purchase flow that version did not contain.</p>
+                    <p style="color:#555; font-size:0.95rem;">AED 57,794 (~US$15.7K), computed off the same named Rate Card rates and the same two-developer core team. AED 17,314 above the original lean version, for the reporting, administration, history, and purchase flow that version did not contain.</p>
                 </div>
             </div>
         </div>
@@ -268,7 +268,7 @@
                 <tbody>
                     <tr><td><strong>Client list &amp; management</strong></td><td>Create, view, and deactivate client organisations, and manage the users attached to each.</td></tr>
                     <tr><td><strong>Client plans &amp; quota</strong></td><td>See each client's plan, subscription type, subscription end date, the monitoring targets it allows, and the scan quota still remaining under it. Plans arrive either from a client's self-service purchase (see below) or from manual admin assignment. "Quota" refers to monitored domains and scans, not to the number of intelligence services, which is always all six.</td></tr>
-                    <tr><td><strong>Manual deactivation</strong></td><td>Deactivate a client whose subscription has lapsed or should be revoked. v1 deactivation is a manual admin action; there is no automatic enforcement when a subscription end date passes.</td></tr>
+                    <tr><td><strong>Manual deactivation</strong></td><td>Deactivate a client whose plan has lapsed or should be revoked. In v1 this is a manual admin action. Automatic suspension at the plan end date is a priced option, not included here.</td></tr>
                     <tr><td><strong>Monitored domains</strong></td><td>Add and remove the domains monitored for each client, and switch monthly monitoring on or off.</td></tr>
                     <tr><td><strong>Next scan date</strong></td><td>See when each monitored domain is scheduled to run next.</td></tr>
                     <tr><td><strong>Re-run guard</strong></td><td>Trigger a scan on demand, with a rule preventing a re-run before the scheduled date or beyond the client's remaining scan quota.</td></tr>
@@ -284,7 +284,8 @@
 
             <div class="risk-card" style="margin-top: 1.5rem; border-left-color: var(--gold);">
                 <strong>Subscriptions in v1: a bounded self-service purchase, not a billing platform</strong>
-                <p style="margin-top: 0.6rem;">A client can select a plan from a fixed set of packages and pay for it directly, through the payment service 7Cyber provides (C9). On confirmed payment, the platform activates the plan, sets the subscription end date, and applies the quota — no admin step required for a successful purchase. <strong>What's still excluded: invoicing and receipts, proration, refunds, self-service upgrade, downgrade or cancellation, automatic renewal, failed-payment retry or dunning, and a plan-catalogue management screen</strong> (see C10). The admin panel shows each client's plan and subscription end date and can deactivate a client manually; it does not enforce expiry automatically.</p>
+                <p style="margin-top: 0.6rem;">This is a <strong>fixed-term plan purchase flow</strong>, not a full subscription lifecycle. A client selects a plan from a fixed set of packages and pays for it directly, through the hosted checkout 7Cyber provides (C9). On confirmed payment, the platform activates the plan, sets the plan end date, and applies the quota, with no admin step required for a successful purchase. <strong>What's still excluded: invoicing and receipts, proration, refunds, self-service upgrade, downgrade or cancellation, automatic renewal, failed-payment retry or dunning, and a plan-catalogue management screen</strong> (see C10). The admin panel shows each client's plan and end date and can deactivate a client manually.</p>
+                <p style="margin-top: 0.6rem; font-size: 0.9rem; color: #666;"><strong>Automatic expiry enforcement is not included in this price.</strong> When a plan's end date passes, v1 relies on a manual admin deactivation; scans are not suspended automatically. If 7Cyber wants the platform to suspend further scans and monthly monitoring at the end date, while leaving account access and historical reports available, that is a small, well-defined addition of roughly 8 hours (AED 975) which we are happy to include on request. We have not added it silently.</p>
                 <p style="margin-top: 0.6rem; font-size: 0.9rem; color: #666;">This entire item depends on 7Cyber providing a ready-to-integrate payment service by the end of Week 1 (C9). SoftTeco integrates with that service; SoftTeco does not select, configure, or take PCI responsibility for a payment gateway. If the service isn't ready in time, this item drops from the build at no change to the rest of the price or timeline, and v1 reverts to admin-only plan assignment.</p>
             </div>
 
@@ -355,7 +356,7 @@
                 <div class="module-card" style="border-top-color: var(--mdm-green);">
                     <div class="module-number" style="background: var(--mdm-green);">6</div>
                     <h4>Payment Integration Service</h4>
-                    <p class="module-desc">A ready-to-integrate payment service (hosted checkout, API, or SDK) able to charge for a plan and confirm payment status, plus its API/SDK documentation and access. Needed by end of Week 1 (C9) — this is the one item on this list that can remove an already-priced feature if it's late.</p>
+                    <p class="module-desc">One provider-managed hosted checkout (or equivalent tokenized payment flow) able to charge for a plan and confirm payment status by signed webhook or status callback, with sandbox access and documentation. Needed <strong>before build start, and no later than Day 3</strong> (C9). This is the one item on this list that determines whether the purchase flow is in the build at all.</p>
                 </div>
             </div>
         </div>
@@ -465,16 +466,16 @@
                     <tr style="background: rgba(197,160,94,0.14);">
                         <td><strong>C9</strong></td>
                         <td>Client-Provided Payment Integration Service</td>
-                        <td>7Cyber provides a ready-to-integrate payment service (a hosted checkout, API, or SDK) capable of processing a charge for a selected plan and confirming payment status back to the platform, by webhook or polling. SoftTeco integrates with this service; SoftTeco does not select, configure, build, or take PCI responsibility for a payment gateway.</td>
+                        <td>7Cyber provides one ready-to-integrate, provider-managed <strong>hosted checkout or equivalent tokenized payment flow</strong>, together with sandbox access, stable documentation, and a documented payment-status callback or signed webhook. SoftTeco integrates with this single flow. Direct handling, transmission, or storage of payment-card data by the platform is outside scope, as is a direct card API or embedded SDK integration, gateway selection, gateway configuration, and PCI responsibility. If 7Cyber's provider only offers a direct card API or SDK, that integration is re-scoped and re-quoted.</td>
                         <td>7Cyber</td>
-                        <td>End of Week 1</td>
+                        <td>Before build start, no later than Day 3</td>
                     </tr>
                     <tr>
                         <td><strong>C10</strong></td>
                         <td>Subscription Purchase Flow — Bounded Scope</td>
                         <td>A client-facing plan-selection and purchase flow is included: the client picks a plan from a fixed set of packages defined by 7Cyber and pays through the service in C9. On confirmed payment, the platform activates the plan, sets the subscription end date, and applies the quota. Invoicing, receipts, proration, refunds, self-service upgrade/downgrade or cancellation, automatic renewal, failed-payment retry, and plan-catalogue management remain out of scope and are quoted separately if required.</td>
                         <td>7Cyber</td>
-                        <td>Depends on C9. If the payment service is not provided by end of Week 1, this item is dropped from the build and v1 reverts to admin-only plan assignment, at no change to the rest of the price or timeline.</td>
+                        <td>Depends on C9. The payment-integration line item (AED 4,511) becomes part of the fixed scope once C9 is confirmed. If C9 is not confirmed before build start, delivery proceeds at <strong>AED 53,283</strong> without the client-facing purchase flow, at no change to the rest of the scope or the 5-week timeline.</td>
                     </tr>
                 </tbody>
             </table>
@@ -752,15 +753,15 @@
         <div class="container">
             <h2>Why the Price Moved from AED 40,480</h2>
             <p style="font-size: 1.1rem; margin-bottom: 1rem;">
-                The AED 40,480 version priced a scanning engine with a minimal front end. It did not contain a report-aligned dashboard, an admin panel, a retained scan history, or a subscription purchase flow. Those were confirmed as required, so they are priced here. The core scanning engine is unchanged and carries no additional hours.
+                The AED 40,480 version priced a scanning engine with a minimal front end. It did not contain a report-aligned dashboard, an admin panel, a retained scan history, or a subscription purchase flow. Those were confirmed as required, so they are priced here. The six source integrations, the scoring model, and the monthly monitoring pipeline remain unchanged and carry no additional hours. Cross-source deduplication, which was not explicitly described in the lean version, is now made explicit and absorbed within the aggregation work rather than charged separately.
             </p>
             <p style="margin-bottom: 2rem; color: #555;">
-                Every added hour below maps to one of the three areas raised in 7Cyber's feedback. Monthly monitoring is shown separately to make clear that it was already included in the previous scope and is not charged twice. The same named Rate Card rates apply; nothing has been re-rated.
+                Every added hour below maps to the three original feedback areas plus the subscription-purchase flow clarified during the follow-up discussion. Monthly monitoring is shown separately to make clear that it was already included in the previous scope and is not charged twice. The same named Rate Card rates apply; nothing has been re-rated.
             </p>
 
             <h3 style="margin-bottom: 1rem;">What This Price Buys</h3>
             <table class="estimation-table" style="margin-bottom: 3rem;">
-                <thead><tr><th>Capability</th><th>AED 40,480 (lean version)</th><th>This AED 57,748 version</th></tr></thead>
+                <thead><tr><th>Capability</th><th>AED 40,480 (lean version)</th><th>This AED 57,794 version</th></tr></thead>
                 <tbody>
                     <tr><td>Six live intelligence integrations</td><td>✅ Included</td><td>✅ Unchanged, no added hours</td></tr>
                     <tr><td>Weighted 0–100 scoring model</td><td>✅ Included</td><td>✅ Unchanged, no added hours</td></tr>
@@ -780,7 +781,7 @@
                 </tbody>
             </table>
 
-            <h3 style="margin-bottom: 1rem;">Where the Additional AED 17,268 Goes</h3>
+            <h3 style="margin-bottom: 1rem;">Where the Additional AED 17,314 Goes</h3>
             <table class="estimation-table">
                 <thead><tr><th>7Cyber's request</th><th>Dev</th><th>QA</th><th>PM</th><th>Added hours</th><th>Added cost</th></tr></thead>
                 <tbody>
@@ -809,16 +810,16 @@
                         <td><strong>AED 0</strong></td>
                     </tr>
                     <tr style="background: rgba(197,160,94,0.14);">
-                        <td><strong>5. Subscription purchase flow &amp; payment integration</strong><br><span style="color:#666; font-size:0.9rem;">Client-facing plan-selection screen; backend integration with 7Cyber's payment service, including the confirmation webhook, idempotency, and subscription activation logic; the admin-panel extension to show subscription type and end date and to deactivate manually. Kept to the happy path only — no extended failure-mode testing or multi-session PM overhead. Entirely dependent on C9 — see Critical Assumptions.</span></td>
-                        <td>30</td><td>5</td><td>2</td>
+                        <td><strong>5. Subscription purchase flow &amp; payment integration</strong><br><span style="color:#666; font-size:0.9rem;">Client-facing plan-selection screen; backend integration with 7Cyber's provider-managed hosted checkout, including the signed confirmation webhook, idempotency, and subscription activation logic; the admin-panel extension to show plan type and end date and to deactivate manually. Testing covers the core purchase lifecycle: successful, failed, and cancelled payment outcomes, webhook authenticity, duplicate delivery and idempotency, and duplicate-activation prevention. Refunds, chargebacks, dunning, renewal, and advanced recovery scenarios remain outside scope. Entirely dependent on C9 — see Critical Assumptions.</span></td>
+                        <td>28</td><td>7</td><td>2</td>
                         <td><strong>37</strong></td>
-                        <td><strong>AED 4,465</strong></td>
+                        <td><strong>AED 4,511</strong></td>
                     </tr>
                     <tr style="background: rgba(10,77,104,0.08);">
                         <td><strong>TOTAL ADDED</strong></td>
-                        <td><strong>110</strong></td><td><strong>20</strong></td><td><strong>12</strong></td>
+                        <td><strong>108</strong></td><td><strong>22</strong></td><td><strong>12</strong></td>
                         <td><strong>142 hrs</strong></td>
-                        <td><strong>AED 17,268</strong></td>
+                        <td><strong>AED 17,314</strong></td>
                     </tr>
                 </tbody>
             </table>
@@ -826,27 +827,27 @@
             <div class="highlight" style="margin-top: 1.5rem;">
                 <h4>🧮 The Arithmetic, End to End</h4>
                 <ul style="margin-left: 1.2rem;">
-                    <li><strong>AED 40,480</strong> (332 hrs) + <strong>AED 17,268</strong> (142 added hrs) = <strong>AED 57,748</strong> (474 hrs). An increase of roughly 43%.</li>
-                    <li><strong>The added hours reconcile against the team table.</strong> Development rises by 110 hours (Lead 160 → 200, unchanged since the reporting/admin addition; Support 100 → 140 → 170), QA by 20 (40 → 55 → 60), PM by 12 (32 → 42 → 44). Nothing is unaccounted for.</li>
+                    <li><strong>AED 40,480</strong> (332 hrs) + <strong>AED 17,314</strong> (142 added hrs) = <strong>AED 57,794</strong> (474 hrs). An increase of roughly 43%.</li>
+                    <li><strong>The added hours reconcile against the team table.</strong> Development rises by 108 hours (Lead 160 → 200, unchanged since the reporting and admin addition; Support 100 → 140 → 168), QA by 22 (40 → 55 → 62), PM by 12 (32 → 42 → 44). Nothing is unaccounted for.</li>
                     <li><strong>Nothing was re-rated.</strong> The same two Middle Full-Stack engineers, the same Middle QA Engineer, the same Project Manager, at the same Rate Card rates. The increase is hours, not price per hour.</li>
                     <li><strong>The scanning engine is untouched.</strong> Six intelligence services, five parallel jobs, retry and partial-result handling, the weighted 0–100 model, and the monthly scheduler were all in the AED 40,480 scope and are carried forward without additional hours. Deduplication of findings across sources was not described in that version; it is included here, absorbed within the aggregation work rather than charged separately.</li>
-                    <li><strong>The single biggest saving is what we agreed not to build.</strong> Because classification and severity arrive from the intelligence services, no in-house analytical, correlation, or severity-derivation engine is required. The dashboard displays classified data rather than producing it, which is why item 1 costs 48 hours instead of several hundred. The same logic applies to item 5: integrating a payment service 7Cyber provides costs 37 hours, kept to the happy path; building a payment gateway from scratch would not.</li>
+                    <li><strong>The single biggest saving is what we agreed not to build.</strong> Because classification and severity arrive from the intelligence services, no in-house analytical, correlation, or severity-derivation engine is required. The dashboard displays classified data rather than producing it, which is why item 1 costs 48 hours instead of several hundred. The same logic applies to item 5: integrating a provider-managed hosted checkout that 7Cyber supplies costs 37 hours; building or operating a payment gateway would not.</li>
                     <li><strong>The timeline still follows the hours, not the reverse.</strong> All 37 hours added for item 5 landed on the Support Developer, QA, and PM. The Lead's 200 hours at 1.0 FTE is still exactly 5 weeks, unchanged from the reporting/admin addition.</li>
                 </ul>
             </div>
 
             <div class="highlight" style="margin-top: 1.5rem; border-left: 4px solid var(--gold); background: rgba(197,160,94,0.06);">
                 <h4>🔒 The Scope Assumptions This Price Is Based On</h4>
-                <p style="margin-bottom: 0.8rem; color:#555;">AED 57,748 is based on the following scope assumptions. The classification boundary was confirmed during the follow-up discussion; the remaining commercial and operational assumptions will be confirmed before the fixed price is locked. If any of them changes, the estimate changes, and we will say so before work starts rather than after.</p>
+                <p style="margin-bottom: 0.8rem; color:#555;">AED 57,794 is based on the following scope assumptions. The classification boundary was confirmed during the follow-up discussion; the remaining commercial and operational assumptions will be confirmed before the fixed price is locked. If any of them changes, the estimate changes, and we will say so before work starts rather than after.</p>
                 <table class="estimation-table">
-                    <thead><tr><th>Assumption</th><th>What AED 57,748 assumes</th><th>Status</th></tr></thead>
+                    <thead><tr><th>Assumption</th><th>What AED 57,794 assumes</th><th>Status</th></tr></thead>
                     <tbody>
                         <tr><td>Classification &amp; severity</td><td>Arrive from the external intelligence services. The platform does not derive them.</td><td>✅ Confirmed on the follow-up call</td></tr>
                         <tr><td>Derived panels</td><td>Use deterministic mappings from service classifications and the agreed weighting rules only.</td><td>Follows from the above; rules confirmed in the scope workshop</td></tr>
                         <tr style="background: rgba(197,160,94,0.10);"><td>Subscription billing</td><td>A bounded client-facing purchase flow, via the payment service 7Cyber provides. No invoicing, refunds, self-service changes, or automatic renewal (C10).</td><td>⚠️ Depends on C9 — payment service due end of Week 1</td></tr>
                         <tr><td>Admin panel</td><td>Lightweight CRUD over the existing data model, not an operations console.</td><td>⚠️ To be confirmed</td></tr>
                         <tr><td>Executive identifiers</td><td>Supplied by 7Cyber or the client, not discovered by the platform.</td><td>⚠️ To be confirmed</td></tr>
-                        <tr><td>Logs</td><td>JSON export and authenticated API. No SIEM or webhook forwarding (C11).</td><td>⚠️ To be confirmed (C8)</td></tr>
+                        <tr><td>Logs</td><td>JSON export and authenticated API. No SIEM or webhook forwarding (C13).</td><td>⚠️ To be confirmed (C8)</td></tr>
                         <tr><td>History</td><td>Firestore-based retained history. No BigQuery warehouse.</td><td>SoftTeco recommendation</td></tr>
                         <tr><td>Retention period</td><td>Scan history and execution records retained for an agreed operational period; raw-payload retention set by lifecycle rule (C15).</td><td>⚠️ To be confirmed before go-live</td></tr>
                         <tr><td>Report export</td><td>Browser print-to-PDF. No server-rendered branded document.</td><td>SoftTeco recommendation</td></tr>
@@ -859,7 +860,7 @@
 
             <div class="risk-card" style="margin-top: 1.5rem;">
                 <strong>What we did not add back</strong>
-                <p style="margin-top: 0.6rem;">The AED 181,740 architecture is not being restored, and neither is the AED 143,930 one. There is no BigQuery warehouse, no server-rendered branded PDF, no LLM-generated summary, no operations console, and no seven-role specialist bench. The purchase flow added here is bounded: a plan selection and a payment through 7Cyber's own service, not a billing platform — no invoicing, refunds, self-service changes, or renewal automation. The exposure trend is computed from retained scan history rather than a warehouse, and the report is exported from the browser rather than rendered server-side. Those choices are what keep this at AED 57,748.</p>
+                <p style="margin-top: 0.6rem;">The AED 181,740 architecture is not being restored, and neither is the AED 143,930 one. There is no BigQuery warehouse, no server-rendered branded PDF, no LLM-generated summary, no operations console, and no seven-role specialist bench. The purchase flow added here is bounded: a plan selection and a payment through 7Cyber's own service, not a billing platform — no invoicing, refunds, self-service changes, or renewal automation. The exposure trend is computed from retained scan history rather than a warehouse, and the report is exported from the browser rather than rendered server-side. Those choices are what keep this at AED 57,794.</p>
             </div>
 
             <h2 style="margin-top: 4rem;">Module Effort &amp; Cost</h2>
@@ -871,7 +872,7 @@
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin-bottom: 3rem;">
                 <div class="cost-box">
                     <h4>Proposed Fixed Price</h4>
-                    <div class="cost-value">AED 57,748</div>
+                    <div class="cost-value">AED 57,794</div>
                     <div class="cost-description">All-in (~US$15.7K equivalent). Locks once the pending inputs and scope assumptions are confirmed, including C9. Change requests priced separately.</div>
                 </div>
                 <div class="cost-box">
@@ -886,6 +887,20 @@
                 </div>
             </div>
 
+            <div class="highlight" style="margin-bottom: 3rem; border-left: 4px solid var(--gold); background: rgba(197,160,94,0.06);">
+                <h4>💳 How the Price Is Structured</h4>
+                <p style="margin-bottom: 1rem; color:#555;">The purchase flow is priced as its own line so that 7Cyber can take it or leave it without renegotiating anything else.</p>
+                <table class="estimation-table">
+                    <thead><tr><th>Line item</th><th>Hours</th><th>Price</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>Core balanced scope</strong><br><span style="color:#666; font-size:0.9rem;">Scanning engine, report-aligned dashboards, admin panel, retained history, scheduling and quota, logs and JSON export.</span></td><td>437</td><td><strong>AED 53,283</strong></td></tr>
+                        <tr><td><strong>Bounded payment integration</strong><br><span style="color:#666; font-size:0.9rem;">Client-facing plan selection and purchase against 7Cyber's hosted checkout, activation, quota assignment, end date. Conditional on C9.</span></td><td>37</td><td><strong>AED 4,511</strong></td></tr>
+                        <tr style="background: rgba(10,77,104,0.08);"><td><strong>Total with payment integration</strong></td><td><strong>474</strong></td><td><strong>AED 57,794</strong></td></tr>
+                    </tbody>
+                </table>
+                <p style="margin-top: 1rem; font-size: 0.95rem; color: #555;">The payment-integration line item becomes part of the fixed scope once C9 is confirmed. <strong>If C9 is not confirmed before build start, delivery proceeds at AED 53,283 without the client-facing purchase flow</strong>, and plans are assigned by the 7Cyber admin. The rest of the scope and the 5-week timeline are unaffected either way.</p>
+            </div>
+
             <h3 style="margin-bottom: 2rem;">Effort Breakdown by Role</h3>
             <table class="estimation-table">
                 <thead><tr><th>Role</th><th>Hours</th><th>Scope</th></tr></thead>
@@ -897,13 +912,13 @@
                     </tr>
                     <tr>
                         <td><strong>Middle Full-Stack Developer (Support)</strong></td>
-                        <td><strong>170</strong></td>
+                        <td><strong>168</strong></td>
                         <td>~0.85 FTE, running in parallel with the Lead. The remaining three intelligence integrations, the Google Vision wiring for the file-upload path, the input forms, the thirteen dashboard panels (Chart.js, D3.js heat map, Leaflet.js map), the admin panel screens, the plan-selection screen, and the backend integration with 7Cyber's payment service.</td>
                     </tr>
                     <tr>
                         <td><strong>QA Engineer</strong></td>
-                        <td><strong>60</strong></td>
-                        <td>~0.30 FTE. Test plan and execution across mocked integrations and available live or sandbox vendor endpoints, including failure and timeout scenarios, scoring validation, both input paths, the monthly delta and re-run guard, tenant and role isolation, the admin panel, dashboard regression, and the subscribe-and-pay happy path against 7Cyber's payment service.</td>
+                        <td><strong>62</strong></td>
+                        <td>~0.31 FTE. Test plan and execution across mocked integrations and available live or sandbox vendor endpoints, including failure and timeout scenarios, scoring validation, both input paths, the monthly delta and re-run guard, tenant and role isolation, the admin panel, dashboard regression, and the core purchase lifecycle in the payment provider's sandbox: successful, failed and cancelled outcomes, webhook authenticity, duplicate delivery and idempotency, and duplicate-activation prevention.</td>
                     </tr>
                     <tr>
                         <td><strong>Project Manager</strong></td>
@@ -913,7 +928,7 @@
                     <tr style="background: rgba(10,77,104,0.08);">
                         <td><strong>TOTAL — Module (proposed fixed price)</strong></td>
                         <td><strong>~474 hrs</strong></td>
-                        <td><strong>AED 57,748 (~US$15.7K) all-in, 5 weeks. Locks once the pending inputs and scope assumptions are confirmed, including C9.</strong></td>
+                        <td><strong>AED 57,794 (~US$15.7K) all-in, 5 weeks. Locks once the pending inputs and scope assumptions are confirmed, including C9.</strong></td>
                     </tr>
                 </tbody>
             </table>
@@ -1003,23 +1018,23 @@
                 <tbody>
                     <tr>
                         <td><strong>Proposed fixed build cost</strong></td>
-                        <td><strong>AED 57,748</strong><br>(~$15.7K)</td>
+                        <td><strong>AED 57,794</strong><br>(~$15.7K)</td>
                         <td>One-time, 5 weeks to production-ready delivery. Go-live follows the penetration test conducted or procured by 7Cyber.</td>
                     </tr>
                     <tr>
                         <td><strong>Vs. the original lean quote</strong></td>
-                        <td><strong>+AED 17,268</strong></td>
+                        <td><strong>+AED 17,314</strong></td>
                         <td>A 43% increase, buying the report-aligned dashboard, the admin panel, the retained scan history, and the subscription purchase flow that quote did not contain.</td>
                     </tr>
                     <tr>
                         <td><strong>Vs. original 8-module MVP</strong></td>
                         <td><strong>~88% lower</strong></td>
-                        <td>AED 57,748 vs. ~AED 477,425 ($130K).</td>
+                        <td>AED 57,794 vs. ~AED 477,425 ($130K).</td>
                     </tr>
                     <tr>
                         <td><strong>Vs. our prior React-based quote</strong></td>
                         <td><strong>~60% lower</strong></td>
-                        <td>AED 57,748 vs. AED 143,930, with the reporting parity, admin panel, history, and subscription purchase that quote implied, on a leaner serverless data layer.</td>
+                        <td>AED 57,794 vs. AED 143,930, with the reporting parity, admin panel, history, and subscription purchase that quote implied, on a leaner serverless data layer.</td>
                     </tr>
                     <tr style="background: rgba(16,185,129,0.10);">
                         <td><strong>Standalone monetisation</strong></td>
@@ -1085,8 +1100,8 @@
                 <div class="benefit-item">
                     <span class="benefit-icon">🔁</span>
                     <div>
-                        <h3>Recurring Revenue from Day One</h3>
-                        <p>Automated monthly monitoring, a new-vs-resolved delta, an exposure trend built from retained history, and a working subscribe-and-pay flow give clients a reason to keep coming back, and give 7Cyber an actual revenue mechanism, not just a hook.</p>
+                        <h3>Direct Monetisation from Day One</h3>
+                        <p>Automated monthly monitoring, a new-vs-resolved delta, an exposure trend built from retained history, and a working fixed-term plan purchase flow give clients a reason to keep coming back, and give 7Cyber a way to charge them for it without a manual setup step.</p>
                     </div>
                 </div>
                 <div class="benefit-item">
@@ -1145,7 +1160,7 @@
             <p>Prepared for: 7Cyber</p>
             <p>Scope: <strong>Balanced build</strong> — Worldwide Leak Detection, React portal, 7Cyber admin panel, and a bounded subscription purchase flow, on serverless GCP</p>
             <p>Aligned to: 7Cyber's "Worldwide Leak Detection Module" Technical Specification (v2) and the two report examples provided by 7Cyber</p>
-            <p>Proposed Fixed Price: AED 57,748 (~US$15.7K equivalent) &nbsp;·&nbsp; ~474 hrs &nbsp;·&nbsp; 5 weeks &nbsp;·&nbsp; locks on pending inputs and scope assumptions, including C9</p>
+            <p>Proposed Fixed Price: AED 57,794 (~US$15.7K equivalent) &nbsp;·&nbsp; ~474 hrs &nbsp;·&nbsp; 5 weeks &nbsp;·&nbsp; locks on pending inputs and scope assumptions, including C9</p>
             <p>Date: July 2026</p>
             <p style="margin-top: 2rem; font-size: 0.9rem; opacity: 0.8;">
                 This proposal is confidential and intended solely for the recipient. © 2026 SoftTeco. All rights reserved.
