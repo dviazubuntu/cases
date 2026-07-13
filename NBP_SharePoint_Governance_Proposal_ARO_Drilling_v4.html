@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SoftTeco Technical &amp; Commercial Proposal — NBP SharePoint Governance v.2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0D2137;--navy-90:#0F2745;--navy-80:#142E52;
+  --blue:#1A5FA8;--blue-mid:#2575C4;--blue-lt:#3B8EE0;
+  --accent:#F0A500;--accent-lt:#FFD166;
+  --surface:#FFFFFF;--surface-2:#F4F8FD;--surface-3:#E8F0FB;
+  --border:#D0DFF0;--border-2:#B8CDE8;
+  --text-1:#0D2137;--text-2:#2C4A6E;--text-3:#5A7FA8;
+  --tag-bg:#E3EDF9;--tag-text:#1A5FA8;
+  --success:#1A7A5E;--warn:#C47A00;--danger:#B03030;
+  --mono:JetBrains Mono,monospace;
+  --sans:Inter,system-ui,sans-serif;
+  --r-sm:6px;--r-md:10px;--r-lg:14px;--r-xl:20px;
+  --shadow:0 2px 12px rgba(13,33,55,.07);
+  --shadow-md:0 4px 24px rgba(13,33,55,.12);
+}
+html{scroll-behavior:smooth;font-size:15px}
+body{font-family:var(--sans);background:#F0F5FC;color:var(--text-1);line-height:1.65;min-height:100vh}
+.page-wrap{display:flex;min-height:100vh}
+.sidebar{width:260px;min-width:260px;background:var(--navy);position:fixed;top:0;left:0;height:100vh;overflow-y:auto;z-index:100;display:flex;flex-direction:column}
+.main{margin-left:260px;flex:1;min-width:0}
+.sidebar-brand{padding:22px 20px 16px;border-bottom:1px solid rgba(255,255,255,.1)}
+.brand-logo{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.brand-hex{width:34px;height:34px;background:var(--accent);border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:var(--navy);letter-spacing:-.5px;flex-shrink:0}
+.brand-name{font-size:15px;font-weight:700;color:#fff;letter-spacing:-.3px}
+.brand-reg{font-size:10px;color:rgba(255,255,255,.45);margin-top:1px}
+.brand-badges{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px}
+.brand-badge{font-size:10px;color:rgba(255,255,255,.6);background:rgba(255,255,255,.08);padding:3px 8px;border-radius:20px;border:1px solid rgba(255,255,255,.12)}
+.brand-badge.gold{color:var(--accent-lt);background:rgba(240,165,0,.12);border-color:rgba(240,165,0,.3)}
+.sidebar-doc-label{padding:14px 20px 6px;font-size:10px;font-weight:600;color:rgba(255,255,255,.35);letter-spacing:1.2px;text-transform:uppercase}
+.nav-items{padding:0 10px 20px;flex:1}
+.nav-item{display:flex;align-items:center;gap:10px;padding:7px 12px;border-radius:var(--r-sm);cursor:pointer;transition:.15s;margin-bottom:1px;border:none;background:none;width:100%;text-align:left}
+.nav-item:hover{background:rgba(255,255,255,.08)}
+.nav-item.active{background:rgba(37,117,196,.35);border-left:3px solid var(--blue-lt)}
+.nav-item.active .nav-num{color:var(--accent-lt)}
+.nav-num{font-size:10px;font-weight:600;color:rgba(255,255,255,.3);min-width:20px;font-family:var(--mono)}
+.nav-label{font-size:11.5px;color:rgba(255,255,255,.75);font-weight:400;line-height:1.3}
+.nav-item.active .nav-label{color:#fff;font-weight:500}
+.sidebar-footer{padding:16px 20px;border-top:1px solid rgba(255,255,255,.1);margin-top:auto}
+.footer-contact{font-size:11px;color:rgba(255,255,255,.5);line-height:1.8}
+.footer-contact a{color:rgba(59,142,224,.9);text-decoration:none}
+.footer-hq{font-size:10px;color:rgba(255,255,255,.3);margin-top:8px;line-height:1.6}
+.topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:0 40px;display:flex;align-items:center;justify-content:space-between;height:58px;position:sticky;top:0;z-index:50}
+.topbar-title{font-size:14px;font-weight:600;color:var(--text-2);letter-spacing:-.2px}
+.topbar-meta{display:flex;align-items:center;gap:16px}
+.meta-pill{font-size:11px;padding:4px 12px;border-radius:20px;font-weight:500}
+.meta-pill.conf{background:#FEF3E2;color:#7A4700;border:1px solid #F5C97A}
+.meta-pill.v{background:var(--tag-bg);color:var(--tag-text);border:1px solid var(--border-2)}
+.topbar-date{font-size:12px;color:var(--text-3)}
+.content{padding:40px 48px 80px;max-width:980px}
+.hero{background:var(--navy);border-radius:var(--r-xl);padding:44px 48px;margin-bottom:40px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-60px;right:-60px;width:300px;height:300px;background:rgba(37,117,196,.18);border-radius:50%}
+.hero::after{content:'';position:absolute;bottom:-80px;right:80px;width:200px;height:200px;background:rgba(240,165,0,.08);border-radius:50%}
+.hero-eyebrow{font-size:11px;font-weight:600;letter-spacing:1.4px;color:var(--accent-lt);text-transform:uppercase;margin-bottom:14px}
+.hero-title{font-size:33px;font-weight:700;color:#fff;letter-spacing:-1px;line-height:1.18;margin-bottom:10px}
+.hero-title span{color:var(--accent)}
+.hero-sub{font-size:15px;color:rgba(255,255,255,.65);margin-bottom:28px;max-width:600px;font-weight:300;line-height:1.7}
+.hero-tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:32px}
+.hero-tag{font-size:11.5px;padding:5px 14px;border-radius:20px;border:1px solid rgba(255,255,255,.18);color:rgba(255,255,255,.7);font-weight:500}
+.hero-tag.hi{background:rgba(240,165,0,.15);border-color:rgba(240,165,0,.4);color:var(--accent-lt)}
+.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;position:relative;z-index:1}
+.hstat{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:var(--r-md);padding:16px 18px}
+.hstat-num{font-size:20px;font-weight:700;color:#fff;font-family:var(--mono);letter-spacing:-1px}
+.hstat-num span{font-size:13px;font-weight:400;color:rgba(255,255,255,.4)}
+.hstat-label{font-size:11px;color:rgba(255,255,255,.45);margin-top:4px;line-height:1.4}
+.section{margin-bottom:50px}
+.section-id{font-size:11px;font-weight:600;color:var(--text-3);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;font-family:var(--mono)}
+.section-title{font-size:22px;font-weight:700;color:var(--navy);letter-spacing:-.5px;margin-bottom:6px;padding-bottom:12px;border-bottom:2px solid var(--surface-3)}
+.section-title::before{content:attr(data-num);display:inline-block;background:var(--blue);color:#fff;font-size:11px;font-weight:700;padding:2px 8px;border-radius:var(--r-sm);margin-right:10px;font-family:var(--mono);letter-spacing:0;vertical-align:2px}
+.section-intro{font-size:14.5px;color:var(--text-2);line-height:1.75;margin-bottom:24px;max-width:740px}
+.subsection-title{font-size:16px;font-weight:600;color:var(--navy);margin:28px 0 14px;padding-left:12px;border-left:3px solid var(--blue-lt)}
+.spec-table{width:100%;border-collapse:collapse;font-size:12.5px;margin:16px 0;border-radius:var(--r-md);overflow:hidden;border:1px solid var(--border)}
+.spec-table thead tr{background:var(--navy)}
+.spec-table thead th{padding:10px 14px;text-align:left;font-size:10.5px;font-weight:600;color:rgba(255,255,255,.85);letter-spacing:.5px;text-transform:uppercase}
+.spec-table tbody tr{border-bottom:1px solid var(--border)}
+.spec-table tbody tr:last-child{border-bottom:none}
+.spec-table tbody tr:nth-child(even){background:var(--surface-2)}
+.spec-table tbody td{padding:10px 14px;color:var(--text-2);line-height:1.55;vertical-align:top}
+.spec-table tbody td:first-child{font-weight:600;color:var(--navy);white-space:nowrap;background:var(--surface-3);border-right:1px solid var(--border);min-width:120px}
+.spec-table tbody tr.total-row{background:#FFF8E6}
+.spec-table tbody tr.total-row td{font-weight:700;color:var(--navy)}
+.spec-table tbody tr.total-row td:first-child{background:#FFF1CC;border-right:1px solid #F5C97A}
+.spec-table.wide tbody td:first-child{white-space:normal;min-width:110px}
+.num-cell{font-family:var(--mono);font-weight:600;color:var(--navy);white-space:nowrap}
+.table-wrap{overflow-x:auto;margin:16px 0}
+.table-wrap .spec-table{margin:0;min-width:640px}
+.kpi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:20px 0}
+.kpi-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:18px 20px;transition:.2s}
+.kpi-card:hover{border-color:var(--blue-lt);box-shadow:var(--shadow-md)}
+.kpi-card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
+.kpi-name{font-size:13px;font-weight:600;color:var(--navy)}
+.kpi-source{font-size:11.5px;color:var(--text-3);margin-bottom:6px}
+.phases{display:flex;flex-direction:column;gap:0;margin:20px 0;position:relative}
+.phases::before{content:'';position:absolute;left:38px;top:20px;bottom:20px;width:2px;background:var(--border);z-index:0}
+.phase{display:flex;gap:20px;align-items:flex-start;position:relative;z-index:1}
+.phase:not(:last-child){margin-bottom:4px}
+.phase-bubble{width:36px;height:36px;min-width:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;font-family:var(--mono);margin-top:8px;border:3px solid var(--surface-2);z-index:2}
+.phase-bubble.p0{background:#E3EDF9;color:var(--blue);border-color:var(--surface-2)}
+.phase-bubble.p1{background:#E6F9F2;color:#0A5E42;border-color:var(--surface-2)}
+.phase-bubble.p2{background:#FEF3E2;color:#7A4700;border-color:var(--surface-2)}
+.phase-bubble.p3{background:var(--blue);color:#fff;border-color:var(--surface-2)}
+.phase-bubble.p4{background:var(--navy);color:var(--accent);border-color:var(--surface-2)}
+.phase-card{flex:1;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:18px 22px;margin-bottom:12px;transition:.2s}
+.phase-card:hover{border-color:var(--border-2);box-shadow:var(--shadow)}
+.phase-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;gap:10px;flex-wrap:wrap}
+.phase-name{font-size:14px;font-weight:700;color:var(--navy)}
+.phase-dur{font-size:11.5px;background:var(--tag-bg);color:var(--tag-text);padding:3px 10px;border-radius:20px;font-weight:600;white-space:nowrap}
+.phase-deliv{font-size:13px;color:var(--text-2);line-height:1.65;margin-bottom:10px}
+.phase-deliv ul{list-style:none;display:flex;flex-direction:column;gap:5px;margin-top:6px}
+.phase-deliv li{padding-left:14px;position:relative}
+.phase-deliv li::before{content:'—';position:absolute;left:0;color:var(--blue-lt)}
+.phase-gate{font-size:12px;color:var(--text-3);padding:8px 12px;background:var(--surface-2);border-radius:var(--r-sm);border-left:3px solid var(--blue-lt)}
+.phase-gate strong{color:var(--text-2)}
+.risk-badge{font-size:10.5px;font-weight:700;padding:3px 10px;border-radius:20px;white-space:nowrap;display:inline-block}
+.risk-badge.high{background:#FFE5E5;color:#8B1A1A}
+.risk-badge.med{background:#FFF3DC;color:#7A5000}
+.risk-badge.low{background:#E5F7EE;color:#1A5E38}
+.sec-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:20px 0}
+.sec-grid.three{grid-template-columns:1fr 1fr 1fr}
+.sec-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:18px 20px}
+.sec-icon{width:32px;height:32px;border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;font-size:16px;margin-bottom:10px}
+.sec-icon.t{background:#E3EDF9;color:var(--blue)}
+.sec-icon.r{background:#E5F7EE;color:#1A5E38}
+.sec-icon.a{background:#FEF3E2;color:#7A4700}
+.sec-icon.s{background:#FFE8EA;color:#8B1A1A}
+.sec-icon.p{background:#F0E6FA;color:#5A2E8C}
+.sec-card-title{font-size:13px;font-weight:700;color:var(--navy);margin-bottom:10px}
+.sec-items{list-style:none;display:flex;flex-direction:column;gap:7px}
+.sec-items li{font-size:12.5px;color:var(--text-2);line-height:1.5;padding-left:14px;position:relative}
+.sec-items li::before{content:'✓';position:absolute;left:0;color:var(--success);font-size:11px;top:1px;font-weight:700}
+.sec-items.x li::before{content:'✕';color:var(--danger)}
+.sla-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:20px 0}
+.sla-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:16px;text-align:center}
+.sla-val{font-size:18px;font-weight:700;color:var(--navy);font-family:var(--mono);letter-spacing:-1px}
+.sla-label{font-size:11px;color:var(--text-3);margin-top:4px;line-height:1.4}
+.offices-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:20px 0}
+.office-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:14px 16px}
+.office-flag{font-size:20px;margin-bottom:6px}
+.office-city{font-size:12.5px;font-weight:700;color:var(--navy)}
+.office-addr{font-size:11px;color:var(--text-3);margin-top:3px;line-height:1.5}
+.alert-box{background:var(--surface-2);border:1px solid var(--border);border-radius:var(--r-md);padding:14px 18px;display:flex;gap:12px;align-items:flex-start;margin:16px 0}
+.alert-icon{font-size:18px;margin-top:1px}
+.alert-text{font-size:13px;color:var(--text-2);line-height:1.6}
+.alert-text strong{color:var(--navy)}
+.badge-pill{display:inline-block;font-size:11px;font-weight:700;padding:4px 12px;border-radius:20px;background:var(--tag-bg);color:var(--tag-text);margin-bottom:14px}
+.badge-pill.gold{background:#FFF1CC;color:#7A4700}
+.badge-pill.red{background:#FFE5E5;color:#8B1A1A}
+.timeline-wrap{margin:20px 0;overflow-x:auto}
+.timeline-bar{display:flex;min-width:680px;border-radius:var(--r-md);overflow:hidden;border:1px solid var(--border)}
+.tl-seg{flex:1;padding:12px 8px;text-align:center;color:#fff;font-size:10.5px;font-weight:600;position:relative}
+.tl-seg .tl-wk{display:block;font-size:9px;font-weight:500;opacity:.75;margin-top:2px}
+.checklist{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:16px 20px;margin:14px 0}
+.checklist-row{display:flex;gap:10px;padding:6px 0;font-size:12.5px;color:var(--text-2);border-bottom:1px dashed var(--border)}
+.checklist-row:last-child{border-bottom:none}
+.checklist-row .cl-mark{color:var(--success);font-weight:700}
+.page-footer{background:var(--navy);margin-top:60px;padding:32px 48px;display:flex;justify-content:space-between;align-items:flex-start;gap:32px}
+.footer-left .footer-brand{font-size:16px;font-weight:700;color:#fff;margin-bottom:6px}
+.footer-left p{font-size:12px;color:rgba(255,255,255,.45);line-height:1.7}
+.footer-links{font-size:12px;color:rgba(255,255,255,.5)}
+.footer-links a{color:rgba(59,142,224,.85);text-decoration:none}
+.hamburger{display:none;position:fixed;top:12px;left:12px;z-index:200;background:var(--navy);border:none;border-radius:var(--r-sm);width:38px;height:38px;cursor:pointer;flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:0}
+.hamburger span{display:block;width:18px;height:2px;background:#fff;border-radius:2px;transition:.2s}
+#overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:90;transition:opacity .25s;opacity:0;pointer-events:none}
+#overlay.show{opacity:1;pointer-events:auto}
+@media(min-width:1200px){.sidebar{width:280px;min-width:280px}.main{margin-left:280px}.content{padding:40px 56px 80px;max-width:1060px}}
+@media(max-width:1199px) and (min-width:901px){.content{padding:32px 32px 80px}.hero{padding:36px 36px}.hero-title{font-size:26px}}
+@media(max-width:900px){
+  .hamburger{display:flex}#overlay{display:block}
+  .sidebar{transform:translateX(-100%);transition:transform .28s cubic-bezier(.4,0,.2,1);z-index:100;box-shadow:4px 0 24px rgba(0,0,0,.18)}
+  .sidebar.open{transform:translateX(0)}.main{margin-left:0}
+  .topbar{padding:0 16px 0 60px}.topbar-title{font-size:12px}
+  .content{padding:24px 16px 64px}.hero{padding:28px 22px;border-radius:var(--r-lg)}
+  .hero-title{font-size:22px}.hero-sub{font-size:13px}
+  .hero-stats{grid-template-columns:1fr 1fr}.kpi-grid{grid-template-columns:1fr 1fr}
+  .sla-grid{grid-template-columns:1fr 1fr}.offices-grid{grid-template-columns:1fr 1fr}
+  .sec-grid,.sec-grid.three{grid-template-columns:1fr}.page-footer{flex-direction:column;padding:24px 20px;gap:20px}
+  .spec-table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}
+}
+@media(max-width:560px){.kpi-grid{grid-template-columns:1fr}.topbar-meta{display:none}.hero-tags{display:none}}
+</style>
+</head>
+<body>
+
+<button class="hamburger" id="hamburger" onclick="toggleSidebar()" aria-label="Open navigation"><span></span><span></span><span></span></button>
+<div id="overlay" onclick="toggleSidebar()"></div>
+
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-brand">
+    <div class="brand-logo">
+      <div class="brand-hex">ST</div>
+      <div>
+        <div class="brand-name">SoftTeco<sup style="font-size:8px;color:rgba(255,255,255,.5)">®</sup></div>
+        <div class="brand-reg">International Software Development</div>
+      </div>
+    </div>
+    <div class="brand-badges">
+      <span class="brand-badge gold">ISO 27001</span>
+      <span class="brand-badge">Est. 2008</span>
+      <span class="brand-badge">500+ Experts</span>
+    </div>
+  </div>
+  <div class="sidebar-doc-label">Document</div>
+  <div style="padding:0 10px 6px 20px">
+    <div style="font-size:12px;font-weight:600;color:rgba(255,255,255,.9);line-height:1.4">NBP SharePoint Governance, Archiving &amp; Data Optimization</div>
+    <div style="font-size:11px;color:rgba(255,255,255,.4);margin-top:3px">Fixed-Price Technical &amp; Commercial Proposal — Prepared for ARO Drilling</div>
+  </div>
+  <div class="sidebar-doc-label" style="margin-top:8px">Contents</div>
+  <nav class="nav-items">
+    <button class="nav-item active" onclick="navTo('sec-exec',this)"><span class="nav-num">01</span><span class="nav-label">Executive Summary</span></button>
+    <button class="nav-item" onclick="navTo('sec-approach',this)"><span class="nav-num">02</span><span class="nav-label">Delivery Approach</span></button>
+    <button class="nav-item" onclick="navTo('sec-scope',this)"><span class="nav-num">03</span><span class="nav-label">Scope, Deliverables &amp; Governance</span></button>
+    <button class="nav-item" onclick="navTo('sec-phases',this)"><span class="nav-num">04</span><span class="nav-label">Detailed Phase Plan</span></button>
+    <button class="nav-item" onclick="navTo('sec-timeline',this)"><span class="nav-num">05</span><span class="nav-label">Timeline &amp; Milestones</span></button>
+    <button class="nav-item" onclick="navTo('sec-migration',this)"><span class="nav-num">06</span><span class="nav-label">Migration Approach &amp; Tooling</span></button>
+    <button class="nav-item" onclick="navTo('sec-storage',this)"><span class="nav-num">07</span><span class="nav-label">Storage Optimization &amp; Platform Limits</span></button>
+    <button class="nav-item" onclick="navTo('sec-workshops',this)"><span class="nav-num">08</span><span class="nav-label">Workshops &amp; Knowledge Transfer</span></button>
+    <button class="nav-item" onclick="navTo('sec-coverage',this)"><span class="nav-num">09</span><span class="nav-label">SOW Coverage Mapping</span></button>
+    <button class="nav-item" onclick="navTo('sec-acceptance',this)"><span class="nav-num">10</span><span class="nav-label">Acceptance Criteria</span></button>
+    <button class="nav-item" onclick="navTo('sec-hypercare',this)"><span class="nav-num">11</span><span class="nav-label">Hypercare &amp; Support</span></button>
+    <button class="nav-item" onclick="navTo('sec-continuity',this)"><span class="nav-num">12</span><span class="nav-label">Resource Continuity &amp; Handover</span></button>
+    <button class="nav-item" onclick="navTo('sec-assump',this)"><span class="nav-num">13</span><span class="nav-label">Assumptions &amp; Dependencies</span></button>
+    <button class="nav-item" onclick="navTo('sec-risk',this)"><span class="nav-num">14</span><span class="nav-label">Risk Mitigation Plan</span></button>
+    <button class="nav-item" onclick="navTo('sec-exclusions',this)"><span class="nav-num">15</span><span class="nav-label">Exclusions</span></button>
+    <button class="nav-item" onclick="navTo('sec-commercial',this)"><span class="nav-num">16</span><span class="nav-label">Commercial Model — Fixed Price</span></button>
+    <button class="nav-item" onclick="navTo('sec-about',this)"><span class="nav-num">A</span><span class="nav-label">About SoftTeco</span></button>
+    <button class="nav-item" onclick="navTo('sec-glossary',this)"><span class="nav-num">B</span><span class="nav-label">Key Definitions</span></button>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="footer-contact">
+      <a href="mailto:d.viazmin@softteco.com">d.viazmin@softteco.com</a><br>
+      <a href="https://softteco.com" target="_blank">softteco.com</a>
+    </div>
+    <div class="footer-hq">
+      HQ — 9A/4U Belwederska St, Warsaw, Poland<br>
+      UAE — Al-Murar, Dubai<br>
+      Lithuania · USA · United Kingdom
+    </div>
+  </div>
+</aside>
+
+<div class="main">
+  <header class="topbar">
+    <div class="topbar-title">SoftTeco Proposal — NBP SharePoint Governance, Archiving &amp; Data Optimization</div>
+    <div class="topbar-meta">
+      <span class="meta-pill conf">Privileged &amp; Confidential</span>
+      <span class="meta-pill v">v4.0</span>
+      <span class="topbar-date">July 2026</span>
+    </div>
+  </header>
+
+  <div class="content">
+
+    <div class="hero">
+      <div class="hero-eyebrow">SoftTeco Fixed-Price Technical &amp; Commercial Proposal — Prepared for ARO Drilling</div>
+      <div class="hero-title">One dedicated expert. One fixed price.<br>Full delivery against the <span>NBP SOW</span>.</div>
+      <div class="hero-sub">A combined Solution Architect + Developer engagement for SharePoint governance, metadata-driven archiving, version cleanup, and migration for ARO Drilling — delivered as a <strong>fixed-price, lump-sum contract</strong> (not time &amp; materials) against the complete scope defined in the NBP SharePoint Governance, Archiving &amp; Optimization Program SOW (April 2026).</div>
+      <div class="hero-tags">
+        <span class="hero-tag hi">Fixed-Price / Lump-Sum — Not T&amp;M</span>
+        <span class="hero-tag">Power Automate-First Migration</span>
+        <span class="hero-tag">Single Dedicated Resource</span>
+        <span class="hero-tag">SOW-Aligned Acceptance Criteria</span>
+        <span class="hero-tag">Detailed Risk Mitigation Plan</span>
+        <span class="hero-tag">Resource Continuity Guarantee</span>
+      </div>
+      <div class="hero-stats">
+        <div class="hstat"><div class="hstat-num">$26,400</div><div class="hstat-label">Total fixed contract price — full scope</div></div>
+        <div class="hstat"><div class="hstat-num">~13<span>wk</span></div><div class="hstat-label">Delivery + hypercare, week-by-week plan</div></div>
+        <div class="hstat"><div class="hstat-num">1<span></span></div><div class="hstat-label">Dedicated resource, with guaranteed backup</div></div>
+        <div class="hstat"><div class="hstat-num">0</div><div class="hstat-label">Licensed migration tools required</div></div>
+      </div>
+    </div>
+
+    <!-- §1 EXECUTIVE SUMMARY -->
+    <div class="section" id="sec-exec">
+      <div class="section-id">Section 01</div>
+      <div class="section-title" data-num="1">Executive Summary</div>
+      <p class="section-intro">SoftTeco proposes a full delivery engagement for the NBP SharePoint Governance, Archiving &amp; Optimization Program, resourced by one person covering both Solution Architect and Developer responsibilities. The implementation approach is Power Automate-first: standard connectors, SharePoint actions, and configuration are preferred over custom code wherever possible, with custom code and an optional Azure Function accelerator reserved for genuine throughput gaps.</p>
+      <p class="section-intro">This proposal is offered as a <strong>fixed-price, lump-sum contract — not a time &amp; materials arrangement.</strong> The proposed total of <strong>$26,400</strong> represents the full cost of delivering the complete scope defined in the SOW — including all three workstreams, migration, testing, validation, remediation, documentation, configuration, training, handover, and hypercare support — with no additional charge to ARO Drilling arising from schedule delays, underestimated effort, resource constraints, productivity assumptions, or contractor performance. Any adjustment to this price is limited strictly to formally approved ARO Drilling scope change orders (see Section 16).</p>
+
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-card-top"><span class="kpi-name">Strategy &amp; Governance</span></div>
+          <div class="kpi-source">SharePoint archiving &amp; governance strategy note, governance guidelines and operational documentation</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-card-top"><span class="kpi-name">Power Automate-First Build</span></div>
+          <div class="kpi-source">Metadata-driven archiving flow and K1–K4 version cleanup flow, both workflow-driven end to end</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-card-top"><span class="kpi-name">No Licensed Migration Tool</span></div>
+          <div class="kpi-source">Migration delivered via Power Automate + optional Azure Function accelerator — no SPMT or paid tooling required</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-card-top"><span class="kpi-name">Dedicated Archive Site</span></div>
+          <div class="kpi-source">Provisioned and configured independently of the active NBP site collection</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-card-top"><span class="kpi-name">Testing, Audit &amp; Acceptance</span></div>
+          <div class="kpi-source">Testing, validation, and audit report; formal SOW-aligned acceptance criteria</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-card-top"><span class="kpi-name">Training, Handover &amp; Hypercare</span></div>
+          <div class="kpi-source">IT and business KT sessions, full technical handover, 2-week post-go-live hypercare</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- §2 DELIVERY APPROACH -->
+    <div class="section" id="sec-approach">
+      <div class="section-id">Section 02</div>
+      <div class="section-title" data-num="2">Delivery Approach</div>
+      <p class="section-intro">This engagement is delivered by a single resource performing both architecture and development work — reducing handoff overhead and keeping design decisions tightly connected to their implementation. The approach favors configuration over custom code:</p>
+      <div class="sec-grid">
+        <div class="sec-card">
+          <div class="sec-icon t">⚙️</div>
+          <div class="sec-card-title">Power Automate-First</div>
+          <ul class="sec-items">
+            <li>Standard connectors and SharePoint actions preferred over custom code wherever possible</li>
+            <li>Custom code and cloud accelerators reserved only for genuine gaps not covered by configuration</li>
+          </ul>
+        </div>
+        <div class="sec-card">
+          <div class="sec-icon r">🎯</div>
+          <div class="sec-card-title">Essential-Scope Discipline</div>
+          <ul class="sec-items">
+            <li>Only essential SA activities retained — all explicitly requested in the SOW</li>
+            <li>Lean documentation: a minimal technical design note rather than a full solution blueprint</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- §3 SCOPE, DELIVERABLES & GOVERNANCE -->
+    <div class="section" id="sec-scope">
+      <div class="section-id">Section 03</div>
+      <div class="section-title" data-num="3">Scope, Deliverables &amp; Governance Alignment</div>
+      <p class="section-intro">The following is included in this engagement, aligned to Section 5 (Deliverables) of the SOW:</p>
+      <div class="sec-card" style="max-width:780px">
+        <ul class="sec-items">
+          <li>SharePoint archiving &amp; governance strategy document</li>
+          <li>Configured Power Automate workflows for document-level archiving and version history cleanup</li>
+          <li>Provisioned and configured dedicated SharePoint Archive Site (storage, governance, and permissions)</li>
+          <li>Migrated historical and inactive data, with folder hierarchy and metadata preserved</li>
+          <li>Testing, validation, and audit reports</li>
+          <li>Governance guidelines and operational documentation</li>
+          <li>Automated archived/"Superseded" document status workflow implementation</li>
+          <li>Archive Site configuration documentation, including storage and governance configuration approach</li>
+          <li>Post-implementation technical, operational, and governance documentation</li>
+          <li>Structured knowledge transfer sessions for IT administrators and business stakeholders</li>
+          <li>2-week hypercare support following go-live</li>
+        </ul>
+      </div>
+
+      <div class="alert-box">
+        <span class="alert-icon">✅</span>
+        <div class="alert-text"><strong>Price inclusion confirmation.</strong> The fixed price in Section 16 includes all activities required to achieve the SOW objectives — migration activities, testing, validation, remediation, documentation, configuration, handover, support, and any other effort required to successfully complete the agreed scope. No item in this section is billed separately.</div>
+      </div>
+
+      <div class="subsection-title">Governance framework alignment (SOW §11)</div>
+      <p class="section-intro">The delivered solution directly implements the four governance controls defined in the SOW:</p>
+      <table class="spec-table">
+        <thead><tr><th style="width:220px">SOW Governance Control</th><th>How it is implemented</th></tr></thead>
+        <tbody>
+          <tr><td>Document Lifecycle Management</td><td>Active → Archived/Superseded → Retained states are enforced automatically by the Workstream 1 workflow (Phase 2)</td></tr>
+          <tr><td>Version Control Policy</td><td>Maximum of 3 versions retained per document, enforced by the Workstream 3 weekly cleanup workflow (Phase 2/4)</td></tr>
+          <tr><td>Storage Management Strategy</td><td>Continuous archiving plus proactive version cleanup; dedicated archive repository with controlled separation from active storage (Phase 3, and Section 07)</td></tr>
+          <tr><td>Metadata Governance</td><td>Controlled use and preservation of Term Store attributes throughout archiving and migration (Phase 2–4)</td></tr>
+        </tbody>
+      </table>
+
+      <div class="subsection-title">Essential SA activities retained (all requested in the SOW)</div>
+      <div class="sec-card" style="max-width:780px">
+        <ul class="sec-items">
+          <li>Current-state assessment and archive criteria definition</li>
+          <li>Architecture decisions for workflows, archive site, and permissions model</li>
+          <li>Migration strategy and phased rollout/rollback approach</li>
+          <li>Validation evidence for metadata/Term Store/permissions/authorship preservation</li>
+          <li>Go-live readiness gate and cutover checklist</li>
+          <li>Required governance and operational documentation requested by the SOW</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- §4 DETAILED PHASE PLAN -->
+    <div class="section" id="sec-phases">
+      <div class="section-id">Section 04</div>
+      <div class="section-title" data-num="4">Detailed Phase Plan</div>
+      <p class="section-intro">Five delivery phases take the engagement from current-state assessment through go-live and hypercare, mirroring the milestone structure defined in Section 9 of the SOW. In practice, Phases 2, 3, and 4 overlap — migration begins once Workflow 1 is stable and the Archive Site is ready (see Section 05 for the week-by-week view).</p>
+
+      <div class="phases">
+        <div class="phase">
+          <div class="phase-bubble p0">1</div>
+          <div class="phase-card">
+            <div class="phase-header"><div class="phase-name">Assessment &amp; Strategy Definition</div><div class="phase-dur">72h</div></div>
+            <div class="phase-deliv">
+              <ul>
+                <li>Current-state assessment for storage, structure, metadata, and permissions</li>
+                <li>Archive eligibility criteria and governance approach definition</li>
+                <li>SharePoint archiving/governance strategy note and architecture decisions note</li>
+                <li>Scope boundaries confirmed for Archive Folder-based routing and superseded status behavior</li>
+              </ul>
+            </div>
+            <div class="phase-gate"><strong>Includes:</strong> project kickoff and discovery workshop (Week 1).</div>
+          </div>
+        </div>
+        <div class="phase">
+          <div class="phase-bubble p1">2</div>
+          <div class="phase-card">
+            <div class="phase-header"><div class="phase-name">Automation Design &amp; Development</div><div class="phase-dur">154h</div></div>
+            <div class="phase-deliv">
+              <ul>
+                <li>Workflow 1 (archiving): check archive condition and read Archive Folder metadata; resolve destination library and move documents without content alteration; preserve metadata/Term Store mappings and assign Superseded/Archived status</li>
+                <li>Workflow 3 (K1–K4 cleanup): weekly trigger for K1–K4 folders; keep the latest 3 versions and delete older versions only; enforce no change to current version/file content/permissions/metadata</li>
+                <li>Retries, error handling, logging, and security context configured for all flows</li>
+              </ul>
+            </div>
+            <div class="phase-gate"><strong>Largest workstream:</strong> the core Power Automate build for both metadata-driven archiving and version cleanup.</div>
+          </div>
+        </div>
+        <div class="phase">
+          <div class="phase-bubble p2">3</div>
+          <div class="phase-card">
+            <div class="phase-header"><div class="phase-name">Archive Site Provisioning</div><div class="phase-dur">76h</div></div>
+            <div class="phase-deliv">
+              <ul>
+                <li>Dedicated Archive Site designed and configured independently of the active NBP site collection, with isolated governance settings</li>
+                <li>Libraries, permissions model, metadata structure, and Term Store alignment configured</li>
+                <li>Archive-specific retention/governance controls and superseded status behavior configured</li>
+                <li>Preservation requirements validated: permissions, authorship, auditability, metadata, Term Store</li>
+              </ul>
+            </div>
+            <div class="phase-gate"><strong>Delivers:</strong> the dedicated archive site and its governance/permissions foundation.</div>
+          </div>
+        </div>
+        <div class="phase">
+          <div class="phase-bubble p3">4</div>
+          <div class="phase-card">
+            <div class="phase-header"><div class="phase-name">Data Migration &amp; Version Cleanup</div><div class="phase-dur">104h</div></div>
+            <div class="phase-deliv">
+              <ul>
+                <li>Phased migration waves — a pilot wave (deepest nested folder structure first) followed by controlled batches, executed during low-usage windows</li>
+                <li>Migration of historical/inactive data executed with folder hierarchy and metadata preservation</li>
+                <li>Version cleanup automation for K1–K4 run as part of phased execution</li>
+                <li>Post-migration reconciliation and rollback readiness checks performed</li>
+              </ul>
+            </div>
+            <div class="phase-gate"><strong>Risk-managed execution:</strong> pilot batch validated before full-scale migration proceeds (see Section 06).</div>
+          </div>
+        </div>
+        <div class="phase">
+          <div class="phase-bubble p4">5</div>
+          <div class="phase-card">
+            <div class="phase-header"><div class="phase-name">Testing, Validation &amp; Go-Live</div><div class="phase-dur">74h</div></div>
+            <div class="phase-deliv">
+              <ul>
+                <li>End-to-end functional tests executed with UAT support</li>
+                <li>Data integrity and automated superseded/archive status assignment validated</li>
+                <li>Post-migration preservation of metadata, permissions, authorship, and audit trail verified</li>
+                <li>Testing/validation/audit report finalized; go-live readiness gate run; knowledge transfer and hypercare delivered</li>
+              </ul>
+            </div>
+            <div class="phase-gate"><strong>Includes:</strong> go-live readiness gate workshop, KT sessions (Section 08), and 2-week hypercare (Section 11) — all within this phase's budget.</div>
+          </div>
+        </div>
+      </div>
+
+      <table class="spec-table">
+        <thead><tr><th>Phase</th><th style="width:100px">Effort (h)</th><th style="width:150px">Indicative Allocation (USD)</th></tr></thead>
+        <tbody>
+          <tr><td>Phase 1 — Assessment &amp; Strategy Definition</td><td class="num-cell">72</td><td class="num-cell">$3,960</td></tr>
+          <tr><td>Phase 2 — Automation Design &amp; Development</td><td class="num-cell">154</td><td class="num-cell">$8,470</td></tr>
+          <tr><td>Phase 3 — Archive Site Provisioning</td><td class="num-cell">76</td><td class="num-cell">$4,180</td></tr>
+          <tr><td>Phase 4 — Data Migration &amp; Version Cleanup</td><td class="num-cell">104</td><td class="num-cell">$5,720</td></tr>
+          <tr><td>Phase 5 — Testing, Validation, KT &amp; Go-Live</td><td class="num-cell">74</td><td class="num-cell">$4,070</td></tr>
+          <tr class="total-row"><td>Total (Fixed Contract Price)</td><td class="num-cell">480</td><td class="num-cell">$26,400</td></tr>
+        </tbody>
+      </table>
+      <p class="section-intro" style="margin-top:8px;font-size:12.5px">The per-phase figures above are an indicative internal allocation used to build up the total price. The contract price is fixed at <strong>$26,400</strong> regardless of how effort actually distributes across phases.</p>
+    </div>
+
+    <!-- §5 TIMELINE & MILESTONES -->
+    <div class="section" id="sec-timeline">
+      <div class="section-id">Section 05</div>
+      <div class="section-title" data-num="5">Project Timeline &amp; Milestones</div>
+      <p class="section-intro">Based on 480h total effort at 100% allocation (40h/week), the project spans approximately <strong>12 weeks of delivery</strong>, with hypercare extending into Week 13. Phases 2, 3, and 4 overlap in practice: migration starts once Workflow 1 is stable and the Archive Site is ready. The confirmed start date will be agreed at kickoff.</p>
+
+      <div class="timeline-wrap">
+        <div class="timeline-bar">
+          <div class="tl-seg" style="background:#1A5FA8">Phase 1<span class="tl-wk">Wk 1–2</span></div>
+          <div class="tl-seg" style="background:#0A5E42">Phase 2<span class="tl-wk">Wk 3–7</span></div>
+          <div class="tl-seg" style="background:#C47A00">Phase 3<span class="tl-wk">Wk 5–7</span></div>
+          <div class="tl-seg" style="background:#2575C4">Phase 4<span class="tl-wk">Wk 7–10</span></div>
+          <div class="tl-seg" style="background:#0D2137">Phase 5<span class="tl-wk">Wk 10–12</span></div>
+          <div class="tl-seg" style="background:#5A2E8C">Hypercare<span class="tl-wk">Wk 12–13</span></div>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+      <table class="spec-table">
+        <thead><tr><th style="width:80px">Week</th><th style="width:230px">Milestone</th><th style="width:80px">Phase</th><th>Key Outputs</th></tr></thead>
+        <tbody>
+          <tr><td class="num-cell">1</td><td>Project kickoff and discovery workshop</td><td>Phase 1</td><td>Workshop outcomes, stakeholder list</td></tr>
+          <tr><td class="num-cell">1–2</td><td>Current-state assessment complete</td><td>Phase 1</td><td>Storage/library/metadata inventory</td></tr>
+          <tr><td class="num-cell">2</td><td>Strategy note and architecture decisions signed off</td><td>Phase 1</td><td>Governance strategy note</td></tr>
+          <tr><td class="num-cell">3–6</td><td>Workflow 1 (archiving) built and tested</td><td>Phase 2</td><td>Flow: Archive Folder routing, superseded status</td></tr>
+          <tr><td class="num-cell">4–7</td><td>Workflow 3 (K1–K4 cleanup) built and tested</td><td>Phase 2</td><td>Flow: weekly version cleanup</td></tr>
+          <tr><td class="num-cell">5–7</td><td>Archive Site provisioned and validated</td><td>Phase 3</td><td>Configured archive site, configuration note</td></tr>
+          <tr><td class="num-cell">7–9</td><td>Pilot migration complete, reconciliation done</td><td>Phase 4</td><td>Pilot migration report</td></tr>
+          <tr><td class="num-cell">8–10</td><td>Phased migration complete and K1–K4 cleanup executed</td><td>Phase 4</td><td>Migration reconciliation report</td></tr>
+          <tr><td class="num-cell">10–11</td><td>End-to-end testing and UAT</td><td>Phase 5</td><td>Test results, defect fixes</td></tr>
+          <tr><td class="num-cell">11</td><td>Go-live readiness gate workshop</td><td>Phase 5</td><td>Signed-off go-live checklist</td></tr>
+          <tr><td class="num-cell">12</td><td>Go-live and cutover</td><td>Phase 5</td><td>Live system</td></tr>
+          <tr><td class="num-cell">12</td><td>Validation/audit report delivered</td><td>Phase 5</td><td>Audit evidence pack</td></tr>
+          <tr class="total-row"><td class="num-cell">12–13</td><td>Hypercare period</td><td>Phase 5</td><td>Incident log, steady-state handover</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <p class="section-intro" style="margin-top:8px;font-size:12.5px">Total indicative program duration: <strong>~12 weeks delivery + hypercare into Week 13</strong>, contingent on the assumptions and dependencies in Section 13 holding true.</p>
+    </div>
+
+    <!-- §6 MIGRATION APPROACH & TOOLING -->
+    <div class="section" id="sec-migration">
+      <div class="section-id">Section 06</div>
+      <div class="section-title" data-num="6">Migration Approach &amp; Tooling</div>
+      <div class="alert-box">
+        <span class="alert-icon">🔧</span>
+        <div class="alert-text"><strong>Confirmation: no licensed third-party migration tool is required or included in this estimate.</strong> Migration is implemented entirely through Power Automate flows and, where throughput demands it, an optional Azure Function accelerator. No SharePoint Migration Tool (SPMT) or commercial tooling license is needed — this keeps the fixed price free of third-party licensing exposure.</div>
+      </div>
+
+      <table class="spec-table">
+        <thead><tr><th style="width:170px">Priority</th><th style="width:220px">Tool</th><th>Scope</th></tr></thead>
+        <tbody>
+          <tr><td>Primary</td><td>Power Automate flows (SharePoint Move File, Send HTTP Request to Graph API)</td><td>Full migration orchestration: enumerate source, copy files, re-apply metadata/Term Store, assign Superseded status, log outcomes</td></tr>
+          <tr><td>Performance accelerator (optional)</td><td>Azure Function (C# or Node.js, triggered by Power Automate HTTP action)</td><td>Offload high-volume or CPU-intensive operations (bulk Graph API batching, large folder enumeration, parallel file moves) that would otherwise hit Power Automate action limits or timeouts</td></tr>
+          <tr><td>Validation</td><td>PowerShell (PnP.PowerShell module) — free</td><td>Pre/post reconciliation scripts: document count, metadata, permissions, and Term Store checks</td></tr>
+          <tr><td>Fallback</td><td>Manual batch move with metadata re-tagging</td><td>Small-volume edge cases or items that fail automated processing</td></tr>
+        </tbody>
+      </table>
+
+      <div class="subsection-title">Power Automate as primary migration engine</div>
+      <div class="sec-card" style="max-width:780px">
+        <ul class="sec-items">
+          <li>Uses the SharePoint connector (Move File action) or Graph API calls (Send HTTP Request) for file relocation</li>
+          <li>Full metadata and Term Store values preserved by explicitly writing column values after move, avoiding known SPMT Term Store drop issues</li>
+          <li>Folder hierarchy recreation handled step-by-step in the flow logic before moving files</li>
+          <li>Superseded status assigned inline as part of the same flow run — no separate post-migration step needed</li>
+          <li>All runs logged to a SharePoint list or Azure Table for reconciliation and audit</li>
+        </ul>
+      </div>
+
+      <div class="subsection-title">Azure Function accelerator (optional — activates only if needed)</div>
+      <div class="sec-card" style="max-width:780px">
+        <ul class="sec-items">
+          <li>Triggered by Power Automate via HTTP action; results returned asynchronously</li>
+          <li>Enables parallel batch processing of large libraries that exceed Power Automate's 5,000-action or 30-day run limits</li>
+          <li>Can batch Microsoft Graph API calls (up to 20 per $batch request) for significantly faster enumeration and metadata writes</li>
+          <li>Runs on an Azure consumption plan — no standing infrastructure cost; pay-per-execution only</li>
+          <li>Decision to activate is made during Phase 1 assessment based on document volume and folder depth</li>
+        </ul>
+      </div>
+      <div class="alert-box">
+        <span class="alert-icon">💰</span>
+        <div class="alert-text">If activated, the Azure Function accelerator is an <strong>implementation choice within the existing fixed price</strong> — it addresses <em>how</em> migration is executed, not a change to <em>what</em> is delivered. It requires an ARO Drilling Azure subscription with at least Contributor access to deploy a Function App; this is confirmed with ARO Drilling in Phase 1 (see Section 13, Dependencies) and consumption-plan Azure hosting costs, if any, are billed directly to ARO Drilling's own Azure subscription, not to SoftTeco's fixed price.</div>
+      </div>
+
+      <div class="subsection-title">Constraints and implications</div>
+      <div class="sec-card" style="max-width:780px">
+        <ul class="sec-items">
+          <li>The Power Automate SharePoint connector is subject to throttling; flows implement pagination, exponential backoff retries, and off-peak scheduling</li>
+          <li>No native rollback: a pre-migration snapshot (file count + metadata export) is taken before each wave; reconciliation scripts detect gaps</li>
+          <li>An Azure Function requires an Azure subscription with at minimum Contributor access to deploy a Function App — confirmed with ARO Drilling in Phase 1</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- §7 STORAGE OPTIMIZATION & PLATFORM LIMITATIONS -->
+    <div class="section" id="sec-storage">
+      <div class="section-id">Section 07</div>
+      <div class="section-title" data-num="7">Storage Optimization Approach &amp; Platform Limitations</div>
+
+      <div class="subsection-title">Storage reduction mechanisms (within the fixed price)</div>
+      <div class="sec-card" style="max-width:780px">
+        <ul class="sec-items">
+          <li>Migrating inactive/historical content from the active NBP site collection to a dedicated Archive Site logically separates storage buckets</li>
+          <li>Version cleanup automation (Workflow 3) removes versions beyond the latest 3 in K1–K4, directly reducing storage consumed by version history</li>
+          <li>The combination of both is expected to materially reduce <strong>active site</strong> storage utilization toward the 25 TB threshold identified in the SOW</li>
+        </ul>
+      </div>
+
+      <div class="alert-box">
+        <span class="alert-icon">⚠️</span>
+        <div class="alert-text"><strong>Important platform clarification.</strong> SharePoint Online storage is pooled per tenant, not per site. Moving content to the Archive Site reduces <em>active NBP site</em> storage quota usage, but does not by itself reduce total <em>tenant-wide</em> storage consumption, since the Archive Site draws from the same tenant pool. This is a Microsoft 365 platform characteristic, not a limitation of the proposed solution — see the platform limitations table below.</div>
+      </div>
+
+      <div class="subsection-title">Microsoft 365 / SharePoint architectural limitations</div>
+      <div class="table-wrap">
+      <table class="spec-table wide">
+        <thead><tr><th style="width:230px">Limitation</th><th style="width:260px">Impact</th><th>Mitigation</th></tr></thead>
+        <tbody>
+          <tr><td>SharePoint Online storage is pooled per tenant, not per site</td><td>Moving content to an Archive Site does not reduce total tenant storage consumption; it only reduces active site quota usage</td><td>Configure the Archive Site as a separate site collection with its own quota tracking; this is documented clearly to manage expectations</td></tr>
+          <tr><td>Site collection storage quota (configurable)</td><td>A separate quota can be assigned to enforce a governance boundary</td><td>Quota set at provisioning time</td></tr>
+          <tr><td>SharePoint Online list/library item limit (30M items)</td><td>High-volume migration batches must be managed carefully</td><td>Phased migration with reconciliation after each wave</td></tr>
+          <tr><td>Power Automate throttling (SharePoint connector)</td><td>Large library scans (Workflow 3) risk hitting per-flow action or HTTP call limits</td><td>Pagination, batched loops, and scheduled off-peak runs</td></tr>
+          <tr><td>Term Store managed metadata — cross-site</td><td>Term Store values on the active site may not resolve automatically in the Archive Site if it is a separate site collection</td><td>Map Term Store as a global/tenant-level term set before provisioning the Archive Site</td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <div class="subsection-title">Option: Azure Blob Storage cold tier as long-term archive layer</div>
+      <p class="section-intro">If SharePoint tenant storage remains under pressure after the Archive Site migration, documents can be offloaded further to Azure Blob Storage (Cool or Archive access tier), which physically removes content from the M365 storage quota.</p>
+      <table class="spec-table">
+        <thead><tr><th style="width:200px">Aspect</th><th>Detail</th></tr></thead>
+        <tbody>
+          <tr><td>Target tier</td><td>Azure Blob Storage — Cool tier (infrequently accessed, millisecond retrieval) or Archive tier (rarely accessed, rehydration required before download)</td></tr>
+          <tr><td>Storage cost</td><td>Cool: ~$0.015/GB/month; Archive: ~$0.002/GB/month — significantly cheaper than a SharePoint Online storage add-on</td></tr>
+          <tr><td>Integration approach</td><td>Power Automate triggers an Azure Function that calls the Azure Blob Storage REST API to upload the file binary and writes blob metadata tags to preserve SharePoint column values</td></tr>
+          <tr><td>Metadata preservation</td><td>Key metadata stored as Azure Blob metadata tags and in a SharePoint index list (Document Name, Archive Date, Original Library, Term Store values, superseded status)</td></tr>
+          <tr><td>Retrieval</td><td>Users search the index list in SharePoint; files retrieved on-demand via Azure Function or direct blob URL (with SAS token, scoped access)</td></tr>
+          <tr><td>Authentication</td><td>Managed Identity on the Azure Function App; no secrets stored in flows or scripts</td></tr>
+          <tr><td>Compliance note</td><td>Azure region must match or be compatible with M365 data residency requirements; to be confirmed with ARO Drilling before enabling</td></tr>
+        </tbody>
+      </table>
+      <div class="alert-box" style="background:#FFE5E5;border-color:#F5B0B0">
+        <span class="alert-icon">🚫</span>
+        <div class="alert-text"><strong>Out of scope for the fixed price.</strong> This Azure Blob Storage cold-tier option is <strong>not included</strong> in the $26,400 fixed price or the 480h baseline. If ARO Drilling wants to activate it — recommended if the active NBP site collection approaches the 25 TB limit even after SharePoint-to-SharePoint migration — it adds approximately <strong>16 hours</strong> of SA + development effort (Azure Function extension, index list setup, retrieval flow, and SAS policy configuration) and must be raised as a formal ARO Drilling change request per Section 16.</div>
+      </div>
+    </div>
+
+    <!-- §8 WORKSHOPS & KNOWLEDGE TRANSFER -->
+    <div class="section" id="sec-workshops">
+      <div class="section-id">Section 08</div>
+      <div class="section-title" data-num="8">Workshops &amp; Knowledge Transfer</div>
+      <p class="section-intro">Knowledge transfer is embedded within Phase 5 rather than run as a standalone workstream, to keep overhead lean. Delivery is via focused live sessions with screen recordings, not a formal training course. All sessions below are already included within the Phase 5 budget in Section 04 — no additional hours or cost.</p>
+
+      <table class="spec-table">
+        <thead><tr><th style="width:200px">Session</th><th style="width:160px">Audience</th><th style="width:170px">Format</th><th style="width:80px">Timing</th><th style="width:80px">Duration</th></tr></thead>
+        <tbody>
+          <tr><td>Discovery &amp; requirements workshop</td><td>Business SMEs, IT leads, process owners</td><td>Live workshop</td><td>Week 1</td><td class="num-cell">—</td></tr>
+          <tr><td>Archive automation walkthrough</td><td>IT admins</td><td>Live session + screen recording</td><td>Phase 5</td><td class="num-cell">2h</td></tr>
+          <tr><td>Archive site admin guide review</td><td>IT admins</td><td>Walkthrough of configuration note</td><td>Phase 5</td><td class="num-cell">1h</td></tr>
+          <tr><td>Business user briefing</td><td>Key users, process owners</td><td>Short demo + Q&amp;A</td><td>Phase 5</td><td class="num-cell">1h</td></tr>
+          <tr><td>Go-live readiness gate workshop</td><td>IT, business owners, support leads</td><td>Live workshop</td><td>Week 11</td><td class="num-cell">—</td></tr>
+        </tbody>
+      </table>
+
+      <div class="subsection-title">Target audiences</div>
+      <div class="sec-grid">
+        <div class="sec-card">
+          <div class="sec-icon p">🖥️</div>
+          <div class="sec-card-title">IT administrators</div>
+          <ul class="sec-items">
+            <li>Flow management, monitoring, and error handling</li>
+            <li>Archive site administration</li>
+          </ul>
+        </div>
+        <div class="sec-card">
+          <div class="sec-icon p">👥</div>
+          <div class="sec-card-title">Business users</div>
+          <ul class="sec-items">
+            <li>Understanding of archiving behavior</li>
+            <li>How to check archived versions and what "Superseded" status means</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="subsection-title">Handover materials included</div>
+      <div class="checklist">
+        <div class="checklist-row"><span class="cl-mark">✓</span> Archive site configuration note (admin-readable)</div>
+        <div class="checklist-row"><span class="cl-mark">✓</span> Governance strategy note (business-readable summary)</div>
+        <div class="checklist-row"><span class="cl-mark">✓</span> Validation/audit evidence pack</div>
+        <div class="checklist-row"><span class="cl-mark">✓</span> Flow names, trigger conditions, and error notification contacts documented within the flows themselves</div>
+        <div class="checklist-row"><span class="cl-mark">✓</span> Screen recordings of the IT and business sessions above</div>
+      </div>
+
+      <div class="subsection-title">Final documentation deliverables</div>
+      <div class="table-wrap">
+      <table class="spec-table wide">
+        <thead><tr><th style="width:36px">#</th><th style="width:210px">Document</th><th style="width:260px">Purpose</th><th>SOW Requirement</th></tr></thead>
+        <tbody>
+          <tr><td class="num-cell">1</td><td>SharePoint archiving &amp; governance strategy note</td><td>Governance approach, archive eligibility rules, version policy</td><td>SOW §5 Deliverable 1, §9 Phase 1</td></tr>
+          <tr><td class="num-cell">2</td><td>Minimal technical design note</td><td>Key architecture decisions, flow design, security model</td><td>Internal reference</td></tr>
+          <tr><td class="num-cell">3</td><td>Archive site configuration note</td><td>Libraries, permissions, Term Store alignment, retention controls, governance isolation</td><td>SOW §5 Deliverable 6</td></tr>
+          <tr><td class="num-cell">4</td><td>Testing, validation, and audit report</td><td>E2E test results, preservation verification, UAT sign-off</td><td>SOW §5 Deliverable 4</td></tr>
+          <tr><td class="num-cell">5</td><td>Go-live checklist</td><td>Readiness gates, cutover steps, fallback and ownership</td><td>SOW §9 Phase 5</td></tr>
+          <tr><td class="num-cell">6</td><td>Validation and audit evidence pack</td><td>Permissions/authorship/metadata/Term Store preservation evidence post-migration</td><td>SOW §10 Success Criteria</td></tr>
+        </tbody>
+      </table>
+      </div>
+    </div>
+
+    <!-- §9 SOW COVERAGE MAPPING -->
+    <div class="section" id="sec-coverage">
+      <div class="section-id">Section 09</div>
+      <div class="section-title" data-num="9">SOW Coverage Mapping</div>
+      <p class="section-intro">Every section of the SOW maps to a specific part of this proposal — validated end to end below.</p>
+      <div class="table-wrap">
+      <table class="spec-table wide">
+        <thead><tr><th style="width:260px">SOW Section</th><th>Covered In This Proposal</th></tr></thead>
+        <tbody>
+          <tr><td>§1–2 Executive Summary &amp; Program Objectives</td><td>Section 01 — Executive Summary</td></tr>
+          <tr><td>§3 Workstream 1 — Document-Level Archiving Automation</td><td>Section 04 — Phase 2; Section 06 — Migration Approach &amp; Tooling</td></tr>
+          <tr><td>§3 Workstream 2 — Site Archiving &amp; Data Offloading</td><td>Section 04 — Phase 3 &amp; 4; Section 07 — Storage Optimization</td></tr>
+          <tr><td>§3 Workstream 3 — Version History Cleanup Automation</td><td>Section 04 — Phase 2 &amp; 4</td></tr>
+          <tr><td>§4 Current vs. Future State</td><td>Section 01 — Executive Summary; Section 03 — Governance Alignment</td></tr>
+          <tr><td>§5 Deliverables (all 8 items)</td><td>Section 03 — Scope &amp; Deliverables; Section 08 — Final Documentation Deliverables</td></tr>
+          <tr><td>§6 Assumptions</td><td>Section 13 — Assumptions &amp; Dependencies</td></tr>
+          <tr><td>§7 Dependencies</td><td>Section 13 — Assumptions &amp; Dependencies</td></tr>
+          <tr><td>§8 Risks &amp; Mitigation (all 5 SOW risks)</td><td>Section 14 — Risk Mitigation Plan</td></tr>
+          <tr><td>§9 Milestones (Phases 1–5)</td><td>Section 04 — Detailed Phase Plan; Section 05 — Timeline &amp; Milestones</td></tr>
+          <tr><td>§10 Success Criteria (all 7 items)</td><td>Section 10 — Acceptance Criteria</td></tr>
+          <tr><td>§11 Governance Framework</td><td>Section 03 — Governance Framework Alignment</td></tr>
+          <tr><td>§12 Key Definitions</td><td>Appendix B — Key Definitions</td></tr>
+          <tr><td>Post-Implementation Documentation &amp; Training</td><td>Section 08 — Workshops &amp; Knowledge Transfer; Section 12 — Resource Continuity &amp; Handover</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <div class="alert-box" style="background:#E6F9F2;border-color:#9ED9C0">
+        <span class="alert-icon">✅</span>
+        <div class="alert-text"><strong>Validation result:</strong> all 12 numbered sections of the SOW, plus the Post-Implementation Documentation &amp; Training addendum, are addressed by this proposal. No SOW requirement is left uncovered.</div>
+      </div>
+    </div>
+
+    <!-- §10 ACCEPTANCE CRITERIA -->
+    <div class="section" id="sec-acceptance">
+      <div class="section-id">Section 10</div>
+      <div class="section-title" data-num="10">Acceptance Criteria</div>
+      <p class="section-intro">Acceptance criteria are drawn directly from Section 10 (Success Criteria) of the SOW. Final project acceptance is confirmed through ARO Drilling's written sign-off at the Go-Live Readiness Gate, following formal sign-off at each phase milestone.</p>
+      <div class="sec-card" style="max-width:780px">
+        <ul class="sec-items">
+          <li>Document archiving automation operates as designed, using the "Archive Folder" metadata attribute without manual intervention</li>
+          <li>Version history is limited to a maximum of three (3) versions per document across the K1–K4 folders</li>
+          <li><strong>Active NBP site collection</strong> storage usage is reduced below the critical thresholds identified in the SOW (see the tenant vs. site storage clarification in Section 07)</li>
+          <li>100% preservation of metadata and folder structures for all migrated content</li>
+          <li>No data loss or unplanned user disruption during migration or version cleanup</li>
+          <li>100% automated assignment of archive/"Superseded" status for migrated documents</li>
+          <li>Permissions, auditability, authorship, and metadata integrity are verified as preserved after migration</li>
+          <li>Testing, validation, and audit reports are delivered and reviewed with ARO Drilling</li>
+          <li>IT and business KT sessions are delivered and recordings handed over</li>
+        </ul>
+      </div>
+      <div class="alert-box">
+        <span class="alert-icon">📝</span>
+        <div class="alert-text">Each phase gate in Section 05 requires formal ARO Drilling sign-off before progression. Final acceptance of the full engagement is confirmed at the Go-Live Readiness Gate, evidenced by the testing/validation/audit report and the validation and audit evidence pack.</div>
+      </div>
+    </div>
+
+    <!-- §11 HYPERCARE & SUPPORT -->
+    <div class="section" id="sec-hypercare">
+      <div class="section-id">Section 11</div>
+      <div class="section-title" data-num="11">Hypercare &amp; Support Period</div>
+      <p class="section-intro">Following go-live, SoftTeco provides a <strong>2-week hypercare period</strong>, included within the Phase 5 budget and the fixed contract price, to support ARO Drilling's transition to steady-state operations as called for in the SOW.</p>
+
+      <table class="spec-table">
+        <thead><tr><th style="width:200px">Activity</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td>Incident monitoring</td><td>Monitor Power Automate flow run history daily for errors or missed triggers</td></tr>
+          <tr><td>Issue resolution</td><td>Investigate and fix flow failures, metadata gaps, or permission exceptions reported by users</td></tr>
+          <tr><td>Validation sampling</td><td>Spot-check archived documents for superseded status, metadata completeness, and correct folder placement</td></tr>
+          <tr><td>User support</td><td>Answer IT admin and business user questions; provide guidance on edge cases</td></tr>
+          <tr><td>Handover sign-off</td><td>Formal sign-off that the system is operating as designed and the team is self-sufficient</td></tr>
+        </tbody>
+      </table>
+
+      <div class="sec-grid">
+        <div class="sec-card">
+          <div class="sec-icon s">🚫</div>
+          <div class="sec-card-title">Out of scope during hypercare</div>
+          <ul class="sec-items x">
+            <li>New feature development or scope changes</li>
+            <li>Remediation of pre-existing data quality issues not identified during testing</li>
+          </ul>
+        </div>
+        <div class="sec-card">
+          <div class="sec-icon a">🔁</div>
+          <div class="sec-card-title">Post-hypercare</div>
+          <ul class="sec-items">
+            <li>System transitions to steady-state operations under ARO Drilling IT ownership</li>
+            <li>All documentation and flow configurations are handed over and recorded</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- §12 RESOURCE CONTINUITY & HANDOVER -->
+    <div class="section" id="sec-continuity">
+      <div class="section-id">Section 12</div>
+      <div class="section-title" data-num="12">Resource Continuity &amp; Final Handover</div>
+
+      <div class="subsection-title">Resource continuity guarantee</div>
+      <p class="section-intro">SoftTeco confirms that, if the assigned resource becomes unavailable during the project for any reason, a suitably qualified replacement resource will be provided within <strong>2–3 weeks</strong>, at <strong>no additional cost</strong> to ARO Drilling, to ensure continuity of delivery against the fixed-price scope and timeline.</p>
+
+      <div class="subsection-title">Final handover package</div>
+      <p class="section-intro">As part of final handover, SoftTeco will provide ARO Drilling with:</p>
+      <div class="sec-card" style="max-width:780px">
+        <ul class="sec-items">
+          <li>Complete technical documentation covering workflow designs, archive site configuration, and version cleanup logic</li>
+          <li>Power Automate workflow exports and configuration details, with trigger conditions and error notification contacts documented within the flows</li>
+          <li>Archive site configuration note (serving as the administration reference for IT)</li>
+          <li>All source code, scripts (including PnP.PowerShell validation scripts), and procedures created during the engagement</li>
+          <li>SharePoint governance guidelines and operational documentation</li>
+          <li>Screen recordings of the IT administrator and business user knowledge transfer sessions</li>
+          <li>Any other technical artifacts produced during delivery</li>
+        </ul>
+      </div>
+      <p class="section-intro">This ensures ARO Drilling retains full ownership and operational capability over the delivered solution beyond the engagement and hypercare period.</p>
+    </div>
+
+    <!-- §13 ASSUMPTIONS & DEPENDENCIES -->
+    <div class="section" id="sec-assump">
+      <div class="section-id">Section 13</div>
+      <div class="section-title" data-num="13">Assumptions &amp; Dependencies</div>
+      <p class="section-intro">The fixed price in Section 16 holds under the following assumptions and dependencies (SOW §6–§7). Where ARO Drilling-caused delays or scope changes occur, any adjustment is handled exclusively through the formal change order process defined in Section 16 — not through additional billing.</p>
+      <div class="sec-grid">
+        <div class="sec-card">
+          <div class="sec-icon t">📋</div>
+          <div class="sec-card-title">Assumptions (SOW §6)</div>
+          <ul class="sec-items">
+            <li>Required metadata columns are available and consistently applied</li>
+            <li>Appropriate permissions are granted for automation and migration activities</li>
+            <li>Business users cooperate during validation and testing phases</li>
+          </ul>
+        </div>
+        <div class="sec-card">
+          <div class="sec-icon a">🔗</div>
+          <div class="sec-card-title">Dependencies (SOW §7)</div>
+          <ul class="sec-items">
+            <li>SharePoint Term Store readiness and governance approval</li>
+            <li>Availability of target archive site storage</li>
+            <li>Microsoft Power Automate licensing availability</li>
+            <li>If the Azure Function accelerator is activated: an ARO Drilling Azure subscription with at least Contributor access (confirmed in Phase 1)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- §14 RISK MITIGATION PLAN -->
+    <div class="section" id="sec-risk">
+      <div class="section-id">Section 14</div>
+      <div class="section-title" data-num="14">Risk Mitigation Plan</div>
+      <p class="section-intro">Expanded from the SOW's own risk register (§8). Under the fixed-price model, these risks are managed within the contracted price rather than passed on to ARO Drilling, provided the assumptions and dependencies in Section 13 hold.</p>
+      <div class="table-wrap">
+      <table class="spec-table wide">
+        <thead><tr><th style="width:110px">Risk Area</th><th style="width:220px">Specific Risk</th><th style="width:90px">Likelihood</th><th style="width:80px">Impact</th><th>Mitigation</th></tr></thead>
+        <tbody>
+          <tr><td>Migration</td><td>Data loss during move</td><td><span class="risk-badge low">Low</span></td><td><span class="risk-badge high">High</span></td><td>Power Automate flows log every move action; pre-migration snapshot (count + metadata export) taken per wave; source retained until reconciliation confirms success</td></tr>
+          <tr><td>Migration</td><td>Folder hierarchy truncated or renamed</td><td><span class="risk-badge med">Medium</span></td><td><span class="risk-badge med">Medium</span></td><td>Pilot with the deepest nested structure first; validate hierarchy match before full migration</td></tr>
+          <tr><td>Migration</td><td>No rollback tool available</td><td><span class="risk-badge med">Medium</span></td><td><span class="risk-badge high">High</span></td><td>Snapshot file count/metadata before each wave; use reconciliation to detect gaps; restore from source if needed</td></tr>
+          <tr><td>Metadata</td><td>Archive Folder field missing or inconsistently populated</td><td><span class="risk-badge high">High</span></td><td><span class="risk-badge high">High</span></td><td>Pre-migration inventory script to identify gaps; agree remediation with ARO Drilling before Phase 2 starts</td></tr>
+          <tr><td>Metadata</td><td>Term Store values not preserved during move</td><td><span class="risk-badge low">Low</span></td><td><span class="risk-badge high">High</span></td><td>Power Automate explicitly writes Term Store column values after move via Graph API; source metadata manifest used as reference</td></tr>
+          <tr><td>Permissions</td><td>Unique permissions on documents not preserved</td><td><span class="risk-badge med">Medium</span></td><td><span class="risk-badge high">High</span></td><td>Validate permissions model on pilot batch; document exception handling for unique-permission items</td></tr>
+          <tr><td>Permissions</td><td>Service account lacks required permissions for flows</td><td><span class="risk-badge low">Low</span></td><td><span class="risk-badge high">High</span></td><td>Verify service account rights at kickoff; document permission requirements in the architecture note</td></tr>
+          <tr><td>Power Automate</td><td>Throttling on large library scans</td><td><span class="risk-badge high">High</span></td><td><span class="risk-badge med">Medium</span></td><td>Pagination and batch processing; schedule Workflow 3 during low-usage windows</td></tr>
+          <tr><td>Power Automate</td><td>Flow time-out on high-volume migrations</td><td><span class="risk-badge med">Medium</span></td><td><span class="risk-badge med">Medium</span></td><td>Split large operations into smaller triggered batches; monitor run history for timeout patterns</td></tr>
+          <tr><td>Power Automate</td><td>Superseded status not updated post-migration</td><td><span class="risk-badge med">Medium</span></td><td><span class="risk-badge high">High</span></td><td>Automated validation query post-migration; alert on mismatches; reconciliation report</td></tr>
+        </tbody>
+      </table>
+      </div>
+    </div>
+
+    <!-- §15 EXCLUSIONS -->
+    <div class="section" id="sec-exclusions">
+      <div class="section-id">Section 15</div>
+      <div class="section-title" data-num="15">What Is Excluded</div>
+      <div class="sec-card" style="max-width:780px">
+        <ul class="sec-items x">
+          <li>Major tenant-wide governance redesign outside this SOW</li>
+          <li>Large-scale source data remediation as a separate data-cleansing project</li>
+          <li>Licensed third-party migration tooling (e.g., SharePoint Migration Tool or commercial equivalents) — not required for this delivery approach</li>
+          <li><strong>Azure Blob Storage cold-tier archival layer</strong> (optional, ~16h, available only via formal ARO Drilling change order — see Section 07)</li>
+          <li>Azure consumption-plan hosting costs for the optional Function accelerator, if activated — billed directly to ARO Drilling's own Azure subscription, not part of SoftTeco's fixed price</li>
+        </ul>
+      </div>
+      <p class="section-intro" style="margin-top:14px;font-size:12.5px">Any of the above, or any change to the agreed SOW scope, is handled exclusively through a formally approved ARO Drilling scope change order — not through unilateral additional billing.</p>
+    </div>
+
+    <!-- §16 COMMERCIAL MODEL — FIXED PRICE -->
+    <div class="section" id="sec-commercial">
+      <div class="section-id">Section 16</div>
+      <div class="section-title" data-num="16">Commercial Model — Fixed Price</div>
+      <span class="badge-pill gold">Fixed-Price / Lump-Sum Contract — Not Time &amp; Materials</span>
+      <p class="section-intro">SoftTeco proposes this engagement as a <strong>fixed-price, lump-sum contract</strong>. This is explicitly <strong>not</strong> a time-and-materials arrangement: ARO Drilling is not billed by the hour, and effort variance within SoftTeco's control does not change the price. The proposed total represents the full cost of delivering the complete SOW scope for one dedicated resource covering both Solution Architect and Developer responsibilities, from Assessment through Go-Live and hypercare.</p>
+
+      <div class="sla-grid">
+        <div class="sla-card"><div class="sla-val">$26,400</div><div class="sla-label">Total fixed contract price</div></div>
+        <div class="sla-card"><div class="sla-val">5</div><div class="sla-label">Delivery phases</div></div>
+        <div class="sla-card"><div class="sla-val">2wk</div><div class="sla-label">Included hypercare period</div></div>
+        <div class="sla-card"><div class="sla-val">1</div><div class="sla-label">Dedicated resource, with continuity guarantee</div></div>
+      </div>
+
+      <div class="subsection-title">What the fixed price covers</div>
+      <div class="sec-card" style="max-width:780px">
+        <ul class="sec-items">
+          <li>All three SOW workstreams: document-level archiving automation, site archiving &amp; data offloading, and version history cleanup automation</li>
+          <li>Migration activities via Power Automate (and the Azure Function accelerator, if activated), testing, validation, and remediation</li>
+          <li>Documentation, configuration, and final handover</li>
+          <li>Knowledge transfer sessions for IT administrators and business users, with recordings</li>
+          <li>The 2-week post-go-live hypercare support period</li>
+          <li>Any other effort required to successfully complete the agreed SOW scope</li>
+        </ul>
+      </div>
+
+      <div class="subsection-title">What does not change the price</div>
+      <div class="alert-box">
+        <span class="alert-icon">🔒</span>
+        <div class="alert-text">The fixed contract price does not increase due to: schedule delays; underestimated effort; resource constraints; productivity assumptions; or contractor performance. SoftTeco bears this risk within the contracted price, provided the assumptions and dependencies in Section 13 hold.</div>
+      </div>
+
+      <div class="subsection-title">Change order process</div>
+      <p class="section-intro">The only mechanism for adjusting the contract price is a <strong>formally approved ARO Drilling scope change order</strong> — for example, activating the Azure Blob Storage cold-tier option in Section 07 (~16h), a material expansion of scope beyond the SOW, or a change to the assumptions in Section 13 that ARO Drilling directs. No cost adjustment is made outside this process.</p>
+
+      <div class="alert-box" style="background:#FFF8E6;border-color:#F5C97A">
+        <span class="alert-icon">🎯</span>
+        <div class="alert-text">
+          SoftTeco recommends this <strong>fixed-price contract of $26,400</strong> to deliver the complete NBP SharePoint Governance, Archiving &amp; Optimization Program scope — all three workstreams, migration, testing, validation, documentation, training, handover, and hypercare — with cost certainty for ARO Drilling and no exposure to delivery-side risk.
+        </div>
+      </div>
+    </div>
+
+    <!-- APPENDIX A: ABOUT SOFTTECO -->
+    <div class="section" id="sec-about">
+      <div class="section-id">Appendix A</div>
+      <div class="section-title" data-num="A">About SoftTeco</div>
+      <p class="section-intro">SoftTeco is an international software development company, ISO 27001 certified, established in 2008, with 500+ experts delivering enterprise solutions — including Microsoft 365 and SharePoint governance, architecture, and automation engagements — across the globe.</p>
+
+      <div class="subsection-title">SoftTeco offices</div>
+      <div class="offices-grid">
+        <div class="office-card"><div class="office-flag">🇵🇱</div><div class="office-city">Warsaw, Poland (HQ)</div><div class="office-addr">9A/4U Belwederska St<br>Warsaw 00-761</div></div>
+        <div class="office-card"><div class="office-flag">🇦🇪</div><div class="office-city">Dubai, UAE</div><div class="office-addr">Al-Murar, Dubai<br>United Arab Emirates</div></div>
+        <div class="office-card"><div class="office-flag">🇱🇹</div><div class="office-city">Lithuania</div><div class="office-addr">Vilnius &amp; Kaunas</div></div>
+        <div class="office-card"><div class="office-flag">🇺🇸</div><div class="office-city">United States</div><div class="office-addr">Wenham, MA</div></div>
+      </div>
+    </div>
+
+    <!-- APPENDIX B: KEY DEFINITIONS -->
+    <div class="section" id="sec-glossary">
+      <div class="section-id">Appendix B</div>
+      <div class="section-title" data-num="B">Key Definitions (per SOW §12)</div>
+      <table class="spec-table">
+        <thead><tr><th style="width:180px">Term</th><th>Definition</th></tr></thead>
+        <tbody>
+          <tr><td>Archiving</td><td>Metadata-driven relocation of documents across SharePoint libraries and sites</td></tr>
+          <tr><td>Version Cleanup</td><td>Controlled deletion of document versions beyond the defined retention limit</td></tr>
+          <tr><td>Archive Site</td><td>Dedicated SharePoint site for long-term historical data storage</td></tr>
+          <tr><td>Superseded Status</td><td>Automated classification applied to archived documents indicating the record has been moved from active operational use to the archive repository</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div><!-- /content -->
+
+  <footer class="page-footer">
+    <div class="footer-left">
+      <div class="footer-brand">SoftTeco<sup style="font-size:9px;opacity:.5">®</sup></div>
+      <p>ISO 27001 Certified · Est. 2008 · 500+ Experts<br>
+      NBP SharePoint Governance, Archiving &amp; Data Optimization — Fixed-Price Proposal<br>
+      Prepared for ARO Drilling · Version 4.0 · July 2026</p>
+    </div>
+    <div class="footer-links">
+      <a href="mailto:d.viazmin@softteco.com">d.viazmin@softteco.com</a><br>
+      <a href="https://softteco.com" target="_blank">softteco.com</a><br>
+      <span style="color:rgba(255,255,255,.25);font-size:11px;margin-top:6px;display:block">Privileged &amp; Confidential. Not for distribution.</span>
+    </div>
+  </footer>
+</div>
+
+<script>
+function navTo(id,btn){
+  const el=document.getElementById(id);
+  if(!el)return;
+  const top=el.getBoundingClientRect().top+window.pageYOffset-66;
+  window.scrollTo({top,behavior:'smooth'});
+  document.querySelectorAll('.nav-item').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  if(window.innerWidth<=900){
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('overlay').classList.remove('show');
+  }
+}
+function toggleSidebar(){
+  const sb=document.getElementById('sidebar');
+  const ov=document.getElementById('overlay');
+  sb.classList.toggle('open');
+  ov.classList.toggle('show');
+}
+const secMap={
+  'sec-exec':'01','sec-approach':'02','sec-scope':'03','sec-phases':'04','sec-timeline':'05',
+  'sec-migration':'06','sec-storage':'07','sec-workshops':'08','sec-coverage':'09','sec-acceptance':'10',
+  'sec-hypercare':'11','sec-continuity':'12','sec-assump':'13','sec-risk':'14','sec-exclusions':'15',
+  'sec-commercial':'16','sec-about':'A','sec-glossary':'B'
+};
+let scrollSpyActive=true;
+const observer=new IntersectionObserver(entries=>{
+  if(!scrollSpyActive)return;
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const num=secMap[e.target.id];
+      if(!num)return;
+      document.querySelectorAll('.nav-item').forEach(b=>{
+        const n=b.querySelector('.nav-num');
+        if(n&&n.textContent===num)b.classList.add('active');
+        else b.classList.remove('active');
+      });
+    }
+  });
+},{threshold:0.12,rootMargin:'-66px 0px -45% 0px'});
+document.querySelectorAll('.section[id]').forEach(s=>observer.observe(s));
+</script>
+</body>
+</html>
