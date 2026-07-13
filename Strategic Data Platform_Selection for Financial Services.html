@@ -1,0 +1,531 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Strategic Data Platform Selection for Financial Services</title>
+<meta name="description" content="Interactive evaluation of Oracle, Snowflake, Azure and Databricks data platforms for financial services DMP strategy."/>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet"/>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      fontFamily: { sans:['Inter','system-ui','sans-serif'], display:['"Playfair Display"','Georgia','serif'] },
+      colors: {
+        navy:{DEFAULT:'#141f3d',light:'#293656'},
+        gold:{DEFAULT:'#ecb63a',muted:'#f7ecd0'},
+        success:{DEFAULT:'#2f9c6f',bg:'#e8f6ef'},
+        risk:{DEFAULT:'#dc3545',bg:'#fbeaec'},
+        info:{DEFAULT:'#0a75e6',bg:'#e6f1fd'},
+        oracle:'#e6382a', snowflake:'#29b5e8', azure:'#0078d4', databricks:'#ff5a1f',
+        muted:{DEFAULT:'#f0f2f5',foreground:'#66707d'},
+        border:'#dde1e8'
+      }
+    }
+  }
+}
+</script>
+<style>
+html{scroll-behavior:smooth;scroll-padding-top:5rem}
+body{font-family:'Inter',system-ui,sans-serif;background:#f6f7fa;color:#141f3d}
+h1,h2,h3{font-family:'Playfair Display',Georgia,serif}
+.gradient-navy{background:linear-gradient(135deg,#141f3d,#293656)}
+.gradient-accent{background:linear-gradient(135deg,#0a75e6,#3a63d6)}
+.gradient-gold{background:linear-gradient(135deg,#ecb63a,#d99f22)}
+.glass{background:rgba(255,255,255,.85);backdrop-filter:blur(6px);border:1px solid #e2e6ec;box-shadow:0 4px 14px rgba(20,31,61,.06)}
+::-webkit-scrollbar{width:8px;height:8px}::-webkit-scrollbar-thumb{background:#b8bfcc;border-radius:4px}
+.section-pad{padding:5rem 1rem}
+@media(min-width:768px){.section-pad{padding:6rem 2rem}}
+.fade-in{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease}
+.fade-in.visible{opacity:1;transform:translateY(0)}
+details>summary{list-style:none;cursor:pointer}
+details>summary::-webkit-details-marker{display:none}
+details[open] .chev{transform:rotate(180deg)}
+.chev{transition:transform .25s}
+.nav-btn.active{color:#ecb63a}
+.nav-btn.active::after{content:'';position:absolute;left:4px;right:4px;bottom:2px;height:2px;background:#ecb63a;border-radius:2px}
+@media print{.no-print{display:none!important}section{page-break-inside:avoid}}
+</style>
+</head>
+<body>
+
+<!-- STICKY NAV -->
+<nav class="fixed top-0 inset-x-0 z-50 gradient-navy border-b border-navy-light/30 no-print">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="hidden lg:flex items-center h-14 gap-1 overflow-x-auto" id="navDesktop"></div>
+    <div class="lg:hidden flex items-center justify-between h-14">
+      <span class="text-white font-display text-sm font-semibold">DMP Strategy</span>
+      <button id="mobToggle" class="text-white/80 p-2" aria-label="Menu">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </button>
+    </div>
+    <div id="navMobile" class="lg:hidden hidden pb-3 border-t border-white/10"></div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="introduction" class="pt-14">
+  <div class="gradient-navy section-pad min-h-[70vh] flex items-center">
+    <div class="max-w-5xl mx-auto text-center">
+      <span class="inline-block px-4 py-1.5 rounded-full text-xs font-semibold tracking-wider uppercase bg-gold/15 text-gold border border-gold/25 mb-6">Strategic Assessment 2026</span>
+      <h1 class="text-4xl md:text-6xl lg:text-7xl font-display font-bold text-white leading-tight mb-6">Strategic Data Platform<br/><span class="text-gold">Selection for Financial Services</span></h1>
+      <p class="text-lg md:text-xl text-white/70 max-w-3xl mx-auto mb-10">Building Foundations for Traditional Analytics and Future AI Innovation.<br/>Compliance-ready, scalable, AI-forward architectures evaluated.</p>
+      <div class="flex flex-wrap justify-center gap-3">
+        <span class="px-4 py-2 rounded-lg text-sm font-medium bg-white/10 text-white/90 border border-white/15">Compliance-Ready</span>
+        <span class="px-4 py-2 rounded-lg text-sm font-medium bg-white/10 text-white/90 border border-white/15">Scalable</span>
+        <span class="px-4 py-2 rounded-lg text-sm font-medium bg-white/10 text-white/90 border border-white/15">AI-Forward</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Business Context -->
+  <div class="section-pad bg-white">
+    <div class="max-w-5xl mx-auto fade-in">
+      <h2 class="text-3xl md:text-4xl font-display font-bold mb-4">Business Context</h2>
+      <p class="text-muted-foreground mb-8 max-w-2xl">Key requirements driving the data platform decision for financial organizations.</p>
+      <div id="reqGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+    </div>
+  </div>
+
+  <!-- Evaluation Framework -->
+  <div class="section-pad bg-muted/60">
+    <div class="max-w-5xl mx-auto fade-in">
+      <h2 class="text-3xl md:text-4xl font-display font-bold mb-4">Evaluation Framework</h2>
+      <p class="text-muted-foreground mb-10 max-w-2xl">Six critical dimensions guiding our platform assessment.</p>
+      <div id="critGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+    </div>
+  </div>
+</section>
+
+<!-- OPTION SECTIONS -->
+<div id="optionsContainer"></div>
+
+<!-- COMPARISON -->
+<section id="comparison" class="section-pad bg-muted/60">
+  <div class="max-w-6xl mx-auto fade-in">
+    <h2 class="text-3xl md:text-4xl font-display font-bold mb-4">Comparison Matrix</h2>
+    <p class="text-muted-foreground mb-8 max-w-2xl">Side-by-side evaluation across key decision dimensions.</p>
+    <div class="glass rounded-xl overflow-hidden">
+      <div class="overflow-x-auto"><table class="w-full text-sm" id="compTable"></table></div>
+    </div>
+    <div class="flex flex-wrap items-center gap-6 mt-4 text-xs text-muted-foreground justify-end">
+      <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-success-bg border border-success/30"></span>Strong</span>
+      <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-gold-muted border border-gold/30"></span>Moderate</span>
+      <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-risk-bg border border-risk/30"></span>Limited</span>
+    </div>
+  </div>
+</section>
+
+<!-- FINANCIAL REQUIREMENTS -->
+<section id="financial" class="section-pad bg-white">
+  <div class="max-w-5xl mx-auto fade-in">
+    <h2 class="text-3xl md:text-4xl font-display font-bold mb-4">Financial Sector Requirements</h2>
+    <p class="text-muted-foreground mb-10 max-w-2xl">Critical regulatory, compliance, and performance considerations for financial services.</p>
+    <div id="complianceGrid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mb-10"></div>
+    <h3 class="text-xl font-display font-bold mb-5">Performance & Risk Considerations</h3>
+    <div id="perfGrid" class="grid md:grid-cols-3 gap-4"></div>
+  </div>
+</section>
+
+<!-- SELECTOR -->
+<section id="selector" class="section-pad bg-muted/60">
+  <div class="max-w-3xl mx-auto fade-in">
+    <h2 class="text-3xl md:text-4xl font-display font-bold mb-4">Platform Selector</h2>
+    <p class="text-muted-foreground mb-10">Answer five questions to receive a weighted platform recommendation.</p>
+    <div id="wizard" class="glass rounded-2xl p-6 md:p-8"></div>
+  </div>
+</section>
+
+<!-- ROADMAP -->
+<section id="roadmap" class="section-pad bg-white">
+  <div class="max-w-5xl mx-auto fade-in">
+    <h2 class="text-3xl md:text-4xl font-display font-bold mb-4">Implementation Roadmap</h2>
+    <p class="text-muted-foreground mb-12 max-w-2xl">A phased approach from data foundation to AI-driven innovation.</p>
+    <div id="roadmapGrid" class="grid md:grid-cols-3 gap-5"></div>
+  </div>
+</section>
+
+<!-- RECOMMENDATIONS -->
+<section id="recommendations" class="section-pad bg-muted/60">
+  <div class="max-w-5xl mx-auto fade-in">
+    <h2 class="text-3xl md:text-4xl font-display font-bold mb-4">Recommendations & Next Steps</h2>
+    <p class="text-muted-foreground mb-10 max-w-2xl">Strategic actions across three time horizons to ensure successful platform adoption.</p>
+    <div id="recsGrid" class="grid md:grid-cols-3 gap-5 mb-12"></div>
+    <h3 class="text-xl font-display font-bold mb-6">💡 Proof of Concept Framework</h3>
+    <div id="pocGrid" class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4"></div>
+    <div class="mt-16 pt-8 border-t border-border text-center">
+      <p class="text-xs text-muted-foreground">Strategic Data Platform Assessment — Prepared for Leadership Review — 2026</p>
+      <button onclick="window.print()" class="mt-4 no-print px-4 py-2 text-xs rounded-lg gradient-accent text-white font-medium">Print / Save as PDF</button>
+    </div>
+  </div>
+</section>
+
+<script>
+/* ---------- DATA ---------- */
+const NAV = [
+  ['introduction','Introduction'],['oracle','Option 1: Oracle'],['snowflake','Option 2: Snowflake'],
+  ['azure','Option 3: Azure'],['databricks','Option 4: Databricks'],['comparison','Comparison'],
+  ['financial','Financial Focus'],['selector','Platform Selector'],['roadmap','Roadmap'],['recommendations','Recommendations']
+];
+
+const REQUIREMENTS = [
+  'Regulatory compliance (SOX, GDPR, Basel III)',
+  'Data lineage and audit trails',
+  'Real-time fraud detection capabilities',
+  'Scalable risk modeling',
+  'Customer behavior analytics'
+];
+
+const CRITERIA = [
+  ['🛡️','Integration Maturity','Depth of Oracle & legacy system connectivity'],
+  ['📈','Time-to-Value','Speed from deployment to first insights'],
+  ['🧠','AI/ML Readiness','Native machine learning & advanced analytics'],
+  ['🎯','Vendor Flexibility','Multi-cloud & open standards support'],
+  ['📊','Total Cost of Ownership','Licensing, infrastructure, operational costs'],
+  ['⚖️','Team Skill Alignment','Match with existing engineering capabilities']
+];
+
+const OPTIONS = [
+  { id:'oracle', name:'Oracle-Centric (OCI)', subtitle:'Single Vendor Strategy',
+    tag:'Best for Oracle Landscape Continuity', color:'oracle',
+    whenSuitable:'Ideal when your organization has deep existing Oracle investments, requires tight integration with Oracle databases, and values single-vendor support simplicity.',
+    layers:[['Ingestion/CDC','Oracle GoldenGate + API'],['Landing/Raw','OCI Object Storage'],['DWH/Lakehouse','ADW + Data Lake'],['Transform','DBT or Oracle DI'],['Orchestration','Airflow / OCI DI'],['Governance','Oracle Catalog + Policies'],['Data Quality','Great Expectations / Soda'],['BI','Oracle Analytics Cloud / 3rd Party'],['AI/ML','OCI Data Science + Feature Store']],
+    strengths:['Native Oracle ecosystem integration','Fewer integration failure points','Single vendor support & licensing','Strong OLTP-to-analytics pipeline'],
+    risks:['High vendor lock-in','Limited multi-cloud flexibility','Oracle-centric AI/ML tools lag behind','Higher licensing costs'],
+    useCases:['Core banking system integration','Regulatory reporting acceleration','Existing Oracle investment protection','Unified vendor SLA management'] },
+  { id:'snowflake', name:'Snowflake-Centric on AWS', subtitle:'Cloud-Native Analytics',
+    tag:'Cloud-Native Analytics Powerhouse', color:'snowflake',
+    whenSuitable:'Ideal when analytics speed is paramount, you need best-in-class BI performance, and your teams are comfortable with multi-tool architectures.',
+    layers:[['Ingestion/CDC','Fivetran / Matillion + Debezium / Kafka'],['Landing/Raw','Amazon S3'],['DWH','Snowflake (compute/storage separation)'],['Transform','dbt'],['Orchestration','Airflow MWAA / Dagster'],['Governance','Collibra / Alation + AWS Glue'],['Data Quality','Great Expectations / Soda + Observability'],['BI','Power BI / Tableau / QuickSight'],['AI/ML','Snowpark ML + SageMaker + Feature Stores']],
+    strengths:['Excellent analytics performance','Rapid BI/ML time-to-value','Tool ecosystem flexibility','Near-zero maintenance overhead'],
+    risks:['Oracle CDC integration complexity','AWS dependency considerations','Multi-tool management overhead','Consumption-based cost unpredictability'],
+    useCases:['High-frequency trading analytics','Customer churn prediction','Real-time fraud scoring','Spending trend analysis'] },
+  { id:'azure', name:'Microsoft / Azure-Centric', subtitle:'Enterprise Microsoft Ecosystem',
+    tag:'Power BI & Microsoft Ecosystem Excellence', color:'azure',
+    whenSuitable:'Ideal when your organization is Microsoft-centric, Power BI is the standard BI tool, and you want unified governance through Purview.',
+    layers:[['Ingestion','Azure Data Factory + Kafka / Debezium'],['Landing/Raw','ADLS Gen2'],['DWH/Lakehouse','Microsoft Fabric or Azure Synapse'],['Transform','dbt + Spark / native pipelines'],['Governance','Microsoft Purview'],['Data Quality','Great Expectations / Soda'],['BI','Power BI (native integration)'],['AI/ML','Azure Machine Learning + MLOps']],
+    strengths:['Seamless Power BI integration','Comprehensive governance via Purview','Unified Microsoft ecosystem','Strong enterprise compliance tools'],
+    risks:['Oracle migration complexity','Azure service dependency','Microsoft skill requirement','Feature fragmentation across services'],
+    useCases:['Microsoft-centric org transformation','Integrated compliance & governance','Power BI enterprise reporting','Office 365 data integration'] },
+  { id:'databricks', name:'Databricks Lakehouse', subtitle:'Multi-Cloud AI/ML Platform',
+    tag:'AI/ML Innovation & Unified Analytics', color:'databricks',
+    whenSuitable:'Ideal when AI/ML is a strategic priority, you need multi-cloud flexibility, and your teams have strong data engineering capabilities.',
+    layers:[['Ingestion/CDC','Kafka / Debezium + Auto Loader'],['Storage','S3 / ADLS / OCI + Delta Lake'],['Transform/ETL','Spark / Delta Live Tables'],['Governance','Unity Catalog'],['Data Quality','Great Expectations / Soda'],['BI','Power BI / Tableau / custom'],['AI/ML','MLflow + Feature Store + real-time scoring']],
+    strengths:['Best-in-class AI/ML capabilities','Unified ETL + ML engine','Multi-cloud flexibility','Open architecture (Delta Lake, Apache Spark)'],
+    risks:['Additional semantic layer for classic DWH','Spark expertise required','Financial reporting optimization needed','Steeper learning curve'],
+    useCases:['Advanced behavioral segmentation','Real-time fraud detection','Predictive risk modeling','Large-scale customer analytics'] }
+];
+
+const COMPARISON = [
+  ['Integration with Oracle',['high','Native — seamless'],['medium','Via CDC tools'],['medium','Via ADF connectors'],['medium','Via Kafka/Auto Loader']],
+  ['Time-to-Value for BI',['medium','Moderate — Oracle Analytics'],['high','Fast — Snowflake + dbt'],['high','Fast — Power BI native'],['medium','Moderate — needs BI layer']],
+  ['AI/ML Capabilities',['low','Basic — OCI Data Science'],['medium','Growing — Snowpark ML'],['medium','Strong — Azure ML'],['high','Best-in-class — MLflow']],
+  ['Scalability & Flexibility',['medium','OCI scaling, single cloud'],['high','Auto-scale, multi-cloud'],['high','Azure elastic scaling'],['high','Multi-cloud, Spark auto-scale']],
+  ['Governance & Catalog',['medium','Oracle Catalog'],['medium','Collibra / Alation'],['high','Purview — comprehensive'],['high','Unity Catalog']],
+  ['Vendor Lock-in Risk',['low','High lock-in'],['medium','Moderate (AWS + Snowflake)'],['medium','Moderate (Microsoft)'],['high','Low — open standards']],
+  ['Cost Predictability',['medium','License-based, predictable'],['low','Consumption-based, variable'],['medium','Mixed model'],['low','Consumption-based, variable']],
+  ['Financial Compliance',['high','Strong audit trails'],['high','SOC 2, HIPAA ready'],['high','Comprehensive compliance'],['medium','Growing compliance suite']]
+];
+
+const COMPLIANCE = [
+  ['📄','Data Lineage & Audit Trails','End-to-end tracking of data transformations and access for regulatory audits'],
+  ['🌍','GDPR / CCPA Compliance','Data privacy controls, consent management, and right-to-be-forgotten support'],
+  ['🛡️','Financial Reporting Standards','SOX compliance, Basel III data requirements, and IFRS/GAAP support'],
+  ['🔒','Security & Encryption','AES-256 encryption at rest, TLS in transit, key management integration'],
+  ['🖥️','Disaster Recovery & BC','RPO/RTO targets, cross-region replication, automated failover'],
+  ['👥','Cross-Border Data Compliance','Data residency controls, transfer mechanisms, and sovereignty management']
+];
+
+const PERFORMANCE = [
+  ['⚡','Trading System Latency','Sub-millisecond requirements for high-frequency trading analytics'],
+  ['👁️','Fraud Detection Response','Real-time scoring within 100ms for transaction-level fraud detection'],
+  ['👥','Customer Data Privacy','PII masking, tokenization, and differential privacy for analytics']
+];
+
+const QUESTIONS = [
+  { id:'environment', question:'What is your current data environment?', options:[
+    ['Oracle-heavy','oracle','Primarily Oracle databases and tools'],
+    ['Mixed landscape','mixed','Multiple vendors and technologies'],
+    ['Cloud-native','cloud','Already on cloud platforms'],
+    ['Microsoft-centric','microsoft','Office 365, SQL Server, Azure']]},
+  { id:'goal', question:'What is your primary strategic goal?', options:[
+    ['BI Speed','bi','Fast analytics & reporting'],
+    ['AI Innovation','ai','Advanced ML & predictive models'],
+    ['Governance','governance','Compliance & data catalog'],
+    ['Cost Optimization','cost','Reduce TCO']]},
+  { id:'skills', question:"What are your team's primary skills?", options:[
+    ['Oracle / PL-SQL','oracle','Strong Oracle expertise'],
+    ['Microsoft / .NET','microsoft','Microsoft stack proficiency'],
+    ['Open Source / Python','opensource','Python, Spark, OSS tools'],
+    ['Mixed / Learning','mixed','Diverse or developing skills']]},
+  { id:'risk', question:'What is your risk appetite?', options:[
+    ['Conservative','conservative','Minimize change, proven tech'],
+    ['Balanced','balanced','Measured innovation'],
+    ['Innovative','innovative','Embrace cutting-edge tech']]},
+  { id:'timeline', question:'What is your implementation timeline?', options:[
+    ['< 6 months','short','Quick wins needed'],
+    ['6-12 months','medium','Phased rollout'],
+    ['12+ months','long','Strategic transformation']]}
+];
+
+const PLATFORM_NAMES = { oracle:'Oracle-Centric (OCI)', snowflake:'Snowflake on AWS', azure:'Microsoft / Azure', databricks:'Databricks Lakehouse' };
+
+const ROADMAP = [
+  { period:'0 – 6 months', label:'Phase 1: Foundation', color:'gradient-accent',
+    items:['Data ingestion pipeline setup','Core DWH / Lakehouse deployment','Basic governance framework','Initial data quality gates','Team onboarding & training']},
+  { period:'6 – 18 months', label:'Phase 2: Enhancement', color:'gradient-gold',
+    items:['Advanced analytics layer','ML model development & MLOps','Real-time streaming capabilities','Self-service BI rollout','Data catalog expansion']},
+  { period:'18 – 36 months', label:'Phase 3: Innovation', color:'gradient-navy',
+    items:['AI-driven automation','Predictive analytics at scale','Business process integration','Advanced fraud detection (real-time)','Continuous optimization & cost control']}
+];
+
+const RECS = [
+  ['⏱️','Short-Term (90 Days)','bg-info',['Conduct detailed PoC scoping for top 2 platform candidates','Assess current Oracle landscape and migration readiness','Define success metrics and KPIs for platform evaluation','Stakeholder alignment workshops']],
+  ['📅','Medium-Term (6-12 Mo)','bg-gold',['Execute proof of concept with selected platform(s)','Develop detailed migration plan for Oracle workloads','Establish data governance framework and catalog','Begin Phase 1 foundation deployment']],
+  ['🧭','Long-Term (12+ Mo)','bg-navy',['Full platform migration and optimization','AI/ML model pipeline operationalization','Real-time analytics and fraud detection go-live','Cross-functional data literacy program']]
+];
+
+const POC = [
+  ['Scope','2-3 representative workloads including one Oracle-sourced pipeline'],
+  ['Duration','6-8 weeks per platform candidate'],
+  ['Success Criteria','Performance benchmarks, TCO validation, team adoption metrics'],
+  ['Team','3-5 engineers + 1 architect + business stakeholder']
+];
+
+/* ---------- RENDER ---------- */
+const $ = s => document.querySelector(s);
+const el = (h) => { const d=document.createElement('div'); d.innerHTML=h.trim(); return d.firstElementChild; };
+
+// Nav
+function renderNav(){
+  const dsk = NAV.map(([id,label])=>`<button data-id="${id}" class="nav-btn relative px-3 py-2 text-xs font-medium rounded-md text-white/70 hover:text-white whitespace-nowrap">${label}</button>`).join('');
+  $('#navDesktop').innerHTML = dsk;
+  $('#navMobile').innerHTML = NAV.map(([id,label])=>`<button data-id="${id}" class="nav-btn block w-full text-left px-6 py-2.5 text-sm text-white/70">${label}</button>`).join('');
+  document.querySelectorAll('.nav-btn').forEach(b=>b.addEventListener('click',()=>{
+    document.getElementById(b.dataset.id)?.scrollIntoView({behavior:'smooth'});
+    $('#navMobile').classList.add('hidden');
+  }));
+}
+$('#mobToggle').addEventListener('click',()=>$('#navMobile').classList.toggle('hidden'));
+
+// Requirements + criteria
+$('#reqGrid').innerHTML = REQUIREMENTS.map((r,i)=>`
+  <div class="glass rounded-xl p-5">
+    <div class="w-8 h-8 rounded-lg gradient-accent flex items-center justify-center text-white text-sm font-bold mb-3">${i+1}</div>
+    <p class="text-sm font-medium">${r}</p>
+  </div>`).join('');
+
+$('#critGrid').innerHTML = CRITERIA.map(([ic,l,d])=>`
+  <div class="glass rounded-xl p-6 hover:shadow-xl transition-shadow">
+    <div class="w-10 h-10 rounded-lg bg-info/10 flex items-center justify-center mb-4 text-xl">${ic}</div>
+    <h3 class="font-semibold mb-1">${l}</h3>
+    <p class="text-sm text-muted-foreground">${d}</p>
+  </div>`).join('');
+
+// Options
+const colorBg = { oracle:'border-oracle/30 bg-oracle/5', snowflake:'border-snowflake/30 bg-snowflake/5', azure:'border-azure/30 bg-azure/5', databricks:'border-databricks/30 bg-databricks/5' };
+const colorBar = { oracle:'bg-oracle', snowflake:'bg-snowflake', azure:'bg-azure', databricks:'bg-databricks' };
+const colorTag = { oracle:'bg-oracle/15 text-oracle border-oracle/30', snowflake:'bg-snowflake/15 text-snowflake border-snowflake/30', azure:'bg-azure/15 text-azure border-azure/30', databricks:'bg-databricks/15 text-databricks border-databricks/30' };
+
+$('#optionsContainer').innerHTML = OPTIONS.map((o,i)=>`
+<section id="${o.id}" class="section-pad bg-white">
+  <div class="max-w-5xl mx-auto">
+    <div class="mb-8 fade-in">
+      <span class="text-xs font-semibold tracking-wider uppercase text-muted-foreground mb-2 block">Option ${i+1}</span>
+      <h2 class="text-3xl md:text-4xl font-display font-bold mb-2">${o.name}</h2>
+      <p class="text-lg text-muted-foreground">${o.subtitle}</p>
+    </div>
+    <div class="rounded-xl border-2 p-6 mb-6 ${colorBg[o.color]}">
+      <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold border mb-4 ${colorTag[o.color]}">${o.tag}</span>
+      <p class="font-medium">${o.whenSuitable}</p>
+    </div>
+    <details class="glass rounded-xl mb-6">
+      <summary class="flex items-center justify-between p-5 hover:bg-muted/30 transition-colors">
+        <div class="flex items-center gap-3">
+          <span class="text-info text-lg">▦</span>
+          <span class="font-semibold">Architecture Layers</span>
+          <span class="text-xs text-muted-foreground">(${o.layers.length} layers)</span>
+        </div>
+        <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </summary>
+      <div class="px-5 pb-5 space-y-2">
+        ${o.layers.map(([n,t])=>`
+          <div class="flex items-stretch rounded-lg overflow-hidden border border-border">
+            <div class="w-1.5 ${colorBar[o.color]}"></div>
+            <div class="flex-1 px-4 py-3 flex flex-wrap items-center justify-between gap-2">
+              <span class="text-sm font-medium">${n}</span>
+              <span class="text-xs text-muted-foreground font-mono bg-muted px-2 py-0.5 rounded">${t}</span>
+            </div>
+          </div>`).join('')}
+      </div>
+    </details>
+    <div class="grid md:grid-cols-2 gap-4 mb-6">
+      <div class="rounded-xl border-2 border-success/20 bg-success-bg p-5">
+        <h4 class="flex items-center gap-2 font-semibold text-success mb-4">✓ Strengths</h4>
+        <ul class="space-y-2.5">${o.strengths.map(s=>`<li class="flex items-start gap-2 text-sm"><span class="mt-1 w-1.5 h-1.5 rounded-full bg-success shrink-0"></span>${s}</li>`).join('')}</ul>
+      </div>
+      <div class="rounded-xl border-2 border-risk/20 bg-risk-bg p-5">
+        <h4 class="flex items-center gap-2 font-semibold text-risk mb-4">⚠ Risks</h4>
+        <ul class="space-y-2.5">${o.risks.map(r=>`<li class="flex items-start gap-2 text-sm"><span class="mt-1 w-1.5 h-1.5 rounded-full bg-risk shrink-0"></span>${r}</li>`).join('')}</ul>
+      </div>
+    </div>
+    <div class="glass rounded-xl p-5">
+      <h4 class="font-semibold mb-4">💼 Financial Services Use Cases</h4>
+      <div class="grid sm:grid-cols-2 gap-3">
+        ${o.useCases.map(u=>`<div class="flex items-center gap-2 text-sm bg-muted/70 rounded-lg px-4 py-2.5"><span class="text-info font-bold">→</span>${u}</div>`).join('')}
+      </div>
+    </div>
+  </div>
+</section>`).join('');
+
+// Comparison table
+const ratingCls = { high:'bg-success-bg text-success font-semibold', medium:'bg-gold-muted text-navy', low:'bg-risk-bg text-risk' };
+const ratingSym = { high:'●', medium:'◐', low:'○' };
+$('#compTable').innerHTML = `
+  <thead><tr class="border-b border-border">
+    <th class="text-left p-4 font-semibold min-w-[180px]">Category</th>
+    ${[['oracle','Oracle / OCI'],['snowflake','Snowflake / AWS'],['azure','Microsoft / Azure'],['databricks','Databricks']].map(([k,n])=>`
+      <th class="p-4 font-semibold text-center min-w-[160px]"><span class="inline-flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-${k}"></span>${n}</span></th>`).join('')}
+  </tr></thead>
+  <tbody>${COMPARISON.map(row=>`
+    <tr class="border-b border-border/50 hover:bg-muted/40 transition-colors">
+      <td class="p-4 font-medium">${row[0]}</td>
+      ${row.slice(1).map(([r,t])=>`<td class="p-4 text-center"><div class="inline-block px-3 py-1.5 rounded-lg text-xs ${ratingCls[r]}"><span class="mr-1.5">${ratingSym[r]}</span>${t}</div></td>`).join('')}
+    </tr>`).join('')}
+  </tbody>`;
+
+// Compliance/perf
+$('#complianceGrid').innerHTML = COMPLIANCE.map(([ic,t,d])=>`
+  <div class="glass rounded-xl p-5 hover:shadow-lg transition-shadow">
+    <div class="w-9 h-9 rounded-lg bg-info/10 flex items-center justify-center mb-3 text-lg">${ic}</div>
+    <h3 class="font-semibold text-sm mb-1">${t}</h3>
+    <p class="text-xs text-muted-foreground">${d}</p>
+  </div>`).join('');
+$('#perfGrid').innerHTML = PERFORMANCE.map(([ic,t,d])=>`
+  <div class="rounded-xl border-2 border-info/20 bg-info-bg p-5">
+    <div class="mb-3 text-lg">${ic}</div>
+    <h3 class="font-semibold text-sm mb-1">${t}</h3>
+    <p class="text-xs text-muted-foreground">${d}</p>
+  </div>`).join('');
+
+// Selector wizard
+const wiz = { step:0, answers:{}, done:false };
+function computeScores(a){
+  const s={oracle:0,snowflake:0,azure:0,databricks:0};
+  if(a.environment==='oracle'){s.oracle+=3;s.snowflake+=1}
+  if(a.environment==='mixed'){s.snowflake+=2;s.databricks+=2}
+  if(a.environment==='cloud'){s.snowflake+=3;s.databricks+=2}
+  if(a.environment==='microsoft'){s.azure+=3}
+  if(a.goal==='bi'){s.snowflake+=3;s.azure+=2}
+  if(a.goal==='ai'){s.databricks+=3;s.snowflake+=1}
+  if(a.goal==='governance'){s.azure+=3;s.oracle+=1}
+  if(a.goal==='cost'){s.oracle+=2;s.azure+=1}
+  if(a.skills==='oracle'){s.oracle+=3}
+  if(a.skills==='microsoft'){s.azure+=3}
+  if(a.skills==='opensource'){s.databricks+=3;s.snowflake+=1}
+  if(a.skills==='mixed'){s.snowflake+=2;s.azure+=1}
+  if(a.risk==='conservative'){s.oracle+=2;s.azure+=1}
+  if(a.risk==='balanced'){s.snowflake+=2;s.azure+=2}
+  if(a.risk==='innovative'){s.databricks+=3;s.snowflake+=1}
+  if(a.timeline==='short'){s.snowflake+=2;s.azure+=2}
+  if(a.timeline==='medium'){s.snowflake+=1;s.azure+=1;s.databricks+=1}
+  if(a.timeline==='long'){s.databricks+=2;s.oracle+=1}
+  return s;
+}
+function renderWizard(){
+  const w = $('#wizard');
+  if(wiz.done){
+    const scores = computeScores(wiz.answers);
+    const sorted = Object.entries(scores).sort((a,b)=>b[1]-a[1]);
+    const max = sorted[0][1];
+    w.innerHTML = `
+      <div class="text-center mb-8">
+        <div class="w-14 h-14 rounded-2xl gradient-gold flex items-center justify-center mx-auto mb-4 text-2xl">🏆</div>
+        <h3 class="text-2xl font-display font-bold mb-2">Recommended Platform</h3>
+        <p class="text-lg font-semibold text-info">${PLATFORM_NAMES[sorted[0][0]]}</p>
+        <p class="text-sm text-muted-foreground mt-1">Runner-up: ${PLATFORM_NAMES[sorted[1][0]]}</p>
+      </div>
+      <div class="space-y-3 mb-8">
+        ${sorted.map(([k,v],i)=>`
+          <div>
+            <div class="flex justify-between text-sm mb-1"><span class="font-medium">${PLATFORM_NAMES[k]}</span><span class="text-muted-foreground">${v} pts</span></div>
+            <div class="h-3 bg-muted rounded-full overflow-hidden">
+              <div class="h-full rounded-full ${i===0?'gradient-accent':'bg-muted-foreground/40'}" style="width:${(v/max)*100}%;transition:width .8s ease"></div>
+            </div>
+          </div>`).join('')}
+      </div>
+      <button id="wizReset" class="flex items-center gap-2 mx-auto text-sm font-medium text-info hover:opacity-80">↻ Retake Assessment</button>`;
+    $('#wizReset').addEventListener('click',()=>{wiz.step=0;wiz.answers={};wiz.done=false;renderWizard()});
+    return;
+  }
+  const q = QUESTIONS[wiz.step];
+  w.innerHTML = `
+    <div class="flex items-center gap-2 mb-8">
+      ${QUESTIONS.map((_,i)=>`<div class="h-1.5 flex-1 rounded-full ${i<=wiz.step?'gradient-accent':'bg-border'}"></div>`).join('')}
+    </div>
+    <p class="text-xs text-muted-foreground mb-2">Question ${wiz.step+1} of ${QUESTIONS.length}</p>
+    <h3 class="text-xl font-display font-semibold mb-6">${q.question}</h3>
+    <div class="space-y-3">
+      ${q.options.map(([l,v,d])=>`
+        <button data-val="${v}" class="wiz-opt w-full text-left rounded-xl border-2 border-border p-4 hover:border-info/40 hover:shadow-md transition-all">
+          <span class="font-medium block">${l}</span>
+          <span class="text-xs text-muted-foreground">${d}</span>
+        </button>`).join('')}
+    </div>
+    ${wiz.step>0?`<button id="wizBack" class="mt-6 flex items-center gap-2 text-sm text-muted-foreground hover:text-navy">← Previous</button>`:''}
+  `;
+  w.querySelectorAll('.wiz-opt').forEach(b=>b.addEventListener('click',()=>{
+    wiz.answers[q.id] = b.dataset.val;
+    b.classList.add('border-info','bg-info-bg');
+    setTimeout(()=>{
+      if(wiz.step === QUESTIONS.length-1){wiz.done=true} else {wiz.step++}
+      renderWizard();
+    },250);
+  }));
+  const bk = $('#wizBack'); if(bk) bk.addEventListener('click',()=>{wiz.step--;renderWizard()});
+}
+
+// Roadmap
+$('#roadmapGrid').innerHTML = ROADMAP.map(p=>`
+  <div class="glass rounded-xl p-6">
+    <div class="inline-block px-3 py-1 rounded-full text-xs font-bold text-white ${p.color} mb-3">${p.period}</div>
+    <h3 class="text-lg font-display font-bold mb-4">${p.label}</h3>
+    <ul class="space-y-2">${p.items.map(i=>`<li class="flex items-start gap-2 text-sm text-muted-foreground"><span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-info shrink-0"></span>${i}</li>`).join('')}</ul>
+  </div>`).join('');
+
+// Recommendations
+$('#recsGrid').innerHTML = RECS.map(([ic,t,c,items])=>`
+  <div class="glass rounded-xl p-6">
+    <div class="w-9 h-9 rounded-lg ${c} flex items-center justify-center mb-4 text-white text-lg">${ic}</div>
+    <h3 class="font-semibold mb-4">${t}</h3>
+    <ul class="space-y-3">${items.map(i=>`<li class="flex items-start gap-2 text-sm text-muted-foreground"><span class="text-success shrink-0">✓</span>${i}</li>`).join('')}</ul>
+  </div>`).join('');
+$('#pocGrid').innerHTML = POC.map(([t,d])=>`
+  <div class="glass rounded-xl p-5">
+    <h4 class="font-semibold text-info text-sm mb-2">${t}</h4>
+    <p class="text-xs text-muted-foreground">${d}</p>
+  </div>`).join('');
+
+// Init
+renderNav();
+renderWizard();
+
+// Scroll spy
+const io = new IntersectionObserver(entries=>{
+  const vis = entries.filter(e=>e.isIntersecting);
+  if(vis.length){
+    const id = vis[0].target.id;
+    document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active', b.dataset.id===id));
+  }
+},{rootMargin:'-80px 0px -60% 0px', threshold:0.1});
+NAV.forEach(([id])=>{ const el=document.getElementById(id); if(el) io.observe(el); });
+
+// Fade in
+const fio = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('visible'); fio.unobserve(e.target); } });
+},{threshold:0.15});
+document.querySelectorAll('.fade-in').forEach(e=>fio.observe(e));
+</script>
+</body>
+</html>
