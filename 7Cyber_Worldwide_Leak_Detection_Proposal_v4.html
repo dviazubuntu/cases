@@ -1,0 +1,1338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Worldwide Leak Detection Module — 7Cyber Technical &amp; Commercial Proposal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Commissioner:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0A4D68;
+            --accent: #088395;
+            --gold: #C5A05E;
+            --dark: #05161A;
+            --light: #F8F9FA;
+            --gradient: linear-gradient(135deg, #0A4D68 0%, #088395 50%, #05B2C6 100%);
+            --pattern-opacity: 0.05;
+            --mdm-purple: #7c3aed;
+            --mdm-blue: #3b82f6;
+            --mdm-green: #10b981;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Commissioner', sans-serif; background: var(--light); color: var(--dark); overflow-x: hidden; line-height: 1.6; }
+        .pattern-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; opacity: var(--pattern-opacity);
+            background-image: repeating-linear-gradient(45deg, var(--primary) 0px, var(--primary) 2px, transparent 2px, transparent 10px),
+                repeating-linear-gradient(-45deg, var(--accent) 0px, var(--accent) 2px, transparent 2px, transparent 10px);
+            pointer-events: none; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; position: relative; z-index: 1; }
+        header { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: var(--gradient); position: relative; overflow: hidden; }
+        .hero-glow { position: absolute; width: 600px; height: 600px; background: radial-gradient(circle, rgba(197, 160, 94, 0.3) 0%, transparent 70%); border-radius: 50%; filter: blur(80px); animation: float 8s ease-in-out infinite; }
+        @keyframes float { 0%, 100% { transform: translate(0, 0) scale(1); } 50% { transform: translate(100px, -50px) scale(1.1); } }
+        .hero-content { text-align: center; color: white; position: relative; z-index: 2; animation: fadeInUp 1s ease-out; }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.5rem, 6vw, 5rem); font-weight: 900; margin-bottom: 1rem; letter-spacing: -0.02em; text-shadow: 0 4px 30px rgba(0, 0, 0, 0.3); }
+        .subtitle { font-size: clamp(1rem, 2vw, 1.5rem); font-weight: 300; margin-bottom: 3rem; opacity: 0.95; max-width: 800px; margin-left: auto; margin-right: auto; }
+        .badge { display: inline-block; background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(10px); padding: 0.5rem 1.5rem; border-radius: 50px; font-size: 0.9rem; font-weight: 600; margin-bottom: 2rem; border: 1px solid rgba(255, 255, 255, 0.2); }
+        section { padding: 6rem 0; animation: fadeIn 0.8s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        h2 { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 4vw, 3rem); margin-bottom: 3rem; color: var(--primary); position: relative; display: inline-block; }
+        h2::after { content: ''; position: absolute; bottom: -10px; left: 0; width: 60%; height: 3px; background: var(--gold); }
+        h3 { font-family: 'Playfair Display', serif; font-size: 1.5rem; margin-bottom: 1rem; color: var(--primary); }
+        .architecture { background: white; border-radius: 20px; padding: 3rem; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1); margin-top: 2rem; }
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 3rem; }
+        .feature-card { background: white; padding: 2.5rem; border-radius: 20px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); border-left: 4px solid var(--accent); transition: all 0.3s ease; }
+        .feature-card:hover { transform: translateY(-8px); box-shadow: 0 20px 50px rgba(0, 0, 0, 0.12); border-left-color: var(--gold); }
+        .feature-icon { font-size: 2.5rem; margin-bottom: 1.5rem; display: block; }
+        .benefits { background: linear-gradient(135deg, rgba(10, 77, 104, 0.05) 0%, rgba(8, 131, 149, 0.05) 100%); padding: 4rem; border-radius: 20px; margin-top: 2rem; }
+        .benefit-item { display: flex; align-items: flex-start; margin-bottom: 2rem; padding: 1.5rem; background: white; border-radius: 15px; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05); transition: transform 0.3s ease; }
+        .benefit-item:hover { transform: translateX(10px); }
+        .benefit-icon { font-size: 2rem; margin-right: 1.5rem; color: var(--accent); min-width: 50px; }
+        .cta { text-align: center; padding: 5rem 0; background: var(--gradient); color: white; border-radius: 20px; margin: 4rem 0; }
+        .cta-button { display: inline-block; padding: 1.2rem 3rem; background: var(--gold); color: var(--dark); text-decoration: none; border-radius: 50px; font-weight: 700; font-size: 1.1rem; transition: all 0.3s ease; box-shadow: 0 10px 30px rgba(197, 160, 94, 0.3); }
+        .cta-button:hover { transform: translateY(-3px); box-shadow: 0 15px 40px rgba(197, 160, 94, 0.5); }
+        .layer-box { background: white; padding: 2rem; border-radius: 15px; margin-bottom: 2rem; border-left: 5px solid var(--accent); box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08); }
+        .layer-box h4 { color: var(--primary); margin-bottom: 1rem; font-size: 1.3rem; }
+        .layer-box ul { margin-left: 1.5rem; }
+        .layer-box li { margin-bottom: 0.6rem; font-size: 0.95rem; }
+        .cost-box { background: linear-gradient(135deg, rgba(10, 77, 104, 0.1) 0%, rgba(8, 131, 149, 0.1) 100%); padding: 2rem; border-radius: 15px; border: 2px solid var(--accent); margin: 2rem 0; text-align: center; }
+        .cost-box h4 { color: var(--primary); margin-bottom: 1rem; font-size: 1.3rem; }
+        .cost-value { font-size: 2.5rem; font-weight: 900; color: var(--accent); margin: 1rem 0; }
+        .cost-description { color: var(--dark); font-size: 0.95rem; }
+        .highlight { background: rgba(197, 160, 94, 0.2); padding: 2rem; border-left: 4px solid var(--gold); border-radius: 10px; margin: 2rem 0; }
+        .highlight h4 { color: var(--primary); margin-bottom: 1rem; }
+        .estimation-table { width: 100%; border-collapse: collapse; margin-top: 2rem; background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); }
+        .estimation-table th { background: var(--primary); color: white; padding: 1.5rem; text-align: left; font-weight: 600; }
+        .estimation-table td { padding: 1.5rem; border-bottom: 1px solid #eee; }
+        .estimation-table tr:last-child td { border-bottom: none; }
+        .estimation-table tr:hover { background: #f8f9fa; }
+        ul, ol { margin-left: 2rem; margin-top: 1rem; }
+        li { margin-bottom: 0.8rem; }
+        footer { background: var(--dark); color: var(--light); text-align: center; padding: 3rem 0; margin-top: 6rem; }
+        footer p { margin: 0.5rem 0; }
+        .risk-card { background: #fff8e6; border-left: 4px solid #ff9800; padding: 1.2rem 1.5rem; border-radius: 10px; margin-bottom: 1rem; }
+        .risk-card strong { color: #b26a00; }
+        .stack-pill { display: inline-block; background: white; border: 1.5px solid var(--accent); color: var(--primary); padding: 0.4rem 0.9rem; border-radius: 20px; font-size: 0.85rem; font-weight: 600; margin-right: 0.5rem; margin-bottom: 0.5rem; }
+        .stack-pill.ai { border-color: var(--mdm-purple); color: var(--mdm-purple); }
+        .stack-pill.platform { border-color: var(--mdm-blue); color: var(--mdm-blue); }
+        .stack-pill.data { border-color: var(--mdm-green); color: #0a7a52; }
+        .module-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; margin-top: 2rem; }
+        .module-card { background: white; border: 1px solid #e5e5e5; border-top: 6px solid var(--accent); border-radius: 15px; padding: 2rem; transition: all 0.3s ease; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05); }
+        .module-card:hover { transform: translateY(-4px); box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1); border-top-color: var(--gold); }
+        .module-number { display: inline-block; background: var(--primary); color: white; width: 36px; height: 36px; border-radius: 50%; text-align: center; line-height: 36px; font-weight: 700; margin-bottom: 1rem; font-family: 'Playfair Display', serif; }
+        .module-card h4 { color: var(--primary); margin-bottom: 0.8rem; font-size: 1.25rem; }
+        .module-card .module-desc { color: #555; font-size: 0.95rem; margin-bottom: 1rem; }
+        .pipeline-flow { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; margin: 2rem 0; }
+        .pipeline-step { background: white; border: 1.5px solid var(--accent); border-radius: 12px; padding: 1rem 1.2rem; font-size: 0.85rem; font-weight: 600; color: var(--primary); flex: 1; min-width: 140px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        .pipeline-arrow { color: var(--gold); font-size: 1.3rem; font-weight: 900; }
+        .addon-section { border-top: 6px solid var(--mdm-purple); border-bottom: 6px solid var(--mdm-purple); background: linear-gradient(180deg, rgba(124,58,237,0.06) 0%, rgba(124,58,237,0.02) 100%); }
+        .addon-badge { display: inline-block; background: var(--mdm-purple); color: white; padding: 0.4rem 1.2rem; border-radius: 20px; font-size: 0.85rem; font-weight: 700; letter-spacing: 0.03em; margin-bottom: 1.5rem; text-transform: uppercase; }
+        .addon-price-box { background: white; border: 2px solid var(--mdm-purple); border-radius: 15px; padding: 2rem; text-align: center; box-shadow: 0 10px 30px rgba(124,58,237,0.12); }
+        .addon-price-box h4 { color: var(--mdm-purple); margin-bottom: 1rem; font-size: 1.2rem; }
+        .addon-price-value { font-size: 2.2rem; font-weight: 900; color: var(--mdm-purple); margin: 0.5rem 0; }
+        .flow-diagram { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; margin: 2rem 0; justify-content: center; }
+        .flow-node { background: white; border: 1.5px solid var(--mdm-purple); border-radius: 12px; padding: 1rem 1.3rem; font-size: 0.85rem; font-weight: 600; color: var(--mdm-purple); text-align: center; box-shadow: 0 4px 12px rgba(124,58,237,0.08); min-width: 130px; }
+        .flow-arrow { color: var(--mdm-purple); font-size: 1.3rem; font-weight: 900; }
+    </style>
+</head>
+<body>
+    <div class="pattern-bg"></div>
+
+    <!-- Hero Section -->
+    <header>
+        <div class="hero-glow"></div>
+        <div class="hero-content">
+            <div class="container">
+                <div class="badge">🔍 Worldwide Leak Detection Module · Technical &amp; Commercial Proposal</div>
+                <h1>Worldwide Leak Detection Module</h1>
+                <p class="subtitle">
+                    A React portal that scans a domain or file across six intelligence sources, presents the results in dashboard views aligned with 7Cyber's report examples, gives 7Cyber's team an admin panel to run the service, and can export scan results to a client's SIEM in four standard formats. Built on the same lightweight serverless backend as the previous version.
+                </p>
+                <p style="font-size: 1.1rem; margin-bottom: 2rem; opacity: 0.9;">
+                    <strong>Prepared for:</strong> 7Cyber &nbsp;·&nbsp; <strong>Scope:</strong> Worldwide Leak Detection Module (report-aligned build, plus SIEM export) &nbsp;·&nbsp; <strong>Aligned to:</strong> 7Cyber's "Worldwide Leak Detection Module" Technical Specification (v2), the two report examples provided by 7Cyber, and 7Cyber's confirmed SIEM Integration Module specification
+                </p>
+                <a href="#overview" class="cta-button">Explore the Solution</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- What Changed -->
+    <section id="overview">
+        <div class="container">
+            <h2>Rescoped Around 7Cyber's Feedback</h2>
+            <p style="font-size: 1.1rem; margin-bottom: 2rem;">
+                7Cyber reviewed the previous version and raised three points: the platform's dashboards should follow the structure of 7Cyber's existing reports, 7Cyber's own team needs an admin panel, and scan history and technical logs must live in a cloud database with a JSON export path. The follow-up call clarified an important boundary: the platform does not need to build its own analytical or classification engine. Findings arrive already classified from the intelligence services; the platform receives, stores, and visualises them. That boundary is what keeps this increase contained. A further follow-up call added a fourth item: SIEM integration. An earlier draft of that concept was based on a misunderstanding and has been removed from this proposal entirely. The corrected concept, confirmed by 7Cyber and detailed in a written specification, is scoped, costed, and clearly marked as its own addition in a dedicated section below.
+            </p>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+                <div class="layer-box" style="border-left-color: var(--mdm-purple);">
+                    <h4>📊 Dashboards Aligned to Your Reports</h4>
+                    <p style="color:#555; font-size:0.95rem;">Thirteen panels mapped against the two report examples 7Cyber provided, including the global exposure map, the risk heat map, and the exposure-over-time trend. Built from stored scan history, without an analytics warehouse.</p>
+                </div>
+                <div class="layer-box" style="border-left-color: var(--gold);">
+                    <h4>🛠️ A Lightweight Admin Panel</h4>
+                    <p style="color:#555; font-size:0.95rem;">A compact admin area for 7Cyber's team: clients and their plans, monitored domains and remaining scan quota, next scan date, scan history, and JSON export. A few screens, not an operations centre.</p>
+                </div>
+                <div class="layer-box" style="border-left-color: var(--mdm-purple);">
+                    <h4>📤 SIEM Export, Push or Pull (New, Corrected)</h4>
+                    <p style="color:#555; font-size:0.95rem;">The portal converts stored results into JSON, CEF, Syslog RFC 5424, or RFC 3164, and either pushes them to a client-specified host or makes them available for download. Full detail in its own section below.</p>
+                </div>
+                <div class="layer-box" style="border-left-color: var(--accent);">
+                    <h4>💰 One Price, Fully Reconciled</h4>
+                    <p style="color:#555; font-size:0.95rem;">AED 68,719 (~US$18.7K), computed off the same named Rate Card rates and the same two-developer core team throughout. AED 28,239 above the original lean version — AED 15,436 of that is the corrected SIEM export add-on.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- The Problem -->
+    <section style="background: #f8f9fa;">
+        <div class="container">
+            <h2>The Problem This Module Solves</h2>
+            <p style="font-size: 1.1rem; margin-bottom: 2rem;">
+                Clients need a fast, evidence-backed answer to "what of ours is already exposed?", without manually querying six different intelligence tools themselves. The module lets a client submit either a domain or an uploaded file, dispatches that input across six specialised external intelligence services running as five parallel jobs, aggregates, deduplicates and normalises the findings as the services classify them, applies the specified 0–100 weighting, and presents the result as a report-aligned dashboard the client can export. Once enrolled, the scan re-runs automatically every month with a new-vs-resolved delta, and every run is retained with its execution record.
+            </p>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <span class="feature-icon">🌐</span>
+                    <h3>Path A — Domain Input</h3>
+                    <p>Client enters a domain. The system dispatches direct, parallel requests to all six intelligence services, with no pre-processing required.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">📎</span>
+                    <h3>Path B — File / Photo Upload</h3>
+                    <p>Client uploads a Vision-supported file (JPEG, PNG, WEBP, PDF, or TIFF). Google Vision API extracts text and entities first; those drive the same six-service lookup.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">📊</span>
+                    <h3>One Score, Six Sources</h3>
+                    <p>Intelligence X, DarkOWL, FOFA, Shodan, tgstate, and Grayhatwarfare findings are normalised and weighted into a single 0–100 Digital Risk Score.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">📄</span>
+                    <h3>Report-Aligned Dashboard</h3>
+                    <p>Results render across thirteen panels mapped to 7Cyber's own report examples, including the global exposure map, risk heat map, and exposure trend. Exportable from the browser.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🛠️</span>
+                    <h3>7Cyber Admin Panel</h3>
+                    <p>A compact admin area for 7Cyber's team: clients, plans, monitored domains and remaining scan quota, next scan date, scan history, logs, and JSON export.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🔁</span>
+                    <h3>Monthly Monitoring</h3>
+                    <p>An automated scheduler re-runs each enrolled client's scan monthly, computes the delta against the prior run, and raises email alerts for new findings meeting the agreed critical-alert criteria. Every run is retained with its execution log.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🔒</span>
+                    <h3>Tenant-Isolated by Design</h3>
+                    <p>Every finding, scan, and log entry is scoped to a tenant record and a tenant data path, with no cross-tenant visibility. Integration configuration is tenant-specific; actual credentials live in Secret Manager.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Scope -->
+    <section>
+        <div class="container">
+            <h2>Scope of the Build</h2>
+            <p style="font-size: 1.1rem; margin-bottom: 2rem;">
+                The same pipeline, the same six sources, and the same risk-scoring model, now delivered with report-aligned dashboards, a 7Cyber admin panel, and a retained scan history.
+            </p>
+
+            <h3 style="margin-bottom: 1rem;">The Processing Pipeline</h3>
+            <div class="architecture">
+                <div class="pipeline-flow">
+                    <div class="pipeline-step">1. Input received<br><span style="font-weight:400; color:#666;">domain or file</span></div>
+                    <div class="pipeline-arrow">→</div>
+                    <div class="pipeline-step">2. Pre-processing<br><span style="font-weight:400; color:#666;">Vision API (file path only)</span></div>
+                    <div class="pipeline-arrow">→</div>
+                    <div class="pipeline-step">3. API dispatch<br><span style="font-weight:400; color:#666;">6 services, 5 parallel jobs</span></div>
+                    <div class="pipeline-arrow">→</div>
+                    <div class="pipeline-step">4. Response collection<br><span style="font-weight:400; color:#666;">aggregate, dedupe &amp; normalise</span></div>
+                </div>
+                <div class="pipeline-flow">
+                    <div class="pipeline-step">5. Risk scoring<br><span style="font-weight:400; color:#666;">weighted 0–100 model</span></div>
+                    <div class="pipeline-arrow">→</div>
+                    <div class="pipeline-step">6. Persistence<br><span style="font-weight:400; color:#666;">Firestore + Cloud Storage</span></div>
+                    <div class="pipeline-arrow">→</div>
+                    <div class="pipeline-step">7. Dashboard render<br><span style="font-weight:400; color:#666;">client-side export</span></div>
+                    <div class="pipeline-arrow">→</div>
+                    <div class="pipeline-step">8. Monthly monitoring<br><span style="font-weight:400; color:#666;">scheduler + delta + audit log</span></div>
+                </div>
+            </div>
+
+            <h3 style="margin-top: 3rem; margin-bottom: 1.5rem;">✅ In Scope</h3>
+            <table class="estimation-table">
+                <thead><tr><th>Item</th><th>Detail</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>Both input paths</strong></td><td>Domain entry and file/photo upload with Google Vision OCR pre-processing.</td></tr>
+                    <tr><td><strong>All six intelligence sources</strong></td><td>Intelligence X, DarkOWL, FOFA, Shodan, tgstate, Grayhatwarfare — not reduced.</td></tr>
+                    <tr><td><strong>Risk scoring engine</strong></td><td>The full weighted 0–100 model, same point values and risk bands as specified.</td></tr>
+                    <tr><td><strong>Report-aligned dashboard (13 panels)</strong></td><td>Mapped against the two report examples 7Cyber provided. Full panel list in the table below.</td></tr>
+                    <tr><td><strong>7Cyber admin panel</strong></td><td>A compact admin area under <code>/admin</code>, restricted by role. Full capability list in the table below.</td></tr>
+                    <tr><td><strong>Scan history &amp; technical logs</strong></td><td>Every scan run and its per-source execution result retained in the cloud data layer and reviewable in the panel, so any prior month's result can be reopened.</td></tr>
+                    <tr><td><strong>Scheduling &amp; quota rules</strong></td><td>Next-scan date per monitored domain, the number of monitored domains and remaining scan quota allowed under the client's plan, and a guard preventing a re-run before the scheduled date.</td></tr>
+                    <tr><td><strong>JSON export</strong></td><td>Scan results and technical logs downloadable as JSON from the panel, and retrievable through an authenticated API endpoint.</td></tr>
+                    <tr><td><strong>Client-side export</strong></td><td>Client can export/print the dashboard to PDF directly from the browser, with no server-side rendering pipeline.</td></tr>
+                    <tr><td><strong>Monthly monitoring</strong></td><td>Automated re-scan, new-vs-resolved delta, email alerts for new findings meeting the agreed critical-alert criteria, and a guarded manual re-run from the admin panel.</td></tr>
+                    <tr><td><strong>Tenant isolation</strong></td><td>Firebase Authentication plus Firestore security rules scope every record to a tenant. Integration credentials held in Secret Manager, never in client-visible records.</td></tr>
+                    <tr style="background: rgba(124,58,237,0.10);"><td><strong>SIEM export (Push or Pull, 4 formats)</strong></td><td>Structured JSON, CEF, Syslog RFC 5424, and RFC 3164. Bounded scope, see the dedicated section below.</td></tr>
+                </tbody>
+            </table>
+
+            <h3 style="margin-top: 3rem; margin-bottom: 1.5rem;">📊 Dashboard Panels, Mapped to 7Cyber's Reports</h3>
+            <p style="margin-bottom: 1.5rem; color: #555;">Each panel below corresponds to a block in the two report examples 7Cyber provided. All panels are browser-rendered from stored scan data, with no server-side rendering pipeline and no analytics warehouse.</p>
+            <div class="risk-card" style="margin-bottom: 1.5rem;">
+                <strong>Executive identifiers are provided, not discovered</strong>
+                <p style="margin-top: 0.6rem;">Where executive-specific views are required, 7Cyber or the relevant client provides the names, roles, email addresses, domains, or other identifiers used for matching. Automated discovery of an organisation's executive roster is outside scope.</p>
+            </div>
+
+            <div class="risk-card" style="margin-bottom: 1.5rem;">
+                <strong>How the derived panels are produced</strong>
+                <p style="margin-top: 0.6rem;">All derived dashboard views, including the risk heat map, the category sub-scores, data privacy impact, exposure concentration, data sensitivity level, and the key-insights text, use deterministic mappings based on the service-provided classifications and the weighting rules already agreed in the specification. Defining new analytical, sensitivity-classification, correlation, or regulatory-mapping logic is outside scope. If a panel requires a rule that the specification does not already define, that rule is agreed in the scope workshop before build, or the panel is deferred.</p>
+            </div>
+            <table class="estimation-table">
+                <thead><tr><th>#</th><th>Panel</th><th>Source of the Data</th></tr></thead>
+                <tbody>
+                    <tr><td>1</td><td><strong>Digital Risk Score</strong> gauge</td><td>Weighted 0–100 model across all findings.</td></tr>
+                    <tr><td>2</td><td><strong>Risk Scores by Category</strong></td><td>Six sub-scores: credential, infostealer, network, Telegram/social, cloud, data-privacy impact.</td></tr>
+                    <tr><td>3</td><td><strong>Risk Heat Map</strong> (likelihood × impact)</td><td>Finding type and severity plotted on a fixed matrix.</td></tr>
+                    <tr><td>4</td><td><strong>Findings by Source</strong></td><td>Counts per intelligence service for the current scan.</td></tr>
+                    <tr><td>5</td><td><strong>Global Exposure Map</strong></td><td>Findings plotted by country/region where geolocation is available.</td></tr>
+                    <tr><td>6</td><td><strong>Executive Exposure Status</strong></td><td>Per-executive summary, matched against identifiers supplied by 7Cyber or the client.</td></tr>
+                    <tr><td>7</td><td><strong>Infostealer Intelligence</strong></td><td>DarkOWL infostealer-specific findings, isolated from the general breach feed.</td></tr>
+                    <tr><td>8</td><td><strong>Credential Exposure Summary</strong></td><td>Credential-type findings across all sources.</td></tr>
+                    <tr><td>9</td><td><strong>Network &amp; Infrastructure Exposure</strong></td><td>FOFA and Shodan findings: open ports, exposed panels, CVEs.</td></tr>
+                    <tr><td>10</td><td><strong>Social/Telegram Exposure</strong></td><td>tgstate findings: channel and group mentions.</td></tr>
+                    <tr><td>11</td><td><strong>Exposure Over Time</strong></td><td>Trend built from the retained scan history, not from a separate warehouse.</td></tr>
+                    <tr><td>12</td><td><strong>Data Exposure Concentration</strong> and <strong>Data Sensitivity Level</strong></td><td>Distribution of findings across sources and sensitivity tiers.</td></tr>
+                    <tr><td>13</td><td><strong>Key Insights &amp; Summary</strong></td><td>Templated text driven by the score, bands, and top findings. Not LLM-generated.</td></tr>
+                </tbody>
+            </table>
+
+            <h3 style="margin-top: 3rem; margin-bottom: 1.5rem;">🛠️ 7Cyber Admin Panel</h3>
+            <p style="margin-bottom: 1.5rem; color: #555;">A compact set of role-restricted screens inside the same React application, not a separate product and not an operations centre. Scoped to the operational needs reflected in 7Cyber's feedback, subject to final confirmation before kickoff.</p>
+            <table class="estimation-table">
+                <thead><tr><th>Capability</th><th>What 7Cyber's Team Can Do</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>Client list &amp; management</strong></td><td>Create, view, and deactivate client organisations, and manage the users attached to each.</td></tr>
+                    <tr><td><strong>Client plans &amp; quota</strong></td><td>See each client's plan, the monitoring targets it allows, and the scan quota still remaining under it. "Quota" refers to monitored domains and scans, not to the number of intelligence services, which is always all six.</td></tr>
+                    <tr><td><strong>Monitored domains</strong></td><td>Add and remove the domains monitored for each client, and switch monthly monitoring on or off.</td></tr>
+                    <tr><td><strong>Next scan date</strong></td><td>See when each monitored domain is scheduled to run next.</td></tr>
+                    <tr><td><strong>Re-run guard</strong></td><td>Trigger a scan on demand, with a rule preventing a re-run before the scheduled date or beyond the client's remaining scan quota.</td></tr>
+                    <tr><td><strong>Scan history</strong></td><td>Every prior run per client, with its score, delta, and status. Any earlier month's result can be reopened.</td></tr>
+                    <tr><td><strong>Per-source result</strong></td><td>For each run, which services returned data and which timed out or errored.</td></tr>
+                    <tr><td><strong>Logs &amp; JSON export</strong></td><td>Review the technical log for a run and export results or logs as JSON, by download or authenticated API.</td></tr>
+                    <tr style="background: rgba(124,58,237,0.10);"><td><strong>SIEM export configuration</strong></td><td>Enable/disable SIEM export, choose the format, choose Push or Pull, and configure the delivery details. Full detail in the dedicated section below.</td></tr>
+                </tbody>
+            </table>
+            <div class="risk-card" style="margin-top: 1.5rem;">
+                <strong>Deliberately not in the admin panel</strong>
+                <p style="margin-top: 0.6rem;">No source-health observability dashboard, no alert-rule designer, no retry-management console, and no full audit-trail search. These belong to an operations platform, not to the first release of this module, and none were requested. Each can be added later as a scoped change request.</p>
+            </div>
+
+            <div class="risk-card" style="margin-top: 1.5rem; border-left-color: var(--gold);">
+                <strong>Subscriptions in v1: administrative, not self-service</strong>
+                <p style="margin-top: 0.6rem;">Subscription plans and quotas are configured administratively by the 7Cyber admin. A client does not select or purchase a plan inside the platform. <strong>No payment processing, payment-provider integration, billing automation, invoicing, plan-catalogue management, self-service plan changes, renewal, cancellation, or automatic quota top-up is included</strong> (see C12). The platform reads the plan and remaining quota that the 7Cyber admin has set, and enforces them.</p>
+                <p style="margin-top: 0.6rem; font-size: 0.9rem; color: #666;">If a client-facing purchase and billing flow is required, it is a well-defined addition and we will quote it separately. It is not a small change: it introduces a payment provider, transactional state, refunds, and PCI-scope questions, none of which are priced here.</p>
+            </div>
+
+            <h3 style="margin-top: 3rem; margin-bottom: 1.5rem;">🔌 Six External Sources</h3>
+            <table class="estimation-table">
+                <thead><tr><th>Source</th><th>Auth</th><th>What It Extracts</th><th>Key Limits</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>Intelligence X</strong></td><td>API key header</td><td>Leaked credentials, emails, passwords, dark web mentions, paste sites</td><td>100 req/day (basic tier)</td></tr>
+                    <tr><td><strong>DarkOWL</strong></td><td>OAuth2 token</td><td>Breach records, PII exposure, dark web forum mentions, credential dumps</td><td>Tier-dependent</td></tr>
+                    <tr><td><strong>FOFA</strong></td><td>API key + email param</td><td>Open ports, service banners, exposed login panels, server fingerprints</td><td>10,000 queries/month</td></tr>
+                    <tr><td><strong>Shodan</strong></td><td>API key</td><td>CVEs, open ports, ISP info, geolocation, SSL certs, banner text</td><td>1 credit per query</td></tr>
+                    <tr><td><strong>tgstate</strong></td><td>Public API, no auth</td><td>Telegram channel posts and groups mentioning the target domain</td><td>No auth required</td></tr>
+                    <tr><td><strong>Grayhatwarfare</strong></td><td>API key</td><td>Public cloud buckets (S3, GCS, Azure Blob) containing files linked to domain</td><td>Free tier available</td></tr>
+                </tbody>
+            </table>
+
+            <div class="risk-card" style="margin-top: 2rem;">
+                <strong>❌ What This Doesn't Include (Honest List)</strong>
+                <ul style="margin-top: 0.8rem;">
+                    <li><strong>No BigQuery analytics warehouse.</strong> The exposure-over-time trend is computed from retained scan history in Firestore. A warehouse becomes worthwhile only at higher client volumes, and can be added later without changing the data model.</li>
+                    <li><strong>No server-rendered, pixel-matched 6-page PDF.</strong> The client exports the on-screen dashboard through the browser's print-to-PDF. A custom-rendered branded document remains a priced add-on.</li>
+                    <li><strong>No AI-generated CEO Summary.</strong> The summary panel uses templated text driven by the risk score and top findings, not an LLM.</li>
+                    <li><strong>No Privacy &amp; Regulatory Alignment table and no E7 Recommendation Scorecard.</strong> These two panels appear in 7Cyber's report examples but require a rules engine mapping findings to regulatory obligations. We propose scoping them separately once the mapping logic is agreed.</li>
+                    <li><strong>No manual analyst review of findings.</strong> All findings come from the six automated services.</li>
+                    <li><strong>No in-house classification or correlation engine.</strong> Severity and classification arrive from the intelligence services. The platform maps, normalises, deduplicates, and applies the weighting already defined in the specification. It does not derive severity from raw data or correlate findings across sources beyond that model. This was confirmed with 7Cyber and is the single largest reason the increase over the previous version is modest.</li>
+                    <li><strong>No operations console.</strong> No source-health dashboard, alert-rule designer, retry-management screen, or audit-trail search in the admin panel.</li>
+                    <li><strong>No subscription purchase or billing flow.</strong> Plans and quotas are assigned administratively by 7Cyber. Client-facing plan selection, payment processing, invoicing, renewals, and self-service subscription changes are excluded and quoted separately (see C12).</li>
+                    <li><strong>No SIEM-side receiver hosting.</strong> The portal delivers to a host:port the client names, or makes a file available; standing up or managing the receiving syslog server or SIEM instance itself is the client's own infrastructure.</li>
+                    <li><strong>No simultaneous multi-format SIEM sending.</strong> One format is active at a time, per 7Cyber's own specification.</li>
+                </ul>
+                <p style="margin-top: 0.8rem; font-size: 0.9rem; color: #666;">Everything on this list is well defined and separately priceable. Nothing here blocks delivery of the core module as scoped, subject to confirmation of the assumptions listed below.</p>
+            </div>
+        </div>
+    </section>
+    <!-- NEW: SIEM Export Add-On (Corrected) -->
+    <section id="siem-addon" class="addon-section">
+        <div class="container">
+            <span class="addon-badge">✚ New — Corrected Following 7Cyber's Confirmed Specification</span>
+            <h2>SIEM Export — Push or Pull, Four Formats</h2>
+            <p style="font-size: 1.1rem; margin-bottom: 1rem;">
+                An earlier draft of this proposal described the wrong concept for SIEM integration and has been removed entirely. 7Cyber has since provided and confirmed a detailed specification: after each of the six intelligence services returns results, the portal converts a copy of that data into one of four formats and either <strong>pushes</strong> it to a client-specified syslog receiver or makes it available for the client to <strong>pull</strong> through the admin panel. The original raw results always remain stored in the portal's database, unchanged, regardless of whether this feature is enabled.
+            </p>
+            <p style="margin-bottom: 2rem; color: #555;">
+                What follows is the most rational build of 7Cyber's own specification for a first release: all four formats, both delivery methods, built on infrastructure already used elsewhere in this platform rather than new infrastructure introduced just for this feature.
+            </p>
+
+            <h3 style="margin-bottom: 1rem;">How It Works</h3>
+            <div class="flow-diagram">
+                <div class="flow-node">Intelligence service<br><span style="font-weight:400;">returns results</span></div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-node">Stored in Firestore<br><span style="font-weight:400;">always, unconditionally</span></div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-node">Format converter<br><span style="font-weight:400;">JSON / CEF / RFC 5424 / RFC 3164</span></div>
+            </div>
+            <div class="flow-diagram">
+                <div class="flow-node">Push<br><span style="font-weight:400;">TCP/UDP to client's host:port, async, retried</span></div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-node">or Pull<br><span style="font-weight:400;">on demand or daily, zipped, signed link</span></div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-node">Delivery logged<br><span style="font-weight:400;">status, error, raw message</span></div>
+            </div>
+
+            <h3 style="margin-top: 3rem; margin-bottom: 1.5rem;">✅ In Scope for v1</h3>
+            <table class="estimation-table">
+                <thead><tr><th>Component</th><th>What It Does</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>All four export formats</strong></td><td>Structured JSON, CEF (ArcSight), Syslog RFC 5424 (with structured-data support), and Syslog RFC 3164 (BSD). Confirmed by 7Cyber as a firm requirement, not optional. Each converter sits behind a common <code>IEventFormatter</code> interface so a future fifth format is a contained addition, not a rebuild.</td></tr>
+                    <tr><td><strong>UTC timestamps, everywhere</strong></td><td>Every generated message and file uses UTC. No server-local-time conversion, per 7Cyber's specification.</td></tr>
+                    <tr><td><strong>RFC/CEF-correct escaping</strong></td><td>Backslashes, quotes, and newlines in CEF and RFC 5424 fields are escaped exactly per the relevant specification.</td></tr>
+                    <tr><td><strong>Global on/off toggle</strong></td><td>Default off. When off, no export or send action occurs at all, even if delivery settings were previously configured.</td></tr>
+                    <tr><td><strong>Single active format</strong></td><td>One format selected at a time, as 7Cyber specified — no simultaneous multi-format sending in v1.</td></tr>
+                    <tr><td><strong>Push mode</strong></td><td>Host, port, protocol (TCP or UDP), timeout, and retry count are configurable. Sends run asynchronously, on a queue, so they never block scan processing. On failure: 3 retry attempts with exponential backoff, exactly as specified.</td></tr>
+                    <tr><td><strong>Pull mode</strong></td><td>On-demand "Generate" in the admin panel collects data for the selected period, converts it, and packages it as a ZIP for browser download. Optional automatic daily generation writes to a protected location with a unique download link valid for 24 hours.</td></tr>
+                    <tr><td><strong>Delivery &amp; module logging</strong></td><td>Every Push attempt (date, status, error, raw message) is logged. Every module action (enable/disable, format change, delivery-setting change, send, error) is logged as an auditable event.</td></tr>
+                    <tr><td><strong>TLS for Push</strong></td><td>Supported for TCP delivery where the receiving syslog server expects a secure connection, as specified.</td></tr>
+                </tbody>
+            </table>
+
+            <div class="highlight" style="margin-top: 1.5rem; border-left: 4px solid var(--mdm-purple); background: rgba(124,58,237,0.06);">
+                <h4>🧠 Two Deliberate Engineering Choices</h4>
+                <ul style="margin-left: 1.2rem;">
+                    <li><strong>No Redis.</strong> 7Cyber's specification allows "Redis/Database" for the retry queue. This platform already uses Cloud Tasks for the six-service dispatch pipeline — the exact same pattern fits Push delivery and its retries. Introducing Redis would mean a new piece of infrastructure to provision, secure, and pay for, for no benefit over what's already running.</li>
+                    <li><strong>Module logging reuses the existing audit trail.</strong> The platform already has an <code>audit_events</code> collection for admin actions. SIEM module actions (enable/disable, format change, sends, errors) extend that same collection rather than standing up a second logging system.</li>
+                </ul>
+            </div>
+
+            <div class="risk-card" style="margin-top: 2rem;">
+                <strong>❌ What This Doesn't Include in v1 (Honest List)</strong>
+                <ul style="margin-top: 0.8rem;">
+                    <li><strong>No simultaneous multi-format sending.</strong> Confirmed as out of scope by 7Cyber directly, not a cut we're proposing.</li>
+                    <li><strong>No configurable retry policy beyond what's specified.</strong> Three attempts, exponential backoff, is built exactly as specified. A fully configurable retry-policy UI is a separate addition if ever needed.</li>
+                    <li><strong>No historical backfill.</strong> Push and Pull cover data generated after the feature is switched on. Exporting previously-stored scan history retroactively is a separate, one-time, volume-dependent piece of work.</li>
+                    <li><strong>No SIEM-side receiver hosting or validation tooling.</strong> The portal delivers to the host:port 7Cyber's client names, or produces a downloadable file. Standing up, configuring, or troubleshooting the client's own receiving SIEM is outside this scope.</li>
+                    <li><strong>No config-version rollback.</strong> A change-history log is kept for auditing, as specified. Reverting to a prior configuration automatically is not included.</li>
+                </ul>
+                <p style="margin-top: 0.8rem; font-size: 0.9rem; color: #666;">This is the same honesty standard as the rest of this proposal: everything above is well defined and separately priceable once 7Cyber has real usage data to justify it.</p>
+            </div>
+
+            <h3 style="margin-top: 3rem; margin-bottom: 1.5rem;">💰 What This Adds to the Price, and Why</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+                <div class="addon-price-box">
+                    <h4>Added Cost</h4>
+                    <div class="addon-price-value">AED 15,436</div>
+                    <div style="color:#555; font-size:0.9rem;">(~US$3.7K), 128 hours, at the same named Rate Card rates as the rest of this proposal.</div>
+                </div>
+                <div class="addon-price-box">
+                    <h4>Timeline Impact</h4>
+                    <div class="addon-price-value">+1.0 week</div>
+                    <div style="color:#555; font-size:0.9rem;">The Lead Developer's hours rise from 200 to 240. At 1.0 FTE that's exactly 6.0 weeks, not 5.</div>
+                </div>
+                <div class="addon-price-box">
+                    <h4>New Recurring Cost</h4>
+                    <div class="addon-price-value">Negligible</div>
+                    <div style="color:#555; font-size:0.9rem;">No new managed service is introduced. Outbound Push traffic and Pull's small Cloud Storage footprint fall within the existing Cloud Hosting estimate below.</div>
+                </div>
+            </div>
+
+            <table class="estimation-table">
+                <thead><tr><th>Task</th><th>Dev</th><th>QA</th><th>PM</th><th>Hours</th><th>Cost</th></tr></thead>
+                <tbody>
+                    <tr style="background: rgba(124,58,237,0.08);">
+                        <td><strong>Push delivery pipeline</strong><br><span style="color:#666; font-size:0.9rem;">Async dispatch via Cloud Tasks, TCP/UDP socket handling, TLS support, retry with exponential backoff, per-attempt delivery logging.</span></td>
+                        <td>24</td><td>—</td><td>—</td>
+                        <td><strong>24</strong></td>
+                        <td><strong>AED 2,928</strong></td>
+                    </tr>
+                    <tr style="background: rgba(124,58,237,0.08);">
+                        <td><strong>Pull export pipeline</strong><br><span style="color:#666; font-size:0.9rem;">On-demand and scheduled daily generation, period-based data collection, ZIP packaging, Cloud Storage signed URL valid 24 hours.</span></td>
+                        <td>16</td><td>—</td><td>—</td>
+                        <td><strong>16</strong></td>
+                        <td><strong>AED 1,952</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Four format converters</strong><br><span style="color:#666; font-size:0.9rem;">Structured JSON, CEF, Syslog RFC 5424, Syslog RFC 3164, behind a shared <code>IEventFormatter</code> interface, with UTC timestamps and RFC-correct escaping.</span></td>
+                        <td>28</td><td>—</td><td>—</td>
+                        <td><strong>28</strong></td>
+                        <td><strong>AED 3,416</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Admin configuration UI</strong><br><span style="color:#666; font-size:0.9rem;">Global toggle, format dropdown, Push/Pull radio with their respective fields, and a change-history log for auditing.</span></td>
+                        <td>22</td><td>—</td><td>—</td>
+                        <td><strong>22</strong></td>
+                        <td><strong>AED 2,684</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Module event logging</strong><br><span style="color:#666; font-size:0.9rem;">Extends the existing <code>audit_events</code> collection to cover SIEM module actions.</span></td>
+                        <td>2</td><td>—</td><td>—</td>
+                        <td><strong>2</strong></td>
+                        <td><strong>AED 244</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>QA</strong><br><span style="color:#666; font-size:0.9rem;">Format-compliance checks against the CEF/RFC 5424 specs, escaping edge cases, Push against a test receiver over TCP and UDP, retry/backoff behaviour, Pull generation, ZIP contents, signed-URL expiry, and the global toggle's off-means-off behaviour.</span></td>
+                        <td>—</td><td>24</td><td>—</td>
+                        <td><strong>24</strong></td>
+                        <td><strong>AED 2,472</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>PM &amp; delivery coordination</strong><br><span style="color:#666; font-size:0.9rem;">Confirming CEF vendor/product/version strings, default timeout and retry values, filename conventions for Pull, and a short setup guide for 7Cyber's clients configuring their receiving end.</span></td>
+                        <td>—</td><td>—</td><td>12</td>
+                        <td><strong>12</strong></td>
+                        <td><strong>AED 1,740</strong></td>
+                    </tr>
+                    <tr style="background: rgba(124,58,237,0.14);">
+                        <td><strong>TOTAL — SIEM Export Add-On</strong></td>
+                        <td><strong>92</strong></td><td><strong>24</strong></td><td><strong>12</strong></td>
+                        <td><strong>128 hrs</strong></td>
+                        <td><strong>AED 15,436</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="highlight" style="margin-top: 1.5rem; border-left: 4px solid var(--mdm-purple); background: rgba(124,58,237,0.06);">
+                <h4>📊 Why It's Priced This Way</h4>
+                <ul style="margin-left: 1.2rem;">
+                    <li><strong>7Cyber's specification did most of the design work for us, and the price reflects that.</strong> Unlike a feature we have to design from a rough request, this one arrived fully specified: exact formats, exact field lists, exact retry counts. That removes most of the architectural uncertainty, which is why this add-on costs less than the earlier, incorrect SIEM concept despite covering more ground (four formats and two delivery modes, not one).</li>
+                    <li><strong>The breadth is real, so it's still 128 hours, not 50.</strong> Four independent format converters, two delivery mechanisms, an admin UI, a retry queue, and delivery logging is genuinely more surface area than any single item added so far. It is spread across Support-level implementation work (the formatters and admin UI) and Lead-level infrastructure work (the two delivery pipelines), matching each task to the level it actually needs.</li>
+                    <li><strong>We reused what already exists instead of adding new infrastructure.</strong> Cloud Tasks for the retry queue instead of Redis, the existing <code>audit_events</code> collection instead of a new logging system. That discipline is part of why this add-on has no meaningful new recurring cost.</li>
+                    <li><strong>The one-week timeline extension is real, not padded.</strong> The Lead's 40 added hours (the two delivery pipelines) push the critical path from exactly 5 weeks to exactly 6. The formatters, admin UI, and logging — 44 hours — went to the Support Developer, since that work is well-specified implementation, not open architectural judgment.</li>
+                    <li><strong>Every rate is the same named Rate Card rate used throughout this proposal.</strong> No premium for the SIEM work. Both developers at Middle Software Engineer, QA at Middle Manual QA Engineer, PM at Project Manager.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    <!-- Inputs Needed -->
+    <section style="background: linear-gradient(180deg, #fff 0%, rgba(197,160,94,0.04) 100%);">
+        <div class="container">
+            <h2>Inputs We Still Need from 7Cyber</h2>
+            <p style="font-size: 1.1rem; margin-bottom: 2rem;">
+                A short list. These, together with the scope assumptions set out later in this document, need confirming before the price locks.
+            </p>
+            <div class="module-grid">
+                <div class="module-card">
+                    <div class="module-number">1</div>
+                    <h4>Confirmed Service Subscriptions</h4>
+                    <p class="module-desc">Active accounts, subscription tiers, access details, and credentials where applicable for all six intelligence services (tgstate requires none).</p>
+                </div>
+                <div class="module-card">
+                    <div class="module-number">2</div>
+                    <h4>Google Cloud Project &amp; Billing</h4>
+                    <p class="module-desc">A GCP project with Firestore, Cloud Storage, and the Vision API enabled, and a billing owner on the 7Cyber side.</p>
+                </div>
+                <div class="module-card">
+                    <div class="module-number">3</div>
+                    <h4>Hosting &amp; Domain Access</h4>
+                    <p class="module-desc">Confirmation of where the React portal and backend will be deployed (Firebase Hosting / Cloud Functions is our recommendation), plus the target domain/subdomain.</p>
+                </div>
+                <div class="module-card">
+                    <div class="module-number">4</div>
+                    <h4>Report Examples &amp; Brand Assets</h4>
+                    <p class="module-desc">The two report examples already shared, ideally as source files rather than screenshots, plus logo and colour palette. These are the visual and content baseline for the dashboard panels.</p>
+                </div>
+                <div class="module-card">
+                    <div class="module-number">5</div>
+                    <h4>Which SIEM Formats Are Active</h4>
+                    <p class="module-desc">All four formats are being built, but confirmation of which are active per client (or globally) keeps the format dropdown meaningful rather than presenting options 7Cyber never intends to use.</p>
+                </div>
+                <div class="module-card" style="border-top-color: var(--mdm-purple);">
+                    <div class="module-number" style="background: var(--mdm-purple);">6</div>
+                    <h4>Push Destination &amp; CEF Field Mapping</h4>
+                    <p class="module-desc">For clients using Push: the receiving host, port, and protocol. For CEF and structured JSON: the exact vendor/product/version strings and field-mapping conventions 7Cyber wants used, since these are organisation-specific choices.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Client Assumptions -->
+    <section>
+        <div class="container">
+            <h2>What 7Cyber Provides</h2>
+            <div class="layer-box">
+                <ul>
+                    <li>A Google Cloud project (staging + production) with billing enabled; Firestore, Cloud Storage, and the Vision API turned on; IAM access for the designated deployment and runtime identities.</li>
+                    <li>Active accounts, subscription tiers, access details, and credentials where applicable for all six intelligence services, procured and paid for directly by 7Cyber.</li>
+                    <li>The two report examples and basic brand assets (logo, colour palette) as the dashboard baseline.</li>
+                    <li>A definitive list of client organizations (tenants) the module should be enabled for at go-live, and the list of 7Cyber staff who should hold admin-console access.</li>
+                    <li>For SIEM export: the receiving host/port for Push clients, and the CEF/JSON field-mapping conventions 7Cyber wants used.</li>
+                    <li>A named point of contact able to answer scope questions within a couple of business days during the build.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    <!-- Critical Assumptions & Constraints -->
+    <section style="background: #f8f9fa;">
+        <div class="container">
+            <h2>Critical Assumptions &amp; Constraints</h2>
+            <p style="font-size: 1.1rem; margin-bottom: 1rem;">
+                Each has a named owner and a required-by date. Missing one adjusts the timeline or price through a straightforward change request.
+            </p>
+
+            <h3 style="margin-top: 2rem; margin-bottom: 1rem;">1. Hosting, GCP Setup &amp; API Access</h3>
+            <table class="estimation-table">
+                <thead><tr><th>#</th><th>Assumption / Constraint</th><th>Requirement</th><th>Owner</th><th>Required By</th></tr></thead>
+                <tbody>
+                    <tr>
+                        <td><strong>C1</strong></td>
+                        <td>GCP Project &amp; Deployment Access</td>
+                        <td>A Google Cloud project with billing enabled; Firestore (Native Mode), Cloud Storage, and the Vision API enabled. The project requires IAM permissions granted to the designated deployment and runtime identities rather than to individual engineers: a deployment identity able to provision Firebase Hosting, Cloud Functions/Cloud Run, Cloud Tasks, and Cloud Scheduler, and a runtime service account holding only the data-access roles it needs.</td>
+                        <td>7Cyber</td>
+                        <td>Kickoff (Day 1)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>C2</strong></td>
+                        <td>Access and Credentials for All 6 Services</td>
+                        <td>Active accounts and access details for Intelligence X (API key), DarkOWL (OAuth2 Client ID and Secret), FOFA (API key and registered email), Shodan (API key), tgstate (no auth), and Grayhatwarfare (API key), prior to build start, plus vendor dashboard access for troubleshooting.</td>
+                        <td>7Cyber</td>
+                        <td>Kickoff (Day 1)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>C3</strong></td>
+                        <td>Sufficient Rate Limits for Testing</td>
+                        <td>Subscription tiers and rate limits sufficient to execute the agreed integration-test scenarios (functional, retry, timeout, and regression) across all six services. If the selected tier prevents completing the agreed test scope, 7Cyber upgrades the applicable tier or provides additional test credentials before testing begins.</td>
+                        <td>7Cyber</td>
+                        <td>End of Week 1</td>
+                    </tr>
+                    <tr>
+                        <td><strong>C4</strong></td>
+                        <td>GCP Cost Ownership</td>
+                        <td>All GCP infrastructure costs (Firestore, Cloud Storage, Vision API, Cloud Functions and Cloud Tasks) are paid directly by 7Cyber to Google, and are excluded from SoftTeco's fixed price and support package.</td>
+                        <td>7Cyber</td>
+                        <td>Ongoing</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="risk-card"><strong>Why this matters:</strong> without working service access and a working GCP project from day one, the integration work, which is the majority of the build, cannot start.</div>
+
+            <h3 style="margin-top: 3rem; margin-bottom: 1rem;">2. Client Assets &amp; Decision-Making</h3>
+            <table class="estimation-table">
+                <thead><tr><th>#</th><th>Assumption / Constraint</th><th>Requirement</th><th>Owner</th><th>Required By</th></tr></thead>
+                <tbody>
+                    <tr>
+                        <td><strong>C5</strong></td>
+                        <td>Report Examples &amp; Brand Assets</td>
+                        <td>The two report examples, ideally as source files, plus logo and colour palette. These define the dashboard's visual language and panel content. Without them, SoftTeco builds against the screenshots already provided and a neutral theme, and re-styling beyond that baseline is a change request.</td>
+                        <td>7Cyber</td>
+                        <td>End of Week 1</td>
+                    </tr>
+                    <tr>
+                        <td><strong>C6</strong></td>
+                        <td>Named Point of Contact</td>
+                        <td>Someone able to answer scope and technical questions within roughly 2 business days during the build. Longer delays may slip the timeline.</td>
+                        <td>7Cyber</td>
+                        <td>Kickoff (Day 1)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>C7</strong></td>
+                        <td>Admin Panel Users &amp; Roles</td>
+                        <td>The list of 7Cyber staff who need admin-panel access, and confirmation that two roles (client user and 7Cyber admin) are sufficient for v1. Additional role tiers are a change request. Confirmation is also needed that plans and quotas are assigned administratively in v1, with no client-facing purchase flow (see C12).</td>
+                        <td>7Cyber</td>
+                        <td>End of Week 2</td>
+                    </tr>
+                    <tr>
+                        <td><strong>C8</strong></td>
+                        <td>Log Delivery Model</td>
+                        <td>Confirmation that JSON download and authenticated API retrieval satisfy the general log requirement. SIEM export via Push or Pull, in the four confirmed formats, is priced separately below and does not depend on this item.</td>
+                        <td>7Cyber</td>
+                        <td>End of Week 1</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3 style="margin-top: 3rem; margin-bottom: 1rem;">3. Out-of-Scope Items (Scope Boundaries)</h3>
+            <table class="estimation-table">
+                <thead><tr><th>#</th><th>Item</th><th>Exclusion</th><th>Owner</th><th>Impact</th></tr></thead>
+                <tbody>
+                    <tr>
+                        <td><strong>C9</strong></td>
+                        <td>No Manual Dark Web Analysis</td>
+                        <td>All findings are sourced exclusively from the six automated services. Manual verification is a separate engagement.</td>
+                        <td>7Cyber</td>
+                        <td>Automated findings may include false positives and are not manually vetted.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>C10</strong></td>
+                        <td>No Additional Sources; Named Reporting Extras Excluded</td>
+                        <td>Only the six named services. A BigQuery warehouse, a server-rendered pixel-matched PDF, an LLM-generated summary, the Privacy &amp; Regulatory Alignment table, and the E7 Recommendation Scorecard are change requests, priced separately (see "What This Doesn't Include").</td>
+                        <td>7Cyber</td>
+                        <td>Scope and price stay predictable.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>C11</strong></td>
+                        <td>Penetration Testing Not Included</td>
+                        <td>Security hardening, including Firebase Authentication, Firestore security rules, tenant-scoped access, and least-privilege GCP IAM configuration, is included. A formal penetration test of the portal is not. 7Cyber conducts or procures this post-delivery.</td>
+                        <td>7Cyber</td>
+                        <td>Production go-live follows successful completion of the test.</td>
+                    </tr>
+                    <tr style="background: rgba(197,160,94,0.10);">
+                        <td><strong>C12</strong></td>
+                        <td>Subscription Purchase &amp; Billing Out of Scope</td>
+                        <td>Subscription purchase and billing are handled outside the platform. In v1 the 7Cyber admin assigns and updates client plans and quotas manually, and the platform enforces them. No client-facing plan selection, payment processing, payment-provider integration, invoicing, billing automation, plan-catalogue management, self-service upgrade or cancellation, or automatic quota renewal is included.</td>
+                        <td>7Cyber</td>
+                        <td>A client-facing purchase and billing flow is quoted separately and is not part of AED 68,719.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>C13</strong></td>
+                        <td>Data Retention Period</td>
+                        <td>Structured scan history and execution records are retained for the agreed operational period. Raw vendor payload retention is configurable through Cloud Storage lifecycle rules and will be confirmed before go-live. Storage cost scales with the retention period chosen and is paid directly by 7Cyber to Google (C4).</td>
+                        <td>7Cyber</td>
+                        <td>Retention period agreed before go-live; no data is deleted without 7Cyber's instruction.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3 style="margin-top: 3rem; margin-bottom: 1rem;">4. SIEM Export (Add-On)</h3>
+            <p style="margin-bottom: 1rem; color: #555;">These items are specific to the corrected SIEM export capability, confirmed by 7Cyber and detailed in its own section above.</p>
+            <table class="estimation-table">
+                <thead><tr><th>#</th><th>Assumption / Constraint</th><th>Requirement</th><th>Owner</th><th>Required By</th></tr></thead>
+                <tbody>
+                    <tr style="background: rgba(124,58,237,0.08);">
+                        <td><strong>C14</strong></td>
+                        <td>SIEM Export Format &amp; Delivery Confirmation</td>
+                        <td>Confirmation of which of the four formats are active for which clients, and for each: Push (destination host, port, protocol, timeout, retry count) or Pull (generation schedule, filename pattern, storage period). All four formats are built regardless; this determines what's configured and tested per client at go-live.</td>
+                        <td>7Cyber</td>
+                        <td>End of Week 2</td>
+                    </tr>
+                    <tr style="background: rgba(124,58,237,0.08);">
+                        <td><strong>C15</strong></td>
+                        <td>Push Destination Reachability</td>
+                        <td>Where Push is used, the client's receiving host:port must be reachable outbound from the GCP project (no client-side firewall blocking the connection), and TLS certificate details provided if secure delivery is required. Unreachable destinations will retry per the configured policy and then log as failed; they will not silently succeed.</td>
+                        <td>7Cyber / Client</td>
+                        <td>Before that client's Push is enabled</td>
+                    </tr>
+                    <tr style="background: rgba(124,58,237,0.08);">
+                        <td><strong>C16</strong></td>
+                        <td>Format Field Mapping Confirmation</td>
+                        <td>The exact CEF vendor/product/version strings and the field-mapping convention for CEF and structured JSON, since these are organisation-specific choices that SoftTeco cannot infer. Syslog RFC 5424 and RFC 3164 follow their public specifications directly and do not require this input.</td>
+                        <td>7Cyber</td>
+                        <td>End of Week 2</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="risk-card"><strong>Why this matters:</strong> Push cannot be tested against a destination that isn't reachable, and CEF output that doesn't match 7Cyber's expected vendor/product strings will parse incorrectly on the client's SIEM even though it is technically valid CEF. Both are answers only 7Cyber can give.</div>
+        </div>
+    </section>
+    <!-- Risk Scoring Engine -->
+    <section style="background: #fff;">
+        <div class="container">
+            <h2>Risk Scoring Engine (as Specified)</h2>
+            <p style="font-size: 1.1rem; margin-bottom: 2rem;">
+                Not simplified — the full weighted model, same point values and risk bands as the specification. This is cheap to build correctly, so there's no reason to cut it.
+            </p>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                <table class="estimation-table">
+                    <thead><tr><th>Finding Type</th><th>Risk Points</th></tr></thead>
+                    <tbody>
+                        <tr><td>Credentials (username + password pair)</td><td><strong>25</strong></td></tr>
+                        <tr><td>Network exposure (open port + CVE)</td><td><strong>20</strong></td></tr>
+                        <tr><td>Cloud bucket exposure (Grayhatwarfare)</td><td><strong>20</strong></td></tr>
+                        <tr><td>Employee information (name, email, role)</td><td><strong>15</strong></td></tr>
+                        <tr><td>Telegram channel mention</td><td><strong>14</strong></td></tr>
+                        <tr><td>Documents (PDFs, contracts)</td><td><strong>12</strong></td></tr>
+                        <tr><td>Email addresses only</td><td><strong>10</strong></td></tr>
+                        <tr><td>Phone numbers</td><td><strong>8</strong></td></tr>
+                        <tr><td>Other data</td><td><strong>5</strong></td></tr>
+                    </tbody>
+                </table>
+                <table class="estimation-table">
+                    <thead><tr><th>Score Range</th><th>Risk Level</th></tr></thead>
+                    <tbody>
+                        <tr style="background: rgba(255,0,0,0.05);"><td>75 – 100</td><td><strong>HIGH RISK</strong> — red badge</td></tr>
+                        <tr style="background: rgba(255,152,0,0.08);"><td>50 – 74</td><td><strong>MODERATE TO HIGH</strong> — orange badge</td></tr>
+                        <tr style="background: rgba(255,235,59,0.10);"><td>25 – 49</td><td><strong>MODERATE</strong> — yellow badge</td></tr>
+                        <tr style="background: rgba(76,175,80,0.08);"><td>0 – 24</td><td><strong>LOW</strong> — green badge</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technology Stack -->
+    <section>
+        <div class="container">
+            <h2>Technology Stack</h2>
+            <p style="font-size: 1.1rem; margin-bottom: 2rem;">
+                A short, standard stack. No separate analytics warehouse, no server-side rendering pipeline, and no dedicated server capacity to provision or maintain.
+            </p>
+
+            <h3 style="margin-top: 1rem; margin-bottom: 1rem;">🧱 Portal &amp; App Framework</h3>
+            <div style="margin-bottom: 2rem;">
+                <span class="stack-pill platform">React — frontend SPA</span>
+                <span class="stack-pill platform">Node.js / TypeScript — backend API</span>
+                <span class="stack-pill platform">Cloud Tasks — async job dispatch &amp; SIEM Push retry queue</span>
+                <span class="stack-pill platform">Cloud Scheduler — monthly trigger &amp; daily SIEM Pull generation</span>
+                <span class="stack-pill platform">Firebase Hosting — frontend delivery</span>
+                <span class="stack-pill platform">Cloud Functions — backend hosting</span>
+            </div>
+
+            <h3 style="margin-top: 2rem; margin-bottom: 1rem;">☁️ Data Layer</h3>
+            <div style="margin-bottom: 2rem;">
+                <span class="stack-pill data">Google Firestore — tenants, monitors, scans, source runs, findings, audit events, SIEM config &amp; delivery log</span>
+                <span class="stack-pill data">Cloud Storage — large raw source payloads and SIEM Pull export archives</span>
+                <span class="stack-pill data">Firebase Authentication — login, roles, tenant scoping</span>
+                <span class="stack-pill data">Secret Manager — external service credentials</span>
+            </div>
+
+            <h3 style="margin-top: 2rem; margin-bottom: 1rem;">🔎 Intelligence Sources</h3>
+            <div style="margin-bottom: 2rem;">
+                <span class="stack-pill">Intelligence X</span>
+                <span class="stack-pill">DarkOWL</span>
+                <span class="stack-pill">FOFA</span>
+                <span class="stack-pill">Shodan</span>
+                <span class="stack-pill">tgstate</span>
+                <span class="stack-pill">Grayhatwarfare</span>
+                <span class="stack-pill ai">Google Vision API — OCR / labels / logos</span>
+            </div>
+
+            <h3 style="margin-top: 2rem; margin-bottom: 1rem;">📊 Visualisation, Export &amp; SIEM</h3>
+            <div style="margin-bottom: 2rem;">
+                <span class="stack-pill platform">Chart.js — gauge, bar, donut, trend line</span>
+                <span class="stack-pill platform">D3.js — risk heat map</span>
+                <span class="stack-pill platform">Leaflet.js — global exposure map</span>
+                <span class="stack-pill platform">Browser print-to-PDF — client-side export, no server rendering</span>
+                <span class="stack-pill platform">JSON export — download and authenticated API endpoint</span>
+                <span class="stack-pill platform" style="border-color: var(--mdm-purple); color: var(--mdm-purple);">IEventFormatter (new) — JSON / CEF / Syslog RFC 5424 / RFC 3164</span>
+                <span class="stack-pill platform" style="border-color: var(--mdm-purple); color: var(--mdm-purple);">TCP/UDP + TLS socket client (new) — SIEM Push</span>
+            </div>
+
+            <table class="estimation-table">
+                <thead><tr><th>Component</th><th>Used For</th><th>Integration Pattern</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>React</strong></td><td>Portal frontend and the <code>/admin</code> console: scan forms, dashboard, scan history, administration, SIEM export configuration</td><td>Single-page app on Firebase Hosting; reads data from Firestore under authenticated, role-scoped security rules</td></tr>
+                    <tr><td><strong>Node.js / TypeScript backend</strong></td><td>API endpoints, scan orchestration, risk scoring, JSON export, SIEM format conversion and delivery</td><td>Cloud Functions, stateless, dispatches to Cloud Tasks for the async fan-out and for SIEM Push retries</td></tr>
+                    <tr><td><strong>Cloud Tasks</strong></td><td>Parallel dispatch across the six external services, and the SIEM Push retry queue</td><td>Five tasks per scan (FOFA and Shodan share one network-exposure task); a Push send is queued as its own task with the specified retry policy</td></tr>
+                    <tr><td><strong>Cloud Scheduler</strong></td><td>Monthly automated re-scan, and optional daily SIEM Pull file generation</td><td>Triggers a Cloud Function that re-queues a scan for each active monitor, or generates that day's SIEM export file</td></tr>
+                    <tr><td><strong>Google Firestore</strong></td><td>Tenants, monitors, scans, per-source runs, findings, audit events, SIEM configuration and delivery log</td><td>Tenant-scoped paths; queried from React; Firebase Authentication plus security rules enforce isolation and admin roles</td></tr>
+                    <tr><td><strong>Cloud Storage</strong></td><td>Large raw vendor payloads, where retention is required, and SIEM Pull ZIP archives</td><td>Written by the aggregation function or the Pull generator; Pull files served via a signed URL valid 24 hours</td></tr>
+                    <tr><td><strong>Google Vision API</strong></td><td>OCR and entity extraction on uploaded files</td><td>Called before the six intelligence services on the file-upload path only</td></tr>
+                    <tr style="background: rgba(124,58,237,0.08);"><td><strong>IEventFormatter (new)</strong></td><td>Converts a stored result into Structured JSON, CEF, Syslog RFC 5424, or RFC 3164</td><td>A single interface with four implementations; selected by the client's active-format setting</td></tr>
+                    <tr><td><strong>Chart.js / D3.js / Leaflet.js</strong></td><td>Dashboard visuals: gauge, bar, donut, trend line, heat map, global map</td><td>Rendered client-side in React from the stored scan data</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+    <!-- Technical Architecture -->
+    <section style="background: #f8f9fa;">
+        <div class="container">
+            <h2>Technical Architecture</h2>
+            <p style="font-size: 1.1rem; margin-bottom: 2rem;">
+                A React portal with a role-restricted admin panel, a stateless serverless backend, a document store, and an object store for raw payloads.
+            </p>
+
+            <div class="layer-box">
+                <h4>Layer 1: React Portal (Client-Facing)</h4>
+                <ul>
+                    <li><strong>/scan</strong>: landing page with the client's scan history and a new-scan button.</li>
+                    <li><strong>/scan/new/domain</strong> and <strong>/scan/new/file</strong>: the two input forms.</li>
+                    <li><strong>/report/&lt;scan_id&gt;</strong>: the thirteen-panel dashboard, rendered from stored scan data, exportable via the browser's print-to-PDF.</li>
+                    <li>Firebase Authentication for login. Firestore security rules enforce tenant isolation on every read, and the client SDK operates strictly under those rules.</li>
+                </ul>
+            </div>
+
+            <div class="layer-box">
+                <h4>Layer 2: Async Processing (Cloud Tasks)</h4>
+                <ul>
+                    <li>Scan submission queues five parallel Cloud Tasks covering the six intelligence services. FOFA and Shodan share one network-exposure task.</li>
+                    <li>The aggregation function runs once all tasks report back or time out. It normalises, deduplicates, scores, and persists the results.</li>
+                    <li>30-second per-service timeout, 3 retry attempts through Cloud Tasks' built-in retry policy. An individual service failing does not abort the scan; partial results are valid, and each source run records its own status.</li>
+                    <li>If all five tasks fail, the scan is marked <code>failed</code> and the client is notified.</li>
+                    <li>Cloud Tasks autoscales, so there is no fixed worker pool to size or manage.</li>
+                </ul>
+            </div>
+
+            <div class="layer-box">
+                <h4>Layer 3: Risk Scoring</h4>
+                <ul>
+                    <li>The weighted 0–100 model applies point values by finding type, exactly as specified, capped at 100.</li>
+                    <li>Six category sub-scores and the overall band (Low/Moderate/Moderate-to-High/High) are computed the same way, deterministically, from the same inputs.</li>
+                </ul>
+            </div>
+
+            <div class="layer-box">
+                <h4>Layer 4: Data Layer (Firestore + Cloud Storage)</h4>
+                <p style="margin-bottom: 0.8rem; color:#555;">Everything runs inside 7Cyber's own GCP project. Structured scan data and execution metadata live in Firestore; large raw vendor payloads, where retention is required, go to Cloud Storage and are referenced from the corresponding source-run record.</p>
+                <table class="estimation-table" style="margin-top: 0.5rem;">
+                    <thead><tr><th>Collection</th><th>Holds</th></tr></thead>
+                    <tbody>
+                        <tr><td><code>tenants</code></td><td>Client organisations and their settings.</td></tr>
+                        <tr><td><code>monitors</code></td><td>Tenant, monitored domain, active flag, frequency, next and last scan timestamps.</td></tr>
+                        <tr><td><code>scans</code></td><td>Scan ID, input, start and end times, status, overall score, delta against the prior scan.</td></tr>
+                        <tr><td><code>source_runs</code></td><td>Per-service execution record: service, start and end, status, error, retry count, findings returned, raw-payload reference.</td></tr>
+                        <tr><td><code>findings</code></td><td>Normalised, deduplicated findings with type, severity, weight, and source attribution.</td></tr>
+                        <tr><td><code>audit_events</code></td><td>A basic action log: manual scan triggered, monitoring setting changed, export performed, <strong>SIEM module actions (enable/disable, format change, delivery-setting change)</strong>. Not a searchable audit-trail system.</td></tr>
+                        <tr style="background: rgba(124,58,237,0.08);"><td><code>siem_config</code> (new)</td><td>Per-tenant SIEM export settings: enabled flag, active format, delivery method, Push/Pull parameters, with a change-history log for auditing (no version rollback).</td></tr>
+                        <tr style="background: rgba(124,58,237,0.08);"><td><code>siem_delivery_log</code> (new)</td><td>Per-attempt Push delivery record: date, status, error, and the raw message sent.</td></tr>
+                    </tbody>
+                </table>
+                <ul style="margin-top: 1rem;">
+                    <li>The monthly delta is computed by comparing the current scan's findings against the immediately prior scan. The exposure-over-time trend is computed from the retained scan history, with no separate analytics warehouse.</li>
+                    <li>Structured scan history and execution records are retained for the operational period agreed with 7Cyber. Raw vendor payload retention is set through a Cloud Storage lifecycle rule and confirmed before go-live (C13).</li>
+                </ul>
+            </div>
+
+            <div class="layer-box">
+                <h4>Layer 5: 7Cyber Admin Panel</h4>
+                <ul>
+                    <li>Role-restricted routes under <strong>/admin</strong> inside the same React application, visible only to accounts holding the 7Cyber admin role.</li>
+                    <li>Client list and users, the client's plan with its allowed monitoring targets and remaining scan quota, monitored domains, and monthly-monitoring on/off per client.</li>
+                    <li>Next-scan date per domain, an on-demand re-run guarded against running before the scheduled date or beyond the remaining quota.</li>
+                    <li>Scan history per client with score, delta, and status. Any prior run can be reopened. Per-source results show which services returned data and which timed out or errored.</li>
+                    <li>Technical log review per run, and JSON export of results and logs as a download or through an authenticated API endpoint.</li>
+                    <li><strong>SIEM export configuration: global on/off, format selection, and Push or Pull setup with their respective fields, as detailed in the dedicated SIEM Export section above.</strong></li>
+                </ul>
+            </div>
+
+            <div class="layer-box">
+                <h4>Layer 6: Dashboard &amp; Export</h4>
+                <ul>
+                    <li>Thirteen panels mapped to 7Cyber's report examples, listed in full in the Scope section.</li>
+                    <li>Chart.js for the gauge, bars, donut, and trend line; D3.js for the risk heat map; Leaflet.js for the global exposure map.</li>
+                    <li>The client exports the on-screen dashboard to PDF via the browser's native print function. There is no server-side rendering component to build or maintain.</li>
+                </ul>
+            </div>
+
+            <div class="layer-box">
+                <h4>Layer 7: Security, Logging &amp; Retention</h4>
+                <ul>
+                    <li>Firebase Authentication issues the identity; Firestore security rules enforce per-tenant scoping and separate the client-user role from the 7Cyber admin role. Every request is authenticated and scoped to a tenant.</li>
+                    <li>External service credentials are held in Secret Manager and resolved server-side. The runtime service account receives only the roles it needs, and secret access is scoped to the specific secrets used.</li>
+                    <li>Scan runs, per-source execution results, and admin actions are retained as structured records, giving 7Cyber a retained operational and execution history per client. This is a retained operational history, not a searchable audit-trail system, as stated in the scope exclusions above.</li>
+                    <li>We recommend a focused penetration test before go-live, scoped separately from this build. Production go-live follows its successful completion.</li>
+                </ul>
+            </div>
+
+            <div class="layer-box" style="border-left-color: var(--mdm-purple);">
+                <h4>Layer 8: SIEM Export — Push &amp; Pull (New, Corrected)</h4>
+                <ul>
+                    <li>On completion of an intelligence-service run, the aggregation function's stored result is available to the SIEM export module as a read-only source; the original record is never modified.</li>
+                    <li><strong>Push:</strong> when enabled, a Cloud Task is queued per new result. The task converts the record with the tenant's active <code>IEventFormatter</code>, opens a TCP or UDP connection (TLS for TCP where configured) to the tenant's configured host:port, and sends it. Failure triggers up to 3 retries with exponential backoff; every attempt writes to <code>siem_delivery_log</code>.</li>
+                    <li><strong>Pull:</strong> an on-demand "Generate" action, or an optional daily Cloud Scheduler trigger, collects the period's results, converts them with the same formatter, and packages them into a ZIP. On-demand downloads serve directly through the authenticated portal; scheduled generation writes to a protected Cloud Storage path with a signed URL valid for 24 hours.</li>
+                    <li>All four formatters (Structured JSON, CEF, Syslog RFC 5424, Syslog RFC 3164) share the same <code>IEventFormatter</code> interface, use UTC timestamps throughout, and apply RFC/CEF-correct character escaping.</li>
+                    <li>The global toggle is off by default; when off, no conversion or send action runs, regardless of saved configuration.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    <!-- Cloud Hosting -->
+    <section>
+        <div class="container">
+            <h2>Cloud Hosting — Recommended Configuration (Google Cloud)</h2>
+            <p style="font-size: 1.1rem; margin-bottom: 1rem;">
+                A small Google Cloud footprint: Firestore, Cloud Storage, the Vision API, and serverless compute. No BigQuery, no dedicated servers, and no new managed service introduced for SIEM export.
+            </p>
+            <p style="font-size: 1rem; margin-bottom: 2rem; color: #555;">
+                <strong>Note on cost:</strong> cloud spend is paid directly by 7Cyber to Google — not included in the build price or support quote below.
+            </p>
+
+            <table class="estimation-table">
+                <thead><tr><th>Component</th><th>Recommended Configuration</th><th>Notes</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>Frontend hosting</strong></td><td>Firebase Hosting serving the compiled React SPA</td><td>Constraint C1 — deployment access required at kickoff.</td></tr>
+                    <tr><td><strong>Backend compute</strong></td><td>Cloud Functions running the Node.js/TypeScript API — fully managed, autoscales</td><td>No fixed worker pool to size.</td></tr>
+                    <tr><td><strong>Async task queue</strong></td><td>Cloud Tasks dispatching five parallel jobs per scan across the six services, plus SIEM Push sends and retries</td><td>Managed retry policy built in; the same queue pattern serves both purposes.</td></tr>
+                    <tr><td><strong>Firestore</strong></td><td>Native mode, region me-central1 (Doha) or me-central2 (Dammam)</td><td>Security rules scoped per tenant path and role. Google has no UAE region; if UAE data residency is required, confirm before kickoff.</td></tr>
+                    <tr><td><strong>Cloud Storage</strong></td><td>Standard bucket in the same region, lifecycle rule for raw-payload retention, plus SIEM Pull ZIP archives</td><td>Pull archives use a short-lived signed URL (24 hours); the underlying file follows the same retention policy as other retained data.</td></tr>
+                    <tr><td><strong>Vision API</strong></td><td>Enabled and active, standard quota billed per request</td><td>Only invoked on the file-upload path.</td></tr>
+                    <tr><td><strong>Secrets</strong></td><td>Secret Manager holding the credentials required by the configured services (tgstate needs none)</td><td>Credentials never stored in application config files. Runtime access scoped to the specific secrets used.</td></tr>
+                </tbody>
+            </table>
+
+            <h3 style="margin-top: 3rem; margin-bottom: 1.5rem;">Indicative Monthly Google Cloud Cost (Planning Only)</h3>
+            <table class="estimation-table">
+                <thead><tr><th>Workload profile</th><th>Indicative GCP spend</th><th>Notes</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>Launch (≤ 20 clients, monthly scans only)</strong></td><td>~AED 300 – 650 / mo</td><td>Firestore, Cloud Storage, Vision API, and Cloud Functions/Tasks at low volume, mostly inside GCP's free tier. SIEM Push/Pull traffic at this scale is negligible.</td></tr>
+                    <tr><td><strong>Growth (≤ 100 clients, some on-demand scans)</strong></td><td>~AED 850 – 1,700 / mo</td><td>More frequent file-upload scans and a larger retained history. Cloud Functions invocations grow but stay inexpensive per call.</td></tr>
+                    <tr><td><strong>Scale (≤ 500 clients, heavy on-demand usage)</strong></td><td>~AED 2,500 – 4,700 / mo</td><td>External intelligence-service subscription costs for the paid providers become the larger cost driver at this scale, not GCP itself, and not SIEM export.</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+    <!-- Effort & Cost -->
+    <section style="background: #f8f9fa;">
+        <div class="container">
+            <h2>Why the Price Moved from AED 40,480</h2>
+            <p style="font-size: 1.1rem; margin-bottom: 1rem;">
+                The AED 40,480 version priced a scanning engine with a minimal front end. It did not contain a report-aligned dashboard, an admin panel, or a retained scan history. Those were confirmed as required, so they are priced here, together with the corrected SIEM export capability. The core scanning engine is unchanged and carries no additional hours.
+            </p>
+            <p style="margin-bottom: 2rem; color: #555;">
+                Every added hour below maps to one of the four areas raised in 7Cyber's feedback. Monthly monitoring is shown separately to make clear that it was already included in the previous scope and is not charged twice. The same named Rate Card rates apply; nothing has been re-rated.
+            </p>
+
+            <h3 style="margin-bottom: 1rem;">What Each Price Buys</h3>
+            <table class="estimation-table" style="margin-bottom: 3rem;">
+                <thead><tr><th>Capability</th><th>In the AED 40,480 version</th><th>In this AED 68,719 version</th></tr></thead>
+                <tbody>
+                    <tr><td>Six live intelligence integrations</td><td>✅ Included</td><td>✅ Unchanged, no added hours</td></tr>
+                    <tr><td>Weighted 0–100 scoring model</td><td>✅ Included</td><td>✅ Unchanged, no added hours</td></tr>
+                    <tr><td>Both input paths (domain, file + Vision OCR)</td><td>✅ Included</td><td>✅ Unchanged, no added hours</td></tr>
+                    <tr><td>Monthly scheduled re-scan and delta</td><td>✅ Included</td><td>✅ Unchanged, no added hours</td></tr>
+                    <tr><td>Retries and partial-result handling</td><td>✅ Included</td><td>✅ Unchanged, no added hours</td></tr>
+                    <tr><td>Deduplication of findings across sources</td><td>Not described</td><td>✅ Included, absorbed within the existing aggregation work at no additional cost</td></tr>
+                    <tr style="background: rgba(197,160,94,0.10);"><td>Dashboard panels</td><td>6 panels</td><td><strong>13 panels</strong>, aligned to the report examples</td></tr>
+                    <tr style="background: rgba(197,160,94,0.10);"><td>Global exposure map, risk heat map, exposure trend</td><td>❌ Not included</td><td><strong>✅ Included</strong></td></tr>
+                    <tr style="background: rgba(197,160,94,0.10);"><td>Admin panel for 7Cyber's team</td><td>❌ Not included</td><td><strong>✅ Included</strong> (8 capability areas, plus SIEM export configuration)</td></tr>
+                    <tr style="background: rgba(197,160,94,0.10);"><td>Retained scan history</td><td>Current + previous scan only</td><td><strong>Full history</strong>, any prior month reopenable</td></tr>
+                    <tr style="background: rgba(197,160,94,0.10);"><td>Per-source execution records</td><td>❌ Not included</td><td><strong>✅ Included</strong></td></tr>
+                    <tr style="background: rgba(197,160,94,0.10);"><td>Subscription quota, next-scan date, re-run guard</td><td>❌ Not included</td><td><strong>✅ Included</strong></td></tr>
+                    <tr style="background: rgba(197,160,94,0.10);"><td>Technical logs and JSON export / API</td><td>❌ Not included</td><td><strong>✅ Included</strong></td></tr>
+                    <tr style="background: rgba(124,58,237,0.12);"><td><strong>SIEM export: Push or Pull, 4 formats (JSON/CEF/RFC5424/RFC3164)</strong></td><td>❌ Not included</td><td><strong>✅ Included, bounded</strong> — see the dedicated section above</td></tr>
+                    <tr><td>BigQuery warehouse, server-rendered PDF, LLM summary, operations console, purchase &amp; billing flow</td><td>❌ Not included</td><td>❌ Still not included</td></tr>
+                </tbody>
+            </table>
+
+            <h3 style="margin-bottom: 1rem;">Where the Additional AED 28,239 Goes</h3>
+            <table class="estimation-table">
+                <thead><tr><th>7Cyber's request</th><th>Dev</th><th>QA</th><th>PM</th><th>Added hours</th><th>Added cost</th></tr></thead>
+                <tbody>
+                    <tr>
+                        <td><strong>1. Dashboards &amp; report-aligned views</strong><br><span style="color:#666; font-size:0.9rem;">Seven additional panels beyond the original six: global exposure map with top countries and regions, risk heat map, exposure-over-time trend, data privacy impact, executive exposure status, infostealer intelligence, and exposure concentration with sensitivity level. Chart.js extended, D3.js and Leaflet.js added. Visualisation of data the services already classify, not new analytics.</span></td>
+                        <td>38</td><td>7</td><td>3</td>
+                        <td><strong>48</strong></td>
+                        <td><strong>AED 5,853</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>2. Lightweight admin panel</strong><br><span style="color:#666; font-size:0.9rem;">Role-restricted <code>/admin</code> screens: client list and users, plans with allowed monitoring targets and remaining scan quota, monitored domains, next-scan date, guarded re-run, scan history, per-source result, log review, JSON export. Standard CRUD over the existing data model, not an operations console.</span></td>
+                        <td>26</td><td>5</td><td>3</td>
+                        <td><strong>34</strong></td>
+                        <td><strong>AED 4,146</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>3. Scan history, scheduling &amp; quota</strong><br><span style="color:#666; font-size:0.9rem;">Extending the data layer from current-plus-previous scan to a full retained history: the <code>scans</code> and <code>source_runs</code> collections, next-scan date, subscription quota, the re-run guard, and JSON export through download and authenticated API.</span></td>
+                        <td>16</td><td>3</td><td>4</td>
+                        <td><strong>23</strong></td>
+                        <td><strong>AED 2,804</strong></td>
+                    </tr>
+                    <tr style="background: rgba(16,185,129,0.08);">
+                        <td><strong>4. Monthly monitoring</strong><br><span style="color:#666; font-size:0.9rem;">The scheduled monthly re-scan and the new-vs-resolved delta were already in the AED 40,480 scope and are unchanged. What 7Cyber asked to add here (retained history, schedule visibility, saved logs) is delivered by items 2 and 3 and is counted there, not twice.</span></td>
+                        <td>0</td><td>0</td><td>0</td>
+                        <td><strong>0</strong></td>
+                        <td><strong>AED 0</strong></td>
+                    </tr>
+                    <tr style="background: rgba(124,58,237,0.14);">
+                        <td><strong>5. SIEM export: Push or Pull, 4 formats (corrected)</strong><br><span style="color:#666; font-size:0.9rem;">Push delivery pipeline, Pull export pipeline, four format converters, admin configuration UI, and module event logging. Full breakdown in the dedicated section above. Replaces an earlier, incorrect SIEM concept that has been removed from this proposal.</span></td>
+                        <td>92</td><td>24</td><td>12</td>
+                        <td><strong>128</strong></td>
+                        <td><strong>AED 15,436</strong></td>
+                    </tr>
+                    <tr style="background: rgba(10,77,104,0.08);">
+                        <td><strong>TOTAL ADDED</strong></td>
+                        <td><strong>172</strong></td><td><strong>39</strong></td><td><strong>22</strong></td>
+                        <td><strong>233 hrs</strong></td>
+                        <td><strong>AED 28,239</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="highlight" style="margin-top: 1.5rem;">
+                <h4>🧮 The Arithmetic, End to End</h4>
+                <ul style="margin-left: 1.2rem;">
+                    <li><strong>AED 40,480</strong> (332 hrs) + <strong>AED 28,239</strong> (233 added hrs) = <strong>AED 68,719</strong> (565 hrs). An increase of roughly 70% over the original lean quote.</li>
+                    <li><strong>The added hours reconcile against the team table.</strong> Development rises by 172 hours (Lead 160 → 200 → 240, Support 100 → 140 → 192), QA by 39 (40 → 55 → 79), PM by 22 (32 → 42 → 54). Nothing is unaccounted for.</li>
+                    <li><strong>Nothing was re-rated.</strong> The same two Middle Full-Stack engineers, the same Middle QA Engineer, the same Project Manager, at the same Rate Card rates throughout, including the SIEM export add-on. The increase is hours, not price per hour.</li>
+                    <li><strong>The scanning engine is untouched.</strong> Six intelligence services, five parallel jobs, retry and partial-result handling, the weighted 0–100 model, and the monthly scheduler were all in the AED 40,480 scope and are carried forward without additional hours. Deduplication of findings across sources was not described in that version; it is included here, absorbed within the aggregation work rather than charged separately.</li>
+                    <li><strong>The single biggest saving is what we agreed not to build.</strong> Because classification and severity arrive from the intelligence services, no in-house analytical, correlation, or severity-derivation engine is required. The dashboard displays classified data rather than producing it, which is why item 1 costs 48 hours instead of several hundred. Item 5 follows a related principle: it reuses Cloud Tasks for the retry queue and the existing audit-event log, rather than introducing new infrastructure.</li>
+                    <li><strong>The timeline follows the hours, not the reverse.</strong> Items 1 through 4 kept the Lead at exactly 200 hours over 5 weeks. Item 5 adds 40 Lead-level hours for the two delivery pipelines (Push and Pull), landing at 240 Lead hours, or exactly 6.0 weeks. The four format converters and the admin UI — 52 hours — went to the Support Developer, since that work follows 7Cyber's specification directly rather than requiring open architectural judgment.</li>
+                </ul>
+            </div>
+
+            <div class="highlight" style="margin-top: 1.5rem; border-left: 4px solid var(--gold); background: rgba(197,160,94,0.06);">
+                <h4>🔒 The Scope Assumptions This Price Is Based On</h4>
+                <p style="margin-bottom: 0.8rem; color:#555;">AED 68,719 is based on the following scope assumptions. The classification boundary and the corrected SIEM concept were both confirmed during follow-up discussions; the remaining commercial and operational assumptions will be confirmed before the fixed price is locked. If any of them changes, the estimate changes, and we will say so before work starts rather than after.</p>
+                <table class="estimation-table">
+                    <thead><tr><th>Assumption</th><th>What AED 68,719 assumes</th><th>Status</th></tr></thead>
+                    <tbody>
+                        <tr><td>Classification &amp; severity</td><td>Arrive from the external intelligence services. The platform does not derive them.</td><td>✅ Confirmed on the follow-up call</td></tr>
+                        <tr><td>Derived panels</td><td>Use deterministic mappings from service classifications and the agreed weighting rules only.</td><td>Follows from the above; rules confirmed in the scope workshop</td></tr>
+                        <tr><td>Subscription billing</td><td>Outside the platform. Admin assignment of plans and quotas only (C12).</td><td>⚠️ To be confirmed</td></tr>
+                        <tr><td>Admin panel</td><td>Lightweight CRUD over the existing data model, not an operations console.</td><td>⚠️ To be confirmed</td></tr>
+                        <tr><td>Executive identifiers</td><td>Supplied by 7Cyber or the client, not discovered by the platform.</td><td>⚠️ To be confirmed</td></tr>
+                        <tr><td>Logs (general)</td><td>JSON export and authenticated API for non-SIEM use.</td><td>⚠️ To be confirmed (C8)</td></tr>
+                        <tr style="background: rgba(124,58,237,0.10);"><td>SIEM export (corrected)</td><td>Push and Pull, four formats, one active at a time, per 7Cyber's confirmed specification (C14–C16).</td><td>✅ Confirmed by 7Cyber</td></tr>
+                        <tr><td>History</td><td>Firestore-based retained history. No BigQuery warehouse.</td><td>SoftTeco recommendation</td></tr>
+                        <tr><td>Retention period</td><td>Scan history and execution records retained for an agreed operational period; raw-payload retention set by lifecycle rule (C13).</td><td>⚠️ To be confirmed before go-live</td></tr>
+                        <tr><td>Report export</td><td>Browser print-to-PDF. No server-rendered branded document.</td><td>SoftTeco recommendation</td></tr>
+                        <tr><td>Roles</td><td>Two only: client user and 7Cyber admin (C7).</td><td>⚠️ To be confirmed</td></tr>
+                        <tr><td>QA</td><td>Structured but bounded: mocked integrations plus available live or sandbox endpoints.</td><td>SoftTeco recommendation</td></tr>
+                    </tbody>
+                </table>
+                <p style="margin-top: 0.8rem; font-size: 0.9rem; color: #666;">The assumptions marked "to be confirmed" are the ones worth a few minutes at kickoff. The subscription assumption is the most consequential of the remaining ones: if 7Cyber expects clients to select and pay for a plan inside the platform, that is a separate, separately priced piece of work.</p>
+            </div>
+
+            <div class="risk-card" style="margin-top: 1.5rem;">
+                <strong>What we did not add back</strong>
+                <p style="margin-top: 0.6rem;">The AED 181,740 architecture is not being restored, and neither is the AED 143,930 one. There is no BigQuery warehouse, no server-rendered branded PDF, no LLM-generated summary, no operations console, no purchase and billing flow, and no seven-role specialist bench. The SIEM export add-on is new architecture, priced and time-boxed on its own terms, built entirely from 7Cyber's own confirmed specification rather than a return to a heavier build. The exposure trend is computed from retained scan history rather than a warehouse, and the report is exported from the browser rather than rendered server-side. Those choices are what keep this at AED 68,719 rather than materially more.</p>
+            </div>
+        </div>
+
+        <div class="container">
+            <h2 style="margin-top: 4rem;">Module Effort &amp; Cost</h2>
+            <p style="font-size: 1.1rem; margin-bottom: 1rem;">
+                The same two-developer core team as the previous version, priced off the same named SoftTeco Rate Card rates, with hours added for the four things 7Cyber asked for: report-aligned dashboards, the admin panel, the retained scan history, and the corrected SIEM export capability.
+            </p>
+            <p style="margin-bottom: 2rem; color: #555;"><strong>Module scope only.</strong> No manual analyst review, no in-house classification engine, no additional intelligence services, no BigQuery warehouse, no server-rendered PDF, no LLM summary, no other AI Portal modules.</p>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin-bottom: 3rem;">
+                <div class="cost-box">
+                    <h4>Proposed Fixed Price</h4>
+                    <div class="cost-value">AED 68,719</div>
+                    <div class="cost-description">All-in (~US$18.7K equivalent), including the SIEM export add-on. Locks once the pending inputs and scope assumptions are confirmed. Change requests priced separately.</div>
+                </div>
+                <div class="cost-box">
+                    <h4>Total Effort</h4>
+                    <div class="cost-value">~565 hrs</div>
+                    <div class="cost-description">Across a two-developer core team plus proportionate QA and PM.</div>
+                </div>
+                <div class="cost-box">
+                    <h4>Calendar Time</h4>
+                    <div class="cost-value">6.0 weeks</div>
+                    <div class="cost-description">Set by the Lead Developer's 240 hours at exactly 1.0 FTE — up from 5 weeks, because of the SIEM export add-on's two delivery pipelines. Support, QA, and PM work in parallel within that window.</div>
+                </div>
+            </div>
+
+            <h3 style="margin-bottom: 2rem;">Effort Breakdown by Role</h3>
+            <table class="estimation-table">
+                <thead><tr><th>Role</th><th>Hours</th><th>Scope</th></tr></thead>
+                <tbody>
+                    <tr style="background: rgba(197,160,94,0.08);">
+                        <td><strong>Middle Full-Stack Developer (Lead)</strong></td>
+                        <td><strong>240</strong></td>
+                        <td>1.0 FTE over the build's 6.0-week duration, the critical-path role the timeline is built around. Leads the build: Node.js/TypeScript API, Cloud Tasks orchestration, the Firestore data model including scan history and source runs, the weighted scoring model, the Cloud Scheduler monthly job with its next-run and quota rules, the aggregation and deduplication logic, three of the six intelligence integrations, the JSON export endpoint, <strong>plus the SIEM Push and Pull delivery pipelines</strong>.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Middle Full-Stack Developer (Support)</strong></td>
+                        <td><strong>192</strong></td>
+                        <td>~0.80 FTE, running in parallel with the Lead. The remaining three intelligence integrations, the Google Vision wiring for the file-upload path, the input forms, the thirteen report-aligned dashboard panels (Chart.js, D3.js heat map, Leaflet.js map), the admin panel screens, <strong>the four SIEM format converters, the SIEM admin configuration UI, and SIEM module logging</strong>.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>QA Engineer</strong></td>
+                        <td><strong>79</strong></td>
+                        <td>~0.33 FTE. Test plan and execution across mocked integrations and available live or sandbox vendor endpoints, including failure and timeout scenarios, scoring validation, both input paths, the monthly delta and re-run guard, tenant and role isolation, the admin panel, dashboard regression, <strong>and SIEM export: format-compliance checks, Push against a test receiver over TCP and UDP, retry/backoff behaviour, and Pull generation with ZIP and signed-URL expiry</strong>.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Project Manager</strong></td>
+                        <td><strong>54</strong></td>
+                        <td>~0.23 FTE. Weekly check-ins across the 6.0-week build, plus kickoff, the dashboard panel walkthrough against 7Cyber's report examples, scope coordination, <strong>confirming CEF field mappings and Push delivery details with 7Cyber, and a short SIEM setup guide for clients</strong>, and delivery handoff.</td>
+                    </tr>
+                    <tr style="background: rgba(10,77,104,0.08);">
+                        <td><strong>TOTAL — Module (proposed fixed price)</strong></td>
+                        <td><strong>~565 hrs</strong></td>
+                        <td><strong>AED 68,719 (~US$18.7K) all-in, 6.0 weeks. Locks once the pending inputs and scope assumptions are confirmed.</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="highlight" style="margin-top: 1.5rem; border-left: 4px solid var(--mdm-purple); background: rgba(124,58,237,0.05);">
+                <h4>📊 Estimate &amp; Team Validation — What the Added Hours Buy</h4>
+                <ul style="margin-left: 1.2rem;">
+                    <li><strong>Where the additional 233 hours go.</strong> 172 development hours (Lead +80 across both rounds, Support +92), 39 QA hours, and 22 PM hours, allocated across the four requested additions. The full reconciliation is in the section above, "Why the Price Moved from AED 40,480".</li>
+                    <li><strong>Still two developers, not seven roles.</strong> One Middle engineer leads at exactly 1.0 FTE; a second Middle engineer covers the remaining integrations, both dashboards, the admin screens, and now SIEM export, at ~0.80 FTE. QA (~0.33 FTE) and PM (~0.23 FTE) scale with the wider surface area.</li>
+                    <li><strong>Timeline matches the FTE, not a round number.</strong> The Lead's 240 hours over 6.0 weeks works out to exactly 1.0 FTE, a clean full-time schedule with no overtime baked in.</li>
+                    <li><strong>The corrected SIEM add-on costs less than the original mistaken one, for a good reason.</strong> A fully specified feature — exact formats, exact fields, exact retry counts — removes most of the open-ended architectural judgment that drove the earlier (now removed) estimate. Following 7Cyber's own specification precisely is both more correct and more efficient to build.</li>
+                    <li><strong>Where we didn't cut.</strong> The six live vendor integrations still get real per-service attention: auth handling, retry logic, deduplication, and response normalisation. That remains the part of this build most likely to break if rushed.</li>
+                    <li><strong>Every rate is a direct Rate Card match, no premiums.</strong> Both Full-Stack Developer roles map to Middle Software Engineer, QA to Middle Manual QA Engineer, and PM to Project Manager — including every hour of the SIEM export add-on.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    <!-- Year 1 Support -->
+    <section>
+        <div class="container">
+            <h2>Year 1 Support — Team &amp; Packages</h2>
+            <p style="font-size: 1.1rem; margin-bottom: 2rem;">
+                Sized to match the delivered surface area: the scan pipeline, the dashboards, the admin panel, and SIEM export.
+            </p>
+            <table class="estimation-table">
+                <thead><tr><th>Role</th><th>Essential (hrs/mo)</th><th>Growth (hrs/mo)</th><th>Scale (hrs/mo)</th><th>Covers</th></tr></thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Full-Stack Developer (Lead)</strong></td>
+                        <td>5</td><td>8</td><td>15</td>
+                        <td>Bug fixes, Cloud Tasks and Functions tuning, scoring adjustments, SIEM Push pipeline tuning.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Full-Stack Developer (Support)</strong></td>
+                        <td>3</td><td>7</td><td>13</td>
+                        <td>Minor vendor API compatibility updates, dashboard and admin-panel fixes, SIEM formatter and Pull-generation fixes.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>QA Engineer</strong></td>
+                        <td>3</td><td>4</td><td>7</td>
+                        <td>Regression testing on vendor API changes, admin-panel releases, and SIEM export delivery checks.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Project Manager</strong></td>
+                        <td>1</td><td>3</td><td>4</td>
+                        <td>Monthly check-in, change management.</td>
+                    </tr>
+                    <tr style="background: rgba(10,77,104,0.08);">
+                        <td><strong>TOTAL HOURS / MONTH</strong></td>
+                        <td><strong>~12</strong></td>
+                        <td><strong>~22</strong></td>
+                        <td><strong>~39</strong></td>
+                        <td>Hours re-allocatable between roles.</td>
+                    </tr>
+                    <tr style="background: rgba(16,185,129,0.08);">
+                        <td><strong>MONTHLY TOTAL</strong></td>
+                        <td><strong>AED 1,430</strong><br>(~$389)</td>
+                        <td><strong>AED 2,677</strong><br>(~$729)</td>
+                        <td><strong>AED 4,717</strong><br>(~$1,284)</td>
+                        <td>All-in package price.</td>
+                    </tr>
+                    <tr style="background: rgba(197,160,94,0.18);">
+                        <td><strong>ANNUAL TOTAL</strong></td>
+                        <td><strong>AED 17,160</strong><br>(~$4.7K)</td>
+                        <td><strong>AED 32,124</strong><br>(~$8.7K)</td>
+                        <td><strong>AED 56,604</strong><br>(~$15.4K)</td>
+                        <td>Final Year 1 support contract issued as a separate quote after go-live.</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="highlight" style="border-left: 4px solid var(--gold); background: rgba(197,160,94,0.06); margin-top: 1.5rem;">
+                <h4>📌 Commercial notes on Year 1 support</h4>
+                <ul style="margin-left: 1.2rem;">
+                    <li>Cloud infrastructure and the external intelligence-service subscriptions, where the provider and tier are paid, are not included. Both are paid directly by 7Cyber.</li>
+                    <li>Adding any of the excluded items (BigQuery warehouse, server-rendered PDF, LLM summary, Privacy &amp; Regulatory Alignment, Recommendation Scorecard, a fifth SIEM format, simultaneous multi-format sending) runs as a change request, priced separately when 7Cyber wants it.</li>
+                    <li>Support covers minor vendor API compatibility updates and routine SIEM delivery troubleshooting within the package hours. A breaking change by an intelligence provider, or a new client SIEM requiring materially different CEF field mapping, is scoped and quoted as a change request.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    <!-- ROI -->
+    <section style="background: #f8f9fa;">
+        <div class="container">
+            <h2>Business Case for the Module Investment</h2>
+            <table class="estimation-table">
+                <tbody>
+                    <tr>
+                        <td><strong>Proposed fixed build cost</strong></td>
+                        <td><strong>AED 68,719</strong><br>(~$18.7K)</td>
+                        <td>One-time, 6.0 weeks to production-ready delivery. Go-live follows the penetration test conducted or procured by 7Cyber.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Vs. the original lean quote</strong></td>
+                        <td><strong>+AED 28,239</strong></td>
+                        <td>A 70% increase, buying the report-aligned dashboard, the admin panel, the retained scan history, and the corrected SIEM export add-on that quote did not contain.</td>
+                    </tr>
+                    <tr style="background: rgba(124,58,237,0.10);">
+                        <td><strong>Of which, SIEM export alone</strong></td>
+                        <td><strong>AED 15,436</strong></td>
+                        <td>128 hours: Push and Pull delivery, four format converters, admin configuration, and delivery logging, built to 7Cyber's confirmed specification. See the dedicated section above for the full breakdown.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Vs. original 8-module MVP</strong></td>
+                        <td><strong>~86% lower</strong></td>
+                        <td>AED 68,719 vs. ~AED 477,425 ($130K).</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Vs. our prior React-based quote</strong></td>
+                        <td><strong>~52% lower</strong></td>
+                        <td>AED 68,719 vs. AED 143,930, now including SIEM export that quote never contemplated, on a leaner serverless data layer.</td>
+                    </tr>
+                    <tr style="background: rgba(16,185,129,0.10);">
+                        <td><strong>Standalone monetisation</strong></td>
+                        <td><strong>Per-scan or subscription pricing</strong></td>
+                        <td>The module can be sold on its own — a monthly exposure-monitoring subscription, or a one-off scan fee. SIEM export is a genuine enterprise differentiator: clients already running a SOC can plug this in directly.</td>
+                    </tr>
+                    <tr style="background: rgba(197,160,94,0.18);">
+                        <td><strong>Clear upgrade path</strong></td>
+                        <td><strong>Add-ons priced when needed</strong></td>
+                        <td>A BigQuery warehouse, a server-rendered branded PDF, an LLM-generated summary, the regulatory alignment and scorecard panels, simultaneous multi-format SIEM sending, and historical SIEM backfill are all well-defined, separately priced additions once 7Cyber has usage data to justify them.</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="highlight" style="margin-top: 2rem;">
+                <h4>💼 The Strategic Argument</h4>
+                <p>
+                    This gets 7Cyber a production-ready exposure-monitoring product, now with correctly-scoped SIEM export, in 6.0 weeks: one that presents the core dashboard views aligned with 7Cyber's report examples, subject to the explicit exclusions above, that 7Cyber's team can operate without SoftTeco in the loop, that retains an exportable record of every scan, and that can push or hand off results to a client's own SIEM in the format their environment expects. Go-live follows the penetration test conducted or procured by 7Cyber. The increase over the original lean quote is 70%, and unlike a return to the earlier heavy architecture, AED 15,436 of that buys a capability built directly from 7Cyber's own confirmed specification, priced and time-boxed on its own terms.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits -->
+    <section>
+        <div class="container">
+            <h2>Why This Scope Wins for 7Cyber</h2>
+            <div class="benefits">
+                <div class="benefit-item">
+                    <span class="benefit-icon">🎯</span>
+                    <div>
+                        <h3>All Six Services, Full Risk Model, Nothing Faked</h3>
+                        <p>The parts that are hard to get right, six live vendor integrations and the weighted risk-scoring engine, are built properly. What remains excluded is named explicitly and priced separately.</p>
+                    </div>
+                </div>
+                <div class="benefit-item">
+                    <span class="benefit-icon">💰</span>
+                    <div>
+                        <h3>A Product 7Cyber Can Operate</h3>
+                        <p>The admin panel means 7Cyber's team can onboard clients, manage subscriptions and quota, configure monitored domains, see the next scan date, reopen any past run, export logs, and configure SIEM export, without a developer in the loop.</p>
+                    </div>
+                </div>
+                <div class="benefit-item">
+                    <span class="benefit-icon">📋</span>
+                    <div>
+                        <h3>Nothing Hidden</h3>
+                        <p>Every excluded feature is listed explicitly in "What This Doesn't Include", with the reason. 7Cyber knows exactly what this price buys, and exactly what a later upgrade would add.</p>
+                    </div>
+                </div>
+                <div class="benefit-item">
+                    <span class="benefit-icon">⚡</span>
+                    <div>
+                        <h3>Production-Ready in 6 Weeks</h3>
+                        <p>A focused two-developer team, led full-time by one engineer, delivers this faster than a larger, more specialised bench would for a build this size — including SIEM export.</p>
+                    </div>
+                </div>
+                <div class="benefit-item">
+                    <span class="benefit-icon">🔁</span>
+                    <div>
+                        <h3>Recurring Value from Day One</h3>
+                        <p>Automated monthly monitoring, a new-vs-resolved delta, and an exposure trend built from retained history give clients a reason to keep coming back, and give 7Cyber a subscription hook.</p>
+                    </div>
+                </div>
+                <div class="benefit-item">
+                    <span class="benefit-icon">🛡️</span>
+                    <div>
+                        <h3>No Dedicated Server Capacity to Provision or Maintain</h3>
+                        <p>Cloud Functions and Cloud Tasks autoscale automatically. There is nothing to size, monitor, or upgrade as usage grows — SIEM export reuses the same Cloud Tasks queue rather than adding new infrastructure.</p>
+                    </div>
+                </div>
+                <div class="benefit-item">
+                    <span class="benefit-icon">📤</span>
+                    <div>
+                        <h3>SIEM Export That Matches 7Cyber's Real Requirement</h3>
+                        <p>Built directly from 7Cyber's confirmed specification, not an assumption. Four formats, Push or Pull, exactly as defined — and cheaper than the earlier, incorrect concept, because a fully specified feature is faster to build correctly.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Next Steps -->
+    <section style="background: #f8f9fa;">
+        <div class="container">
+            <h2>Recommended Next Steps</h2>
+            <div class="architecture">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
+                    <div>
+                        <h3 style="color: var(--accent);">1. Confirm the Pending Inputs</h3>
+                        <p>7Cyber confirms: service access and credentials where applicable for the six intelligence services, the GCP project and billing owner, hosting and domain preferences, the report examples and brand assets, the log delivery model, and the SIEM Push destination(s) and CEF/JSON field-mapping conventions. Together with the scope assumptions listed above, this locks the fixed-price quote.</p>
+                    </div>
+                    <div>
+                        <h3 style="color: var(--accent);">2. Scope Workshop</h3>
+                        <p>One working session to walk the thirteen dashboard panels against 7Cyber's report examples, confirm the admin-panel screens and roles, agree how the services' severity classification maps to the alerting rule, settle the log delivery model, and confirm SIEM export details per client: format, delivery method, and destination.</p>
+                    </div>
+                    <div>
+                        <h3 style="color: var(--accent);">3. External Service Access Setup</h3>
+                        <p>Set up the six intelligence-service accounts, the GCP project (Firestore, Cloud Storage, Vision API, Cloud Functions, Cloud Tasks), and confirm reachability of any SIEM Push destinations, before build start.</p>
+                    </div>
+                    <div>
+                        <h3 style="color: var(--accent);">4. Build, Pilot &amp; Launch</h3>
+                        <p>6.0-week delivery with two developers working largely in parallel. Pilot in a controlled pre-production environment with at least one real domain scan, one real file-upload scan, and one real SIEM export in each of the four formats, ahead of the penetration test and go-live.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <div class="cta">
+        <div class="container">
+            <h2 style="color: white; margin-bottom: 2rem;">Ready to Ship the Worldwide Leak Detection Module?</h2>
+            <p style="font-size: 1.1rem; margin-bottom: 2rem; max-width: 700px; margin-left: auto; margin-right: auto;">
+                Confirm the pending inputs and scope assumptions and we lock the fixed-price quote: production-ready delivery, including SIEM export, inside 6.0 weeks of kickoff, with go-live after the penetration test conducted or procured by 7Cyber.
+            </p>
+            <a href="mailto:contact@softteco.com" class="cta-button">Schedule the Kickoff Call</a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p><strong>Worldwide Leak Detection Module · Technical &amp; Commercial Proposal</strong></p>
+            <p>Prepared for: 7Cyber</p>
+            <p>Scope: <strong>Balanced build</strong> — Worldwide Leak Detection, React portal, 7Cyber admin panel, and SIEM export (Push/Pull, 4 formats) on serverless GCP</p>
+            <p>Aligned to: 7Cyber's "Worldwide Leak Detection Module" Technical Specification (v2), the two report examples provided by 7Cyber, and 7Cyber's confirmed SIEM Integration Module specification</p>
+            <p>Proposed Fixed Price: AED 68,719 (~US$18.7K equivalent) &nbsp;·&nbsp; ~565 hrs &nbsp;·&nbsp; 6.0 weeks &nbsp;·&nbsp; locks on pending inputs and scope assumptions</p>
+            <p>Date: July 2026</p>
+            <p style="margin-top: 2rem; font-size: 0.9rem; opacity: 0.8;">
+                This proposal is confidential and intended solely for the recipient. © 2026 SoftTeco. All rights reserved.
+            </p>
+        </div>
+    </footer>
+</body>
+</html>
