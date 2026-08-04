@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Голосовой AI-агент · Оценка качества звонков · ОАЭ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --chassis:#14171C;
+  --panel:#1B2027;
+  --panel2:#232A33;
+  --line:#2F3843;
+  --line2:#3D4854;
+  --alu:#D6DAE0;
+  --dim:#8B95A2;
+  --dim2:#69737F;
+  --amber:#F0A83C;
+  --teal:#46B3A6;
+  --teal-hi:#6FD3B8;
+  --red:#DE4E3C;
+  --blue:#6C97DA;
+  --display:'Archivo',system-ui,sans-serif;
+  --body:'IBM Plex Sans',system-ui,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:var(--chassis);color:var(--alu);
+  font-family:var(--body);font-size:16px;line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1120px;margin:0 auto;padding:0 28px}
+.band{padding:84px 0;border-top:1px solid var(--line)}
+.band:first-of-type{border-top:none}
+
+h1,h2,h3{font-family:var(--display);margin:0;font-weight:800;letter-spacing:-.02em;line-height:1.08}
+h1{font-size:clamp(34px,5.4vw,62px)}
+h2{font-size:clamp(26px,3.4vw,40px)}
+h3{font-size:18px;font-weight:600;letter-spacing:-.01em}
+p{margin:0 0 16px}
+.lede{font-size:clamp(17px,1.7vw,20px);color:#B6BDC6;max-width:64ch}
+.muted{color:var(--dim)}
+.small{font-size:14px}
+.xs{font-size:12.5px}
+
+/* chain eyebrow — encodes signal flow, not decoration */
+.chain{display:flex;align-items:center;gap:14px;margin-bottom:22px}
+.chain-tag{
+  font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--chassis);background:var(--amber);padding:5px 10px;border-radius:2px;font-weight:600;
+}
+.chain-rule{flex:1;height:1px;background:linear-gradient(90deg,var(--line2),transparent)}
+.chain-idx{font-family:var(--mono);font-size:11px;color:var(--dim2);letter-spacing:.1em}
+
+/* ---------- HERO ---------- */
+.hero{padding:56px 0 76px;position:relative;overflow:hidden}
+.hero::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(900px 380px at 78% 12%,rgba(240,168,60,.09),transparent 70%);
+}
+.brandline{
+  display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;
+  font-family:var(--mono);font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim2);
+  padding-bottom:26px;margin-bottom:44px;border-bottom:1px solid var(--line);
+}
+.brandline b{color:var(--alu);font-weight:600}
+.hero-grid{display:grid;grid-template-columns:1.35fr .65fr;gap:56px;align-items:end;position:relative;z-index:1}
+h1 .hl{color:var(--amber)}
+.hero p{margin-top:22px}
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:30px}
+.chip{
+  font-family:var(--mono);font-size:12px;color:#C4CAD2;
+  border:1px solid var(--line2);border-radius:2px;padding:7px 12px;background:var(--panel);
+}
+.chip b{color:var(--amber);font-weight:600}
+
+/* hero meter */
+.hero-meter{display:flex;gap:16px;align-items:flex-end;justify-content:flex-end}
+.hm-scale{display:flex;flex-direction:column-reverse;justify-content:space-between;height:250px;font-family:var(--mono);font-size:10px;color:var(--dim2)}
+.hm-body{width:74px;height:250px;background:var(--panel);border:1px solid var(--line2);border-radius:3px;padding:6px;display:flex;flex-direction:column-reverse;gap:3px}
+.seg{flex:1;background:#232A33;border-radius:1px;transition:background .5s ease}
+.hm-read{font-family:var(--display);font-size:30px;font-weight:800;text-align:center;margin-top:10px;letter-spacing:-.02em}
+.hm-cap{font-family:var(--mono);font-size:10px;color:var(--dim2);text-align:center;letter-spacing:.14em;text-transform:uppercase}
+
+/* ---------- cards ---------- */
+.cards{display:grid;gap:18px;grid-template-columns:repeat(3,1fr);margin-top:34px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:22px}
+.card h3{margin-bottom:8px}
+.card p{margin:0;font-size:14.5px;color:var(--dim)}
+.card .kicker{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--red);display:block;margin-bottom:12px}
+
+/* ---------- pipeline ---------- */
+.flow{display:flex;flex-wrap:wrap;gap:8px;margin-top:32px;align-items:stretch}
+.node{
+  flex:1 1 150px;background:var(--panel);border:1px solid var(--line);border-radius:3px;padding:14px 14px 16px;
+  position:relative;
+}
+.node.accent{border-color:rgba(240,168,60,.55);background:linear-gradient(180deg,rgba(240,168,60,.08),var(--panel))}
+.node .n{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;color:var(--dim2);display:block;margin-bottom:9px}
+.node.accent .n{color:var(--amber)}
+.node strong{font-size:14.5px;font-weight:600;display:block;margin-bottom:5px;font-family:var(--display)}
+.node span.d{font-size:12.5px;color:var(--dim);line-height:1.45;display:block}
+
+/* ---------- two col ---------- */
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:32px}
+.pane{background:var(--panel);border:1px solid var(--line);border-radius:4px;overflow:hidden}
+.pane-head{padding:14px 20px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px;background:var(--panel2)}
+.dot{width:7px;height:7px;border-radius:50%;flex:none}
+.pane-head span{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--dim)}
+.pane ul{margin:0;padding:16px 20px 20px 20px;list-style:none}
+.pane li{padding:8px 0;border-bottom:1px dashed var(--line);font-size:14.5px;display:flex;gap:14px;justify-content:space-between}
+.pane li:last-child{border-bottom:none}
+.pane li b{font-weight:500;color:var(--alu);flex:none}
+.pane li em{font-style:normal;color:var(--dim);text-align:right;font-size:13px;font-family:var(--mono)}
+
+/* ---------- judge ---------- */
+.judge{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--line);border-radius:4px;overflow:hidden;margin-top:34px}
+.pass{padding:28px;background:var(--panel)}
+.pass+.pass{border-left:1px solid var(--line);background:var(--panel2)}
+.pass .lbl{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--teal);margin-bottom:12px;display:block}
+.pass h3{margin-bottom:10px}
+.pass p{font-size:14.5px;color:var(--dim);margin:0}
+.pass code{font-family:var(--mono);font-size:12.5px;color:#C8CED6;background:#12161B;border:1px solid var(--line);padding:2px 6px;border-radius:2px}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:26px}
+.factlist{list-style:none;padding:0;margin:22px 0 0}
+.factlist li{display:flex;gap:14px;padding:14px 0;border-top:1px solid var(--line);font-size:15px}
+.factlist li:last-child{border-bottom:1px solid var(--line)}
+.factlist .m{font-family:var(--mono);font-size:11.5px;color:var(--amber);flex:none;width:34px;padding-top:3px}
+
+/* transcript sample */
+.tr{background:#11151A;border:1px solid var(--line);border-radius:4px;padding:20px;margin-top:24px;font-family:var(--mono);font-size:12.5px;line-height:1.75}
+.tr .who{color:var(--dim2)}
+.tr .ag{color:var(--blue)}
+.tr .cl{color:var(--teal-hi)}
+.tr .verdict{display:block;margin-top:14px;padding-top:14px;border-top:1px dashed var(--line);color:var(--alu)}
+.tr .verdict b{color:var(--amber);font-weight:600}
+
+/* ---------- CONSOLE (signature) ---------- */
+.console{
+  margin-top:38px;background:linear-gradient(180deg,#1D232B,#171B21);
+  border:1px solid var(--line2);border-radius:6px;padding:30px 26px 26px;position:relative;
+}
+.console::before,.console::after{
+  content:"";position:absolute;top:12px;width:9px;height:9px;border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,#4A545F,#20262D);box-shadow:inset 0 0 0 1px #10141A;
+}
+.console::before{left:12px}
+.console::after{right:12px}
+.console-head{display:flex;justify-content:space-between;align-items:baseline;gap:20px;flex-wrap:wrap;margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid var(--line)}
+.console-head .t{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}
+.rack{display:grid;grid-template-columns:repeat(6,1fr) 1.25fr;gap:12px}
+.strip{background:var(--panel);border:1px solid var(--line);border-radius:3px;padding:14px 10px 12px;display:flex;flex-direction:column;align-items:center;text-align:center}
+.strip .ch{font-family:var(--display);font-size:22px;font-weight:800;line-height:1}
+.strip .nm{font-size:11.5px;color:var(--dim);margin-top:6px;min-height:44px;line-height:1.35}
+.strip .wt{font-family:var(--mono);font-size:10.5px;color:var(--amber);letter-spacing:.1em;margin-top:2px}
+.fader{position:relative;width:34px;height:172px;margin:14px 0 10px;cursor:ns-resize;touch-action:none;outline:none}
+.fader-slot{position:absolute;left:50%;top:0;bottom:0;width:5px;transform:translateX(-50%);background:#0E1216;border-radius:3px;box-shadow:inset 0 0 0 1px #2A323B}
+.fader-fill{position:absolute;left:50%;width:5px;transform:translateX(-50%);bottom:0;background:var(--teal);border-radius:3px}
+.fader-cap{
+  position:absolute;left:50%;width:32px;height:15px;transform:translate(-50%,50%);
+  background:linear-gradient(180deg,#525C68,#2C333B);border:1px solid #10141A;border-radius:2px;
+}
+.fader-cap::after{content:"";position:absolute;left:3px;right:3px;top:6px;height:1px;background:var(--alu);opacity:.75}
+.fader:focus-visible .fader-cap{box-shadow:0 0 0 2px var(--amber)}
+.strip .val{font-family:var(--mono);font-size:13px;color:var(--alu)}
+.strip .contrib{font-family:var(--mono);font-size:10.5px;color:var(--dim2);margin-top:2px}
+
+.master{background:linear-gradient(180deg,#252C35,#1A1F26);border:1px solid var(--line2);border-radius:3px;padding:14px 12px;display:flex;flex-direction:column;align-items:center}
+.master .ch{font-family:var(--display);font-size:13px;font-weight:800;letter-spacing:.14em;color:var(--amber)}
+.master .nm{font-size:11px;color:var(--dim);margin-top:4px;text-align:center}
+.mmeter{position:relative;width:56px;height:172px;margin:16px 0 10px;background:#0E1216;border:1px solid var(--line);border-radius:3px;padding:5px;display:flex;flex-direction:column-reverse;gap:2px}
+.mseg{flex:1;background:#1E242B;border-radius:1px}
+.capline{position:absolute;left:-6px;right:-6px;height:2px;background:var(--red);opacity:0;transition:bottom .3s ease,opacity .3s ease}
+.capline::after{content:"CAP";position:absolute;right:-30px;top:-6px;font-family:var(--mono);font-size:9px;color:var(--red);letter-spacing:.1em}
+.mread{font-family:var(--display);font-size:38px;font-weight:800;line-height:1;letter-spacing:-.03em}
+.mband{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;margin-top:6px;text-align:center}
+
+.gates{margin-top:22px;border-top:1px solid var(--line);padding-top:20px}
+.gates .gh{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:14px}
+.gates .gh span{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--red)}
+.gate-row{display:flex;flex-wrap:wrap;gap:8px}
+.gate{
+  font-family:var(--body);font-size:12.5px;color:var(--dim);background:var(--panel);
+  border:1px solid var(--line);border-radius:2px;padding:9px 12px;cursor:pointer;
+  display:flex;align-items:center;gap:9px;transition:all .18s ease;
+}
+.gate:hover{border-color:var(--line2);color:#B6BDC6}
+.gate .led{width:7px;height:7px;border-radius:50%;background:#333C46;flex:none;transition:all .18s ease}
+.gate[aria-pressed="true"]{border-color:var(--red);color:#F0C1B9;background:rgba(222,78,60,.1)}
+.gate[aria-pressed="true"] .led{background:var(--red);box-shadow:0 0 8px var(--red)}
+.gate code{font-family:var(--mono);font-size:11px;color:var(--dim2)}
+.gate[aria-pressed="true"] code{color:var(--red)}
+.reset{
+  background:none;border:1px solid var(--line2);color:var(--dim);font-family:var(--mono);
+  font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:8px 14px;border-radius:2px;cursor:pointer;
+}
+.reset:hover{color:var(--alu);border-color:var(--alu)}
+.demo-note{font-size:12.5px;color:var(--dim2);margin-top:16px}
+
+.formula{
+  background:#11151A;border:1px solid var(--line);border-radius:4px;padding:22px 24px;margin-top:26px;
+  font-family:var(--mono);font-size:14px;color:#C8CED6;overflow-x:auto;line-height:2;
+}
+.formula .k{color:var(--amber)}
+.formula .c{color:var(--dim2)}
+
+/* ---------- table ---------- */
+.tbl{width:100%;border-collapse:collapse;margin-top:28px;font-size:14.5px}
+.tbl th{
+  text-align:left;font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--dim2);font-weight:500;padding:0 14px 12px;border-bottom:1px solid var(--line2);
+}
+.tbl td{padding:14px;border-bottom:1px solid var(--line);vertical-align:top}
+.tbl tr:hover td{background:rgba(255,255,255,.016)}
+.tbl td.n{font-family:var(--mono);font-size:13px;white-space:nowrap;color:var(--red)}
+.tbl td.g{font-family:var(--mono);font-size:13px;white-space:nowrap;color:var(--teal)}
+
+.bands{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:30px}
+.bnd{border-left:3px solid;padding:16px 18px;background:var(--panel);border-radius:0 3px 3px 0}
+.bnd .r{font-family:var(--mono);font-size:17px;font-weight:600;display:block}
+.bnd .l{font-size:13px;color:var(--dim);margin-top:6px;display:block}
+
+/* ---------- outro ---------- */
+.outro{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin-top:32px}
+.out{background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:24px}
+.out .k{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--teal);display:block;margin-bottom:10px}
+.out p{margin:0;font-size:14.5px;color:var(--dim)}
+
+.results{margin-top:30px;border:1px dashed var(--line2);border-radius:4px;padding:6px 24px 20px}
+.results .cap{font-family:var(--mono);font-size:11px;color:var(--amber);letter-spacing:.14em;text-transform:uppercase;padding-top:18px;display:block}
+
+footer{border-top:1px solid var(--line);padding:44px 0 60px;color:var(--dim2);font-size:13.5px}
+footer ul{padding-left:18px;margin:14px 0 0;max-width:80ch}
+footer li{margin-bottom:8px}
+
+@media (max-width:980px){
+  .hero-grid{grid-template-columns:1fr;gap:40px}
+  .hero-meter{justify-content:flex-start}
+  .cards{grid-template-columns:1fr}
+  .duo,.judge,.split,.outro{grid-template-columns:1fr}
+  .pass+.pass{border-left:none;border-top:1px solid var(--line)}
+  .rack{grid-template-columns:repeat(3,1fr)}
+  .master{grid-column:1/-1;flex-direction:row;justify-content:space-around;align-items:center;gap:20px;padding:20px}
+  .mmeter{margin:0;height:120px}
+  .bands{grid-template-columns:repeat(2,1fr)}
+  .band{padding:60px 0}
+}
+@media (max-width:560px){
+  .rack{grid-template-columns:repeat(2,1fr)}
+  .wrap{padding:0 18px}
+  .tbl td,.tbl th{padding:11px 8px;font-size:13.5px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{transition:none!important;animation:none!important}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap">
+    <div class="brandline">
+      <b>Голосовой AI-агент</b><span>Исходящие продажи недвижимости</span><span>Дубай · Абу-Даби</span><span>Off-plan &amp; ready</span>
+    </div>
+    <div class="hero-grid">
+      <div>
+        <h1>Оценён каждый звонок.<br><span class="hl">Ни одного — вручную.</span></h1>
+        <p class="lede">Голосовой агент обзванивает лидов из CRM, квалифицирует и назначает просмотр. Второй, независимый AI-агент разбирает каждый разговор и выставляет оценку по шести блокам метрик, сведённым в один балл от 0 до 100.</p>
+        <div class="chips">
+          <span class="chip"><b>100%</b> звонков под оценкой</span>
+          <span class="chip"><b>6</b> блоков метрик</span>
+          <span class="chip"><b>0–100</b> итоговый балл CQS</span>
+          <span class="chip"><b>~секунды</b> до записи в CRM</span>
+        </div>
+      </div>
+      <div class="hero-meter">
+        <div class="hm-scale"><span>0</span><span>25</span><span>50</span><span>75</span><span>100</span></div>
+        <div>
+          <div class="hm-body" id="heroMeter"></div>
+          <div class="hm-read" id="heroRead">82</div>
+          <div class="hm-cap">Пример: CQS звонка</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section class="band">
+  <div class="wrap">
+    <h2>Что ломается в ручном контроле качества</h2>
+    <div class="cards">
+      <div class="card">
+        <span class="kicker">Покрытие</span>
+        <h3>Слушают единицы процентов</h3>
+        <p>Супервайзер физически успевает разобрать несколько звонков в день. Остальные уходят в архив непрочитанными — вместе с потерянными сделками и нарушениями.</p>
+      </div>
+      <div class="card">
+        <span class="kicker">Сопоставимость</span>
+        <h3>Оценки не складываются</h3>
+        <p>Два супервайзера ставят разные баллы за один и тот же разговор. Сравнивать кампании, языки и версии скрипта между собой нечем.</p>
+      </div>
+      <div class="card">
+        <span class="kicker">Задержка</span>
+        <h3>Обратная связь приходит поздно</h3>
+        <p>Проблема в скрипте живёт неделями, пока её не заметят. За это время через неё проходит весь поток лидов.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ВХОД -->
+<section class="band">
+  <div class="wrap">
+    <div class="chain"><span class="chain-tag">Вход</span><span class="chain-idx">CRM → очередь обзвона</span><span class="chain-rule"></span></div>
+    <h2>Агент звонит, зная контекст лида</h2>
+    <p class="lede">Перед набором номера система забирает карточку из CRM: кто человек, на каком языке говорит, из какого портала пришёл, что смотрел, сколько раз с ним уже связывались и есть ли действующее согласие. После звонка тем же маршрутом уходит результат.</p>
+    <div class="duo">
+      <div class="pane">
+        <div class="pane-head"><i class="dot" style="background:var(--blue)"></i><span>Забираем перед звонком</span></div>
+        <ul>
+          <li><b>Идентификация</b><em>имя, подсказка произношения, номер</em></li>
+          <li><b>Язык и локация</b><em>язык, национальность, тайм-зона</em></li>
+          <li><b>Источник</b><em>портал, кампания, объявление</em></li>
+          <li><b>Коммерческий интерес</b><em>бюджет, район, тип юнита</em></li>
+          <li><b>История контактов</b><em>попытки, прошлые возражения</em></li>
+          <li><b>Правовой статус</b><em>согласие, DNC, дата и канал</em></li>
+        </ul>
+      </div>
+      <div class="pane">
+        <div class="pane-head"><i class="dot" style="background:var(--teal)"></i><span>Возвращаем после звонка</span></div>
+        <ul>
+          <li><b>Исход</b><em>просмотр / перезвон / отказ</em></li>
+          <li><b>Следующий шаг</b><em>дата, время, формат</em></li>
+          <li><b>Собранные слоты</b><em>бюджет, цель, горизонт, оплата</em></li>
+          <li><b>Возражения</b><em>каталогизированные теги</em></li>
+          <li><b>Оценка качества</b><em>CQS + шесть подскоров</em></li>
+          <li><b>Флаги на разбор</b><em>запись, транскрипт, причина</em></li>
+        </ul>
+      </div>
+    </div>
+    <p class="small muted" style="margin-top:22px">В контекст модели попадает только явно разрешённый набор полей. Агент не запрашивает по телефону документы и не раскрывает данные лида, пока не подтвердит, что говорит именно с ним.</p>
+  </div>
+</section>
+
+<!-- ТРАКТ -->
+<section class="band">
+  <div class="wrap">
+    <div class="chain"><span class="chain-tag">Тракт</span><span class="chain-idx">Путь одного звонка</span><span class="chain-rule"></span></div>
+    <h2>Голосовой тракт и телеметрия</h2>
+    <p class="lede">Каждая реплика фиксируется отдельно: задержка ответа, уверенность распознавания, момент перебивания. Без пореплико́вой телеметрии половину метрик просто нечем считать.</p>
+    <div class="flow">
+      <div class="node"><span class="n">01</span><strong>Планировщик</strong><span class="d">Окно обзвона по тайм-зоне лида, лимит попыток, приоритет свежих заявок</span></div>
+      <div class="node"><span class="n">02</span><strong>Телефония</strong><span class="d">SIP-транк лицензированного оператора, зарегистрированный caller ID</span></div>
+      <div class="node"><span class="n">03</span><strong>Речевой конвейер</strong><span class="d">Детекция речи → распознавание → определение конца реплики → модель диалога → синтез</span></div>
+      <div class="node"><span class="n">04</span><strong>Каталог объектов</strong><span class="d">Цены, планы оплаты, сроки сдачи агент берёт только из инвентаря, а не «из головы»</span></div>
+      <div class="node accent"><span class="n">05</span><strong>Оценивающий агент</strong><span class="d">Разбирает запись и транскрипт сразу после отбоя, выставляет CQS</span></div>
+      <div class="node"><span class="n">06</span><strong>Запись в CRM</strong><span class="d">Исход, слоты, оценка, задача брокеру, ссылки на запись</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ИЗМЕРЕНИЕ -->
+<section class="band">
+  <div class="wrap">
+    <div class="chain"><span class="chain-tag">Измерение</span><span class="chain-idx">Оценку ставит AI-агент</span><span class="chain-rule"></span></div>
+    <h2>Кто и как выставляет оценку</h2>
+    <p class="lede">Оценкой занимается отдельный AI-агент, а не человек и не та же модель, которая вела разговор. Он запускается автоматически после каждого звонка — без выборки, без очереди, без супервайзера.</p>
+
+    <ul class="factlist">
+      <li><span class="m">01</span><span><b>Другая модель, чем у собеседника.</b> Агент-судья работает на модели, отличной от диалоговой. Иначе система оценивала бы саму себя и всегда была бы собой довольна.</span></li>
+      <li><span class="m">02</span><span><b>Не всё оценивает ИИ.</b> Задержка ответа, доля эфира, перебивания, уверенность распознавания считаются кодом из телеметрии — это измерение, а не суждение. Судья подключается только там, где нужна интерпретация смысла.</span></li>
+      <li><span class="m">03</span><span><b>Два прохода вместо одного.</b> Сначала извлечение структуры: какие утверждения агент сделал, какие вопросы задал, что подтвердил клиент. Затем оценка по рубрике поверх этой структуры. Разброс оценок падает в разы по сравнению с «прочитай транскрипт и поставь балл».</span></li>
+      <li><span class="m">04</span><span><b>Рубрики с якорями.</b> Для каждого балла прописан живой пример из реального звонка. Без якорей любая модель дрейфует к середине шкалы.</span></li>
+      <li><span class="m">05</span><span><b>Каждый балл объясним.</b> Оценка приходит с цитатой и номером реплики, на которой она основана. Брокер и супервайзер видят не «73», а за что именно снято.</span></li>
+    </ul>
+
+    <div class="judge">
+      <div class="pass">
+        <span class="lbl">Проход 1 · Извлечение</span>
+        <h3>Разговор превращается в структуру</h3>
+        <p>Из транскрипта достаются проверяемые факты: заявления о цене и сроках, момент раскрытия, заполненные слоты, реакция на отказ. На выходе — <code>JSON</code>, а не пересказ.</p>
+      </div>
+      <div class="pass">
+        <span class="lbl">Проход 2 · Оценка</span>
+        <h3>Рубрика применяется к структуре</h3>
+        <p>Судья оценивает извлечённые элементы по фиксированной шкале и сверяет фактические утверждения с тем, что реально вернул каталог объектов. Это сопоставление, а не «ощущение правдивости».</p>
+      </div>
+    </div>
+
+    <div class="tr">
+      <span class="who">14:22 <span class="ag">Агент:</span></span> …в этом проекте студии начинаются от 720 000 дирхам, сдача в четвёртом квартале следующего года.<br>
+      <span class="who">14:29 <span class="cl">Клиент:</span></span> А доходность какая выходит?<br>
+      <span class="who">14:31 <span class="ag">Агент:</span></span> По району средняя арендная доходность в прошлом году была около 7%. Гарантировать доход не могу — это рынок.
+      <span class="verdict">Разбор судьи: <b>C1 ✓</b> цена и срок подтверждены каталогом · <b>D5 ✓</b> отказ от гарантии доходности зафиксирован · <b>F2 = 3/4</b> возражение отработано, но не переведено в следующий шаг</span>
+    </div>
+  </div>
+</section>
+
+<!-- СУММА -->
+<section class="band">
+  <div class="wrap">
+    <div class="chain"><span class="chain-tag">Сумма</span><span class="chain-idx">Тридцать с лишним метрик → один балл</span><span class="chain-rule"></span></div>
+    <h2>Шесть каналов, одна шина</h2>
+    <p class="lede">Метрики собраны в шесть блоков с фиксированными весами. Каждый блок — канал; сумма каналов даёт сырой балл; поверх работает лимитер из жёстких гейтов. Подвигайте фейдеры и включите гейт, чтобы увидеть, как считается итог.</p>
+
+    <div class="console">
+      <div class="console-head">
+        <span class="t">Панель скоринга · CQS</span>
+        <button class="reset" id="resetBtn" type="button">Сбросить</button>
+      </div>
+      <div class="rack" id="rack"></div>
+
+      <div class="gates">
+        <div class="gh"><span>Лимитер · жёсткие гейты</span><span class="xs muted">Каждый гейт снимает штраф и ставит потолок итогового балла</span></div>
+        <div class="gate-row" id="gateRow"></div>
+        <p class="demo-note">В демонстрации гейты не пересчитывают подскоры — показана только работа потолков. В боевом контуре нарушение обычно ещё и опускает соответствующий блок.</p>
+      </div>
+    </div>
+
+    <div class="formula">
+<span class="c">// сырой балл — взвешенная сумма шести блоков</span><br>
+Raw = Σ<sub>b</sub> <span class="k">W</span><sub>b</sub> · ( Σ<sub>m</sub> <span class="k">w</span><sub>b,m</sub> · <span class="k">s</span><sub>b,m</sub> )   <span class="c">где Σ W = 100, Σ w = 1</span><br>
+<span class="c">// итог — за вычетом штрафов и не выше самого низкого потолка</span><br>
+<span class="k">CQS</span> = clamp( Raw − Σ<sub>k</sub> P<sub>k</sub> , 0 , min<sub>k</sub> Cap<sub>k</sub> )
+    </div>
+
+    <div class="split">
+      <div>
+        <h3 style="margin-bottom:12px">Почему коридор, а не максимум</h3>
+        <p class="small muted">Многие показатели не работают по принципу «чем больше, тем лучше». Агент, занимающий 85% эфира, продаёт плохо. Занимающий 15% — тоже. Такие метрики нормализуются трапецией с целевым коридором, а не линейно.</p>
+      </div>
+      <div>
+        <h3 style="margin-bottom:12px">Почему гейты вынесены отдельно</h3>
+        <p class="small muted">Нарушение регламента не должно размазываться весом и компенсироваться блестящей презентацией. Поэтому комплаенс не просто весит 20 баллов — он ещё и ставит потолок всему звонку.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ЛИМИТЕР -->
+<section class="band">
+  <div class="wrap">
+    <div class="chain"><span class="chain-tag">Лимитер</span><span class="chain-idx">Потолки и полосы</span><span class="chain-rule"></span></div>
+    <h2>Что обрушивает оценку</h2>
+    <table class="tbl">
+      <thead><tr><th>Событие в звонке</th><th>Штраф</th><th>Потолок CQS</th></tr></thead>
+      <tbody>
+        <tr><td>Разговор продолжен после явного отказа или просьбы больше не звонить</td><td class="n">—</td><td class="n">0</td></tr>
+        <tr><td>Данные лида раскрыты постороннему, ответившему на звонок</td><td class="n">−25</td><td class="n">29</td></tr>
+        <tr><td>Обещана гарантированная доходность, виза или одобрение ипотеки</td><td class="n">−20</td><td class="n">39</td></tr>
+        <tr><td>Не выполнено раскрытие: компания и то, что собеседник говорит с AI-ассистентом</td><td class="n">−15</td><td class="n">49</td></tr>
+        <tr><td>Названы цена, срок сдачи или план оплаты, не подтверждённые каталогом</td><td class="n">−15</td><td class="n">69</td></tr>
+        <tr><td>Звонок совершён вне разрешённого окна обзвона</td><td class="n">−10</td><td class="n">59</td></tr>
+      </tbody>
+    </table>
+    <p class="small muted" style="margin-top:20px">Конкретные пороги — окно обзвона, лимит попыток, точная формулировка раскрытия — хранятся как настройка кампании и согласуются с юристами под актуальные требования регуляторов ОАЭ. Они не зашиты в модель и меняются без переобучения.</p>
+
+    <div class="bands">
+      <div class="bnd" style="border-color:var(--teal-hi)"><span class="r" style="color:var(--teal-hi)">85–100</span><span class="l">Эталон. Идёт в обучающие примеры для следующей версии сценария.</span></div>
+      <div class="bnd" style="border-color:var(--teal)"><span class="r" style="color:var(--teal)">70–84</span><span class="l">Норма. Вмешательство не требуется.</span></div>
+      <div class="bnd" style="border-color:var(--amber)"><span class="r" style="color:var(--amber)">55–69</span><span class="l">Требует правки. Тег уходит в бэклог сценария.</span></div>
+      <div class="bnd" style="border-color:var(--red)"><span class="r" style="color:var(--red)">&lt; 55</span><span class="l">Провал. Ручной разбор и перезвон живого брокера.</span></div>
+    </div>
+    <p class="small muted" style="margin-top:18px">Любой сработавший гейт помечает звонок на разбор независимо от итогового балла.</p>
+  </div>
+</section>
+
+<!-- ДОВЕРИЕ -->
+<section class="band">
+  <div class="wrap">
+    <div class="chain"><span class="chain-tag">Поверка</span><span class="chain-idx">Почему этой оценке можно верить</span><span class="chain-rule"></span></div>
+    <h2>Метрика сама проходит проверку</h2>
+    <p class="lede">Автоматическая оценка полезна ровно настолько, насколько она согласована с человеком и предсказывает деньги. И то, и другое измеряется.</p>
+    <div class="outro">
+      <div class="out"><span class="k">Золотая выборка</span><p>Стратифицированный набор звонков по языку, исходу и длительности размечается двумя независимыми аннотаторами, спорные случаи разводит арбитр. Это эталон, против которого проверяется судья.</p></div>
+      <div class="out"><span class="k">Согласованность</span><p>Считается статистика согласия между аннотаторами и корреляция «судья ↔ человек» по каждому блоку.Низкая согласованность — сигнал переписать рубрику, а не подкрутить модель.</p></div>
+      <div class="out"><span class="k">Веса из бизнес-исхода</span><p>Стартовые веса экспертные. Дальше они пересчитываются регрессией подскоров на факт назначенного просмотра и закрытой сделки, со сглаживанием для сегментов с малым объёмом.</p></div>
+      <div class="out"><span class="k">Проверка на пользу</span><p>Ключевой тест: расходится ли конверсия между верхним и нижним квинтилем по CQS. Если разрыва нет — метрика измеряет вежливость, а не продажу, и веса переделываются.</p></div>
+      <div class="out"><span class="k">Устойчивость к накрутке</span><p>Регулярно проверяется, что балл нельзя поднять дёшево — например, зачитав комплаенс-блок и быстро свернув разговор.</p></div>
+      <div class="out"><span class="k">Контроль дрейфа</span><p>Распределение подскоров отслеживается понедельно. Сдвиг медианы при неизменном сценарии — признак деградации распознавания или смены состава лидов.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ВЫХОД -->
+<section class="band">
+  <div class="wrap">
+    <div class="chain"><span class="chain-tag">Выход</span><span class="chain-idx">Что это даёт в работе</span><span class="chain-rule"></span></div>
+    <h2>Оценка управляет процессом, а не лежит в отчёте</h2>
+    <div class="cards">
+      <div class="card"><h3>Автоматический перехват</h3><p>Балл ниже 55 или сработавший гейт — лид сразу уходит живому брокеру с готовым саммари и указанием причины.</p></div>
+      <div class="card"><h3>Сравнение версий сценария</h3><p>Видно не «стало лучше», а что версия B выигрывает в отработке возражений и проседает по доле эфира.</p></div>
+      <div class="card"><h3>Объяснимая отчётность</h3><p>Не «агент работает хорошо», а: фактическая точность 18.5 из 20, комплаенс 20 из 20, закрытие 8 из 15 — узкое место видно сразу.</p></div>
+    </div>
+
+    <div class="results">
+      <span class="cap">Результаты пилота · заполняется фактическими данными</span>
+      <table class="tbl">
+        <thead><tr><th>Показатель</th><th>Было</th><th>Стало</th></tr></thead>
+        <tbody>
+          <tr><td>Доля лидов с первым касанием быстрее 5 минут</td><td class="g">—</td><td class="g">—</td></tr>
+          <tr><td>Доля звонков с автоматической оценкой</td><td class="g">выборка</td><td class="g">100%</td></tr>
+          <tr><td>Средний CQS по кампании</td><td class="g">—</td><td class="g">—</td></tr>
+          <tr><td>Полнота собранных квалификационных данных</td><td class="g">—</td><td class="g">—</td></tr>
+          <tr><td>Конверсия в назначенный просмотр</td><td class="g">—</td><td class="g">—</td></tr>
+          <tr><td>Разрыв конверсии между верхним и нижним квинтилем CQS</td><td class="g">—</td><td class="g">—</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <b style="color:var(--alu);font-family:var(--display)">Честные ограничения</b>
+    <ul>
+      <li>CQS оценивает звонок, а не лид. Безупречный разговор с нерелевантным контактом даст высокий балл и нулевой результат — поэтому оценка всегда смотрится вместе с разбивкой по источникам.</li>
+      <li>Проверка фактов надёжна ровно настолько, насколько актуален каталог объектов. Устаревшая цена в источнике станет «честной» ошибкой, которую метрика не поймает.</li>
+      <li>При смене модели-судьи рубрики требуют повторной сверки на золотой выборке.</li>
+      <li>Регуляторные пороги — настройка под юрисдикцию и дату запуска, подлежит юридической проверке на стороне клиента.</li>
+    </ul>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var blocks = [
+    {id:'A', w:15, name:'Техническое качество тракта', v:0.87},
+    {id:'B', w:15, name:'Диалоговая динамика',        v:0.80},
+    {id:'C', w:20, name:'Фактическая точность',       v:0.93},
+    {id:'D', w:20, name:'Комплаенс',                  v:1.00},
+    {id:'E', w:15, name:'Квалификация лида',          v:0.70},
+    {id:'F', w:15, name:'Результат и следующий шаг',  v:0.55}
+  ];
+  var gates = [
+    {id:'g1', t:'Продолжил после отказа',        p:100, cap:0},
+    {id:'g2', t:'Раскрыл данные постороннему',   p:25,  cap:29},
+    {id:'g3', t:'Обещал доход или визу',         p:20,  cap:39},
+    {id:'g4', t:'Не раскрыл, что это AI',        p:15,  cap:49},
+    {id:'g5', t:'Ошибка в цене или сроке',       p:15,  cap:69},
+    {id:'g6', t:'Звонок вне окна',               p:10,  cap:59}
+  ];
+  var active = {};
+  var SEGS = 26;
+
+  function bandColor(s){
+    if(s >= 85) return '#6FD3B8';
+    if(s >= 70) return '#46B3A6';
+    if(s >= 55) return '#F0A83C';
+    return '#DE4E3C';
+  }
+  function bandLabel(s){
+    if(s >= 85) return 'Эталон';
+    if(s >= 70) return 'Норма';
+    if(s >= 55) return 'Требует правки';
+    return 'Провал';
+  }
+
+  /* hero meter */
+  var hero = document.getElementById('heroMeter');
+  if(hero){
+    var hsegs = [];
+    for(var i=0;i<24;i++){ var d=document.createElement('i'); d.className='seg'; hero.appendChild(d); hsegs.push(d); }
+    var target = 82, lit = Math.round(24*target/100);
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    function paintHero(n){
+      for(var i=0;i<24;i++){
+        hsegs[i].style.background = i < n ? bandColor(target) : '#232A33';
+      }
+    }
+    if(reduce){ paintHero(lit); }
+    else{
+      var k=0;
+      var t=setInterval(function(){ k++; paintHero(k); if(k>=lit) clearInterval(t); }, 34);
+    }
+  }
+
+  /* console build */
+  var rack = document.getElementById('rack');
+  var faders = {};
+
+  blocks.forEach(function(b){
+    var strip = document.createElement('div');
+    strip.className = 'strip';
+    strip.innerHTML =
+      '<span class="ch">'+b.id+'</span>'+
+      '<span class="nm">'+b.name+'</span>'+
+      '<span class="wt">вес '+b.w+'</span>'+
+      '<div class="fader" tabindex="0" role="slider" aria-label="Блок '+b.id+': '+b.name+'" aria-valuemin="0" aria-valuemax="100" aria-valuenow="'+Math.round(b.v*100)+'">'+
+        '<div class="fader-slot"></div><div class="fader-fill"></div><div class="fader-cap"></div>'+
+      '</div>'+
+      '<span class="val">'+Math.round(b.v*100)+'%</span>'+
+      '<span class="contrib">'+(b.w*b.v).toFixed(1)+' / '+b.w+'</span>';
+    rack.appendChild(strip);
+    faders[b.id] = {
+      el: strip.querySelector('.fader'),
+      fill: strip.querySelector('.fader-fill'),
+      cap: strip.querySelector('.fader-cap'),
+      val: strip.querySelector('.val'),
+      contrib: strip.querySelector('.contrib'),
+      block: b
+    };
+  });
+
+  var master = document.createElement('div');
+  master.className = 'master';
+  master.innerHTML =
+    '<div><span class="ch">MASTER</span><div class="nm">Итоговый CQS</div></div>'+
+    '<div class="mmeter" id="mmeter"><div class="capline" id="capline"></div></div>'+
+    '<div><div class="mread" id="mread">82</div><div class="mband" id="mband">Норма</div></div>';
+  rack.appendChild(master);
+
+  var mm = document.getElementById('mmeter');
+  var msegs = [];
+  for(var j=0;j<SEGS;j++){ var s=document.createElement('i'); s.className='mseg'; mm.appendChild(s); msegs.push(s); }
+  var capline = document.getElementById('capline');
+  var mread = document.getElementById('mread');
+  var mband = document.getElementById('mband');
+
+  function compute(){
+    var raw = 0;
+    blocks.forEach(function(b){ raw += b.w * b.v; });
+    var pen = 0, cap = 100;
+    gates.forEach(function(g){
+      if(active[g.id]){ pen += g.p; cap = Math.min(cap, g.cap); }
+    });
+    var score = Math.max(0, Math.min(raw - pen, cap));
+    return {score: Math.round(score), cap: cap};
+  }
+
+  function render(){
+    blocks.forEach(function(b){
+      var f = faders[b.id];
+      var pct = b.v*100;
+      f.fill.style.height = pct + '%';
+      f.cap.style.bottom = pct + '%';
+      f.val.textContent = Math.round(pct) + '%';
+      f.contrib.textContent = (b.w*b.v).toFixed(1) + ' / ' + b.w;
+      f.el.setAttribute('aria-valuenow', Math.round(pct));
+      f.fill.style.background = pct >= 70 ? '#46B3A6' : (pct >= 45 ? '#F0A83C' : '#DE4E3C');
+    });
+    var r = compute();
+    var lit = Math.round(SEGS * r.score / 100);
+    var col = bandColor(r.score);
+    for(var i=0;i<SEGS;i++){ msegs[i].style.background = i < lit ? col : '#1E242B'; }
+    mread.textContent = r.score;
+    mread.style.color = col;
+    mband.textContent = bandLabel(r.score);
+    mband.style.color = col;
+    if(r.cap < 100){ capline.style.opacity = 1; capline.style.bottom = 'calc(' + r.cap + '% - 1px)'; }
+    else { capline.style.opacity = 0; }
+  }
+
+  /* fader interaction */
+  function setFromPointer(f, clientY){
+    var rect = f.el.getBoundingClientRect();
+    var pct = 1 - (clientY - rect.top) / rect.height;
+    f.block.v = Math.max(0, Math.min(1, pct));
+    render();
+  }
+  Object.keys(faders).forEach(function(k){
+    var f = faders[k];
+    var dragging = false;
+    f.el.addEventListener('pointerdown', function(e){
+      dragging = true; f.el.setPointerCapture(e.pointerId);
+      setFromPointer(f, e.clientY); e.preventDefault();
+    });
+    f.el.addEventListener('pointermove', function(e){ if(dragging) setFromPointer(f, e.clientY); });
+    f.el.addEventListener('pointerup', function(){ dragging = false; });
+    f.el.addEventListener('pointercancel', function(){ dragging = false; });
+    f.el.addEventListener('keydown', function(e){
+      var step = e.shiftKey ? 0.1 : 0.02, d = 0;
+      if(e.key === 'ArrowUp' || e.key === 'ArrowRight') d = step;
+      else if(e.key === 'ArrowDown' || e.key === 'ArrowLeft') d = -step;
+      else if(e.key === 'Home') { f.block.v = 1; render(); e.preventDefault(); return; }
+      else if(e.key === 'End') { f.block.v = 0; render(); e.preventDefault(); return; }
+      else return;
+      f.block.v = Math.max(0, Math.min(1, f.block.v + d));
+      render(); e.preventDefault();
+    });
+  });
+
+  /* gates */
+  var row = document.getElementById('gateRow');
+  gates.forEach(function(g){
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'gate';
+    btn.setAttribute('aria-pressed','false');
+    btn.innerHTML = '<i class="led"></i>' + g.t + ' <code>потолок ' + g.cap + '</code>';
+    btn.addEventListener('click', function(){
+      active[g.id] = !active[g.id];
+      btn.setAttribute('aria-pressed', active[g.id] ? 'true' : 'false');
+      render();
+    });
+    row.appendChild(btn);
+  });
+
+  document.getElementById('resetBtn').addEventListener('click', function(){
+    var defaults = {A:0.87,B:0.80,C:0.93,D:1.00,E:0.70,F:0.55};
+    blocks.forEach(function(b){ b.v = defaults[b.id]; });
+    active = {};
+    Array.prototype.forEach.call(row.querySelectorAll('.gate'), function(b){ b.setAttribute('aria-pressed','false'); });
+    render();
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>

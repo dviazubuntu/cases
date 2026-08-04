@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Voice AI Agent · Automated Call Quality Scoring · UAE Residential Sales</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F6F8FA;
+  --card:#FFFFFF;
+  --ink:#0E1B2A;
+  --ink2:#3D4E60;
+  --ink3:#6B7B8C;
+  --rule:#DFE4EA;
+  --rule2:#C9D1DA;
+  --gulf:#0F6E5C;
+  --gulf-lt:#E4F0EC;
+  --gulf-hi:#159B80;
+  --brass:#B27A16;
+  --brass-lt:#FAF0DC;
+  --brick:#AE3F33;
+  --brick-lt:#FBEAE7;
+  --navy-lt:#EBF0F6;
+  --serif:'Source Serif 4',Georgia,serif;
+  --sans:'IBM Plex Sans',system-ui,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,monospace;
+  --shadow:0 1px 2px rgba(14,27,42,.05),0 8px 24px -12px rgba(14,27,42,.14);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.62;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1140px;margin:0 auto;padding:0 32px}
+.band{padding:80px 0}
+.band + .band{border-top:1px solid var(--rule)}
+.band.tint{background:var(--card);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+
+h1,h2,h3{font-family:var(--serif);margin:0;font-weight:600;letter-spacing:-.015em;line-height:1.14}
+h1{font-size:clamp(36px,4.9vw,58px);font-weight:700;letter-spacing:-.025em}
+h2{font-size:clamp(26px,3.1vw,36px)}
+h3{font-size:19px}
+p{margin:0 0 16px}
+.lede{font-size:clamp(17px,1.6vw,19px);color:var(--ink2);max-width:66ch;line-height:1.6}
+.muted{color:var(--ink3)}
+.small{font-size:14px}
+.xs{font-size:12.5px}
+a{color:var(--gulf)}
+
+.stage{display:flex;align-items:center;gap:16px;margin-bottom:24px}
+.stage-tag{font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--gulf);background:var(--gulf-lt);border:1px solid #CBE2DA;padding:5px 11px;border-radius:3px;font-weight:600;white-space:nowrap}
+.stage-note{font-family:var(--mono);font-size:11px;color:var(--ink3);letter-spacing:.06em;white-space:nowrap}
+.stage-rule{flex:1;height:1px;background:var(--rule2)}
+
+/* ---------- masthead + hero ---------- */
+.masthead{border-bottom:1px solid var(--rule);background:var(--card)}
+.masthead .wrap{display:flex;flex-wrap:wrap;gap:8px 22px;align-items:center;padding-top:16px;padding-bottom:16px;
+  font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3)}
+.masthead b{color:var(--ink);font-weight:600;letter-spacing:.1em}
+.masthead .sep{color:var(--rule2)}
+
+.hero{padding:72px 0 76px;background:var(--card)}
+.hero-grid{display:grid;grid-template-columns:1.08fr .92fr;gap:64px;align-items:center}
+h1 em{font-style:normal;color:var(--gulf)}
+.hero .lede{margin-top:24px}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:5px;overflow:hidden;margin-top:34px}
+.kpi{background:var(--card);padding:18px 20px}
+.kpi b{display:block;font-family:var(--serif);font-size:27px;font-weight:700;letter-spacing:-.02em;line-height:1}
+.kpi span{display:block;font-size:12.5px;color:var(--ink3);margin-top:7px;line-height:1.35}
+
+/* scorecard artifact */
+.scorecard{background:var(--card);border:1px solid var(--rule2);border-radius:6px;box-shadow:var(--shadow);overflow:hidden}
+.sc-top{padding:16px 22px;border-bottom:1px solid var(--rule);display:flex;justify-content:space-between;align-items:center;gap:14px}
+.sc-top .t{font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink3)}
+.pill{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;padding:4px 9px;border-radius:99px;font-weight:600}
+.pill.ok{background:var(--gulf-lt);color:var(--gulf)}
+.sc-meta{padding:18px 22px 4px;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px}
+.sc-meta div{font-size:13px;color:var(--ink3);display:flex;justify-content:space-between;gap:10px;border-bottom:1px dotted var(--rule2);padding-bottom:7px}
+.sc-meta div b{color:var(--ink);font-weight:500;font-family:var(--mono);font-size:12px}
+.sc-score{padding:20px 22px;display:flex;align-items:baseline;gap:14px;border-bottom:1px solid var(--rule)}
+.sc-score .n{font-family:var(--serif);font-size:60px;font-weight:700;line-height:.9;letter-spacing:-.04em;color:var(--gulf)}
+.sc-score .of{font-family:var(--mono);font-size:12px;color:var(--ink3)}
+.sc-score .lab{margin-left:auto;text-align:right}
+.sc-score .lab b{display:block;font-size:13px;font-weight:600}
+.sc-score .lab span{font-size:11.5px;color:var(--ink3)}
+.sc-rows{padding:16px 22px 22px}
+.sc-row{display:grid;grid-template-columns:16px 1fr 62px 46px;align-items:center;gap:11px;padding:6px 0;font-size:13px}
+.sc-row .id{font-family:var(--mono);font-size:11px;color:var(--ink3)}
+.sc-row .nm{color:var(--ink2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sc-row .bar{height:6px;background:var(--navy-lt);border-radius:99px;overflow:hidden}
+.sc-row .bar i{display:block;height:100%;border-radius:99px;background:var(--gulf);transition:width .8s cubic-bezier(.2,.7,.3,1)}
+.sc-row .pt{font-family:var(--mono);font-size:11.5px;color:var(--ink3);text-align:right}
+.sc-foot{padding:13px 22px;border-top:1px solid var(--rule);background:var(--paper);font-size:12px;color:var(--ink3);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+
+/* ---------- cards ---------- */
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:36px}
+.card{background:var(--card);border:1px solid var(--rule);border-radius:6px;padding:24px}
+.band.tint .card{background:var(--paper)}
+.card .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--brick);display:block;margin-bottom:12px}
+.card h3{margin-bottom:9px;font-size:18px}
+.card p{margin:0;font-size:14.5px;color:var(--ink2)}
+
+/* ---------- pipeline ---------- */
+.flow{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;margin-top:34px}
+.node{background:var(--card);border:1px solid var(--rule);border-top:2px solid var(--rule2);border-radius:5px;padding:16px 16px 18px}
+.band.tint .node{background:var(--paper)}
+.node.on{border-top-color:var(--gulf);background:linear-gradient(180deg,var(--gulf-lt),var(--card) 60%)}
+.node .s{font-family:var(--mono);font-size:10px;letter-spacing:.16em;color:var(--ink3);display:block;margin-bottom:9px}
+.node.on .s{color:var(--gulf)}
+.node strong{display:block;font-family:var(--serif);font-size:16px;font-weight:600;margin-bottom:6px;line-height:1.2}
+.node span.d{font-size:12.5px;color:var(--ink3);line-height:1.45;display:block}
+
+/* ---------- duo panes ---------- */
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:34px}
+.pane{background:var(--card);border:1px solid var(--rule);border-radius:6px;overflow:hidden}
+.band.tint .pane{background:var(--paper)}
+.pane-head{padding:14px 22px;border-bottom:1px solid var(--rule);display:flex;align-items:center;gap:10px}
+.pane-head i{width:6px;height:6px;border-radius:50%;flex:none}
+.pane-head span{font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink3)}
+.pane ul{margin:0;padding:8px 22px 18px;list-style:none}
+.pane li{display:flex;justify-content:space-between;gap:16px;padding:10px 0;border-bottom:1px dotted var(--rule2);font-size:14px}
+.pane li:last-child{border-bottom:none}
+.pane li b{font-weight:500}
+.pane li em{font-style:normal;font-family:var(--mono);font-size:12px;color:var(--ink3);text-align:right}
+
+/* ---------- evaluator ---------- */
+.numlist{list-style:none;padding:0;margin:30px 0 0}
+.numlist li{display:grid;grid-template-columns:36px 1fr;gap:18px;padding:18px 0;border-top:1px solid var(--rule);font-size:15px;color:var(--ink2)}
+.numlist li:last-child{border-bottom:1px solid var(--rule)}
+.numlist .m{font-family:var(--mono);font-size:11.5px;color:var(--gulf);padding-top:4px}
+.numlist b{color:var(--ink);font-weight:600}
+
+.passes{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:34px}
+.pass{background:var(--card);border:1px solid var(--rule);border-left:3px solid var(--gulf);border-radius:0 6px 6px 0;padding:24px}
+.band.tint .pass{background:var(--paper)}
+.pass .l{font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--gulf);display:block;margin-bottom:11px}
+.pass h3{margin-bottom:9px}
+.pass p{margin:0;font-size:14.5px;color:var(--ink2)}
+.pass code{font-family:var(--mono);font-size:12.5px;background:var(--navy-lt);padding:2px 6px;border-radius:3px;color:var(--ink)}
+
+.transcript{background:var(--card);border:1px solid var(--rule);border-radius:6px;padding:24px;margin-top:26px;font-family:var(--mono);font-size:13px;line-height:1.8;color:var(--ink2)}
+.band.tint .transcript{background:var(--paper)}
+.transcript .ts{color:var(--ink3)}
+.transcript .sp{color:var(--ink);font-weight:600}
+.transcript .verdict{display:block;margin-top:16px;padding-top:16px;border-top:1px solid var(--rule);color:var(--ink);font-size:12.5px}
+.transcript .verdict b{color:var(--gulf);font-weight:600}
+.transcript .verdict b.warn{color:var(--brass)}
+
+/* ---------- SIGNATURE: score composition ---------- */
+.composer{background:var(--card);border:1px solid var(--rule2);border-radius:8px;box-shadow:var(--shadow);padding:30px 30px 26px;margin-top:36px}
+.comp-head{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;margin-bottom:26px}
+.comp-head .t{font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink3)}
+.comp-head .h{font-family:var(--serif);font-size:21px;font-weight:600;margin-top:5px}
+.btn{background:none;border:1px solid var(--rule2);color:var(--ink2);font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;padding:9px 15px;border-radius:4px;cursor:pointer;transition:.16s}
+.btn:hover{border-color:var(--ink2);color:var(--ink)}
+
+.zones{display:flex;gap:3px;height:96px;user-select:none}
+.zone{position:relative;background:var(--navy-lt);border-radius:3px;overflow:hidden;cursor:ew-resize;outline:none;touch-action:none}
+.zone .fill{position:absolute;left:0;top:0;bottom:0;background:var(--gulf);opacity:.92}
+.zone .zid{position:absolute;left:9px;top:8px;font-family:var(--mono);font-size:11px;font-weight:600;color:#fff;mix-blend-mode:normal;z-index:2}
+.zone .zpt{position:absolute;left:9px;bottom:8px;font-family:var(--mono);font-size:11px;color:#fff;z-index:2;opacity:.9}
+.zone:focus-visible{box-shadow:0 0 0 2px var(--brass)}
+.zone .grip{position:absolute;top:0;bottom:0;width:2px;background:#fff;opacity:.85;z-index:3;transform:translateX(-1px)}
+.zlabels{display:flex;gap:3px;margin-top:11px}
+.zlabel{font-size:11.5px;color:var(--ink3);line-height:1.3;padding-right:6px}
+.zlabel b{display:block;color:var(--ink2);font-weight:500;font-size:12px}
+.zlabel span{font-family:var(--mono);font-size:10.5px}
+
+.result{margin-top:30px;padding-top:26px;border-top:1px solid var(--rule)}
+.res-head{display:flex;justify-content:space-between;align-items:baseline;gap:16px;margin-bottom:12px;flex-wrap:wrap}
+.res-head .lbl{font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink3)}
+.res-head .num{font-family:var(--serif);font-size:44px;font-weight:700;letter-spacing:-.03em;line-height:1}
+.res-head .bandname{font-size:13px;font-weight:600}
+.resbar{position:relative;height:22px;background:var(--navy-lt);border-radius:4px;overflow:visible}
+.resbar .earned{position:absolute;left:0;top:0;bottom:0;border-radius:4px 0 0 4px;transition:width .3s ease,background .3s ease}
+.resbar .lost{position:absolute;top:0;bottom:0;background:repeating-linear-gradient(45deg,var(--brick-lt),var(--brick-lt) 5px,#F6DDD8 5px,#F6DDD8 10px);transition:all .3s ease}
+.resbar .capmark{position:absolute;top:-7px;bottom:-7px;width:2px;background:var(--brick);opacity:0;transition:left .3s ease,opacity .3s ease}
+.resbar .capmark::after{content:"CEILING";position:absolute;top:-16px;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:9px;letter-spacing:.14em;color:var(--brick);white-space:nowrap}
+.resscale{display:flex;justify-content:space-between;margin-top:8px;font-family:var(--mono);font-size:10px;color:var(--ink3)}
+.calcline{font-family:var(--mono);font-size:12.5px;color:var(--ink2);margin-top:16px}
+.calcline s{color:var(--brick);text-decoration:none}
+
+.gates{margin-top:28px;padding-top:24px;border-top:1px solid var(--rule)}
+.gates .gh{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:12px;margin-bottom:15px}
+.gates .gh span{font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--brick)}
+.gaterow{display:flex;flex-wrap:wrap;gap:9px}
+.gate{font-family:var(--sans);font-size:13px;color:var(--ink2);background:var(--card);border:1px solid var(--rule2);border-radius:4px;padding:9px 13px;cursor:pointer;display:flex;align-items:center;gap:9px;transition:.16s}
+.gate:hover{border-color:var(--ink3)}
+.gate i{width:7px;height:7px;border-radius:50%;background:var(--rule2);flex:none;transition:.16s}
+.gate code{font-family:var(--mono);font-size:11px;color:var(--ink3)}
+.gate[aria-pressed="true"]{border-color:var(--brick);background:var(--brick-lt);color:var(--brick)}
+.gate[aria-pressed="true"] i{background:var(--brick)}
+.gate[aria-pressed="true"] code{color:var(--brick)}
+.hint{font-size:12.5px;color:var(--ink3);margin-top:16px}
+
+.formula{background:var(--card);border:1px solid var(--rule);border-radius:6px;padding:22px 26px;margin-top:26px;font-family:var(--mono);font-size:13.5px;color:var(--ink2);overflow-x:auto;line-height:2}
+.band.tint .formula{background:var(--paper)}
+.formula .k{color:var(--gulf);font-weight:600}
+.formula .c{color:var(--ink3)}
+
+/* ---------- table ---------- */
+.tbl{width:100%;border-collapse:collapse;margin-top:30px;font-size:14.5px;background:var(--card);border:1px solid var(--rule);border-radius:6px;overflow:hidden}
+.band.tint .tbl{background:var(--paper)}
+.tbl th{text-align:left;font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink3);font-weight:500;padding:14px 18px;border-bottom:1px solid var(--rule2);background:var(--paper)}
+.band.tint .tbl th{background:var(--card)}
+.tbl td{padding:15px 18px;border-bottom:1px solid var(--rule);vertical-align:top;color:var(--ink2)}
+.tbl tr:last-child td{border-bottom:none}
+.tbl td.n{font-family:var(--mono);font-size:13px;white-space:nowrap;color:var(--brick);font-weight:500}
+.tbl td.g{font-family:var(--mono);font-size:13px;white-space:nowrap;color:var(--ink3)}
+
+.bands{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:32px}
+.bnd{background:var(--card);border:1px solid var(--rule);border-top:3px solid;border-radius:0 0 5px 5px;padding:18px 20px}
+.band.tint .bnd{background:var(--paper)}
+.bnd .r{font-family:var(--mono);font-size:17px;font-weight:600;display:block}
+.bnd .l{font-size:13px;color:var(--ink3);margin-top:7px;display:block;line-height:1.45}
+
+.grid2{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:34px}
+.item{background:var(--card);border:1px solid var(--rule);border-radius:6px;padding:22px}
+.band.tint .item{background:var(--paper)}
+.item .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--gulf);display:block;margin-bottom:10px}
+.item p{margin:0;font-size:14px;color:var(--ink2)}
+
+.pilot{margin-top:34px;border:1px dashed var(--rule2);border-radius:6px;padding:4px 24px 22px;background:var(--card)}
+.band.tint .pilot{background:var(--paper)}
+.pilot .cap{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--brass);padding-top:20px}
+.pilot .tbl{margin-top:16px;border:none;border-radius:0;background:none}
+.pilot .tbl th{background:none;padding-left:0}
+.pilot .tbl td{padding-left:0}
+
+footer{background:var(--ink);color:#9FB0C0;padding:52px 0 64px;font-size:14px}
+footer h3{color:#fff;font-size:17px;margin-bottom:16px}
+footer ul{padding-left:20px;margin:0;max-width:84ch}
+footer li{margin-bottom:11px;line-height:1.55}
+footer .sig{margin-top:34px;padding-top:22px;border-top:1px solid #26374A;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#6C8098}
+
+@media (max-width:1000px){
+  .hero-grid{grid-template-columns:1fr;gap:44px}
+  .cards,.grid2{grid-template-columns:1fr}
+  .flow{grid-template-columns:repeat(2,1fr)}
+  .duo,.passes{grid-template-columns:1fr}
+  .bands{grid-template-columns:repeat(2,1fr)}
+  .band{padding:60px 0}
+  .zones{height:auto;flex-direction:column;gap:6px}
+  .zone{height:42px;cursor:ew-resize}
+  .zone .zpt{left:auto;right:10px;bottom:auto;top:13px;color:var(--ink2)}
+  .zone .fill ~ .zpt{color:var(--ink2)}
+  .zlabels{display:none}
+  .zone .zid{top:13px;color:#fff}
+}
+@media (max-width:600px){
+  .wrap{padding:0 20px}
+  .kpis{grid-template-columns:1fr}
+  .flow{grid-template-columns:1fr}
+  .bands{grid-template-columns:1fr}
+  .sc-meta{grid-template-columns:1fr}
+  .composer{padding:22px 18px}
+  .tbl td,.tbl th{padding:12px 10px;font-size:13.5px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}html{scroll-behavior:auto}}
+@media print{body{background:#fff}.composer,.scorecard{box-shadow:none}.band{padding:32px 0;break-inside:avoid}}
+</style>
+</head>
+<body>
+
+<div class="masthead"><div class="wrap">
+  <b>Voice AI Agent</b><span class="sep">/</span><span>Outbound residential sales</span><span class="sep">/</span><span>Dubai &amp; Abu Dhabi</span><span class="sep">/</span><span>Off-plan &amp; ready</span>
+</div></div>
+
+<!-- HERO -->
+<section class="hero"><div class="wrap">
+  <div class="hero-grid">
+    <div>
+      <h1>Every call scored.<br><em>None scored by hand.</em></h1>
+      <p class="lede">A voice agent calls leads straight from your CRM, qualifies them and books the viewing. A second, independent AI agent reviews every one of those calls and returns a single quality score from 0 to 100 — with the reasoning attached.</p>
+      <div class="kpis">
+        <div class="kpi"><b>100%</b><span>of calls scored automatically</span></div>
+        <div class="kpi"><b>30+</b><span>metrics in six weighted blocks</span></div>
+        <div class="kpi"><b>Seconds</b><span>from hang-up to CRM record</span></div>
+      </div>
+    </div>
+    <div>
+      <div class="scorecard">
+        <div class="sc-top"><span class="t">Call scorecard · as written to CRM</span><span class="pill ok">Reviewed</span></div>
+        <div class="sc-meta">
+          <div>Lead<b>#48213</b></div>
+          <div>Language<b>EN / AR</b></div>
+          <div>Source<b>Portal listing</b></div>
+          <div>Duration<b>4m 12s</b></div>
+          <div>Outcome<b>Viewing booked</b></div>
+          <div>Gates<b>None triggered</b></div>
+        </div>
+        <div class="sc-score">
+          <span class="n" id="scNum">82</span><span class="of">/ 100</span>
+          <span class="lab"><b id="scBand">Good</b><span>no action required</span></span>
+        </div>
+        <div class="sc-rows" id="scRows"></div>
+        <div class="sc-foot"><span>Scored automatically · 6 s after hang-up</span><span>Recording &amp; transcript linked</span></div>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<!-- PROBLEM -->
+<section class="band"><div class="wrap">
+  <h2>What manual call review cannot do</h2>
+  <div class="cards">
+    <div class="card"><span class="k">Coverage</span><h3>A few percent get heard</h3><p>A supervisor gets through a handful of calls a day. Everything else goes to the archive unreviewed — along with the lost deals and the compliance breaches inside it.</p></div>
+    <div class="card"><span class="k">Consistency</span><h3>Scores don't add up</h3><p>Two supervisors grade the same conversation differently. There is no common scale to compare campaigns, languages or script versions against each other.</p></div>
+    <div class="card"><span class="k">Latency</span><h3>Feedback arrives late</h3><p>A flaw in the script survives for weeks before anyone spots it. The entire lead flow passes through it in the meantime.</p></div>
+  </div>
+</div></section>
+
+<!-- INPUT -->
+<section class="band tint"><div class="wrap">
+  <div class="stage"><span class="stage-tag">Input</span><span class="stage-note">CRM → dial queue</span><span class="stage-rule"></span></div>
+  <h2>The agent dials with context, not a cold script</h2>
+  <p class="lede">Before the number is dialled, the system pulls the lead record: who the person is, which language they speak, which portal they came from, what they enquired about, how many times they have been contacted and whether consent is still valid. Results travel back the same way.</p>
+  <div class="duo">
+    <div class="pane">
+      <div class="pane-head"><i style="background:var(--brass)"></i><span>Pulled before the call</span></div>
+      <ul>
+        <li><b>Identity</b><em>name, pronunciation hint, number</em></li>
+        <li><b>Language &amp; locale</b><em>language, nationality, time zone</em></li>
+        <li><b>Origin</b><em>portal, campaign, listing</em></li>
+        <li><b>Commercial interest</b><em>budget, area, unit type</em></li>
+        <li><b>Contact history</b><em>attempts, prior objections</em></li>
+        <li><b>Permission status</b><em>consent, do-not-call, date &amp; channel</em></li>
+      </ul>
+    </div>
+    <div class="pane">
+      <div class="pane-head"><i style="background:var(--gulf)"></i><span>Written back after the call</span></div>
+      <ul>
+        <li><b>Outcome</b><em>viewing / callback / declined</em></li>
+        <li><b>Next step</b><em>date, time, format</em></li>
+        <li><b>Qualification data</b><em>budget, purpose, horizon, payment</em></li>
+        <li><b>Objections</b><em>tagged against a fixed catalogue</em></li>
+        <li><b>Quality score</b><em>CQS plus six sub-scores</em></li>
+        <li><b>Review flags</b><em>recording, transcript, reason</em></li>
+      </ul>
+    </div>
+  </div>
+  <p class="small muted" style="margin-top:24px">Only an explicitly approved set of fields ever reaches the model. The agent never asks for identity documents over the phone, and reveals nothing about the lead until it has confirmed it is speaking to the right person.</p>
+</div></section>
+
+<!-- EXECUTION -->
+<section class="band"><div class="wrap">
+  <div class="stage"><span class="stage-tag">Execution</span><span class="stage-note">the path of one call</span><span class="stage-rule"></span></div>
+  <h2>Voice pipeline and per-turn telemetry</h2>
+  <p class="lede">Every turn is logged on its own: response latency, recognition confidence, the exact moment of an interruption. Without per-turn telemetry, half the metrics simply cannot be computed.</p>
+  <div class="flow">
+    <div class="node"><span class="s">01</span><strong>Scheduler</strong><span class="d">Calling window in the lead's time zone, attempt limits, priority for fresh enquiries</span></div>
+    <div class="node"><span class="s">02</span><strong>Telephony</strong><span class="d">SIP trunk through a licensed operator with a registered caller ID</span></div>
+    <div class="node"><span class="s">03</span><strong>Speech pipeline</strong><span class="d">Voice activity → recognition → turn detection → dialogue model → speech synthesis</span></div>
+    <div class="node"><span class="s">04</span><strong>Inventory service</strong><span class="d">Prices, payment plans and handover dates come from the catalogue, never from the model's memory</span></div>
+    <div class="node on"><span class="s">05</span><strong>Evaluating agent</strong><span class="d">Reviews recording and transcript the moment the call ends and issues the score</span></div>
+    <div class="node"><span class="s">06</span><strong>CRM write-back</strong><span class="d">Outcome, qualification data, score, broker task, linked recording</span></div>
+  </div>
+</div></section>
+
+<!-- MEASUREMENT -->
+<section class="band tint"><div class="wrap">
+  <div class="stage"><span class="stage-tag">Measurement</span><span class="stage-note">the score is issued by an AI agent</span><span class="stage-rule"></span></div>
+  <h2>Who grades the call, and how</h2>
+  <p class="lede">Grading is done by a separate AI agent — not by a person, and not by the same model that held the conversation. It runs automatically after every call. No sampling, no queue, no supervisor in the loop.</p>
+
+  <ul class="numlist">
+    <li><span class="m">01</span><span><b>A different model from the one on the phone.</b> The evaluating agent runs on a model distinct from the dialogue agent. Otherwise the system would be marking its own homework, and would always be pleased with itself.</span></li>
+    <li><span class="m">02</span><span><b>Not everything is judged by AI.</b> Response latency, talk ratio, interruptions and recognition confidence are computed in code from telemetry — that is measurement, not opinion. The evaluating agent is used only where meaning has to be interpreted.</span></li>
+    <li><span class="m">03</span><span><b>Two passes, not one.</b> First, extraction: what the agent claimed, what it asked, what the customer confirmed. Then scoring against a rubric applied to that structure. Score variance drops sharply compared with handing a model a raw transcript and asking for a number.</span></li>
+    <li><span class="m">04</span><span><b>Rubrics with anchors.</b> Every point on every scale has a worked example from a real call attached to it. Without anchors, any model drifts toward the middle of the range.</span></li>
+    <li><span class="m">05</span><span><b>Every point is traceable.</b> Each deduction arrives with the quote and turn number it came from. Your broker and your compliance officer see not "73", but exactly where it was lost.</span></li>
+  </ul>
+
+  <div class="passes">
+    <div class="pass"><span class="l">Pass 1 · Extraction</span><h3>The conversation becomes structure</h3><p>Verifiable elements are pulled out of the transcript: claims about price and handover, the moment of disclosure, captured qualification data, the response to a refusal. The output is <code>JSON</code>, not a summary.</p></div>
+    <div class="pass"><span class="l">Pass 2 · Scoring</span><h3>The rubric is applied to that structure</h3><p>The evaluator grades the extracted elements on a fixed scale and reconciles every factual claim against what the inventory service actually returned. That is a comparison, not a judgement about how truthful the call sounded.</p></div>
+  </div>
+
+  <div class="transcript">
+    <span class="ts">14:22</span> <span class="sp">Agent:</span> …studios in that tower start at AED 720,000, with handover in Q4 next year.<br>
+    <span class="ts">14:29</span> <span class="sp">Customer:</span> And what kind of return does that give me?<br>
+    <span class="ts">14:31</span> <span class="sp">Agent:</span> Average rental yield in that community last year was around 7%. I can't guarantee a return — that's the market.
+    <span class="verdict">Evaluator output: <b>C1 pass</b> — price and handover matched to inventory · <b>D5 pass</b> — no guaranteed-return claim · <b class="warn">F2 = 3 / 4</b> — objection handled, but not converted into a next step</span>
+  </div>
+</div></section>
+
+<!-- COMPOSITION -->
+<section class="band"><div class="wrap">
+  <div class="stage"><span class="stage-tag">Composition</span><span class="stage-note">thirty-plus metrics → one number</span><span class="stage-rule"></span></div>
+  <h2>How the 100 points are allocated</h2>
+  <p class="lede">Metrics sit in six blocks with fixed weights. Each block can earn up to its weight in points; the weighted sum is the raw score, and hard gates apply a ceiling on top of it. Drag inside a block to change its result, and switch on a gate to see the ceiling take effect.</p>
+
+  <div class="composer">
+    <div class="comp-head">
+      <div><span class="t">Interactive · score composition</span><div class="h">Call Quality Score</div></div>
+      <button class="btn" id="resetBtn" type="button">Reset to example</button>
+    </div>
+
+    <div class="zones" id="zones"></div>
+    <div class="zlabels" id="zlabels"></div>
+
+    <div class="result">
+      <div class="res-head">
+        <span class="lbl">Final score</span>
+        <span><span class="num" id="resNum">82</span> <span class="bandname" id="resBand">Good</span></span>
+      </div>
+      <div class="resbar">
+        <div class="earned" id="resEarned"></div>
+        <div class="lost" id="resLost"></div>
+        <div class="capmark" id="resCap"></div>
+      </div>
+      <div class="resscale"><span>0</span><span>25</span><span>50</span><span>75</span><span>100</span></div>
+      <div class="calcline" id="calcLine"></div>
+    </div>
+
+    <div class="gates">
+      <div class="gh"><span>Hard gates</span><span class="xs muted">Each gate applies a penalty and caps the final score</span></div>
+      <div class="gaterow" id="gateRow"></div>
+      <p class="hint">In this demo the gates do not recompute the blocks — only the ceiling is shown. In production a breach normally pulls the relevant block down as well.</p>
+    </div>
+  </div>
+
+  <div class="formula">
+    <span class="c">// raw score — weighted sum of the six blocks</span><br>
+    Raw = Σ<sub>b</sub> <span class="k">W</span><sub>b</sub> · ( Σ<sub>m</sub> <span class="k">w</span><sub>b,m</sub> · <span class="k">s</span><sub>b,m</sub> )   <span class="c">where Σ W = 100 and Σ w = 1</span><br>
+    <span class="c">// final — net of penalties, never above the lowest ceiling in play</span><br>
+    <span class="k">CQS</span> = clamp( Raw − Σ<sub>k</sub> P<sub>k</sub> , 0 , min<sub>k</sub> Cap<sub>k</sub> )
+  </div>
+
+  <div class="grid2">
+    <div class="item"><span class="k">Target ranges, not maximums</span><p>Most indicators are not "more is better". An agent holding 85% of the airtime sells badly. One holding 15% sells badly too. Those metrics are normalised against a target band rather than scaled linearly.</p></div>
+    <div class="item"><span class="k">Gates sit outside the weights</span><p>A regulatory breach must not be diluted by a weight and offset by an excellent pitch. Compliance is worth 20 points — and it also caps the entire call.</p></div>
+    <div class="item"><span class="k">Grounding carries real weight</span><p>Price, handover date and payment plan are checked line by line against the inventory service. In off-plan sales this is the block that protects the brokerage, not just the score.</p></div>
+  </div>
+</div></section>
+
+<!-- CONTROLS -->
+<section class="band tint"><div class="wrap">
+  <div class="stage"><span class="stage-tag">Controls</span><span class="stage-note">ceilings and score bands</span><span class="stage-rule"></span></div>
+  <h2>What collapses a score</h2>
+  <table class="tbl">
+    <thead><tr><th>Event in the call</th><th>Penalty</th><th>Score ceiling</th></tr></thead>
+    <tbody>
+      <tr><td>Conversation continued after a clear refusal or a do-not-call request</td><td class="n">—</td><td class="n">0</td></tr>
+      <tr><td>Lead's details disclosed to whoever happened to answer the phone</td><td class="n">−25</td><td class="n">29</td></tr>
+      <tr><td>Guaranteed yield, residency or mortgage approval promised</td><td class="n">−20</td><td class="n">39</td></tr>
+      <tr><td>Failure to disclose the company and that the caller is an AI assistant</td><td class="n">−15</td><td class="n">49</td></tr>
+      <tr><td>Price, handover date or payment plan stated without inventory backing</td><td class="n">−15</td><td class="n">69</td></tr>
+      <tr><td>Call placed outside the permitted calling window</td><td class="n">−10</td><td class="n">59</td></tr>
+    </tbody>
+  </table>
+  <p class="small muted" style="margin-top:22px">The specific thresholds — calling window, attempt limits, the exact disclosure wording — are held as campaign configuration and agreed with your legal counsel against current UAE regulatory requirements. They are not baked into the model and can be changed without retraining.</p>
+
+  <div class="bands">
+    <div class="bnd" style="border-top-color:var(--gulf-hi)"><span class="r" style="color:var(--gulf-hi)">85–100</span><span class="l">Benchmark. Feeds the example set for the next script version.</span></div>
+    <div class="bnd" style="border-top-color:var(--gulf)"><span class="r" style="color:var(--gulf)">70–84</span><span class="l">Good. No intervention required.</span></div>
+    <div class="bnd" style="border-top-color:var(--brass)"><span class="r" style="color:var(--brass)">55–69</span><span class="l">Needs work. Tagged into the script backlog.</span></div>
+    <div class="bnd" style="border-top-color:var(--brick)"><span class="r" style="color:var(--brick)">Below 55</span><span class="l">Fail. Manual review and a call-back from a human broker.</span></div>
+  </div>
+  <p class="small muted" style="margin-top:20px">Any triggered gate flags the call for review regardless of the final number.</p>
+</div></section>
+
+<!-- ASSURANCE -->
+<section class="band"><div class="wrap">
+  <div class="stage"><span class="stage-tag">Assurance</span><span class="stage-note">why the score can be trusted</span><span class="stage-rule"></span></div>
+  <h2>The metric is itself audited</h2>
+  <p class="lede">An automated score is only worth having if it agrees with human judgement and predicts revenue. Both are measured, and both are reported.</p>
+  <div class="grid2">
+    <div class="item"><span class="k">Gold set</span><p>A stratified sample of calls across language, outcome and duration is annotated by two independent reviewers, with a third resolving disagreements. That set is the benchmark the evaluator is tested against.</p></div>
+    <div class="item"><span class="k">Agreement</span><p>Inter-annotator agreement and evaluator-to-human correlation are tracked per block. Weak agreement means the rubric gets rewritten — not that the model gets nudged.</p></div>
+    <div class="item"><span class="k">Weights from outcomes</span><p>Initial weights are set by domain experts, then refined by regressing sub-scores against booked viewings and closed deals, with smoothing applied to low-volume segments.</p></div>
+    <div class="item"><span class="k">Does it predict revenue?</span><p>The decisive test: conversion in the top scoring quintile versus the bottom. If there is no gap, the metric is measuring politeness rather than selling, and the weights are rebuilt.</p></div>
+    <div class="item"><span class="k">Resistant to gaming</span><p>Regularly checked that the score cannot be raised cheaply — for instance by reciting the compliance block and ending the call early.</p></div>
+    <div class="item"><span class="k">Drift monitoring</span><p>Sub-score distributions are tracked weekly. A shift in the median with an unchanged script points to degraded recognition or a change in lead mix.</p></div>
+  </div>
+</div></section>
+
+<!-- OUTCOME -->
+<section class="band tint"><div class="wrap">
+  <div class="stage"><span class="stage-tag">Outcome</span><span class="stage-note">what the score actually drives</span><span class="stage-rule"></span></div>
+  <h2>The score runs the process, it doesn't sit in a report</h2>
+  <div class="cards">
+    <div class="card"><span class="k">Routing</span><h3>Automatic human hand-off</h3><p>Below 55, or any gate triggered, and the lead goes straight to a human broker with a written summary and the reason attached.</p></div>
+    <div class="card"><span class="k">Iteration</span><h3>Script versions compared properly</h3><p>Not "it got better", but: version B wins on objection handling and loses on airtime share. You know what to change.</p></div>
+    <div class="card"><span class="k">Reporting</span><h3>Explainable to the board</h3><p>Not "the agent performs well", but: factual accuracy 18.5 of 20, compliance 20 of 20, closing 8 of 15. The bottleneck is visible immediately.</p></div>
+  </div>
+
+  <div class="pilot">
+    <span class="cap">Pilot results · to be completed with actual figures</span>
+    <table class="tbl">
+      <thead><tr><th>Measure</th><th>Before</th><th>After</th></tr></thead>
+      <tbody>
+        <tr><td>Leads contacted within five minutes of enquiry</td><td class="g">—</td><td class="g">—</td></tr>
+        <tr><td>Share of calls receiving a quality score</td><td class="g">sample only</td><td class="g">100%</td></tr>
+        <tr><td>Average CQS across the campaign</td><td class="g">—</td><td class="g">—</td></tr>
+        <tr><td>Qualification data capture completeness</td><td class="g">—</td><td class="g">—</td></tr>
+        <tr><td>Conversion to booked viewing</td><td class="g">—</td><td class="g">—</td></tr>
+        <tr><td>Conversion gap, top vs bottom CQS quintile</td><td class="g">—</td><td class="g">—</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <h3>Where this approach has limits</h3>
+  <ul>
+    <li>CQS scores the call, not the lead. A flawless conversation with an irrelevant contact earns a high score and produces nothing — so the score is always read alongside a breakdown by lead source.</li>
+    <li>Factual checking is only as reliable as the inventory feed. A stale price at the source becomes an honest error the metric will not catch.</li>
+    <li>Replacing the evaluating model requires re-running the gold set before the scores remain comparable.</li>
+    <li>Regulatory thresholds are configuration for a given jurisdiction and launch date, and remain subject to your legal review.</li>
+  </ul>
+  <div class="sig">Prepared for client review · Voice AI Agent &amp; Call Quality Scoring</div>
+</div></footer>
+
+<script>
+(function(){
+  var blocks = [
+    {id:'A', w:15, name:'Channel &amp; pipeline quality',  short:'Channel quality',    v:0.87},
+    {id:'B', w:15, name:'Conversation dynamics',         short:'Conversation',       v:0.80},
+    {id:'C', w:20, name:'Factual accuracy (grounding)',  short:'Factual accuracy',   v:0.93},
+    {id:'D', w:20, name:'Compliance',                    short:'Compliance',         v:1.00},
+    {id:'E', w:15, name:'Lead qualification capture',    short:'Qualification',      v:0.70},
+    {id:'F', w:15, name:'Outcome &amp; next step',           short:'Outcome',            v:0.55}
+  ];
+  var gates = [
+    {id:'g1', t:'Continued after refusal',      p:100, cap:0},
+    {id:'g2', t:'Disclosed details to a third party', p:25, cap:29},
+    {id:'g3', t:'Promised yield or residency',  p:20,  cap:39},
+    {id:'g4', t:'No AI disclosure',             p:15,  cap:49},
+    {id:'g5', t:'Unbacked price or handover date', p:15, cap:69},
+    {id:'g6', t:'Called outside window',        p:10,  cap:59}
+  ];
+  var DEFAULTS = {A:0.87,B:0.80,C:0.93,D:1.00,E:0.70,F:0.55};
+  var active = {};
+
+  function bandColor(s){ return s>=85?'#159B80':(s>=70?'#0F6E5C':(s>=55?'#B27A16':'#AE3F33')); }
+  function bandName(s){ return s>=85?'Benchmark':(s>=70?'Good':(s>=55?'Needs work':'Fail')); }
+
+  /* hero scorecard rows */
+  var scRows = document.getElementById('scRows');
+  blocks.forEach(function(b){
+    var row = document.createElement('div');
+    row.className = 'sc-row';
+    row.innerHTML = '<span class="id">'+b.id+'</span>'+
+      '<span class="nm">'+b.short+'</span>'+
+      '<span class="bar"><i data-w="'+Math.round(b.v*100)+'" style="width:0%"></i></span>'+
+      '<span class="pt">'+(b.w*b.v).toFixed(1)+'/'+b.w+'</span>';
+    scRows.appendChild(row);
+  });
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var fills = scRows.querySelectorAll('.bar i');
+  function paintCard(){ Array.prototype.forEach.call(fills, function(f){ f.style.width = f.getAttribute('data-w')+'%'; }); }
+  if(reduce) paintCard(); else setTimeout(paintCard, 180);
+
+  /* composer */
+  var zones = document.getElementById('zones');
+  var zlabels = document.getElementById('zlabels');
+  var refs = {};
+
+  blocks.forEach(function(b){
+    var z = document.createElement('div');
+    z.className = 'zone';
+    z.style.flex = b.w + ' 1 0';
+    z.setAttribute('tabindex','0');
+    z.setAttribute('role','slider');
+    z.setAttribute('aria-label', b.short + ' block result');
+    z.setAttribute('aria-valuemin','0'); z.setAttribute('aria-valuemax','100');
+    z.innerHTML = '<div class="fill"></div><div class="grip"></div><span class="zid">'+b.id+'</span><span class="zpt"></span>';
+    zones.appendChild(z);
+
+    var l = document.createElement('div');
+    l.className = 'zlabel';
+    l.style.flex = b.w + ' 1 0';
+    l.innerHTML = '<b>'+b.short+'</b><span>weight '+b.w+'</span>';
+    zlabels.appendChild(l);
+
+    refs[b.id] = {z:z, fill:z.querySelector('.fill'), grip:z.querySelector('.grip'), pt:z.querySelector('.zpt'), b:b};
+  });
+
+  var resNum = document.getElementById('resNum'),
+      resBand = document.getElementById('resBand'),
+      resEarned = document.getElementById('resEarned'),
+      resLost = document.getElementById('resLost'),
+      resCap = document.getElementById('resCap'),
+      calcLine = document.getElementById('calcLine'),
+      scNum = document.getElementById('scNum'),
+      scBand = document.getElementById('scBand');
+
+  function compute(){
+    var raw = 0;
+    blocks.forEach(function(b){ raw += b.w * b.v; });
+    var pen = 0, cap = 100;
+    gates.forEach(function(g){ if(active[g.id]){ pen += g.p; cap = Math.min(cap, g.cap); } });
+    var fin = Math.max(0, Math.min(raw - pen, cap));
+    return {raw:raw, pen:pen, cap:cap, fin:fin};
+  }
+
+  function render(){
+    blocks.forEach(function(b){
+      var r = refs[b.id], pct = b.v*100;
+      r.fill.style.width = pct + '%';
+      r.grip.style.left = pct + '%';
+      r.pt.textContent = (b.w*b.v).toFixed(1) + ' / ' + b.w;
+      r.z.setAttribute('aria-valuenow', Math.round(pct));
+      r.z.setAttribute('aria-valuetext', (b.w*b.v).toFixed(1)+' of '+b.w+' points');
+      r.fill.style.background = pct>=70 ? '#0F6E5C' : (pct>=45 ? '#B27A16' : '#AE3F33');
+    });
+
+    var c = compute();
+    var fin = Math.round(c.fin), col = bandColor(fin);
+    resNum.textContent = fin; resNum.style.color = col;
+    resBand.textContent = bandName(fin); resBand.style.color = col;
+    resEarned.style.width = fin + '%';
+    resEarned.style.background = col;
+    var lostTo = Math.min(100, Math.max(fin, c.raw));
+    resLost.style.left = fin + '%';
+    resLost.style.width = Math.max(0, lostTo - fin) + '%';
+    if(c.cap < 100){ resCap.style.opacity = 1; resCap.style.left = c.cap + '%'; }
+    else { resCap.style.opacity = 0; }
+
+    var txt = 'Raw ' + c.raw.toFixed(1);
+    if(c.pen > 0) txt += '  −  penalties ' + c.pen;
+    if(c.cap < 100) txt += '  ·  ceiling ' + c.cap;
+    txt += '   =   CQS ' + fin;
+    calcLine.innerHTML = txt;
+
+    scNum.textContent = fin; scNum.style.color = col;
+    scBand.textContent = bandName(fin);
+  }
+
+  function setFrom(r, clientX){
+    var rect = r.z.getBoundingClientRect();
+    r.b.v = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
+    render();
+  }
+  Object.keys(refs).forEach(function(k){
+    var r = refs[k], drag = false;
+    r.z.addEventListener('pointerdown', function(e){ drag = true; r.z.setPointerCapture(e.pointerId); setFrom(r, e.clientX); e.preventDefault(); });
+    r.z.addEventListener('pointermove', function(e){ if(drag) setFrom(r, e.clientX); });
+    r.z.addEventListener('pointerup', function(){ drag = false; });
+    r.z.addEventListener('pointercancel', function(){ drag = false; });
+    r.z.addEventListener('keydown', function(e){
+      var step = e.shiftKey ? 0.1 : 0.02, d = 0;
+      if(e.key==='ArrowRight'||e.key==='ArrowUp') d = step;
+      else if(e.key==='ArrowLeft'||e.key==='ArrowDown') d = -step;
+      else if(e.key==='Home'){ r.b.v = 0; render(); e.preventDefault(); return; }
+      else if(e.key==='End'){ r.b.v = 1; render(); e.preventDefault(); return; }
+      else return;
+      r.b.v = Math.max(0, Math.min(1, r.b.v + d)); render(); e.preventDefault();
+    });
+  });
+
+  var gateRow = document.getElementById('gateRow');
+  gates.forEach(function(g){
+    var btn = document.createElement('button');
+    btn.type = 'button'; btn.className = 'gate'; btn.setAttribute('aria-pressed','false');
+    btn.innerHTML = '<i></i>' + g.t + ' <code>cap ' + g.cap + '</code>';
+    btn.addEventListener('click', function(){
+      active[g.id] = !active[g.id];
+      btn.setAttribute('aria-pressed', active[g.id] ? 'true' : 'false');
+      render();
+    });
+    gateRow.appendChild(btn);
+  });
+
+  document.getElementById('resetBtn').addEventListener('click', function(){
+    blocks.forEach(function(b){ b.v = DEFAULTS[b.id]; });
+    active = {};
+    Array.prototype.forEach.call(gateRow.querySelectorAll('.gate'), function(b){ b.setAttribute('aria-pressed','false'); });
+    render();
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>
