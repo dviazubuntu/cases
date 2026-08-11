@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Air-Gapped AI Environment — Technical Proposal · SoftTeco Group</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --white:#FFFFFF;
+  --paper:#F4F7FC;
+  --paper-2:#E8EFFA;
+  --paper-3:#DCE6F5;
+  --ink:#0A1F3D;
+  --slate:#4E6584;
+  --rule:#C6D5EA;
+  --blue:#0B57D0;
+  --blue-deep:#0A2A63;
+  --blue-bright:#2E7BFA;
+  --teal:#0E7C7B;
+  --amber:#B4791E;
+  --red:#C33B2E;
+  --disp:"Space Grotesk","Segoe UI",sans-serif;
+  --body:"Inter","Segoe UI",system-ui,sans-serif;
+  --mono:"IBM Plex Mono","SF Mono",ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--white);
+  color:var(--ink);
+  font-family:var(--body);
+  font-size:16px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  padding-top:52px;
+}
+/* ---------- top bar ---------- */
+.bar{
+  position:fixed;left:0;right:0;top:0;z-index:60;
+  background:var(--blue-deep);color:var(--white);
+  height:52px;display:flex;align-items:center;gap:16px;
+  padding:0 22px;white-space:nowrap;overflow:hidden;
+  border-bottom:3px solid var(--blue-bright);
+}
+.brand{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.brand-mark{
+  width:26px;height:26px;background:var(--blue-bright);
+  position:relative;flex-shrink:0;
+  clip-path:polygon(0 0,100% 0,100% 60%,60% 60%,60% 100%,0 100%);
+}
+.brand-name{
+  font-family:var(--disp);font-weight:700;font-size:14px;letter-spacing:.04em;
+}
+.brand-name span{color:var(--blue-bright)}
+.bar .div{width:1px;height:20px;background:rgba(255,255,255,.22);flex-shrink:0}
+.bar .tag{
+  font-family:var(--mono);font-size:10px;font-weight:500;
+  letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.72);
+}
+.bar .spacer{flex:1}
+.bar .idx{
+  font-family:var(--mono);font-size:10px;letter-spacing:.14em;
+  text-transform:uppercase;color:rgba(255,255,255,.55);
+}
+/* ---------- section shell ---------- */
+main{max-width:1180px;margin:0 auto;padding:0 22px}
+section{
+  min-height:100vh;
+  padding:78px 0 84px;
+  border-bottom:1px solid var(--rule);
+  display:flex;flex-direction:column;justify-content:center;
+  scroll-margin-top:52px;
+}
+section:last-of-type{border-bottom:none}
+.eyebrow{
+  font-family:var(--mono);font-size:11px;font-weight:500;
+  letter-spacing:.2em;text-transform:uppercase;color:var(--blue);
+  display:flex;align-items:center;gap:12px;margin-bottom:22px;
+}
+.eyebrow::before{
+  content:attr(data-code);
+  background:var(--blue);color:var(--white);
+  padding:3px 8px;letter-spacing:.12em;font-weight:600;
+}
+h1{
+  font-family:var(--disp);font-weight:700;
+  font-size:clamp(2.5rem,7vw,5rem);line-height:1;letter-spacing:-.02em;
+  color:var(--blue-deep);
+}
+h2{
+  font-family:var(--disp);font-weight:700;
+  font-size:clamp(1.8rem,4vw,3rem);line-height:1.06;letter-spacing:-.015em;
+  margin-bottom:26px;color:var(--blue-deep);
+}
+h3{
+  font-family:var(--disp);font-weight:700;
+  font-size:1.2rem;letter-spacing:0;margin-bottom:10px;color:var(--ink);
+}
+p{max-width:64ch;margin-bottom:14px}
+p.lead{font-size:1.14rem;max-width:60ch;color:var(--ink)}
+.muted{color:var(--slate)}
+strong{font-weight:600}
+code{font-family:var(--mono);background:var(--paper-2);padding:1px 5px;font-size:.9em;border-radius:3px}
+/* ---------- title slide ---------- */
+.title-grid{display:grid;gap:34px}
+.title-meta{
+  font-family:var(--mono);font-size:12px;letter-spacing:.05em;
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+  gap:1px;background:var(--rule);border:1px solid var(--rule);
+}
+.title-meta div{background:var(--white);padding:12px 14px}
+.title-meta span{display:block;color:var(--slate);font-size:10px;letter-spacing:.18em;text-transform:uppercase;margin-bottom:5px}
+.stamp{
+  display:inline-block;border:2px solid var(--blue);color:var(--blue);
+  font-family:var(--mono);font-weight:600;font-size:12px;letter-spacing:.16em;
+  text-transform:uppercase;padding:8px 14px;
+}
+/* ---------- constraint list ---------- */
+.constraints{display:grid;gap:1px;background:var(--rule);border:1px solid var(--rule);margin-top:10px}
+.constraints li{background:var(--white);padding:18px 20px;list-style:none;display:grid;grid-template-columns:88px 1fr;gap:18px;align-items:start}
+.constraints .no{font-family:var(--mono);font-size:12px;color:var(--blue);font-weight:600;letter-spacing:.1em;padding-top:3px}
+.constraints h3{margin-bottom:4px;font-size:1.05rem}
+.constraints p{margin:0;font-size:.94rem;color:var(--slate)}
+/* ---------- flow diagram ---------- */
+.flow{display:grid;gap:14px;margin:8px 0 26px}
+.flow-row{display:flex;flex-wrap:wrap;align-items:stretch;gap:10px}
+.node{
+  border:1px solid var(--rule);background:var(--paper);
+  padding:13px 16px;flex:1;min-width:158px;
+}
+.node .k{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--slate);display:block;margin-bottom:5px}
+.node .v{font-family:var(--disp);font-weight:700;font-size:1.02rem;letter-spacing:0;color:var(--ink)}
+.node .n{font-size:.84rem;color:var(--slate);display:block;margin-top:5px;line-height:1.4}
+.node--cut{background:var(--white);border-style:dashed;border-color:var(--blue);color:var(--blue)}
+.node--cut .k,.node--cut .n{color:var(--blue);opacity:.85}
+.node--cut .v{color:var(--blue)}
+.node--core{background:var(--blue-deep);border-color:var(--blue-deep);color:var(--white)}
+.node--core .k,.node--core .n{color:var(--white);opacity:.72}
+.node--core .v{color:var(--white)}
+.arrow{font-family:var(--mono);align-self:center;color:var(--slate);font-size:15px}
+/* ---------- risk plates ---------- */
+.risks{display:grid;grid-template-columns:repeat(auto-fit,minmax(288px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule)}
+.risk{background:var(--white);padding:17px 18px 18px;display:flex;flex-direction:column}
+.risk-head{display:flex;align-items:center;gap:9px;margin-bottom:9px;font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase}
+.risk-head .code{color:var(--slate);font-weight:500}
+.sev{padding:2px 8px;font-weight:600;color:var(--white);border-radius:2px}
+.sev--hi{background:var(--red)}
+.sev--md{background:var(--amber)}
+.sev--lo{background:var(--teal)}
+.risk h3{font-size:1rem;margin-bottom:7px;line-height:1.2}
+.risk p{font-size:.9rem;color:var(--slate);margin-bottom:11px;max-width:none}
+.risk .mit{
+  margin-top:auto;border-top:1px solid var(--rule);padding-top:10px;
+  font-size:.86rem;line-height:1.45;
+}
+.risk .mit span{font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--blue);display:block;margin-bottom:4px;font-weight:600}
+/* ---------- option layout ---------- */
+.opt-head{display:flex;flex-wrap:wrap;align-items:flex-end;gap:18px;justify-content:space-between;margin-bottom:26px}
+.opt-head h2{margin-bottom:0}
+.flag{
+  font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  border:1px solid var(--blue);color:var(--blue);padding:7px 11px;display:inline-flex;gap:9px;align-items:center;
+}
+.flag b{font-weight:600;color:var(--blue-deep)}
+.opt-body{display:grid;grid-template-columns:1.05fr .95fr;gap:34px;align-items:start}
+@media(max-width:860px){.opt-body{grid-template-columns:1fr;gap:26px}}
+/* spec table */
+.spec{width:100%;border-collapse:collapse;font-size:.92rem}
+.spec th,.spec td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--rule);vertical-align:top}
+.spec th{
+  font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--slate);width:38%;
+}
+.spec td{font-family:var(--mono);font-size:.85rem;color:var(--ink)}
+.spec tr:first-child th,.spec tr:first-child td{border-top:1px solid var(--blue-deep)}
+/* GPU array */
+.array{border:1px solid var(--rule);background:var(--paper);padding:20px 18px 16px}
+.array-label{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--slate);margin-bottom:16px}
+.gpus{display:flex;align-items:flex-end;gap:5px;height:132px;margin-bottom:12px}
+.gpu{
+  flex:1;background:var(--blue);position:relative;
+  display:flex;align-items:flex-end;justify-content:center;
+  padding-bottom:6px;min-width:0;
+}
+.gpu span{
+  font-family:var(--mono);font-size:9px;color:var(--white);
+  writing-mode:vertical-rl;transform:rotate(180deg);letter-spacing:.1em;
+  white-space:nowrap;
+}
+.gpu--alt{background:var(--teal)}
+.array-foot{display:flex;justify-content:space-between;gap:14px;border-top:1px solid var(--rule);padding-top:11px;font-family:var(--mono);font-size:11px}
+.array-foot b{font-family:var(--disp);font-size:1.5rem;font-weight:700;display:block;letter-spacing:-.01em;color:var(--blue-deep)}
+.array-foot .u{color:var(--slate);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase}
+.callout{
+  border-left:3px solid var(--amber);background:var(--paper);
+  padding:13px 16px;font-size:.92rem;margin-top:16px;
+}
+.callout b{color:var(--amber)}
+.callout--bad{border-left-color:var(--red)}
+.callout--bad b{color:var(--red)}
+.callout--good{border-left-color:var(--teal)}
+.callout--good b{color:var(--teal)}
+/* ---------- intelligence bars ---------- */
+.iq{display:grid;gap:1px;background:var(--rule);border:1px solid var(--rule);margin-bottom:20px}
+.iq-row{background:var(--white);display:grid;grid-template-columns:230px 1fr 62px;gap:16px;align-items:center;padding:13px 16px}
+@media(max-width:700px){.iq-row{grid-template-columns:1fr 52px;gap:8px}.iq-row .track{grid-column:1/-1}}
+.iq-name{font-family:var(--disp);font-weight:700;font-size:1.02rem;letter-spacing:0;color:var(--ink)}
+.iq-name em{display:block;font-family:var(--mono);font-style:normal;font-size:9.5px;letter-spacing:.14em;color:var(--slate);font-weight:400;margin-top:2px}
+.track{height:17px;background:var(--paper-2);position:relative}
+.track i{display:block;height:100%;background:var(--blue)}
+.track i.hi{background:var(--blue-bright)}
+.track i.lo{background:var(--rule)}
+.iq-val{font-family:var(--disp);font-weight:700;font-size:1.5rem;text-align:right;letter-spacing:-.01em;color:var(--blue-deep)}
+/* ---------- comparison table ---------- */
+.tablewrap{overflow-x:auto;border:1px solid var(--rule);-webkit-overflow-scrolling:touch}
+table.cmp{border-collapse:collapse;width:100%;min-width:860px;font-size:.86rem}
+table.cmp th,table.cmp td{padding:11px 13px;text-align:left;border-bottom:1px solid var(--rule);vertical-align:top}
+table.cmp thead th{
+  background:var(--blue-deep);color:var(--white);font-family:var(--mono);
+  font-size:10px;letter-spacing:.14em;text-transform:uppercase;font-weight:500;
+  position:sticky;top:52px;
+}
+table.cmp tbody th{
+  font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--slate);font-weight:500;background:var(--paper);white-space:nowrap;
+}
+table.cmp td{font-family:var(--mono);font-size:.82rem;line-height:1.45;color:var(--ink)}
+table.cmp td.pick{background:var(--paper-2)}
+table.cmp .big{font-family:var(--disp);font-size:1.2rem;font-weight:700;color:var(--blue-deep)}
+.scrollhint{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--slate);margin-top:10px}
+/* ---------- recommendation ---------- */
+.tiers{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--rule);border:1px solid var(--rule);margin:6px 0 24px}
+@media(max-width:760px){.tiers{grid-template-columns:1fr}}
+.tier{background:var(--white);padding:22px}
+.tier--2{background:var(--blue-deep);color:var(--white)}
+.tier--2 .muted,.tier--2 p{color:rgba(255,255,255,.78)}
+.tier .t{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--blue);margin-bottom:8px}
+.tier--2 .t{color:rgba(255,255,255,.65)}
+.tier .price{font-family:var(--disp);font-weight:700;font-size:2.2rem;line-height:1;margin:12px 0 6px;letter-spacing:-.01em;color:var(--blue-deep)}
+.tier--2 .price{color:var(--white)}
+.steps{counter-reset:s;display:grid;gap:1px;background:var(--rule);border:1px solid var(--rule)}
+.steps li{background:var(--white);padding:15px 18px;list-style:none;display:grid;grid-template-columns:52px 1fr;gap:16px;align-items:baseline}
+.steps li::before{
+  counter-increment:s;content:"0" counter(s);
+  font-family:var(--mono);font-size:11px;color:var(--blue);font-weight:600;letter-spacing:.1em;
+}
+.steps b{font-weight:600}
+.steps .w{font-family:var(--mono);font-size:10px;color:var(--slate);letter-spacing:.1em;display:block;margin-top:3px}
+/* ---------- misc ---------- */
+.note{font-family:var(--mono);font-size:11px;color:var(--slate);line-height:1.6;margin-top:18px;max-width:74ch}
+a{color:var(--blue)}
+a:focus-visible,section:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
+@media (prefers-reduced-motion:no-preference){
+  section>*{animation:rise .5s cubic-bezier(.2,.7,.3,1) both}
+  @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+}
+@media print{
+  body{padding-top:0}.bar{display:none}section{min-height:auto;page-break-after:always;padding:24px 0}
+}
+</style>
+</head>
+<body>
+
+<div class="bar">
+  <div class="brand">
+    <div class="brand-mark"></div>
+    <div class="brand-name">SOFT<span>TECO</span> GROUP</div>
+  </div>
+  <div class="div"></div>
+  <span class="tag">Air-gapped environment · No outbound calls</span>
+  <span class="spacer"></span>
+  <span class="idx">Technical Proposal · Rev 1.0 · Aug 2026</span>
+</div>
+
+<main>
+
+<!-- 01 -->
+<section id="s01">
+  <div class="title-grid">
+    <div class="eyebrow" data-code="01">Cover</div>
+    <h1>Air-Gapped<br>AI Environment</h1>
+    <p class="lead">A hardened fork of OpenWork paired with self-hosted inference on vLLM. No prompt, file, or query ever leaves your perimeter.</p>
+    <div class="stamp">Three configurations to choose from</div>
+    <div class="title-meta">
+      <div><span>Client</span>Defense sector</div>
+      <div><span>Delivered by</span>SoftTeco Group</div>
+      <div><span>Deployment</span>On-premise, air-gapped</div>
+      <div><span>Timeline</span>6-week pilot → production</div>
+    </div>
+  </div>
+</section>
+
+<!-- 02 -->
+<section id="s02">
+  <div class="eyebrow" data-code="02">Constraints</div>
+  <h2>What is off the table</h2>
+  <p class="lead muted">Three hard prohibitions shape everything that follows. None of them can be handled with a configuration flag — only with architecture.</p>
+  <ul class="constraints">
+    <li>
+      <span class="no">RULE 1</span>
+      <div>
+        <h3>No external APIs</h3>
+        <p>Claude, GPT, and Gemini are excluded as a category. Inference must run locally, with the right to operate offline and indefinitely without contacting a vendor.</p>
+      </div>
+    </li>
+    <li>
+      <span class="no">RULE 2</span>
+      <div>
+        <h3>No models of Chinese origin</h3>
+        <p>Qwen, DeepSeek, GLM, and Kimi are excluded regardless of license or benchmark position. This removes most of the top of the open-weight leaderboards.</p>
+      </div>
+    </li>
+    <li>
+      <span class="no">RULE 3</span>
+      <div>
+        <h3>No outbound traffic from the working tool</h3>
+        <p>The agent reads the filesystem and executes commands. Any outbound channel is an exfiltration channel. This is why we fork rather than install upstream.</p>
+      </div>
+    </li>
+  </ul>
+  <p class="note">What remains: open-weight models originating in the United States and the European Union. Three candidates are practically viable.</p>
+</section>
+
+<!-- 03 -->
+<section id="s03">
+  <div class="eyebrow" data-code="03">Architecture</div>
+  <h2>OpenWork fork → vLLM</h2>
+  <p class="lead muted">OpenWork is an Electron shell around the OpenCode agent. OpenCode talks to any OpenAI-compatible endpoint, so swapping a cloud model for local vLLM is one line of configuration. The real work is elsewhere: removing everything that reaches outward.</p>
+
+  <div class="flow">
+    <div class="flow-row">
+      <div class="node"><span class="k">Workstation</span><span class="v">OpenWork fork</span><span class="n">SoftTeco build, signed with the client's key, auto-update removed</span></div>
+      <span class="arrow">→</span>
+      <div class="node"><span class="k">Agent</span><span class="v">OpenCode, host mode</span><span class="n">Binds to 127.0.0.1 only, free port, permission policies on writes and command execution</span></div>
+      <span class="arrow">→</span>
+      <div class="node node--core"><span class="k">Inference</span><span class="v">vLLM · OpenAI API</span><span class="n">Internal VLAN, mTLS, model-specific tool-call parser</span></div>
+    </div>
+    <div class="flow-row">
+      <div class="node node--cut"><span class="k">Removed from the fork</span><span class="v">OpenWork MCP</span><span class="n">api.openworklabs.com plus browser OAuth</span></div>
+      <div class="node node--cut"><span class="k">Removed from the fork</span><span class="v">OpenWork Den</span><span class="n">Hosted organizational control plane</span></div>
+      <div class="node node--cut"><span class="k">Removed from the fork</span><span class="v">Cloud workers</span><span class="n">Remote executors via "Connect remote"</span></div>
+      <div class="node node--cut"><span class="k">Removed from the fork</span><span class="v">owpenbot</span><span class="n">WhatsApp bridge to the OpenCode server</span></div>
+    </div>
+  </div>
+
+  <p>The organizational controls that Den provides — desktop policies, distributing skills and plugins, pinning app versions — are reproduced inside the perimeter: a skills registry on internal Git, policies pushed through the existing MDM, app versions served from the internal package repository.</p>
+  <p class="note">The perimeter is enforced at the network layer: egress deny-all by default, with the internal vLLM address as the only exception. Even if a forgotten call survives somewhere in the dependency tree, it goes nowhere.</p>
+</section>
+
+<!-- 04 -->
+<section id="s04">
+  <div class="eyebrow" data-code="04">Risk register · Platform</div>
+  <h2>Risks of forking OpenWork</h2>
+  <p class="lead muted">Forking solves the main problem and introduces its own. Everything below is disclosed before signature rather than after.</p>
+  <div class="risks">
+
+    <div class="risk">
+      <div class="risk-head"><span class="sev sev--hi">Critical</span><span class="code">R-01</span></div>
+      <h3>Mixed licensing in the repository</h3>
+      <p>The project tree contains an <code>ee/</code> directory — enterprise edition. Part of the codebase is almost certainly not under a permissive license, and the right to fork some functionality may not exist.</p>
+      <div class="mit"><span>Mitigation</span>Legal review of the LICENSE file and the <code>ee/</code> directory before work begins. The build excludes <code>ee/</code> entirely. Any ambiguous wording goes to the rights holder in writing.</div>
+    </div>
+
+    <div class="risk">
+      <div class="risk-head"><span class="sev sev--hi">Critical</span><span class="code">R-02</span></div>
+      <h3>The agent executes commands and writes to disk</h3>
+      <p>This is not a chatbot. OpenCode spawns processes, edits files, and operates on repositories. A model error or a compromised skill becomes an action on the workstation.</p>
+      <div class="mit"><span>Mitigation</span>Mandatory approval for privileged operations, execution inside an isolated filesystem sandbox, and an append-only audit log of agent actions forwarded to the client's SIEM.</div>
+    </div>
+
+    <div class="risk">
+      <div class="risk-head"><span class="sev sev--hi">Critical</span><span class="code">R-03</span></div>
+      <h3>Skills, plugins, and MCP as an attack surface</h3>
+      <p>OpenWork is designed around marketplaces of installable modules. Inside a closed environment, any third-party module is executable code of unknown provenance behind the perimeter.</p>
+      <div class="mit"><span>Mitigation</span>Marketplaces disabled at build time. Internal registry only, with code review and signing. The list of permitted MCP endpoints is hard-coded in configuration.</div>
+    </div>
+
+    <div class="risk">
+      <div class="risk-head"><span class="sev sev--md">High</span><span class="code">R-04</span></div>
+      <h3>npm supply chain</h3>
+      <p>The project runs on pnpm, Electron, and a Rust toolchain, with over four thousand commits and thousands of transitive dependencies. A textbook supply-chain surface.</p>
+      <div class="mit"><span>Mitigation</span>Internal registry mirror, pinned lockfile, SBOM generated on every build, vulnerability scanning, and reproducible builds.</div>
+    </div>
+
+    <div class="risk">
+      <div class="risk-head"><span class="sev sev--md">High</span><span class="code">R-05</span></div>
+      <h3>Electron auto-update</h3>
+      <p>Upstream publishes separate updater manifests for its public, cloud, and enterprise builds. A live update channel inside a protected environment is unacceptable. Separately, upstream notes its Windows installer is temporarily unsigned.</p>
+      <div class="mit"><span>Mitigation</span>Updater stripped from the build. Distribution through the internal repository only, signed with the client's certificate, with hash verification at install time.</div>
+    </div>
+
+    <div class="risk">
+      <div class="risk-head"><span class="sev sev--md">High</span><span class="code">R-06</span></div>
+      <h3>Drift from upstream</h3>
+      <p>Upstream ships releases almost daily. Without a synchronization policy, within six months the fork becomes an unmaintained branch with no security fixes.</p>
+      <div class="mit"><span>Mitigation</span>Quarterly rebase onto the upstream release branch, an automated regression suite, and a dedicated diff review for new network calls before every merge.</div>
+    </div>
+
+    <div class="risk">
+      <div class="risk-head"><span class="sev sev--md">High</span><span class="code">R-07</span></div>
+      <h3>Moving model weights into the environment</h3>
+      <p>Weights run to hundreds of gigabytes hosted externally. For Inkling that is roughly 670 GB in NVFP4, or about two terabytes for BF16.</p>
+      <div class="mit"><span>Mitigation</span>Download in a staging zone, checksum verification against published hashes, antivirus and structural validation of safetensors, then transfer through a one-way gateway.</div>
+    </div>
+
+    <div class="risk">
+      <div class="risk-head"><span class="sev sev--md">High</span><span class="code">R-08</span></div>
+      <h3><code>--trust-remote-code</code> requirement</h3>
+      <p>The official vLLM recipe for Inkling requires this flag — meaning arbitrary Python shipped inside the model checkpoint is executed at load time.</p>
+      <div class="mit"><span>Mitigation</span>Manual audit of the checkpoint's modeling code, inference confined to a separate container with no network access and no access to client data, and a pinned checkpoint revision.</div>
+    </div>
+
+    <div class="risk">
+      <div class="risk-head"><span class="sev sev--lo">Medium</span><span class="code">R-09</span></div>
+      <h3>No vendor accountability</h3>
+      <p>Open-weight models ship as-is. No lab carries obligations for quality, output safety, or fix timelines. Inkling's authors explicitly recommend layering your own moderation on user-facing deployments.</p>
+      <div class="mit"><span>Mitigation</span>SoftTeco Group carries the SLA, not the lab. Own output-filtering layer, an acceptance test suite built on the client's domain tasks, and a migration path to an alternative model that does not require rewriting the integration.</div>
+    </div>
+
+    <div class="risk">
+      <div class="risk-head"><span class="sev sev--lo">Medium</span><span class="code">R-10</span></div>
+      <h3>Dependence on pre-release vLLM builds</h3>
+      <p>Some accelerations exist only in nightly — MTP speculative decoding for Gemma 4, for example, has not landed in a stable release.</p>
+      <div class="mit"><span>Mitigation</span>Production runs a pinned stable vLLM version only. Nightly optimizations are adopted as a separate stage after a regression run.</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- 05 -->
+<section id="s05">
+  <div class="eyebrow" data-code="05">Option A</div>
+  <div class="opt-head">
+    <h2>Inkling 975B</h2>
+    <div class="flag"><span>Country of origin</span><b>USA · Thinking Machines Lab</b></div>
+  </div>
+  <p class="lead muted">The highest intelligence available in Western open weights. Sparse MoE: 975B total parameters, 41B active per token. Apache 2.0 — legally clean, with no revenue carve-out and no restrictions on derivative models.</p>
+
+  <div class="opt-body">
+    <div>
+      <table class="spec">
+        <tr><th>Architecture</th><td>MoE, 975B total / 41B active</td></tr>
+        <tr><th>License</th><td>Apache 2.0</td></tr>
+        <tr><th>Context window</th><td>1,000,000 tokens</td></tr>
+        <tr><th>Input modalities</th><td>text · image · audio</td></tr>
+        <tr><th>Checkpoint</th><td>Inkling-NVFP4</td></tr>
+        <tr><th>Minimum VRAM</th><td>600 GB (NVFP4) · 2 TB (BF16)</td></tr>
+        <tr><th>Production config</th><td>1 × HGX/DGX B300 node<br>8 × B300 SXM, 288 GB each</td></tr>
+        <tr><th>Hopper alternative</th><td>8 × H200 (1,128 GB), TP8, W4A16<br>with on-the-fly dequantization — slower</td></tr>
+        <tr><th>System memory</th><td>2–3 TB DDR5, 2 × EPYC 9005</td></tr>
+        <tr><th>Storage</th><td>670 GB checkpoint · 15–30 TB NVMe for the weight repository and fine-tunes</td></tr>
+        <tr><th>Power and cooling</th><td>10–14 kW per node, liquid cooling</td></tr>
+        <tr><th>High availability</th><td>2 nodes (a single node is a single point of failure)</td></tr>
+        <tr><th>Capex, HA pair</th><td>$1.3M–1.8M</td></tr>
+      </table>
+    </div>
+    <div>
+      <div class="array">
+        <div class="array-label">GPU configuration · 1 node</div>
+        <div class="gpus">
+          <div class="gpu" style="height:100%"><span>B300 288</span></div>
+          <div class="gpu" style="height:100%"><span>B300 288</span></div>
+          <div class="gpu" style="height:100%"><span>B300 288</span></div>
+          <div class="gpu" style="height:100%"><span>B300 288</span></div>
+          <div class="gpu" style="height:100%"><span>B300 288</span></div>
+          <div class="gpu" style="height:100%"><span>B300 288</span></div>
+          <div class="gpu" style="height:100%"><span>B300 288</span></div>
+          <div class="gpu" style="height:100%"><span>B300 288</span></div>
+        </div>
+        <div class="array-foot">
+          <div><span class="u">Total VRAM</span><b>2,304 GB</b></div>
+          <div><span class="u">Headroom over NVFP4</span><b>3.8×</b></div>
+        </div>
+      </div>
+      <div class="callout callout--good"><b>Why the headroom matters.</b> 2,304 GB covers NVFP4 at the full 1M context with high concurrency, and also fits the BF16 checkpoint outright — no move to a multi-node InfiniBand topology.</div>
+      <div class="callout"><b>Performance.</b> The official vLLM recipe defaults to 4 × GB200 at TP4 and reaches roughly 380 tokens per second per user with MTP speculative decoding enabled.</div>
+      <div class="callout callout--bad"><b>Risk R-08.</b> Startup requires the <code>--trust-remote-code</code> flag — a checkpoint code audit is mandatory.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 06 -->
+<section id="s06">
+  <div class="eyebrow" data-code="06">Option B</div>
+  <div class="opt-head">
+    <h2>Gemma 4 31B</h2>
+    <div class="flag"><span>Country of origin</span><b>USA · Google DeepMind</b></div>
+  </div>
+  <p class="lead muted">A 30.7B dense model and, for the first time in the Gemma line, released under Apache 2.0 rather than Google's custom terms and acceptable-use policy. Hybrid attention interleaving sliding-window and global layers keeps the KV cache small, which translates directly into lower hardware requirements.</p>
+
+  <div class="opt-body">
+    <div>
+      <table class="spec">
+        <tr><th>Architecture</th><td>Dense, 30.7B, 60 layers</td></tr>
+        <tr><th>License</th><td>Apache 2.0</td></tr>
+        <tr><th>Context window</th><td>256,000 tokens</td></tr>
+        <tr><th>Input modalities</th><td>text · image (audio only on smaller family members)</td></tr>
+        <tr><th>Checkpoint</th><td>gemma-4-31B-it-FP8-block<br>or QAT w4a16 compressed-tensors</td></tr>
+        <tr><th>VRAM for weights</th><td>≈33 GB (FP8) · 18–20 GB (QAT w4a16)</td></tr>
+        <tr><th>Production config</th><td>1 × 2U server<br>2 × RTX PRO 6000 Blackwell, 96 GB, TP2</td></tr>
+        <tr><th>Measured throughput</th><td>≈1,170 tok/s at 24 concurrent sessions (RTX PRO 6000, 4K context)</td></tr>
+        <tr><th>System memory</th><td>768 GB DDR5, 2 × EPYC 9354</td></tr>
+        <tr><th>Storage</th><td>2 × 4 TB NVMe</td></tr>
+        <tr><th>Power and cooling</th><td>2–2.5 kW per server, air-cooled</td></tr>
+        <tr><th>High availability</th><td>2 servers × 2 GPUs</td></tr>
+        <tr><th>Capex, HA pair</th><td>$90K–110K</td></tr>
+      </table>
+    </div>
+    <div>
+      <div class="array">
+        <div class="array-label">GPU configuration · 1 server</div>
+        <div class="gpus">
+          <div class="gpu gpu--alt" style="height:33%;max-width:88px"><span>RTX PRO 6000 · 96</span></div>
+          <div class="gpu gpu--alt" style="height:33%;max-width:88px"><span>RTX PRO 6000 · 96</span></div>
+        </div>
+        <div class="array-foot">
+          <div><span class="u">Total VRAM</span><b>192 GB</b></div>
+          <div><span class="u">Versus option A</span><b>1 / 12</b></div>
+        </div>
+      </div>
+      <div class="callout callout--good"><b>Benchmark results.</b> MMLU Pro 85.2%, AIME 2026 89.2%, GPQA Diamond 84.3%, LiveCodeBench v6 80.0%, Codeforces ELO 2150. Exceptional for 31 billion parameters.</div>
+      <div class="callout"><b>Where it gives ground.</b> On long context, MRCR v2 at 128K scores 66.4%. In multi-hour agent sessions over a large codebase, degradation will be more noticeable than with option A.</div>
+      <div class="callout callout--bad"><b>Risk R-10.</b> MTP speculative decoding for Gemma 4 is nightly-only in vLLM. Production ships without it.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 07 -->
+<section id="s07">
+  <div class="eyebrow" data-code="07">Option C</div>
+  <div class="opt-head">
+    <h2>Mistral Medium 3.5</h2>
+    <div class="flag"><span>Country of origin</span><b>France · EU · Mistral AI</b></div>
+  </div>
+  <p class="lead muted">The only European candidate. One correction to a common assumption: Mistral's most capable open model is not the 675B flagship Large 3, but the far smaller Medium 3.5, which merged the former Magistral (reasoning) and Devstral 2 (agentic coding) into a single model with configurable reasoning effort.</p>
+
+  <div class="opt-body">
+    <div>
+      <table class="spec">
+        <tr><th>Architecture</th><td>Dense, 128B</td></tr>
+        <tr><th>License</th><td>Modified MIT — with a carve-out</td></tr>
+        <tr><th>Context window</th><td>256,000 tokens</td></tr>
+        <tr><th>Input modalities</th><td>text · image</td></tr>
+        <tr><th>VRAM for weights</th><td>≈256 GB (BF16) · ≈128 GB (FP8)</td></tr>
+        <tr><th>Production config</th><td>1 server, 4 × H200 141 GB, TP4</td></tr>
+        <tr><th>Budget alternative</th><td>4 × RTX PRO 6000 96 GB (384 GB)</td></tr>
+        <tr><th>Domain results</th><td>SWE-bench Verified 77.6% · Tau3-Telecom 91.4%</td></tr>
+        <tr><th>Power and cooling</th><td>5–7 kW per server</td></tr>
+        <tr><th>High availability</th><td>2 servers × 4 GPUs</td></tr>
+        <tr><th>Capex, HA pair</th><td>$360K–500K (H200)<br>$170K–200K (RTX PRO 6000)</td></tr>
+      </table>
+    </div>
+    <div>
+      <div class="array">
+        <div class="array-label">GPU configuration · 1 server</div>
+        <div class="gpus">
+          <div class="gpu" style="height:49%"><span>H200 · 141</span></div>
+          <div class="gpu" style="height:49%"><span>H200 · 141</span></div>
+          <div class="gpu" style="height:49%"><span>H200 · 141</span></div>
+          <div class="gpu" style="height:49%"><span>H200 · 141</span></div>
+        </div>
+        <div class="array-foot">
+          <div><span class="u">Total VRAM</span><b>564 GB</b></div>
+          <div><span class="u">Versus option B on intelligence</span><b>+1 point</b></div>
+        </div>
+      </div>
+      <div class="callout callout--bad"><b>License carve-out — decisive for a defense contractor.</b> The modified MIT grant does not extend to companies above roughly $20M in global consolidated monthly revenue; those require a separate commercial license from Mistral. Additional terms also govern the release of derivative models, and fine-tuning on classified data is planned.</div>
+      <div class="callout"><b>The license-clean Mistral alternative.</b> Large 3 675B under Apache 2.0, FP8 on 8 × H200 or NVFP4 on 4 × B200. But it is a non-reasoning model at roughly 38–41 tok/s output and an intelligence index of 16 — a weak fit for agentic work.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 08 -->
+<section id="s08">
+  <div class="eyebrow" data-code="08">Intelligence</div>
+  <h2>How far apart the models are</h2>
+  <p class="lead muted">The scale is the Artificial Analysis Intelligence Index, a composite of nine evaluations spanning agentic tasks, terminal work, science, long context, and resistance to hallucination. The current closed-model market leader is shown for calibration.</p>
+  <div class="iq">
+    <div class="iq-row"><div class="iq-name">Claude Opus 4.8<em>Closed · calibration reference</em></div><div class="track"><i class="lo" style="width:100%"></i></div><div class="iq-val muted">61</div></div>
+    <div class="iq-row"><div class="iq-name">Inkling 975B<em>Option A · USA</em></div><div class="track"><i class="hi" style="width:67%"></i></div><div class="iq-val">41</div></div>
+    <div class="iq-row"><div class="iq-name">Nemotron 3 Ultra<em>Not proposed · USA · NVIDIA</em></div><div class="track"><i class="lo" style="width:62%"></i></div><div class="iq-val muted">38</div></div>
+    <div class="iq-row"><div class="iq-name">Mistral Medium 3.5<em>Option C · France</em></div><div class="track"><i style="width:49%"></i></div><div class="iq-val">30</div></div>
+    <div class="iq-row"><div class="iq-name">Gemma 4 31B<em>Option B · USA</em></div><div class="track"><i style="width:47.5%"></i></div><div class="iq-val">29</div></div>
+    <div class="iq-row"><div class="iq-name">Mistral Large 3 675B<em>Not recommended</em></div><div class="track"><i class="lo" style="width:26%"></i></div><div class="iq-val muted">16</div></div>
+  </div>
+  <div class="callout callout--good"><b>The headline finding.</b> Gemma 4 31B lands within a single point of Mistral Medium 3.5 while requiring a quarter of the VRAM and carrying no license carve-out. Option C in its Medium 3.5 form is not economically defensible next to option B.</div>
+  <div class="callout"><b>Where the gap is wider than the scale suggests.</b> On static knowledge tests Gemma 4 31B looks near-level with the leaders. The gap to Inkling opens up in long agentic chains: Inkling scores 1238 Elo on GDPval-AA v2 while averaging 25K output tokens per task, roughly half the spend of its nearest rivals. For an OpenWork deployment, that is precisely the metric that decides practical usability.</div>
+  <p class="note">Index figures are drawn from publications across several months and methodology revisions (v4.0 through v4.1.1). A 1–2 point difference between closely ranked models sits inside the margin of comparison and should not drive the decision on its own.</p>
+</section>
+
+<!-- 09 -->
+<section id="s09">
+  <div class="eyebrow" data-code="09">Comparison</div>
+  <h2>Three options side by side</h2>
+  <div class="tablewrap">
+    <table class="cmp">
+      <thead>
+        <tr>
+          <th>Parameter</th>
+          <th>A · Inkling 975B</th>
+          <th>B · Gemma 4 31B</th>
+          <th>C · Mistral Medium 3.5</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><th>Country of origin</th><td>USA<br>Thinking Machines Lab</td><td class="pick">USA<br>Google DeepMind</td><td>France, EU<br>Mistral AI</td></tr>
+        <tr><th>License</th><td>Apache 2.0 — clean</td><td class="pick">Apache 2.0 — clean</td><td>Modified MIT<br>revenue carve-out</td></tr>
+        <tr><th>Architecture</th><td>MoE 975B / 41B active</td><td class="pick">Dense 30.7B</td><td>Dense 128B</td></tr>
+        <tr><th>Intelligence index</th><td class="big">41</td><td class="pick big">29</td><td class="big">30</td></tr>
+        <tr><th>Context window</th><td>1,000,000</td><td class="pick">256,000</td><td>256,000</td></tr>
+        <tr><th>Modalities</th><td>text, image, audio</td><td class="pick">text, image</td><td>text, image</td></tr>
+        <tr><th>Production quantization</th><td>NVFP4</td><td class="pick">FP8 (or QAT w4a16)</td><td>FP8</td></tr>
+        <tr><th>VRAM for weights</th><td>600 GB minimum</td><td class="pick">≈33 GB</td><td>≈128 GB</td></tr>
+        <tr><th>GPUs per node</th><td>8 × B300 SXM 288 GB</td><td class="pick">2 × RTX PRO 6000 96 GB</td><td>4 × H200 141 GB</td></tr>
+        <tr><th>Total VRAM per node</th><td class="big">2,304 GB</td><td class="pick big">192 GB</td><td class="big">564 GB</td></tr>
+        <tr><th>Alternative hardware</th><td>8 × H200 (TP8, slower)<br>4 × GB200 (TP4, vLLM recipe)</td><td class="pick">2 × H200<br>4 × L40S</td><td>4 × RTX PRO 6000<br>8 × H100</td></tr>
+        <tr><th>System memory</th><td>2–3 TB DDR5</td><td class="pick">768 GB DDR5</td><td>1–1.5 TB DDR5</td></tr>
+        <tr><th>Storage</th><td>670 GB checkpoint<br>15–30 TB NVMe</td><td class="pick">2 × 4 TB NVMe</td><td>8–15 TB NVMe</td></tr>
+        <tr><th>Power per node</th><td>10–14 kW</td><td class="pick">2–2.5 kW</td><td>5–7 kW</td></tr>
+        <tr><th>Cooling</th><td>liquid, mandatory</td><td class="pick">air, standard rack</td><td>air, high-airflow</td></tr>
+        <tr><th>Form factor</th><td>HGX/DGX chassis, 8U</td><td class="pick">standard 2U</td><td>4U</td></tr>
+        <tr><th>Capex per node</th><td>$600K–750K</td><td class="pick">$45K–55K</td><td>$180K–250K</td></tr>
+        <tr><th>Capex, HA pair</th><td class="big">$1.3M–1.8M</td><td class="pick big">$90K–110K</td><td class="big">$360K–500K</td></tr>
+        <tr><th>Time to first run</th><td>10–16 weeks<br>including delivery and liquid-cooling install</td><td class="pick">1–2 weeks</td><td>6–10 weeks</td></tr>
+        <tr><th>Key risk</th><td>R-08 · requires <code>--trust-remote-code</code><br>plus capex and power draw</td><td class="pick">Degradation in long agent sessions<br>MRCR 128K — 66.4%</td><td>License carve-out tied to<br>client revenue</td></tr>
+        <tr><th>Role in this proposal</th><td>Heavy tier</td><td class="pick">Volume tier</td><td>Not recommended</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="scrollhint">Table scrolls horizontally →</p>
+  <p class="note">Hardware pricing is indicative, order-of-magnitude as of August 2026, excluding vendor discounts, installation, spares, and extended warranty. A detailed BOM with specific SKUs follows once an option is confirmed.</p>
+</section>
+
+<!-- 10 -->
+<section id="s10">
+  <div class="eyebrow" data-code="10">Recommendation</div>
+  <h2>Two tiers instead<br>of one choice</h2>
+  <p class="lead muted">Treating A, B, and C as mutually exclusive is the wrong framing. Options A and B solve different problems and pair well. Option C fills neither role: four times the cost of B, one index point ahead, and a license carve-out attached.</p>
+
+  <div class="tiers">
+    <div class="tier">
+      <div class="t">Tier 1 · Volume</div>
+      <h3>Gemma 4 31B</h3>
+      <div class="price">$90–110K</div>
+      <p class="muted">Two servers, 2 × RTX PRO 6000 each. Covers the bulk of everyday OpenWork tasks: document work, code, image and scan analysis. Installs into a standard rack in one to two weeks with no changes to power or cooling.</p>
+    </div>
+    <div class="tier tier--2">
+      <div class="t">Tier 2 · Heavy</div>
+      <h3>Inkling 975B</h3>
+      <div class="price">$1.3–1.8M</div>
+      <p>A B300 node for deep analysis, long agent runs across large codebases, million-token context, and audio processing. Added in a second phase, once tier 1 is in service and there is measured data on the tasks it cannot carry.</p>
+    </div>
+  </div>
+
+  <p>Routing between tiers runs in a proxy ahead of OpenCode: a rule on task type and context length, switching transparently for the user. The integration surface stays singular — an OpenAI-compatible endpoint — so replacing or adding a model requires no change to the OpenWork fork.</p>
+  <p><strong>Why this works commercially:</strong> the client does not need to defend a $1.8M budget line to get a working tool. Tier 1 goes live this quarter and produces the measured results that justify tier 2.</p>
+
+  <h3 style="margin-top:26px">Next steps</h3>
+  <ol class="steps">
+    <li><div><b>Legal review of the OpenWork repository</b><span class="w">Week 1 · clears R-01, a blocking risk</span></div></li>
+    <li><div><b>Fork, strip outbound calls, build and sign with the client's key</b><span class="w">Weeks 1–3 · addresses R-04, R-05</span></div></li>
+    <li><div><b>Gemma 4 31B pilot on a single GPU, acceptance tests on the client's domain tasks</b><span class="w">Weeks 2–4 · ≈$28K pilot hardware</span></div></li>
+    <li><div><b>Agree agent policies, sandboxing, and audit logging with the client's security team</b><span class="w">Weeks 3–5 · addresses R-02, R-03</span></div></li>
+    <li><div><b>Deliver and commission the tier 1 production configuration</b><span class="w">Weeks 5–8</span></div></li>
+    <li><div><b>Tier 2 decision based on operational statistics</b><span class="w">Quarter 2</span></div></li>
+  </ol>
+
+  <p class="note">Prepared by SoftTeco Group. Model intelligence scores and VRAM requirements are drawn from public model cards, official vLLM recipes, and independent benchmarks as of August 2026. Hardware pricing is subject to confirmation against current vendor quotations.</p>
+</section>
+
+</main>
+
+<script>
+(function(){
+  var secs = Array.prototype.slice.call(document.querySelectorAll('section'));
+  var idx = document.querySelector('.bar .idx');
+  var base = idx.textContent;
+  if(!('IntersectionObserver' in window)) return;
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        var n = secs.indexOf(e.target) + 1;
+        idx.textContent = base + ' · Sheet ' + String(n).padStart(2,'0') + '/' + String(secs.length).padStart(2,'0');
+      }
+    });
+  },{rootMargin:'-45% 0px -45% 0px'});
+  secs.forEach(function(s){io.observe(s)});
+})();
+</script>
+</body>
+</html>
