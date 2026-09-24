@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CAnalytics — Commodity Intelligence for SOCAR</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,400..800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#EDF1F2; --surface:#FFFFFF; --ink:#13233A; --muted:#566779; --line:#CBD5DA;
+  --teal:#0F6E74; --teal-soft:#D5E8E8; --amber:#C98A0F; --amber-soft:#F6E7C4;
+  --pipe:#13233A;
+  --sans:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --serif:"Source Serif 4",Georgia,"Times New Roman",serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#0D1823; --surface:#14222F; --ink:#E4EBEE; --muted:#93A4B2; --line:#2A3B4B;
+    --teal:#56B8B4; --teal-soft:#173A3E; --amber:#EDB443; --amber-soft:#3A2F14; --pipe:#E4EBEE;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0D1823; --surface:#14222F; --ink:#E4EBEE; --muted:#93A4B2; --line:#2A3B4B;
+  --teal:#56B8B4; --teal-soft:#173A3E; --amber:#EDB443; --amber-soft:#3A2F14; --pipe:#E4EBEE;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--serif);font-size:1.075rem;line-height:1.62;-webkit-font-smoothing:antialiased}
+a{color:var(--teal)}
+a:focus-visible{outline:2px solid var(--amber);outline-offset:3px;border-radius:2px}
+h1,h2,h3,h4{font-family:var(--sans);line-height:1.12;margin:0;letter-spacing:-.01em}
+p{margin:0 0 1em}
+img,svg{max-width:100%}
+
+/* ---------- hero ---------- */
+.hero{padding:clamp(2.5rem,6vw,5rem) clamp(1.25rem,5vw,4rem) 0;max-width:1240px;margin:0 auto}
+.brand{font-family:var(--sans);font-weight:700;font-size:1rem;display:flex;align-items:center;gap:.6rem;color:var(--muted)}
+.brand b{color:var(--ink);font-weight:800;font-stretch:80%;font-size:1.25rem}
+.hero h1{font-weight:800;font-stretch:78%;font-size:clamp(2.6rem,7.5vw,5.6rem);letter-spacing:-.025em;margin:1.4rem 0 1.2rem;max-width:14ch}
+.hero .lede{font-size:clamp(1.1rem,1.8vw,1.3rem);max-width:60ch;color:var(--ink)}
+.prepared{font-family:var(--sans);font-size:.95rem;color:var(--muted);max-width:62ch;margin-top:1.4rem}
+
+/* route diagram = the one bold element */
+.route{margin:clamp(2rem,5vw,3.5rem) 0 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:1.5rem 0 1rem;overflow-x:auto}
+.route svg{display:block;min-width:760px;width:100%;height:auto}
+.route .pipe{stroke:var(--pipe);stroke-width:7;fill:none;stroke-linecap:round}
+.route .sea{stroke:var(--pipe);stroke-width:2.5;fill:none;stroke-dasharray:3 7;stroke-linecap:round}
+.route .sig{stroke:var(--teal);stroke-width:1.5;fill:none;opacity:.75}
+.route .sig.alert{stroke:var(--amber);stroke-width:2;opacity:1}
+.route .node{fill:var(--bg);stroke:var(--pipe);stroke-width:3}
+.route .choke{fill:var(--amber)}
+.route text{font-family:var(--sans);fill:var(--ink);font-size:13px}
+.route .t-name{font-weight:700;font-size:15px}
+.route .t-sub{fill:var(--muted);font-size:12px}
+.route .t-sig{fill:var(--teal);font-size:12px;font-weight:600}
+.route .t-alert{fill:var(--amber);font-size:12px;font-weight:700}
+.route .dash{stroke-dasharray:1400;stroke-dashoffset:1400;animation:draw 2.4s ease-out .2s forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+.route figcaption{font-family:var(--sans);font-size:.85rem;color:var(--muted);margin-top:.6rem}
+
+/* ---------- layout ---------- */
+.wrap{max-width:1240px;margin:0 auto;padding:0 clamp(1.25rem,5vw,4rem);display:grid;grid-template-columns:200px minmax(0,1fr);gap:clamp(2rem,5vw,4.5rem)}
+nav.toc{position:sticky;top:calc(env(safe-area-inset-top,0px) + 2rem);align-self:start;padding-top:4rem;font-family:var(--sans);font-size:.9rem}
+nav.toc ol{list-style:none;padding:0;margin:0;counter-reset:t}
+nav.toc li{counter-increment:t;margin:0 0 .55rem}
+nav.toc a{color:var(--muted);text-decoration:none;display:flex;gap:.6rem}
+nav.toc a::before{content:counter(t);color:var(--teal);font-weight:700;min-width:1ch}
+nav.toc a:hover{color:var(--ink)}
+main{min-width:0}
+section{padding:4rem 0 1rem;border-bottom:1px solid var(--line)}
+section:last-of-type{border-bottom:0}
+.sec-num{font-family:var(--sans);font-weight:800;font-stretch:75%;color:var(--teal);font-size:1.1rem;display:block;margin-bottom:.4rem}
+h2{font-weight:800;font-stretch:82%;font-size:clamp(1.9rem,3.6vw,2.7rem);margin-bottom:1.3rem;max-width:22ch}
+h3{font-weight:700;font-size:1.3rem;margin-bottom:.55rem}
+.prose{max-width:66ch}
+
+/* questions */
+.questions{list-style:none;padding:0;margin:1.6rem 0 1.8rem;max-width:66ch}
+.questions li{font-style:italic;font-size:1.18rem;line-height:1.45;padding:.85rem 0 .85rem 1.3rem;border-left:3px solid var(--teal);margin-bottom:.6rem;background:linear-gradient(90deg,var(--teal-soft),transparent 70%)}
+.contrast{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);max-width:760px;margin:0 0 2.5rem}
+.contrast div{background:var(--surface);padding:1.2rem 1.4rem}
+.contrast h4{font-size:.95rem;color:var(--muted);font-weight:600;margin-bottom:.3rem}
+.contrast p{margin:0;font-family:var(--sans);font-weight:700;font-size:1.35rem;font-stretch:85%}
+.contrast .now p{color:var(--teal)}
+
+/* capabilities */
+.cap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,15rem);gap:1.2rem 2.5rem;padding:2rem 0;border-top:1px solid var(--line)}
+.cap:first-of-type{border-top:0;padding-top:.5rem}
+.cap ul{margin:0;padding-left:1.1rem}
+.cap li{margin-bottom:.5rem}
+.cap li::marker{color:var(--teal)}
+.evidence{font-family:var(--sans);align-self:start;border-left:2px solid var(--line);padding-left:1rem}
+.evidence .fig{display:block;font-weight:800;font-stretch:78%;font-size:2.4rem;line-height:1;color:var(--ink)}
+.evidence .cap-l{display:block;font-size:.85rem;color:var(--muted);margin:.25rem 0 1rem;line-height:1.35}
+.evidence.alert{border-left-color:var(--amber)}
+.evidence.alert .fig{color:var(--amber)}
+.note{font-family:var(--sans);font-size:.9rem;background:var(--amber-soft);color:var(--ink);padding:.7rem .9rem;border-radius:3px;margin-top:.8rem;max-width:62ch}
+.pill{font-family:var(--sans);font-size:.78rem;font-weight:600;background:var(--teal-soft);color:var(--teal);padding:.15rem .5rem;border-radius:3px;white-space:nowrap}
+
+/* pipeline steps (a real sequence) */
+.steps{list-style:none;padding:0;margin:2rem 0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));position:relative;counter-reset:s}
+.steps::before{content:"";position:absolute;left:0;right:0;top:19px;height:4px;background:var(--pipe);border-radius:2px}
+.steps li{counter-increment:s;padding-right:1.4rem;position:relative}
+.steps li::before{content:counter(s);display:grid;place-items:center;width:42px;height:42px;border-radius:50%;background:var(--bg);border:3px solid var(--pipe);font-family:var(--sans);font-weight:800;position:relative;margin-bottom:1rem}
+.steps h3{font-size:1.1rem}
+.steps p{font-size:.97rem;margin:0}
+.origin{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.5rem}
+
+.table-wrap{overflow-x:auto;margin:1.2rem 0 2rem;border:1px solid var(--line);background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:680px;font-family:var(--sans);font-size:.93rem}
+th,td{text-align:left;vertical-align:top;padding:.85rem 1rem;border-bottom:1px solid var(--line)}
+thead th{font-weight:700;color:var(--muted);font-size:.85rem;background:var(--bg)}
+tbody tr:last-child td{border-bottom:0}
+td:first-child{font-weight:600;width:30%}
+td:last-child{color:var(--teal);font-weight:600}
+
+/* benefits */
+.benefits{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2.2rem 3rem;margin-top:1rem}
+.benefits h3{font-size:1.05rem;color:var(--teal);padding-bottom:.5rem;border-bottom:2px solid var(--teal);margin-bottom:.9rem}
+.benefits dl{margin:0}
+.benefits dt{font-family:var(--sans);font-weight:700;margin-top:.8rem}
+.benefits dd{margin:.15rem 0 0;color:var(--ink)}
+
+.diff{list-style:none;padding:0;margin:0;max-width:70ch}
+.diff li{padding:1.1rem 0;border-top:1px solid var(--line)}
+.diff li:first-child{border-top:0;padding-top:0}
+.diff strong{font-family:var(--sans);font-size:1.15rem;display:block;margin-bottom:.2rem}
+
+/* pilot timeline */
+.timeline{display:grid;grid-template-columns:2fr 2fr 4fr;margin:2rem 0 1.5rem;font-family:var(--sans)}
+.phase{padding:0 1rem 0 0}
+.bar{height:14px;background:var(--teal);margin-bottom:.8rem}
+.phase:nth-child(2) .bar{background:color-mix(in srgb,var(--teal) 65%,var(--bg))}
+.phase:nth-child(3) .bar{background:var(--amber)}
+.phase .wk{font-weight:800;font-stretch:80%;font-size:1.2rem}
+.phase p{font-family:var(--serif);font-size:.97rem;margin:.3rem 0 0}
+.outcome{background:var(--ink);color:var(--bg);padding:clamp(1.5rem,4vw,2.5rem);margin:2rem 0 3rem}
+.outcome h3{color:var(--bg);font-size:1.4rem;margin-bottom:1rem}
+.outcome ol{margin:0;padding-left:1.3rem;font-size:1.1rem}
+.outcome li{margin-bottom:.4rem}
+footer{max-width:1240px;margin:0 auto;padding:2rem clamp(1.25rem,5vw,4rem) 3rem;font-family:var(--sans);font-size:.85rem;color:var(--muted);border-top:1px solid var(--line)}
+
+@media (max-width:900px){
+  .wrap{grid-template-columns:1fr}
+  nav.toc{display:none}
+  .cap{grid-template-columns:1fr}
+  .evidence{display:flex;flex-wrap:wrap;gap:0 1.8rem}
+  .evidence>div{min-width:9rem}
+}
+@media (max-width:680px){
+  .steps{grid-template-columns:1fr;gap:1.4rem}
+  .steps::before{left:19px;right:auto;top:0;bottom:0;width:4px;height:auto}
+  .steps li{padding-left:3.6rem;padding-right:0}
+  .steps li::before{position:absolute;left:0;top:0}
+  .benefits,.contrast{grid-template-columns:1fr}
+  .timeline{grid-template-columns:1fr;gap:1.4rem}
+}
+@media print{nav.toc{display:none}.wrap{grid-template-columns:1fr}.route .dash{stroke-dashoffset:0;animation:none}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="brand"><b>CAnalytics</b> Commodity intelligence</div>
+  <h1>See the physical market move before the price does.</h1>
+  <p class="lede">An analytics platform for physical commodity trading. It joins SOCAR's own operational data with world prices, freight, trade flows, vessel movements and news, and lets managers and analysts ask questions in plain language, with every answer backed by evidence.</p>
+  <p class="prepared">Prepared for SOCAR, the State Oil Company of the Azerbaijan Republic, and its trading, marketing, risk and compliance teams.</p>
+
+  <figure class="route" aria-label="Diagram of the Baku–Tbilisi–Ceyhan route with market signals feeding into it">
+    <svg viewBox="0 0 1100 230" role="img">
+      <title>Baku to Ceyhan route with signals</title>
+      <!-- signal lines converging -->
+      <path class="sig" d="M60 20 C 250 20, 300 120, 420 128"/>
+      <path class="sig" d="M60 44 C 260 44, 320 124, 420 132"/>
+      <path class="sig alert" d="M1040 20 C 880 20, 820 120, 700 128"/>
+      <path class="sig" d="M1040 44 C 900 44, 830 124, 700 132"/>
+      <text class="t-sig" x="60" y="14">Brent, Dated, TTF, FX</text>
+      <text class="t-sig" x="60" y="62">Contracts, invoices, payments</text>
+      <text class="t-alert" x="1040" y="14" text-anchor="end">Chokepoint stress alert</text>
+      <text class="t-sig" x="1040" y="62" text-anchor="end">AIS, sanctions, ownership</text>
+      <!-- pipeline -->
+      <path class="pipe dash" d="M90 150 L 520 150 L 860 150"/>
+      <path class="sea" d="M860 150 C 930 150, 960 190, 1040 190"/>
+      <circle class="node" cx="90" cy="150" r="11"/>
+      <circle class="node" cx="330" cy="150" r="9"/>
+      <circle class="node" cx="560" cy="150" r="11"/>
+      <circle class="node" cx="860" cy="150" r="11"/>
+      <circle class="choke" cx="1040" cy="190" r="7"/>
+      <text class="t-name" x="90" y="186" text-anchor="middle">Baku</text>
+      <text class="t-sub" x="90" y="204" text-anchor="middle">Azeri Light</text>
+      <text class="t-name" x="330" y="186" text-anchor="middle">Supsa · Batumi</text>
+      <text class="t-sub" x="330" y="204" text-anchor="middle">Black Sea outlets</text>
+      <text class="t-name" x="560" y="186" text-anchor="middle">Tbilisi</text>
+      <text class="t-sub" x="560" y="204" text-anchor="middle">BTC corridor</text>
+      <text class="t-name" x="860" y="186" text-anchor="middle">Ceyhan</text>
+      <text class="t-sub" x="860" y="204" text-anchor="middle">Mediterranean loading</text>
+      <text class="t-sub" x="1040" y="218" text-anchor="end">Red Sea, Hormuz</text>
+    </svg>
+    <figcaption>Internal flows and world signals meet in one analytical store, so a disruption at sea can be read against open cargoes on the route.</figcaption>
+  </figure>
+</header>
+
+<div class="wrap">
+  <nav class="toc" aria-label="Contents">
+    <ol>
+      <li><a href="#problem">The problem</a></li>
+      <li><a href="#platform">What it does</a></li>
+      <li><a href="#data">Your own data</a></li>
+      <li><a href="#benefits">Benefits</a></li>
+      <li><a href="#different">Why it's different</a></li>
+      <li><a href="#pilot">Next step</a></li>
+    </ol>
+  </nav>
+
+  <main>
+    <!-- 1 -->
+    <section id="problem">
+      <span class="sec-num">1</span>
+      <h2>The problem CAnalytics solves</h2>
+      <div class="prose">
+        <p>SOCAR works across the whole value chain: Azeri Light crude exported through Baku–Tbilisi–Ceyhan, Shah Deniz gas sent to Türkiye and Europe through the Southern Gas Corridor, refining and petrochemicals at STAR and Petkim, and global trading through SOCAR Trading.</p>
+        <p>Each business produces a lot of data, but it is split across ERP, trading, logistics, finance and compliance systems, while market data (Brent, Dated differentials, TTF, freight, FX) sits in separate terminals. The questions that matter most need all of these sources at once.</p>
+      </div>
+      <ul class="questions">
+        <li>How does our realised price for Azeri Light compare with Dated Brent, and what is driving the differential this month?</li>
+        <li>Which open contracts are most exposed if Brent drops 15%, or if Mediterranean freight doubles?</li>
+        <li>Which counterparties are starting to pay later, and how much of our receivables do they represent?</li>
+        <li>Is a disruption at Hormuz, in the Red Sea or the Black Sea already visible in physical flows before it shows up in the price?</li>
+        <li>Is a vessel nominated for our cargo linked to a sanctioned owner, or to dark-fleet activity?</li>
+      </ul>
+      <div class="contrast">
+        <div><h4>Today</h4><p>Days of exports and spreadsheets</p></div>
+        <div class="now"><h4>With CAnalytics</h4><p>Seconds, with the method shown</p></div>
+      </div>
+    </section>
+
+    <!-- 2 -->
+    <section id="platform">
+      <span class="sec-num">2</span>
+      <h2>What the platform does</h2>
+
+      <div class="cap">
+        <div>
+          <h3>One analytical view of your business and the world market</h3>
+          <ul>
+            <li>Crude grades and products, natural gas and LNG, coal, metals, battery minerals and fertilisers, with benchmarks, regional hubs, premiums and seasonality.</li>
+            <li>Exchange prices, FX, freight, export and import shares by country, macro indicators and market events in one place.</li>
+            <li>Live Brent, gold, copper and other quotes, each showing its age, plus industry headlines. Live numbers are always labelled and kept separate from internal figures.</li>
+          </ul>
+        </div>
+        <div class="evidence">
+          <div><span class="fig">48</span><span class="cap-l">commodities covered</span></div>
+          <div><span class="fig">49</span><span class="cap-l">freight routes</span></div>
+          <div><span class="fig">15</span><span class="cap-l">currencies</span></div>
+        </div>
+      </div>
+
+      <div class="cap">
+        <div>
+          <h3>An AI analyst that answers in plain language</h3>
+          <ul>
+            <li>Ask in English or Russian; get an answer with a chart, the numbers behind it and a <span class="pill">Show SQL</span> button, so every figure can be checked.</li>
+            <li>Works only through approved data views. Every query is logged for audit, and it cannot read protected test data or change anything.</li>
+            <li>Ready-made scenarios for price risk, counterparty risk, route disruption, basis spreads and market share, plus ad-hoc analysis.</li>
+          </ul>
+        </div>
+        <div class="evidence">
+          <div><span class="fig">Read-only</span><span class="cap-l">access, with a full query log</span></div>
+        </div>
+      </div>
+
+      <div class="cap">
+        <div>
+          <h3>Dashboards for management</h3>
+          <ul>
+            <li>Six ready dashboards, including <em>Market now</em>, pricing and basis, logistics and routes, counterparty risk, and platform growth.</li>
+            <li>New dashboards are defined in configuration, so a SOCAR-specific view takes hours, not weeks.</li>
+          </ul>
+        </div>
+        <div class="evidence">
+          <div><span class="fig">30 s</span><span class="cap-l">refresh on <em>Market now</em></span></div>
+        </div>
+      </div>
+
+      <div class="cap">
+        <div>
+          <h3>Forecast corridors and anomaly detection</h3>
+          <ul>
+            <li>A 30-day price corridor for each benchmark and hub, produced by a modern time-series foundation model.</li>
+            <li>The corridor is meant for risk limits and anomaly alerts, not as a single-point price prediction, and the platform says so.</li>
+          </ul>
+        </div>
+        <div class="evidence">
+          <div><span class="fig">76%</span><span class="cap-l">of outcomes inside the 80% corridor, over 12 back-tests</span></div>
+        </div>
+      </div>
+
+      <div class="cap">
+        <div>
+          <h3>Early warning of physical market stress</h3>
+          <ul>
+            <li>A stress index built from physical signals: requests for quotes, withdrawn offers, vessels slowing at chokepoints, changes in hub premiums and market chatter in several languages.</li>
+            <li>In the demo environment, it flagged the 2026 Hormuz shock 5 trading days before Brent's largest move.</li>
+            <li>On unseen data, 4 of 8 Brent shocks were preceded by an alert (p = 0.01) with no false alarms.</li>
+          </ul>
+          <p class="note">Shocks driven purely by news, such as tariffs or ceasefires, are correctly not anticipated, and the platform reports this rather than hiding it.</p>
+        </div>
+        <div class="evidence alert">
+          <div><span class="fig">7 days</span><span class="cap-l">median lead before a Brent shock</span></div>
+          <div><span class="fig">0</span><span class="cap-l">false alarms on held-out data</span></div>
+        </div>
+      </div>
+
+      <div class="cap">
+        <div>
+          <h3>Sanctions and dark-fleet screening</h3>
+          <ul>
+            <li>Vessel risk alerts from AIS gaps near sanctioned ports, ship-to-ship transfers, frequent reflagging and ownership links.</li>
+            <li>Each alert lists its evidence: hours dark, position, counterpart vessel, owners and designation dates, the level of detail a compliance officer, bank or insurer will accept.</li>
+            <li>No alarms on 36 innocent look-alikes (dry-dock repairs, legal lightering, ordinary vessel sales). Known weak spots are documented.</li>
+          </ul>
+        </div>
+        <div class="evidence">
+          <div><span class="fig">64%</span><span class="cap-l">of schemes found</span></div>
+          <div><span class="fig">74%</span><span class="cap-l">of alerts correct</span></div>
+        </div>
+      </div>
+
+      <div class="cap">
+        <div>
+          <h3>A knowledge graph that remembers what you knew, and when</h3>
+          <ul>
+            <li>Every fact about vessels, owners and counterparties is stored with two dates: when it was true and when the company learned it.</li>
+            <li>This answers what regulators, boards and courts ask: <em>on the day you financed or loaded this cargo, what did you know?</em></li>
+            <li>Chains of exposure (who owes whom, and who owes them) return in milliseconds, the starting point for contagion analysis.</li>
+          </ul>
+        </div>
+        <div class="evidence">
+          <div><span class="fig">2 dates</span><span class="cap-l">on every fact: valid time and known time</span></div>
+        </div>
+      </div>
+
+      <div class="cap">
+        <div>
+          <h3>Local-language text intelligence, on your own servers</h3>
+          <ul>
+            <li>A compact classifier reads market and logistics messages for delays, force majeure and urgency, and answers “needs review” when unsure instead of guessing.</li>
+            <li>Runs on-premise: no text leaves SOCAR's infrastructure and there is no per-token bill to a foreign AI provider.</li>
+            <li>Can be fine-tuned on Azerbaijani and Turkish trade correspondence.</li>
+          </ul>
+        </div>
+        <div class="evidence">
+          <div><span class="fig">~70 ms</span><span class="cap-l">per message</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3 -->
+    <section id="data">
+      <span class="sec-num">3</span>
+      <h2>Bringing in SOCAR's own data</h2>
+      <p class="prose">Client data plugs straight into the same analytical pipeline that runs the demo.</p>
+
+      <ol class="steps">
+        <li>
+          <h3>Connect your sources</h3>
+          <p>Contracts, counterparties, nominations, shipments, invoices and payments from SAP, ETRM, spreadsheets or database exports. AIS feeds, OFAC, EU and UN sanctions lists, and prices from Platts, Argus or ICE.</p>
+        </li>
+        <li>
+          <h3>System of record</h3>
+          <p>A governed PostgreSQL/TimescaleDB store. Every record is tagged with its origin:</p>
+          <div class="origin"><span class="pill">your data</span><span class="pill">market data</span><span class="pill">live feed</span><span class="pill">forecast</span></div>
+        </li>
+        <li>
+          <h3>Analytical replica</h3>
+          <p>An automatic sync builds a ClickHouse replica with ready views for exposure, margins, routes, basis and counterparty behaviour.</p>
+        </li>
+        <li>
+          <h3>Insight</h3>
+          <p>The AI analyst, dashboards, forecasts, stress index and sanctions screening run on your data at once, with no separate project for each.</p>
+        </li>
+      </ol>
+
+      <h3>What you get once your data is connected</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Your data</th><th>Linked with world data</th><th>Insight</th></tr></thead>
+          <tbody>
+            <tr><td>Azeri Light and CPC Blend sales and realised prices</td><td>Dated Brent, Brent–Dubai, Mediterranean freight</td><td>Differential drivers, pricing performance by buyer and period</td></tr>
+            <tr><td>Open physical contracts</td><td>30-day price corridors per benchmark</td><td>Value at risk on the open book, contracts outside tolerance</td></tr>
+            <tr><td>Gas sales via the Southern Gas Corridor</td><td>TTF, Henry Hub, JKM, European storage</td><td>Netback comparison, contract-indexation exposure</td></tr>
+            <tr><td>Refinery and petrochemical margins (STAR, Petkim)</td><td>Crude, product and naphtha cracks</td><td>Margin attribution: crude cost vs product prices vs FX</td></tr>
+            <tr><td>Counterparty payment history</td><td>Country risk, sanctions lists, ownership graph</td><td>Early signs of slow or erratic payers, concentration risk</td></tr>
+            <tr><td>Chartered and nominated vessels</td><td>AIS, ownership history, dark-fleet signals</td><td>Vessel and owner screening before fixture and financing</td></tr>
+            <tr><td>Route and logistics records (Ceyhan, Supsa, Batumi, the Caspian)</td><td>Chokepoint stress, Red Sea / Black Sea / Hormuz status</td><td>Delay risk and rerouting cost before the market prices it in</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Correlations with world prices</h3>
+      <p class="prose">Once internal and market series share one store, the platform measures how SOCAR's realised prices, volumes, margins and payment behaviour move with global benchmarks, FX and freight, including lead/lag tests that show which signals move first. Each relationship is tested statistically, so correlations that happen by chance are not presented as insight.</p>
+    </section>
+
+    <!-- 4 -->
+    <section id="benefits">
+      <span class="sec-num">4</span>
+      <h2>Benefits for SOCAR</h2>
+      <div class="benefits">
+        <div>
+          <h3>Commercial</h3>
+          <dl>
+            <dt>Better pricing decisions</dt><dd>Azeri Light differentials, basis spreads and buyer behaviour against the world market in real time.</dd>
+            <dt>Earlier reaction to disruption</dt><dd>Days of lead on price moves, usable for cargo timing, routing, hedging and freight booking.</dd>
+            <dt>Margin transparency</dt><dd>Whether a change in refining or trading margin comes from crude, products, freight or FX.</dd>
+          </dl>
+        </div>
+        <div>
+          <h3>Risk and finance</h3>
+          <dl>
+            <dt>Exposure on the open book</dt><dd>Price corridors applied to open contracts show where limits are at risk before the market moves.</dd>
+            <dt>Counterparty risk from real behaviour</dt><dd>Payment patterns reveal deteriorating counterparties before a default.</dd>
+            <dt>Fewer hours in spreadsheets</dt><dd>Questions that took days are answered in seconds, with full traceability.</dd>
+          </dl>
+        </div>
+        <div>
+          <h3>Compliance and governance</h3>
+          <dl>
+            <dt>Sanctions screening with evidence</dt><dd>Vessel and counterparty alerts that stand up to banks, insurers and regulators.</dd>
+            <dt>Proof of what was known, and when</dt><dd>Point-in-time history for audits, disputes and board reviews.</dd>
+            <dt>Audited AI</dt><dd>Read-only access, approved data views, a query log and published accuracy with known failure cases.</dd>
+          </dl>
+        </div>
+        <div>
+          <h3>Sovereignty and cost</h3>
+          <dl>
+            <dt>Runs inside SOCAR's infrastructure</dt><dd>Forecasting, text classification and embeddings run locally. The only external connections are the market feeds you choose.</dd>
+            <dt>No lock-in</dt><dd>Built on PostgreSQL, ClickHouse and Apache Superset, so SOCAR's IT team can operate and extend it.</dd>
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5 -->
+    <section id="different">
+      <span class="sec-num">5</span>
+      <h2>Why CAnalytics is different</h2>
+      <ul class="diff">
+        <li><strong>Physical flow, not only prices</strong>Everyone has price screens. CAnalytics adds the order flow, vessel movements and correspondence that move first.</li>
+        <li><strong>Every number can be checked</strong>Each answer shows its method, its SQL and its data origin.</li>
+        <li><strong>Honest about limits</strong>Accuracy is measured on held-out data and failures are published. Risk signals are labelled as signals, not proven violations.</li>
+        <li><strong>Fast to deploy</strong>The full pipeline already works end to end. A client deployment mostly means connecting data sources and adding company-specific views.</li>
+      </ul>
+    </section>
+
+    <!-- 6 -->
+    <section id="pilot">
+      <span class="sec-num">6</span>
+      <h2>Suggested next step: a 6–8 week pilot</h2>
+      <p class="prose">Run the pilot on one business line, for example Azeri Light marketing or the SOCAR Trading physical book.</p>
+      <div class="timeline">
+        <div class="phase"><div class="bar"></div><span class="wk">Weeks 1–2</span><p>Connect contract, shipment and payment data plus the price and AIS feeds, on SOCAR infrastructure.</p></div>
+        <div class="phase"><div class="bar"></div><span class="wk">Weeks 3–4</span><p>Calibrate views, dashboards and price corridors to SOCAR's benchmarks and routes.</p></div>
+        <div class="phase"><div class="bar"></div><span class="wk">Weeks 5–8</span><p>Run alongside the current process. Trading and risk teams ask real questions, and results are compared with existing reports.</p></div>
+      </div>
+      <div class="outcome">
+        <h3>The pilot ends with measured answers to three questions</h3>
+        <ol>
+          <li>How much analyst time is saved?</li>
+          <li>How much earlier do risks become visible?</li>
+          <li>Which correlations between SOCAR's business and world prices can be put into daily decisions?</li>
+        </ol>
+      </div>
+    </section>
+  </main>
+</div>
+
+<footer>CAnalytics, commodity intelligence prepared for SOCAR. Demo-environment results are reported on held-out data; live figures are labelled with their age and source.</footer>
+</body>
+</html>
